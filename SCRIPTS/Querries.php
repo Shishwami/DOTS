@@ -11,7 +11,7 @@ class Querries
             $sql .= "`" . implode("` , `", $tableColumns) . "`";
         }
         $sql .= " FROM `" . $tableName . "`";
-        if ($tableKeysAndValues !== "") {
+        if ($tableKeysAndValues) {
 
             $sql .= " WHERE ";
 
@@ -25,6 +25,7 @@ class Querries
                 }
             }
         }
+        $sql .= ";";
         return $sql;
     }
 
@@ -33,8 +34,9 @@ class Querries
         $tableKeys = array_keys($tableKeysAndValues);
         $tableValues = array_values($tableKeysAndValues);
 
-       
         $sql = "INSERT INTO `" . $tableName . "` (`" . implode('` , `', $tableKeys) . "`) VALUES ('" . implode("' , '", $tableValues) . "')";
+        
+        $sql .= ";";
         return $sql;
     }
 
@@ -61,8 +63,8 @@ class Querries
         for ($i = 0; $i < count($condition); $i++) {
             $sql .= "`" . $conditionKeys[$i] . "` = '" . $conditionValues[$i] . "'";
         }
-        echo $sql;
 
+        $sql .= ";";
         return $sql;
     }
 }
