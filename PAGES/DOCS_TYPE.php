@@ -15,17 +15,48 @@
     </table>
 
     <form action="submit" id="DOC_TYPE_ADD">
-        <label for="DOC_TYPE_NAME">Document Type:</label>
-        <input type="text" name="DOC_TYPE_NAME" id="DOC_TYPE_NAME">
+        <div>
+            <label for="DOC_TYPE_ADD_NAME">Document Type:</label>
+            <br>
+            <input type="text" name="DOC_TYPE_ADD_NAME" id="DOC_TYPE_ADD_NAME">
+        </div>
+        <div>
+            <label for="DOC_TYPE_ADD_CODE">Document Code:</label>
+            <br>
+            <input type="text" name="DOC_TYPE_ADD_CODE" id="DOC_TYPE_ADD_CODE">
+        </div>
         <input type="submit" value="Add">
     </form>
 
     <form action="submit" id="DOC_TYPE_EDIT">
-        <label for="DOC_TYPE_CODE">Document Code:</label>
-        <input type="text" name="DOC_TYPE_CODE" id="DOC_TYPE_CODE">
-        <input type="submit" value="Add">
+        <div>
+            <label for="DOC_TYPE_EDIT_NAME">Document Type:</label>
+            <br>
+            <input type="text" name="DOC_TYPE_EDIT_NAME" id="DOC_TYPE_EDIT_NAME">
+        </div>
+        <div>
+            <label for="DOC_TYPE_EDIT_CODE">Document Code:</label>
+            <br>
+            <input type="text" name="DOC_TYPE_EDIT_CODE" id="DOC_TYPE_EDIT_CODE">
+        </div>
+        <input type="button" value="Delete">
+        <input type="submit" value="Edit">
     </form>
 
 </body>
 
 </html>
+
+<script type="module" src="../SCRIPTS/JsFunctions.js">
+
+    import MyAjax from "./MyAjax.js";
+
+    const DOC_TYPE_ADD = document.getElementById("DOC_TYPE_ADD");
+
+    DOC_TYPE_ADD.addEventListener('submit', function (e) {
+        const DOC_TYPE_NAME = DOC_TYPE_ADD.querySelector('#');
+    });
+
+
+
+</script>
