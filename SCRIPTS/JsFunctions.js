@@ -9,7 +9,8 @@ class JsFunctions {
         element.disabled = true;
     }
     static updateTable(tableJSON, thead, tbody) {
-
+        thead.innerHTML = '';
+        tbody.innerHTML = '';
 
         const keys = Object.keys(tableJSON[0]);
         keys.forEach(key => {
@@ -17,6 +18,7 @@ class JsFunctions {
             th.textContent = key;
             thead.appendChild(th);
         });
+
         tableJSON.forEach(item => {
             // Create a new row
             const row = document.createElement('tr');
