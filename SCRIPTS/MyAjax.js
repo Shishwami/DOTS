@@ -15,7 +15,7 @@ class MyAjax {
         };
 
         const jsonData = JSON.stringify(data);
-        xhr.send(jsonData);
+        xhr.send(data);
     }
 }
 export default MyAjax;
