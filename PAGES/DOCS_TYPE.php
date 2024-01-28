@@ -45,8 +45,6 @@
     <script src="../SCRIPTS/Constants.js"></script>
     <script type="module">
 
-        console.log("script red");
-
         import MyAjax from "../SCRIPTS/MyAjax.js";
         import JsFunctions from "../SCRIPTS/JsFunctions.js";
 
@@ -80,6 +78,7 @@
 
             console.log(data);
         });
+
 
     </script>
 </body>
