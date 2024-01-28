@@ -21,6 +21,8 @@
     </form>
 
     <form action="submit" id="DOC_TYPE_EDIT">
+        <label for="DOC_TYPE_CODE">Document Code:</label>
+        <input type="text" name="DOC_TYPE_CODE" id="DOC_TYPE_CODE">
         <input type="submit" value="Add">
     </form>
 
