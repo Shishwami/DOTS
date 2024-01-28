@@ -14,7 +14,7 @@
         </tbody>
     </table>
 
-    <form action="submit" id="DOC_TYPE_ADD">
+    <form action="submit" id="FORM_DOC_TYPE_ADD">
         <div>
             <label for="DOC_TYPE_ADD_NAME">Document Type:</label>
             <br>
@@ -28,7 +28,7 @@
         <input type="submit" value="Add">
     </form>
 
-    <form action="submit" id="DOC_TYPE_EDIT">
+    <form action="submit" id="FORM_DOC_TYPE_EDIT">
         <div>
             <label for="DOC_TYPE_EDIT_NAME">Document Type:</label>
             <br>
@@ -48,7 +48,7 @@
         import MyAjax from "../SCRIPTS/MyAjax.js";
         import JsFunctions from "../SCRIPTS/JsFunctions.js";
 
-        const DOC_TYPE_ADD = document.getElementById("DOC_TYPE_ADD");
+        const DOC_TYPE_ADD = document.getElementById("FORM_DOC_TYPE_ADD");
 
         DOC_TYPE_ADD.addEventListener('submit', function (e) {
             const DOC_TYPE_ADD_NAME = DOC_TYPE_ADD.querySelector('#DOC_TYPE_ADD_NAME');
@@ -78,6 +78,10 @@
 
             console.log(data);
         });
+
+        function updateTable(){
+
+        }
 
 
     </script>
