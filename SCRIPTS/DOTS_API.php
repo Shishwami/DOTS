@@ -1,8 +1,6 @@
 <?php
 include "DB_Connect.php";
 include "Querries.php";
-include "Formatter.php";
-include "Constants.php";
 
 $inputs = json_decode(file_get_contents("php://input"), true);
 $REQUEST = $inputs['REQUEST'];
