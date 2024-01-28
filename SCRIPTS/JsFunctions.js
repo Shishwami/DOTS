@@ -6,6 +6,7 @@ class JsFunctions {
     }
 
     static disableFormButton(element) {
+        element.disabled = true;
     }
 }
 
