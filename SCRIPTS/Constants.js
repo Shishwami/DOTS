@@ -5,7 +5,7 @@ _TABLE = {
     DOTS_DOC_TYPE: {
         NAME: 'DOTS_DOC_TYPE',
         ID: 'ID',
-        DOC_TYPE: 'DOC_TYPE',
+        DOC_TYPE_NAME: 'DOC_TYPE_NAME',
         DOC_TYPE_CODE: 'DOC_TYPE_CODE'
     }
 }
