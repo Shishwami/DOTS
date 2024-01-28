@@ -68,12 +68,12 @@
 
             MyAjax.createJSON((error, response) => {
                 if (error) {
-
+                    console.log(error);
                 } else {
                     if (response.valid) {
-
+                        console.log(response);
                     } else {
-
+                        console.log(response);
                     }
                 }
             }, data);
