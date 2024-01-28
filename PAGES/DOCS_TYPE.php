@@ -8,7 +8,12 @@
 </head>
 
 <body>
-    <table>
+    <table id="TABLE_DOC_TYPE">
+        <thead>
+            <tr>
+
+            </tr>
+        </thead>
         <tbody>
 
         </tbody>
@@ -49,12 +54,16 @@
         import JsFunctions from "../SCRIPTS/JsFunctions.js";
 
         const DOC_TYPE_ADD = document.getElementById("FORM_DOC_TYPE_ADD");
+        const DOC_TYPE_TBL = document.getElementById("TABLE_DOC_TYPE");
+
+        updateTable();
 
         DOC_TYPE_ADD.addEventListener('submit', function (e) {
             const DOC_TYPE_ADD_NAME = DOC_TYPE_ADD.querySelector('#DOC_TYPE_ADD_NAME');
             const DOC_TYPE_ADD_CODE = DOC_TYPE_ADD.querySelector('#DOC_TYPE_ADD_CODE');
-
+            const DOC_TYPE_ADD_BTTN = DOC_TYPE_ADD.querySelector("input[type=submit]");
             JsFunctions.disableFormDefault(e);
+            JsFunctions.disableFormButton(DOC_TYPE_ADD_BTTN);
 
             const data = {
                 TABLE_NAME: _TABLE.DOTS_DOC_TYPE.NAME,
@@ -79,7 +88,28 @@
             console.log(data);
         });
 
-        function updateTable(){
+        function updateTable() {
+            const TBL_BODY = DOC_TYPE_TBL.querySelector("tbody");
+            const TBL_HEAD = DOC_TYPE_TBL.querySelector("thead");
+
+            const data = {
+                TABLE_NAME: _TABLE.DOTS_DOC_TYPE.NAME,
+                REQUEST: _REQUEST.SELECT,
+                COLUMNS: ""
+            };
+
+            MyAjax.createJSON((error, response) => {
+                if (error) {
+                    console.log(error);
+                } else {
+                    if (response.VALID) {
+                        console.log(response.RESULT);
+                        JsFunctions.updateTable(response.RESULT,TBL_HEAD,TBL_BODY);
+                    } else {
+                        console.log(response);
+                    }
+                }
+            }, data);
 
         }
 
