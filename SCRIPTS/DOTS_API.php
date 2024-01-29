@@ -12,6 +12,9 @@ switch ($REQUEST) {
     case 'SELECT':
         SELECT($inputs, $conn);
         break;
+    case 'UPDATE':
+        UPDATE($inputs, $conn);
+        break;
 }
 $conn->close();
 
@@ -77,6 +80,31 @@ function SELECT($inputs, $conn)
     }
 
 
+}
+function UPDATE($inputs, $conn)
+{
+    $querries = new Querries();
+    $valid = false;
+
+    $TABLE_NAME = $inputs['TABLE_NAME'];
+    unset($inputs['TABLE_NAME']);
+    $CONDITION = $inputs['CONDITION'];
+    $CONDITION = json_decode($CONDITION, true);
+    unset($inputs['CONDITION']);
+
+    $sql = $querries->updateQuerry($TABLE_NAME, $inputs, $CONDITION);
+
+    if (mysqli_query($conn, $sql)) {
+        $valid = true;
+    } else {
+        echo "Failed to connect to MySQL: " . $conn->connect_error;
+    }
+
+    echo json_encode(
+        array(
+            'VALID' => $valid
+        )
+    );
 }
 
 
