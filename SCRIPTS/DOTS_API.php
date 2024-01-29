@@ -24,10 +24,13 @@ function INSERT($inputs, $conn)
     $TABLE_NAME = $inputs['TABLE_NAME'];
     unset($inputs['TABLE_NAME']);
 
+
     $sql = $querries->insertQuerry($TABLE_NAME, $inputs);
 
     if (mysqli_query($conn, $sql)) {
         $valid = true;
+    } else {
+        echo "Failed to connect to MySQL: " . $conn->connect_error;
     }
 
     echo json_encode(
