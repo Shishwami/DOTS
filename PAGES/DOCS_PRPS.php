@@ -10,7 +10,7 @@
     <body>
         <div>
             <label for="searchbar">Search:</label>
-            <input type="text" name="searchBar" id="searchBar">
+            <input type="text" name="searchBar" id="searchBar" placeholder="Search">
         </div>
         <table id="TABLE_DOC_PRPS">
             <thead>
