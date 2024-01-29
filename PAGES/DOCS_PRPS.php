@@ -66,11 +66,12 @@
         const DOC_PRPS_EDIT = document.getElementById("FORM_DOC_PRPS_EDIT");
         const DOC_PRPS_DELETE_BTTN = DOC_PRPS_EDIT.querySelector("input[type=button]");
         const DOC_PRPS_TBL = document.getElementById("TABLE_DOC_PRPS");
+        const DOC_PRPS_SB = document.getElementById("searchBar");
 
         console.log(DOC_PRPS_DELETE_BTTN);
 
-        updateTable();
-        setInterval(updateTable, _RESET_TIME);
+        updateTable("");
+        setInterval(updateTable(DOC_PRPS_SB.value.toUpperCase()), _RESET_TIME);
 
         DOC_PRPS_ADD.addEventListener('submit', function (e) {
 
@@ -152,7 +153,7 @@
                 TABLE_NAME: _TABLE.DOTS_DOC_PRPS.NAME,
                 REQUEST: _REQUEST.DELETE,
                 CONDITION: DOC_PRPS_DELETE_BTTN.dataset.condition
-            };  
+            };
 
             console.log(data);
 
@@ -172,7 +173,12 @@
 
         });
 
-        function updateTable() {
+        DOC_PRPS_SB.addEventListener('input', function (e) {
+            console.log(DOC_PRPS_SB.value);
+            updateTable(DOC_PRPS_SB.value.toUpperCase());
+        });
+
+        function updateTable(filter) {
             const TBL_BODY = DOC_PRPS_TBL.querySelector("tbody");
             const TBL_HEAD = DOC_PRPS_TBL.querySelector("thead");
 
@@ -188,7 +194,7 @@
                 } else {
                     if (response.VALID) {
                         // console.log(response.RESULT);
-                        JsFunctions.updateTable(response.RESULT, TBL_HEAD, TBL_BODY);
+                        JsFunctions.updateTable(response.RESULT, TBL_HEAD, TBL_BODY, filter);
                         addEventOnTR(TBL_HEAD, TBL_BODY);
                     } else {
                         //  console.log(response);
