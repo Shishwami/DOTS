@@ -1,5 +1,3 @@
-
-
 class JsFunctions {
     static disableFormDefault(e) {
         e.preventDefault();
@@ -15,7 +13,7 @@ class JsFunctions {
     static clearInputText(element) {
         element.value = "";
     }
-    static updateTable(tableJSON, thead, tbody) {
+    static updateTable(tableJSON, thead, tbody, filter) {
         thead.innerHTML = '';
         tbody.innerHTML = '';
 
@@ -26,19 +24,26 @@ class JsFunctions {
             thead.appendChild(th);
         });
         tableJSON.forEach(item => {
-            // Create a new row
+           
             const row = document.createElement('tr');
-
-            // Populate the row with data from each object
+            let found = 0;
+           
             Object.entries(item).forEach(([key, value]) => {
                 const cell = document.createElement('td');
                 cell.textContent = value;
-                cell.dataset.keys = key; // Set dataset key
-                cell.dataset.value = value; // Set dataset value
+                cell.dataset.keys = key; 
+                cell.dataset.value = value; 
                 row.appendChild(cell);
+                
+                if (value.toUpperCase().indexOf(filter) > -1) {
+                    found++;
+                }
             });
 
-            // Append the row to the table body
+            if (found == 0) {
+                row.style.display = "none";
+            }
+            
             tbody.appendChild(row);
         });
     }
