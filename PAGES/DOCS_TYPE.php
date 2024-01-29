@@ -78,10 +78,16 @@
                 if (error) {
                     console.log(error);
                 } else {
-                    if (response.valid) {
-                        console.log(response);
+                    if (response.VALID) {
+                        //console.log(response);
+                        //success message
+                        JsFunctions.clearInputText(DOC_TYPE_ADD_NAME);
+                        JsFunctions.clearInputText(DOC_TYPE_ADD_CODE);
+                        JsFunctions.enableFormButton(DOC_TYPE_ADD_BTTN);
+
                     } else {
-                        console.log(response);
+                        // console.log(response);
+                        //error message
                     }
                 }
             }, data);
