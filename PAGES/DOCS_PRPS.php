@@ -101,6 +101,44 @@
                 console.log(data);
             });
 
+            DOC_PRPS_EDIT.addEventListener('submit', function (e) {
+
+                const DOC_PRPS_EDIT_NAME = DOC_PRPS_EDIT.querySelector('#DOC_PRPS_EDIT_NAME');
+                const DOC_PRPS_EDIT_CODE = DOC_PRPS_EDIT.querySelector('#DOC_PRPS_EDIT_CODE');
+                const DOC_PRPS_EDIT_BTTN = DOC_PRPS_EDIT.querySelector("input[type=submit]");
+
+                JsFunctions.disableFormDefault(e);
+                JsFunctions.disableFormButton(DOC_PRPS_EDIT_BTTN);
+
+                const data = {
+                    TABLE_NAME: _TABLE.DOTS_DOC_PRPS.NAME,
+                    REQUEST: _REQUEST.UPDATE,
+
+                };
+
+                data[_TABLE.DOTS_DOC_PRPS.DOC_PRPS_NAME] = DOC_PRPS_EDIT_NAME.value;
+                data[_TABLE.DOTS_DOC_PRPS.DOC_PRPS_CODE] = DOC_PRPS_EDIT_CODE.value;
+
+                MyAjax.createJSON((error, response) => {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        if (response.VALID) {
+                            //console.log(response);
+                            //success message
+                            JsFunctions.clearInputText(DOC_PRPS_EDIT_NAME);
+                            JsFunctions.clearInputText(DOC_PRPS_EDIT_CODE);
+                            JsFunctions.enableFormButton(DOC_PRPS_EDIT_BTTN);
+                        } else {
+                            // console.log(response);
+                            //error message
+                        }
+                    }
+                }, data);
+
+                console.log(data);
+            });
+
             function updateTable() {
                 const TBL_BODY = DOC_PRPS_TBL.querySelector("tbody");
                 const TBL_HEAD = DOC_PRPS_TBL.querySelector("thead");
