@@ -35,7 +35,7 @@ class Querries
         $tableValues = array_values($tableKeysAndValues);
 
         $sql = "INSERT INTO `" . $tableName . "` (`" . implode('` , `', $tableKeys) . "`) VALUES ('" . implode("' , '", $tableValues) . "')";
-        
+
         $sql .= ";";
         return $sql;
     }
@@ -55,6 +55,25 @@ class Querries
             }
         }
 
+        $conditionKeys = array_keys($condition);
+        $conditionValues = array_values($condition);
+
+        $sql .= " WHERE ";
+
+        for ($i = 0; $i < count($condition); $i++) {
+            $sql .= "`" . $conditionKeys[$i] . "` = '" . $conditionValues[$i] . "'";
+            if ($i < (count($condition) - 1)) {
+                $sql .= " AND ";
+            }
+        }
+
+        $sql .= ";";
+        return $sql;
+    }
+
+    function deleteQuerry($tableName, $condition)
+    {
+        $sql = "DELETE FROM $tableName ";
         $conditionKeys = array_keys($condition);
         $conditionValues = array_values($condition);
 
