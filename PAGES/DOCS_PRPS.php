@@ -6,7 +6,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
     </head>
-
+    <style>
+        tr:hover{
+            background-color: green;
+        }
+    </style>
     <body>
         <div>
             <label for="searchBar">Search:</label>
@@ -59,7 +63,10 @@
 
             const DOC_PRPS_ADD = document.getElementById("FORM_DOC_PRPS_ADD");
             const DOC_PRPS_EDIT = document.getElementById("FORM_DOC_PRPS_EDIT");
+            const DOC_PRPS_DELETE =DOC_PRPS_EDIT.querySelector("input[type=button]");
             const DOC_PRPS_TBL = document.getElementById("TABLE_DOC_PRPS");
+
+            console.log(DOC_PRPS_DELETE);
 
             updateTable();
             setInterval(updateTable, _RESET_TIME);
@@ -196,9 +203,6 @@
                         }
 
                         DOC_PRPS_EDIT_BTTN.dataset.condition = JSON.stringify(TdKeysAndValues);
-
-                        console.log(JSON.stringify(TdKeysAndValues));
-
                     });
                 }
             }
