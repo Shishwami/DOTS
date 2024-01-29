@@ -6,8 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    tr:hover {
+        background-color: green;
+    }
+</style>
 
 <body>
+    <div>
+        <label for="searchBar">Search:</label>
+        <input type="text" name="searchBar" id="searchBar" placeholder="Search">
+    </div>
     <table id="TABLE_DOC_TYPE">
         <thead>
             <tr>
@@ -21,12 +30,12 @@
 
     <form action="submit" id="FORM_DOC_TYPE_ADD">
         <div>
-            <label for="DOC_TYPE_ADD_NAME">Document Type:</label>
+            <label for="DOC_TYPE_ADD_NAME">Purpose Type:</label>
             <br>
             <input type="text" name="DOC_TYPE_ADD_NAME" id="DOC_TYPE_ADD_NAME">
         </div>
         <div>
-            <label for="DOC_TYPE_ADD_CODE">Document Code:</label>
+            <label for="DOC_TYPE_ADD_CODE">Purpose Code:</label>
             <br>
             <input type="text" name="DOC_TYPE_ADD_CODE" id="DOC_TYPE_ADD_CODE">
         </div>
@@ -35,14 +44,14 @@
 
     <form action="submit" id="FORM_DOC_TYPE_EDIT">
         <div>
-            <label for="DOC_TYPE_EDIT_NAME">Document Type:</label>
+            <label for="DOC_TYPE_EDIT_NAME">Purpose Type:</label>
             <br>
-            <input type="text" name="DOC_TYPE_EDIT_NAME" id="DOC_TYPE_EDIT_NAME">
+            <input type="text" name="DOC_TYPE_EDIT_NAME" id="DOC_TYPE_EDIT_NAME" data-keys="DOC_TYPE_NAME">
         </div>
         <div>
-            <label for="DOC_TYPE_EDIT_CODE">Document Code:</label>
+            <label for="DOC_TYPE_EDIT_CODE">Purpose Code:</label>
             <br>
-            <input type="text" name="DOC_TYPE_EDIT_CODE" id="DOC_TYPE_EDIT_CODE">
+            <input type="text" name="DOC_TYPE_EDIT_CODE" id="DOC_TYPE_EDIT_CODE" data-keys="DOC_TYPE_CODE">
         </div>
         <input type="button" value="Delete">
         <input type="submit" value="Edit">
@@ -54,15 +63,22 @@
         import JsFunctions from "../SCRIPTS/JsFunctions.js";
 
         const DOC_TYPE_ADD = document.getElementById("FORM_DOC_TYPE_ADD");
+        const DOC_TYPE_EDIT = document.getElementById("FORM_DOC_TYPE_EDIT");
+        const DOC_TYPE_DELETE_BTTN = DOC_TYPE_EDIT.querySelector("input[type=button]");
         const DOC_TYPE_TBL = document.getElementById("TABLE_DOC_TYPE");
+        const DOC_TYPE_SB = document.getElementById("searchBar");
 
-        updateTable();
-        setInterval(updateTable, _RESET_TIME);
+        updateTable("");
+        setInterval(function () {
+            updateTable(DOC_TYPE_SB.value.toUpperCase());
+        }, _RESET_TIME);
 
         DOC_TYPE_ADD.addEventListener('submit', function (e) {
+
             const DOC_TYPE_ADD_NAME = DOC_TYPE_ADD.querySelector('#DOC_TYPE_ADD_NAME');
             const DOC_TYPE_ADD_CODE = DOC_TYPE_ADD.querySelector('#DOC_TYPE_ADD_CODE');
             const DOC_TYPE_ADD_BTTN = DOC_TYPE_ADD.querySelector("input[type=submit]");
+
             JsFunctions.disableFormDefault(e);
             JsFunctions.disableFormButton(DOC_TYPE_ADD_BTTN);
 
@@ -84,7 +100,45 @@
                         JsFunctions.clearInputText(DOC_TYPE_ADD_NAME);
                         JsFunctions.clearInputText(DOC_TYPE_ADD_CODE);
                         JsFunctions.enableFormButton(DOC_TYPE_ADD_BTTN);
+                    } else {
+                        // console.log(response);
+                        //error message
+                    }
+                }
+                console.log(response);
 
+            }, data);
+
+        });
+
+        DOC_TYPE_EDIT.addEventListener('submit', function (e) {
+
+            const DOC_TYPE_EDIT_NAME = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_NAME');
+            const DOC_TYPE_EDIT_CODE = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_CODE');
+            const DOC_TYPE_EDIT_BTTN = DOC_TYPE_EDIT.querySelector("input[type=submit]");
+
+            JsFunctions.disableFormDefault(e);
+            JsFunctions.disableFormButton(DOC_TYPE_EDIT_BTTN);
+
+            const data = {
+                TABLE_NAME: _TABLE.DOTS_DOC_TYPE.NAME,
+                REQUEST: _REQUEST.UPDATE,
+                CONDITION: DOC_TYPE_EDIT_BTTN.dataset.condition
+            };
+
+            data[_TABLE.DOTS_DOC_TYPE.DOC_TYPE_NAME] = DOC_TYPE_EDIT_NAME.value;
+            data[_TABLE.DOTS_DOC_TYPE.DOC_TYPE_CODE] = DOC_TYPE_EDIT_CODE.value;
+
+            MyAjax.createJSON((error, response) => {
+                if (error) {
+                    console.log(error);
+                } else {
+                    if (response.VALID) {
+                        //console.log(response);
+                        //success message
+                        JsFunctions.clearInputText(DOC_TYPE_EDIT_NAME);
+                        JsFunctions.clearInputText(DOC_TYPE_EDIT_CODE);
+                        JsFunctions.enableFormButton(DOC_TYPE_EDIT_BTTN);
                     } else {
                         // console.log(response);
                         //error message
@@ -95,7 +149,37 @@
             console.log(data);
         });
 
-        function updateTable() {
+        DOC_TYPE_DELETE_BTTN.addEventListener('click', function (e) {
+            const data = {
+                TABLE_NAME: _TABLE.DOTS_DOC_TYPE.NAME,
+                REQUEST: _REQUEST.DELETE,
+                CONDITION: DOC_TYPE_DELETE_BTTN.dataset.condition
+            };
+
+            console.log(data);
+
+            MyAjax.createJSON((error, response) => {
+                if (error) {
+                    console.log(error);
+                } else {
+                    if (response.VALID) {
+                        console.log(response);
+                        //success message
+                    } else {
+                        // console.log(response);
+                        //error message
+                    }
+                }
+            }, data);
+
+        });
+
+        DOC_TYPE_SB.addEventListener('input', function (e) {
+            console.log(DOC_TYPE_SB.value);
+            updateTable(DOC_TYPE_SB.value.toUpperCase());
+        });
+
+        function updateTable(filter) {
             const TBL_BODY = DOC_TYPE_TBL.querySelector("tbody");
             const TBL_HEAD = DOC_TYPE_TBL.querySelector("thead");
 
@@ -110,14 +194,49 @@
                     console.log(error);
                 } else {
                     if (response.VALID) {
-                        console.log(response.RESULT);
-                        JsFunctions.updateTable(response.RESULT,TBL_HEAD,TBL_BODY);
+                        // console.log(response.RESULT);
+                        JsFunctions.updateTable(response.RESULT, TBL_HEAD, TBL_BODY, filter);
+                        addEventOnTR(TBL_HEAD, TBL_BODY);
                     } else {
-                        console.log(response);
+                        //  console.log(response);
                     }
                 }
             }, data);
 
+        }
+
+        function addEventOnTR(thead, tbody) {
+            const TrList = tbody.getElementsByTagName('tr');
+            const DOC_TYPE_EDIT_NAME = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_NAME');
+            const DOC_TYPE_EDIT_CODE = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_CODE');
+            const DOC_TYPE_EDIT_BTTN = DOC_TYPE_EDIT.querySelector("input[type=submit]");
+
+            for (let index = 0; index < TrList.length; index++) {
+                TrList[index].addEventListener('click', function (e) {
+
+                    const Tr = this;
+                    const Td = this.getElementsByTagName('td');
+                    const TdValues = [];
+                    const TdKeys = [];
+                    const TdKeysAndValues = {};
+
+                    for (let i = 0; i < Td.length; i++) {
+                        TdValues.push(Td[i].dataset.value);
+                        TdKeys.push(Td[i].dataset.keys);
+                        TdKeysAndValues[TdKeys[i]] = TdValues[i];
+
+                        if (DOC_TYPE_EDIT_NAME.dataset.keys == TdKeys[i]) {
+                            DOC_TYPE_EDIT_NAME.value = TdValues[i];
+                        }
+                        if (DOC_TYPE_EDIT_CODE.dataset.keys == TdKeys[i]) {
+                            DOC_TYPE_EDIT_CODE.value = TdValues[i];
+                        }
+                    }
+
+                    DOC_TYPE_EDIT_BTTN.dataset.condition = JSON.stringify(TdKeysAndValues);
+                    DOC_TYPE_DELETE_BTTN.dataset.condition = JSON.stringify(TdKeysAndValues);
+                });
+            }
         }
 
 
