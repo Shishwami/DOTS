@@ -20,3 +20,5 @@ _REQUEST = {
     INSERT: 'INSERT',
     SELECT: 'SELECT',
 }
+
+_RESET_TIME = 1000;
