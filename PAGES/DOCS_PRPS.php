@@ -92,7 +92,8 @@
 
             MyAjax.createJSON((error, response) => {
                 if (error) {
-                    console.log(error);
+                    // console.log(error);
+                    //message popup
                 } else {
                     if (response.VALID) {
                         //console.log(response);
@@ -105,8 +106,6 @@
                         //error message
                     }
                 }
-                console.log(response);
-
             }, data);
 
         });
@@ -131,7 +130,8 @@
 
             MyAjax.createJSON((error, response) => {
                 if (error) {
-                    console.log(error);
+                    // console.log(error);
+                    //message popup
                 } else {
                     if (response.VALID) {
                         //console.log(response);
@@ -144,8 +144,6 @@
                         //error message
                     }
                 }
-                console.log(response);
-
             }, data);
 
         });
@@ -159,7 +157,8 @@
 
             MyAjax.createJSON((error, response) => {
                 if (error) {
-                    console.log(error);
+                    // console.log(error);
+                    //message popup
                 } else {
                     if (response.VALID) {
                         console.log(response);
@@ -174,7 +173,6 @@
         });
 
         DOC_PRPS_SB.addEventListener('input', function (e) {
-            console.log(DOC_PRPS_SB.value);
             updateTable(DOC_PRPS_SB.value.toUpperCase());
         });
 
@@ -190,7 +188,8 @@
 
             MyAjax.createJSON((error, response) => {
                 if (error) {
-                    console.log(error);
+                    // console.log(error);
+                    //message popup
                 } else {
                     if (response.VALID) {
                         // console.log(response.RESULT);
