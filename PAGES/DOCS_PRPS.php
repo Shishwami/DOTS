@@ -68,10 +68,10 @@
         const DOC_PRPS_TBL = document.getElementById("TABLE_DOC_PRPS");
         const DOC_PRPS_SB = document.getElementById("searchBar");
 
-        console.log(DOC_PRPS_DELETE_BTTN);
-
         updateTable("");
-        setInterval(updateTable(DOC_PRPS_SB.value.toUpperCase()), _RESET_TIME);
+        setInterval(function () {
+            updateTable(DOC_PRPS_SB.value.toUpperCase());
+        }, _RESET_TIME);
 
         DOC_PRPS_ADD.addEventListener('submit', function (e) {
 
@@ -105,9 +105,10 @@
                         //error message
                     }
                 }
+                console.log(response);
+
             }, data);
 
-            console.log(data);
         });
 
         DOC_PRPS_EDIT.addEventListener('submit', function (e) {
@@ -143,9 +144,10 @@
                         //error message
                     }
                 }
+                console.log(response);
+
             }, data);
 
-            console.log(data);
         });
 
         DOC_PRPS_DELETE_BTTN.addEventListener('click', function (e) {
@@ -154,8 +156,6 @@
                 REQUEST: _REQUEST.DELETE,
                 CONDITION: DOC_PRPS_DELETE_BTTN.dataset.condition
             };
-
-            console.log(data);
 
             MyAjax.createJSON((error, response) => {
                 if (error) {
