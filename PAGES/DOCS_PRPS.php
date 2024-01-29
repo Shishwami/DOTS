@@ -1,4 +1,4 @@
-<!DOCPRPS html>
+<!DOCTYPE html>
     <html lang="en">
 
     <head>
@@ -9,7 +9,7 @@
 
     <body>
         <div>
-            <label for="searchbar">Search:</label>
+            <label for="searchBar">Search:</label>
             <input type="text" name="searchBar" id="searchBar" placeholder="Search">
         </div>
         <table id="TABLE_DOC_PRPS">
@@ -62,7 +62,7 @@
             const DOC_PRPS_TBL = document.getElementById("TABLE_DOC_PRPS");
 
             updateTable();
-            // setInterval(updateTable, _RESET_TIME);
+            setInterval(updateTable, _RESET_TIME);
 
             DOC_PRPS_ADD.addEventListener('submit', function (e) {
 
@@ -91,6 +91,46 @@
                             JsFunctions.clearInputText(DOC_PRPS_ADD_NAME);
                             JsFunctions.clearInputText(DOC_PRPS_ADD_CODE);
                             JsFunctions.enableFormButton(DOC_PRPS_ADD_BTTN);
+                        } else {
+                            // console.log(response);
+                            //error message
+                        }
+                    }
+                }, data);
+
+                console.log(data);
+            });
+
+            DOC_PRPS_EDIT.addEventListener('submit', function (e) {
+
+                const DOC_PRPS_EDIT_NAME = DOC_PRPS_EDIT.querySelector('#DOC_PRPS_EDIT_NAME');
+                const DOC_PRPS_EDIT_CODE = DOC_PRPS_EDIT.querySelector('#DOC_PRPS_EDIT_CODE');
+                const DOC_PRPS_EDIT_BTTN = DOC_PRPS_EDIT.querySelector("input[type=submit]");
+
+                JsFunctions.disableFormDefault(e);
+                JsFunctions.disableFormButton(DOC_PRPS_EDIT_BTTN);
+
+                const data = {
+                    TABLE_NAME: _TABLE.DOTS_DOC_PRPS.NAME,
+                    REQUEST: _REQUEST.UPDATE,
+                    CONDITION: DOC_PRPS_EDIT_BTTN.dataset.condition
+                };
+
+                data[_TABLE.DOTS_DOC_PRPS.DOC_PRPS_NAME] = DOC_PRPS_EDIT_NAME.value;
+                data[_TABLE.DOTS_DOC_PRPS.DOC_PRPS_CODE] = DOC_PRPS_EDIT_CODE.value;
+
+                console.log(data);
+
+                MyAjax.createJSON((error, response) => {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        if (response.VALID) {
+                            //console.log(response);
+                            //success message
+                            JsFunctions.clearInputText(DOC_PRPS_EDIT_NAME);
+                            JsFunctions.clearInputText(DOC_PRPS_EDIT_CODE);
+                            JsFunctions.enableFormButton(DOC_PRPS_EDIT_BTTN);
                         } else {
                             // console.log(response);
                             //error message

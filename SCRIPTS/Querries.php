@@ -62,6 +62,9 @@ class Querries
 
         for ($i = 0; $i < count($condition); $i++) {
             $sql .= "`" . $conditionKeys[$i] . "` = '" . $conditionValues[$i] . "'";
+            if ($i < (count($condition) - 1)) {
+                $sql .= " AND ";
+            }
         }
 
         $sql .= ";";
