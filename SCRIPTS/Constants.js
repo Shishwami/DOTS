@@ -1,4 +1,4 @@
-_RESET_TIME = 500;
+_RESET_TIME = 1000;
 
 _TABLE = {
     DOTS_DOC: {
