@@ -1,3 +1,5 @@
+_RESET_TIME = 1000;
+
 _TABLE = {
     DOTS_DOC: {
 
@@ -18,8 +20,15 @@ _TABLE = {
 }
 _REQUEST = {
     INSERT: 'INSERT',
-    SELECT: 'SELECT', 
+    SELECT: 'SELECT',
     UPDATE: 'UPDATE',
+    DELETE: 'DELETE',
 }
 
-_RESET_TIME = 1000;
+_SUB_NAME = {
+    ID: "ID",
+    DOC_TYPE_NAME: 'Document Name',
+    DOC_TYPE_CODE: 'Document Code',
+    DOC_PRPS_NAME: 'Purpose Name',
+    DOC_PRPS_CODE: 'Purpose Code',
+}
