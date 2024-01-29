@@ -1,4 +1,4 @@
-<!DOCPRPS html>
+<!DOCTYPE html>
     <html lang="en">
 
     <head>
@@ -9,7 +9,7 @@
 
     <body>
         <div>
-            <label for="searchbar">Search:</label>
+            <label for="searchBar">Search:</label>
             <input type="text" name="searchBar" id="searchBar" placeholder="Search">
         </div>
         <table id="TABLE_DOC_PRPS">
@@ -62,7 +62,7 @@
             const DOC_PRPS_TBL = document.getElementById("TABLE_DOC_PRPS");
 
             updateTable();
-            // setInterval(updateTable, _RESET_TIME);
+            setInterval(updateTable, _RESET_TIME);
 
             DOC_PRPS_ADD.addEventListener('submit', function (e) {
 
@@ -113,11 +113,13 @@
                 const data = {
                     TABLE_NAME: _TABLE.DOTS_DOC_PRPS.NAME,
                     REQUEST: _REQUEST.UPDATE,
-
+                    CONDITION: DOC_PRPS_EDIT_BTTN.dataset.condition
                 };
 
                 data[_TABLE.DOTS_DOC_PRPS.DOC_PRPS_NAME] = DOC_PRPS_EDIT_NAME.value;
                 data[_TABLE.DOTS_DOC_PRPS.DOC_PRPS_CODE] = DOC_PRPS_EDIT_CODE.value;
+
+                console.log(data);
 
                 MyAjax.createJSON((error, response) => {
                     if (error) {
