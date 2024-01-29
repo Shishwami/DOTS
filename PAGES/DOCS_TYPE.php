@@ -92,7 +92,8 @@
 
             MyAjax.createJSON((error, response) => {
                 if (error) {
-                    console.log(error);
+                    // console.log(error);
+                    //message popup
                 } else {
                     if (response.VALID) {
                         //console.log(response);
@@ -105,8 +106,6 @@
                         //error message
                     }
                 }
-                console.log(response);
-
             }, data);
 
         });
@@ -131,7 +130,8 @@
 
             MyAjax.createJSON((error, response) => {
                 if (error) {
-                    console.log(error);
+                    // console.log(error);
+                    //message popup
                 } else {
                     if (response.VALID) {
                         //console.log(response);
@@ -146,7 +146,6 @@
                 }
             }, data);
 
-            console.log(data);
         });
 
         DOC_TYPE_DELETE_BTTN.addEventListener('click', function (e) {
@@ -156,14 +155,14 @@
                 CONDITION: DOC_TYPE_DELETE_BTTN.dataset.condition
             };
 
-            console.log(data);
 
             MyAjax.createJSON((error, response) => {
                 if (error) {
-                    console.log(error);
+                    // console.log(error);
+                    //message popup
                 } else {
                     if (response.VALID) {
-                        console.log(response);
+                        // console.log(response);
                         //success message
                     } else {
                         // console.log(response);
@@ -175,7 +174,6 @@
         });
 
         DOC_TYPE_SB.addEventListener('input', function (e) {
-            console.log(DOC_TYPE_SB.value);
             updateTable(DOC_TYPE_SB.value.toUpperCase());
         });
 
@@ -191,7 +189,8 @@
 
             MyAjax.createJSON((error, response) => {
                 if (error) {
-                    console.log(error);
+                    // console.log(error);
+                    //message popup
                 } else {
                     if (response.VALID) {
                         // console.log(response.RESULT);
