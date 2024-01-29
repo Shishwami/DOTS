@@ -55,6 +55,7 @@
         </div>
         <input type="button" value="Delete">
         <input type="submit" value="Edit">
+        
     </form>
     <script src="../SCRIPTS/Constants.js"></script>
     <script type="module">
