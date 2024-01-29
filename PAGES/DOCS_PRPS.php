@@ -8,6 +8,10 @@
     </head>
 
     <body>
+        <div>
+            <label for="searchbar">Search:</label>
+            <input type="text" name="searchBar" id="searchBar">
+        </div>
         <table id="TABLE_DOC_PRPS">
             <thead>
                 <tr>
@@ -37,12 +41,12 @@
             <div>
                 <label for="DOC_PRPS_EDIT_NAME">Document Type:</label>
                 <br>
-                <input type="text" name="DOC_PRPS_EDIT_NAME" id="DOC_PRPS_EDIT_NAME">
+                <input type="text" name="DOC_PRPS_EDIT_NAME" id="DOC_PRPS_EDIT_NAME" data-keys="DOC_PRPS_NAME">
             </div>
             <div>
                 <label for="DOC_PRPS_EDIT_CODE">Document Code:</label>
                 <br>
-                <input type="text" name="DOC_PRPS_EDIT_CODE" id="DOC_PRPS_EDIT_CODE">
+                <input type="text" name="DOC_PRPS_EDIT_CODE" id="DOC_PRPS_EDIT_CODE" data-keys="DOC_PRPS_CODE">
             </div>
             <input type="button" value="Delete">
             <input type="submit" value="Edit">
@@ -54,12 +58,14 @@
             import JsFunctions from "../SCRIPTS/JsFunctions.js";
 
             const DOC_PRPS_ADD = document.getElementById("FORM_DOC_PRPS_ADD");
+            const DOC_PRPS_EDIT = document.getElementById("FORM_DOC_PRPS_EDIT");
             const DOC_PRPS_TBL = document.getElementById("TABLE_DOC_PRPS");
 
             updateTable();
-            setInterval(updateTable, _RESET_TIME);
+            // setInterval(updateTable, _RESET_TIME);
 
             DOC_PRPS_ADD.addEventListener('submit', function (e) {
+
                 const DOC_PRPS_ADD_NAME = DOC_PRPS_ADD.querySelector('#DOC_PRPS_ADD_NAME');
                 const DOC_PRPS_ADD_CODE = DOC_PRPS_ADD.querySelector('#DOC_PRPS_ADD_CODE');
                 const DOC_PRPS_ADD_BTTN = DOC_PRPS_ADD.querySelector("input[type=submit]");
@@ -110,24 +116,49 @@
                         console.log(error);
                     } else {
                         if (response.VALID) {
-                           // console.log(response.RESULT);
+                            // console.log(response.RESULT);
                             JsFunctions.updateTable(response.RESULT, TBL_HEAD, TBL_BODY);
-                            addEventOnTR(TBL_BODY);
+                            addEventOnTR(TBL_HEAD, TBL_BODY);
                         } else {
-                          //  console.log(response);
+                            //  console.log(response);
                         }
                     }
                 }, data);
 
             }
 
-            function addEventOnTR(tbody) {
-                const TrList = tbody.querySelectorAll('tr');
+            function addEventOnTR(thead, tbody) {
+                const TrList = tbody.getElementsByTagName('tr');
+                const DOC_PRPS_EDIT_NAME = DOC_PRPS_EDIT.querySelector('#DOC_PRPS_EDIT_NAME');
+                const DOC_PRPS_EDIT_CODE = DOC_PRPS_EDIT.querySelector('#DOC_PRPS_EDIT_CODE');
+                const DOC_PRPS_EDIT_BTTN = DOC_PRPS_EDIT.querySelector("input[type=submit]");
 
                 for (let index = 0; index < TrList.length; index++) {
                     TrList[index].addEventListener('click', function (e) {
-                        console.log(TrList[index]);
-                        TrList[index].innerTHML = "";
+
+                        const Tr = this;
+                        const Td = this.getElementsByTagName('td');
+                        const TdValues = [];
+                        const TdKeys = [];
+                        const TdKeysAndValues = {};
+
+                        for (let i = 0; i < Td.length; i++) {
+                            TdValues.push(Td[i].dataset.value);
+                            TdKeys.push(Td[i].dataset.keys);
+                            TdKeysAndValues[TdKeys[i]] = TdValues[i];
+
+                            if (DOC_PRPS_EDIT_NAME.dataset.keys == TdKeys[i]) {
+                                DOC_PRPS_EDIT_NAME.value = TdValues[i];
+                            }
+                            if (DOC_PRPS_EDIT_CODE.dataset.keys == TdKeys[i]) {
+                                DOC_PRPS_EDIT_CODE.value = TdValues[i];
+                            }
+                        }
+
+                        DOC_PRPS_EDIT_BTTN.dataset.condition = JSON.stringify(TdKeysAndValues);
+
+                        console.log(JSON.stringify(TdKeysAndValues));
+
                     });
                 }
             }
