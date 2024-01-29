@@ -8,6 +8,13 @@ class JsFunctions {
     static disableFormButton(element) {
         element.disabled = true;
     }
+    static enableFormButton(element){
+        element.disabled= false;
+    }
+
+    static clearInputText(element){
+        element.value = "";
+    }
     static updateTable(tableJSON, thead, tbody) {
         thead.innerHTML = '';
         tbody.innerHTML = '';
