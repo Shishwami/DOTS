@@ -57,7 +57,7 @@
         const DOC_TYPE_TBL = document.getElementById("TABLE_DOC_TYPE");
 
         updateTable();
-        setInterval(updateTable, 2000);
+        setInterval(updateTable, _RESET_TIME);
 
         DOC_TYPE_ADD.addEventListener('submit', function (e) {
             const DOC_TYPE_ADD_NAME = DOC_TYPE_ADD.querySelector('#DOC_TYPE_ADD_NAME');
