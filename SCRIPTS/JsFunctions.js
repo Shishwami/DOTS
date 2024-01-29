@@ -8,11 +8,11 @@ class JsFunctions {
     static disableFormButton(element) {
         element.disabled = true;
     }
-    static enableFormButton(element){
-        element.disabled= false;
+    static enableFormButton(element) {
+        element.disabled = false;
     }
 
-    static clearInputText(element){
+    static clearInputText(element) {
         element.value = "";
     }
     static updateTable(tableJSON, thead, tbody) {
@@ -25,15 +25,16 @@ class JsFunctions {
             th.textContent = key;
             thead.appendChild(th);
         });
-
         tableJSON.forEach(item => {
             // Create a new row
             const row = document.createElement('tr');
 
             // Populate the row with data from each object
-            Object.values(item).forEach(value => {
+            Object.entries(item).forEach(([key, value]) => {
                 const cell = document.createElement('td');
                 cell.textContent = value;
+                cell.dataset.keys = key; // Set dataset key
+                cell.dataset.value = value; // Set dataset value
                 row.appendChild(cell);
             });
 
