@@ -7,19 +7,22 @@ $REQUEST = $inputs['REQUEST'];
 unset($inputs['REQUEST']);
 switch ($REQUEST) {
     case 'INSERT':
-        INSERT($inputs, $conn);
+        INSERT_($inputs, $conn);
         break;
     case 'SELECT':
-        SELECT($inputs, $conn);
+        SELECT_($inputs, $conn);
         break;
     case 'UPDATE':
-        UPDATE($inputs, $conn);
+        UPDATE_($inputs, $conn);
+        break;
+    case 'DELETE':
+        DELETE_($inputs, $conn);
         break;
 }
 $conn->close();
 
 
-function INSERT($inputs, $conn)
+function INSERT_($inputs, $conn)
 {
     $querries = new Querries();
     $valid = false;
@@ -43,7 +46,7 @@ function INSERT($inputs, $conn)
     );
 }
 
-function SELECT($inputs, $conn)
+function SELECT_($inputs, $conn)
 {
     $querries = new Querries();
     $valid = true;
@@ -81,7 +84,7 @@ function SELECT($inputs, $conn)
 
 
 }
-function UPDATE($inputs, $conn)
+function UPDATE_($inputs, $conn)
 {
     $querries = new Querries();
     $valid = false;
@@ -107,5 +110,30 @@ function UPDATE($inputs, $conn)
     );
 }
 
+function DELETE_($inputs, $conn)
+{
+    $querries = new Querries();
+    $valid = false;
+
+    $TABLE_NAME = $inputs['TABLE_NAME'];
+    unset($inputs['TABLE_NAME']);
+    $CONDITION = $inputs['CONDITION'];
+    $CONDITION = json_decode($CONDITION, true);
+    unset($inputs['CONDITION']);
+
+    $sql = $querries->deleteQuerry($TABLE_NAME, $CONDITION);
+
+    if (mysqli_query($conn, $sql)) {
+        $valid = true;
+    } else {
+        echo "Failed to connect to MySQL: " . $conn->connect_error;
+    }
+
+    echo json_encode(
+        array(
+            'VALID' => $valid
+        )
+    );
+}
 
 ?>
