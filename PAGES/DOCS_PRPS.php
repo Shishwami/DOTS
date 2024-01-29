@@ -57,13 +57,13 @@
         const DOC_PRPS_TBL = document.getElementById("TABLE_DOC_PRPS");
 
         updateTable();
-        setInterval(updateTable, 2000);
+        setInterval(updateTable, _RESET_TIME);
 
         DOC_PRPS_ADD.addEventListener('submit', function (e) {
             const DOC_PRPS_ADD_NAME = DOC_PRPS_ADD.querySelector('#DOC_PRPS_ADD_NAME');
             const DOC_PRPS_ADD_CODE = DOC_PRPS_ADD.querySelector('#DOC_PRPS_ADD_CODE');
             const DOC_PRPS_ADD_BTTN = DOC_PRPS_ADD.querySelector("input[type=submit]");
-            
+
             JsFunctions.disableFormDefault(e);
             JsFunctions.disableFormButton(DOC_PRPS_ADD_BTTN);
 
