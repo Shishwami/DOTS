@@ -18,7 +18,8 @@ _TABLE = {
 }
 _REQUEST = {
     INSERT: 'INSERT',
-    SELECT: 'SELECT',
+    SELECT: 'SELECT', 
+    UPDATE: 'UPDATE',
 }
 
 _RESET_TIME = 1000;
