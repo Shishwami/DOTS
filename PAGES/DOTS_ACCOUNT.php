@@ -6,6 +6,9 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <div>
+        <label for="searchBar">Search</label>
+        <input type="text" name="searchBar" id="searchBar">
+    </div>
 </body>
 </html>
