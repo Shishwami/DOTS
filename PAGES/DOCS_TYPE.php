@@ -122,7 +122,7 @@
             const inputName = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_NAME');
             const inputCode = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_CODE');
 
-            const keysAndValues = localStorage.getItem('TEMP');
+            const keysAndValues = sessionStorage.getItem('TEMP');
 
             const data = {
                 TABLE_NAME: _TABLE.DOTS_DOC_TYPE.NAME,
@@ -144,9 +144,6 @@
                     alert(error);
                 }
             }, data);
-
-
-
         });
 
         function getTable(filter) {
