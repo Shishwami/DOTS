@@ -35,7 +35,7 @@
             <input type="date" name="LETTER_DATE" id="LETTER_DATE">
         </div>
         <div>
-            <label for="SUBJECT">Date Received:</label> <br>
+            <label for="SUBJECT">Subject:</label> <br>
             <input type="text" name="SUBJECT" id="SUBJECT">
         </div>
         <input type="submit" value="Submit">
