@@ -49,7 +49,7 @@ function INSERT_($inputs, $conn)
 function SELECT_($inputs, $conn)
 {
     $querries = new Querries();
-    $valid = true;
+    $valid = false;
 
     $TABLE_NAME = $inputs['TABLE_NAME'];
     unset($inputs['TABLE_NAME']);
@@ -71,6 +71,7 @@ function SELECT_($inputs, $conn)
         echo json_encode(
             array(
                 'VALID' => $valid,
+                'SQL' => $sql,
                 'RESULT' => $rows
             )
         );
@@ -78,6 +79,7 @@ function SELECT_($inputs, $conn)
         echo json_encode(
             array(
                 'VALID' => $valid,
+                'SQL' => $sql,
             )
         );
     }
