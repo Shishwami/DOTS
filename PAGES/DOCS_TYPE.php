@@ -100,9 +100,9 @@
             data[DOC_TYPE_NAME.dataset.keys] = DOC_TYPE_NAME.value;
             data[DOC_TYPE_CODE.dataset.keys] = DOC_TYPE_CODE.value;
 
-            MyAjax.createJSON(data, function (error, response) {
+            MyAjax.createJSON((error, response) => {
                 console.log(response);
-            });
+            }, data);
 
             console.log(data);
         });
