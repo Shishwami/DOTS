@@ -1,6 +1,6 @@
 _RESET_TIME = 1000;
 
-_TABLE = {
+ _TABLE = {
     DOTS_DOC: {
 
     },

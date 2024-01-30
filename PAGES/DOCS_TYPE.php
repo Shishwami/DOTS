@@ -34,12 +34,12 @@
         <div>
             <label for="DOC_TYPE_ADD_NAME">Purpose Type:</label>
             <br>
-            <input type="text" name="DOC_TYPE_ADD_NAME" id="DOC_TYPE_ADD_NAME">
+            <input type="text" name="DOC_TYPE_ADD_NAME" id="DOC_TYPE_ADD_NAME" data-keys="DOC_TYPE_NAME">
         </div>
         <div>
             <label for="DOC_TYPE_ADD_CODE">Purpose Code:</label>
             <br>
-            <input type="text" name="DOC_TYPE_ADD_CODE" id="DOC_TYPE_ADD_CODE">
+            <input type="text" name="DOC_TYPE_ADD_CODE" id="DOC_TYPE_ADD_CODE" data-keys="DOC_TYPE_CODE">
         </div>
         <input type="submit" value="Add">
     </form>
@@ -64,181 +64,49 @@
         import MyAjax from "../SCRIPTS/MyAjax.js";
         import JsFunctions from "../SCRIPTS/JsFunctions.js";
 
-        const DOC_TYPE_ADD = document.getElementById("FORM_DOC_TYPE_ADD");
-        const DOC_TYPE_EDIT = document.getElementById("FORM_DOC_TYPE_EDIT");
-        const DOC_TYPE_DELETE_BTTN = DOC_TYPE_EDIT.querySelector("input[type=button]");
-        const DOC_TYPE_TBL = document.getElementById("TABLE_DOC_TYPE");
-        const DOC_TYPE_SB = document.getElementById("searchBar");
 
-        updateTable("");
-        setInterval(function () {
-            updateTable(DOC_TYPE_SB.value.toUpperCase());
-        }, _RESET_TIME);
+        const DOC_TYPE_ADD = document.getElementById("FORM_DOC_TYPE_ADD");
+        // const DOC_TYPE_EDIT = document.getElementById("FORM_DOC_TYPE_EDIT");
+        // const DOC_TYPE_DELETE_BTTN = DOC_TYPE_EDIT.querySelector("input[type=button]");
+        // const DOC_TYPE_TBL = document.getElementById("TABLE_DOC_TYPE");
+        // const DOC_TYPE_SB = document.getElementById("searchBar");
+
+        // updateTable("",DOC_TYPE_TBL);
+        // setInterval(function () {
+        //     updateTable(DOC_TYPE_SB.value.toUpperCase());
+        // }, _RESET_TIME);
+
+        // DOC_TYPE_SB.addEventListener('input', function (e) {
+        //     updateTable(DOC_TYPE_SB.value.toUpperCase());
+        // });
 
         DOC_TYPE_ADD.addEventListener('submit', function (e) {
 
-            const DOC_TYPE_ADD_NAME = DOC_TYPE_ADD.querySelector('#DOC_TYPE_ADD_NAME');
-            const DOC_TYPE_ADD_CODE = DOC_TYPE_ADD.querySelector('#DOC_TYPE_ADD_CODE');
-            const DOC_TYPE_ADD_BTTN = DOC_TYPE_ADD.querySelector("input[type=submit]");
-
             JsFunctions.disableFormDefault(e);
-            JsFunctions.disableFormButton(DOC_TYPE_ADD_BTTN);
+
+            const DOC_TYPE_NAME = DOC_TYPE_ADD.querySelector('#DOC_TYPE_ADD_NAME');
+            const DOC_TYPE_CODE = DOC_TYPE_ADD.querySelector('#DOC_TYPE_ADD_CODE');
+            const SubmitButton = DOC_TYPE_ADD.querySelector('input[type=submit]');
+
+            const keysAndValues = {}
+            keysAndValues[DOC_TYPE_NAME.dataset.keys] = DOC_TYPE_NAME.value;
+            keysAndValues[DOC_TYPE_CODE.dataset.keys] = DOC_TYPE_CODE.value;
 
             const data = {
                 TABLE_NAME: _TABLE.DOTS_DOC_TYPE.NAME,
-                REQUEST: _REQUEST.INSERT
-            };
-
-            data[_TABLE.DOTS_DOC_TYPE.DOC_TYPE_NAME] = DOC_TYPE_ADD_NAME.value;
-            data[_TABLE.DOTS_DOC_TYPE.DOC_TYPE_CODE] = DOC_TYPE_ADD_CODE.value;
-
-            MyAjax.createJSON((error, response) => {
-                if (error) {
-                    // console.log(error);
-                    //message popup
-                } else {
-                    if (response.VALID) {
-                        //console.log(response);
-                        //success message
-                        JsFunctions.clearInputText(DOC_TYPE_ADD_NAME);
-                        JsFunctions.clearInputText(DOC_TYPE_ADD_CODE);
-                        JsFunctions.enableFormButton(DOC_TYPE_ADD_BTTN);
-                    } else {
-                        // console.log(response);
-                        //error message
-                    }
-                }
-            }, data);
-
-        });
-
-        DOC_TYPE_EDIT.addEventListener('submit', function (e) {
-
-            const DOC_TYPE_EDIT_NAME = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_NAME');
-            const DOC_TYPE_EDIT_CODE = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_CODE');
-            const DOC_TYPE_EDIT_BTTN = DOC_TYPE_EDIT.querySelector("input[type=submit]");
-
-            JsFunctions.disableFormDefault(e);
-            JsFunctions.disableFormButton(DOC_TYPE_EDIT_BTTN);
-
-            const data = {
-                TABLE_NAME: _TABLE.DOTS_DOC_TYPE.NAME,
-                REQUEST: _REQUEST.UPDATE,
-                CONDITION: DOC_TYPE_EDIT_BTTN.dataset.condition
-            };
-
-            data[_TABLE.DOTS_DOC_TYPE.DOC_TYPE_NAME] = DOC_TYPE_EDIT_NAME.value;
-            data[_TABLE.DOTS_DOC_TYPE.DOC_TYPE_CODE] = DOC_TYPE_EDIT_CODE.value;
-
-            MyAjax.createJSON((error, response) => {
-                if (error) {
-                    // console.log(error);
-                    //message popup
-                } else {
-                    if (response.VALID) {
-                        //console.log(response);
-                        //success message
-                        JsFunctions.clearInputText(DOC_TYPE_EDIT_NAME);
-                        JsFunctions.clearInputText(DOC_TYPE_EDIT_CODE);
-                        JsFunctions.enableFormButton(DOC_TYPE_EDIT_BTTN);
-                    } else {
-                        // console.log(response);
-                        //error message
-                    }
-                }
-            }, data);
-
-        });
-
-        DOC_TYPE_DELETE_BTTN.addEventListener('click', function (e) {
-            const data = {
-                TABLE_NAME: _TABLE.DOTS_DOC_TYPE.NAME,
-                REQUEST: _REQUEST.DELETE,
-                CONDITION: DOC_TYPE_DELETE_BTTN.dataset.condition
-            };
-
-
-            MyAjax.createJSON((error, response) => {
-                if (error) {
-                    // console.log(error);
-                    //message popup
-                } else {
-                    if (response.VALID) {
-                        // console.log(response);
-                        //success message
-                    } else {
-                        // console.log(response);
-                        //error message
-                    }
-                }
-            }, data);
-
-        });
-
-        DOC_TYPE_SB.addEventListener('input', function (e) {
-            updateTable(DOC_TYPE_SB.value.toUpperCase());
-        });
-
-        function updateTable(filter) {
-            const TBL_BODY = DOC_TYPE_TBL.querySelector("tbody");
-            const TBL_HEAD = DOC_TYPE_TBL.querySelector("thead");
-
-            const data = {
-                TABLE_NAME: _TABLE.DOTS_DOC_TYPE.NAME,
-                REQUEST: _REQUEST.SELECT,
-                COLUMNS: ""
-            };
-
-            MyAjax.createJSON((error, response) => {
-                if (error) {
-                    // console.log(error);
-                    //message popup
-                } else {
-                    if (response.VALID) {
-                        // console.log(response.RESULT);
-                        JsFunctions.updateTable(response.RESULT, TBL_HEAD, TBL_BODY, filter);
-                        addEventOnTR(TBL_HEAD, TBL_BODY);
-                    } else {
-                        //  console.log(response);
-                    }
-                }
-            }, data);
-
-        }
-
-        function addEventOnTR(thead, tbody) {
-            const TrList = tbody.getElementsByTagName('tr');
-            const DOC_TYPE_EDIT_NAME = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_NAME');
-            const DOC_TYPE_EDIT_CODE = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_CODE');
-            const DOC_TYPE_EDIT_BTTN = DOC_TYPE_EDIT.querySelector("input[type=submit]");
-
-            for (let index = 0; index < TrList.length; index++) {
-                TrList[index].addEventListener('click', function (e) {
-
-                    const Tr = this;
-                    const Td = this.getElementsByTagName('td');
-                    const TdValues = [];
-                    const TdKeys = [];
-                    const TdKeysAndValues = {};
-
-                    for (let i = 0; i < Td.length; i++) {
-                        TdValues.push(Td[i].dataset.value);
-                        TdKeys.push(Td[i].dataset.keys);
-                        TdKeysAndValues[TdKeys[i]] = TdValues[i];
-
-                        if (DOC_TYPE_EDIT_NAME.dataset.keys == TdKeys[i]) {
-                            DOC_TYPE_EDIT_NAME.value = TdValues[i];
-                        }
-                        if (DOC_TYPE_EDIT_CODE.dataset.keys == TdKeys[i]) {
-                            DOC_TYPE_EDIT_CODE.value = TdValues[i];
-                        }
-                    }
-
-                    DOC_TYPE_EDIT_BTTN.dataset.condition = JSON.stringify(TdKeysAndValues);
-                    DOC_TYPE_DELETE_BTTN.dataset.condition = JSON.stringify(TdKeysAndValues);
-                });
+                REQUEST: _REQUEST.INSERT,
             }
-        }
+
+            data[DOC_TYPE_NAME.dataset.keys] = DOC_TYPE_NAME.value;
+            data[DOC_TYPE_CODE.dataset.keys] = DOC_TYPE_CODE.value;
+
+            MyAjax.createJSON(data, function (error, response) {
+                console.log(response);
+            });
+
+            console.log(data);
+        });
+
 
 
     </script>
