@@ -113,7 +113,7 @@
 
         });
 
-        DOC_TYPE_EDIT.addEventListener('click', function (e) {
+        DOC_TYPE_EDIT.addEventListener('submit', function (e) {
 
             JsFunctions.disableFormDefault(e);
 
