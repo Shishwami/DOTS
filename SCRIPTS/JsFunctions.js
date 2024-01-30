@@ -13,6 +13,7 @@ class JsFunctions {
     static clearInputText(element) {
         element.value = "";
     }
+    
     static updateTable(tableJSON, thead, tbody, filter) {
         thead.innerHTML = '';
         tbody.innerHTML = '';
@@ -20,7 +21,7 @@ class JsFunctions {
         if(tableJSON[0]==null){
             return
         }
-        
+
         const keys = Object.keys(tableJSON[0]);
 
         keys.forEach(key => {
