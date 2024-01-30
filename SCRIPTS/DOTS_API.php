@@ -57,8 +57,11 @@ function SELECT_($inputs, $conn)
 
     $TABLE_NAME = $inputs['TABLE_NAME'];
     unset($inputs['TABLE_NAME']);
-    $COLUMNS = $inputs['COLUMNS'];
-    unset($inputs['COLUMNS']);
+    $COLUMNS = "";
+    if (isset($inputs['COLUMNS'])) {
+        $COLUMNS = $inputs['COLUMNS'];
+        unset($inputs['COLUMNS']);
+    }
 
     $sql = $querries->selectQuerry($TABLE_NAME, $COLUMNS, $inputs);
     //echo $sql
