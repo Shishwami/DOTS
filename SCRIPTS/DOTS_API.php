@@ -3,6 +3,9 @@ include "DB_Connect.php";
 include "Querries.php";
 
 $inputs = json_decode(file_get_contents("php://input"), true);
+
+var_dump($inputs);
+
 $REQUEST = $inputs['REQUEST'];
 unset($inputs['REQUEST']);
 switch ($REQUEST) {
