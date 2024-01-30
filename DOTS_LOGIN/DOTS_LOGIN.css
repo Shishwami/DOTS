@@ -1,0 +1,112 @@
+/* Regulation */
+*
+{
+    font-family: 'Ubuntu', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body
+{
+    background-image: linear-gradient(to bottom left, #2c2c2c, #474747);
+    background-repeat: no-repeat;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Login Form Styles */
+.login-box
+{
+    width: 50%;
+    position: relative;
+    top:5rem;
+    margin: auto;
+    
+    background: #ffffff;
+    border: 2px solid #333333;
+    box-shadow: 20px -20px 30px rgba(0, 0, 0, 0.3),
+                -20px 20px 30px rgba(255, 255, 255, 0.3);
+    border-radius: 1rem;
+    padding: 3rem; 
+    text-align: center;
+}
+
+.login-box h1
+{
+    text-align: center;
+    font-weight: 600;
+    font-size: 4rem;
+    letter-spacing: 0.3rem;
+}
+
+.login-box a
+{
+    font-weight: 600;
+    color: #525252;
+}
+
+.login-form
+{
+    width: 80%;
+    margin: 1rem auto;
+    text-align: center;
+}
+
+input[type=text], input[type=password]
+{
+    width: 100%;
+    padding: 0.5rem 0.8rem;
+    margin: 0.7rem 0;
+    border: 1.7px solid #414141;
+    border-radius: 0.5rem;
+    
+    
+}
+
+input[type=text]:focus, input[type=password]:focus
+{
+    background: #ebebeb;
+}
+
+::placeholder
+{
+    padding: 0.3rem 0;
+}
+
+input[type=submit]
+{
+    margin: 0 auto 1.5rem auto;
+    padding: 0.5rem 4rem;
+    background-image: linear-gradient(to bottom right, #202020, #585858);
+    font-weight: 600;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    border: none;
+    border-radius: 0.5rem;
+    color: #f7f7f7;
+    cursor: pointer;
+}
+
+input[type=submit]:hover
+{
+    background-image: linear-gradient(to bottom left, #696969, #bbbbbb);
+    color: #000000;
+}
+
+a
+{
+    text-decoration: none;
+}
+
+input[type=checkbox]
+{
+    margin-top: 2rem;
+}
+
+.rmb
+{
+    font-weight: 600;
+    color: #202020;
+}
