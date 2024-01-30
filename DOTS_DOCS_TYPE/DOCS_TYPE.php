@@ -46,7 +46,10 @@
 
         <div class="modal" id="add_modal">
             <div class="modal_content add">
-                <span class="add_close">&times;</span>
+                <div class="modal_banner">
+                    <span class="add_close">&times;</span>
+                    <h1>Add Something</h1>
+                </div>
 
                 <form class="form" action="submit" id="FORM_DOC_TYPE_ADD">
                     <div class="head">
@@ -66,7 +69,10 @@
 
         <div class="modal" id="dlt_modal">
             <div class="modal_content dlt">
-                <span class="dlt_close">&times;</span>
+                <div class="modal_banner">
+                    <span class="dlt_close">&times;</span>
+                    <h1>Add Something</h1>
+                </div>
 
                 <form class="form" action="submit" id="FORM_DOC_TYPE_EDIT">
                     <div class="head">

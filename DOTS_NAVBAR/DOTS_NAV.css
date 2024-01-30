@@ -25,21 +25,27 @@
     
     /* Content Page Container Global */
 
-    /* Gradients */
-    --container_bg: linear-gradient(to bottom right, #d3bcee, #a160a3);
+    /*Background Gradients */
+    --modal_bg: linear-gradient(to bottom, #e2e2e2, #ffffff);
+    --modal_banner_bg: linear-gradient(to top, #1f0031, #8d00b1);
+    --container_bg: linear-gradient(to bottom right, rgba(255, 0, 0, 0.4), rgba(0, 89, 255, 0.4));
     --form_bg: linear-gradient(to bottom, #f1e7f1, #ffffff);
 
     /* Font Color */
     --font_white: #ffffff;
     --font_black: #000000;
+    --font_grey: #8b8b8b;
 
     /* Buttons */
-    --submit_btn: linear-gradient(to bottom right, #14101f, #863d9c);
+    --submit_btn: linear-gradient(to bottom right, #200c36, #a502bb);
     --submit_btn-hover: linear-gradient(to bottom left, #5a5291, #c198da);
-    --opt_btn: linear-gradient(to bottom, #100825, #7b07ff);
-    --opt_btn-hover: linear-gradient(to top, #17041f, #b81be7);
-    --modal_opt_btn: linear-gradient(to bottom, #100825, #7b07ff);;
-    --modal_opt_btn-hover: linear-gradient(to top, #17041f, #b81be7);;
+    --opt_btn: linear-gradient(to bottom, rgb(41, 3, 63), #6c0586);
+    --opt_btn-hover: linear-gradient(to top, #100a4d, #2a03b6);
+    --modal_opt_btn: linear-gradient(to bottom, #0b0a52, #2717b6);
+    --modal_opt_btn-hover: linear-gradient(to top, #22043f, #7702d6);
+    --dlt_btn: linear-gradient(to bottom, #a10202, #ff0000);
+    --dlt_btn-hover: linear-gradient(to top, #000b69, #0011ff);
+    --modal_close: #ff0000;
 
     /* Borders */
     --border_black: #000000;

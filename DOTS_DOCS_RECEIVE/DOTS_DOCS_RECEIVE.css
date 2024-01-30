@@ -75,6 +75,7 @@ body:before
     margin-bottom: 2rem;
     font-weight: 600;
     text-transform: uppercase;
+    color: var(--font_white);
 }
 
 /* Form Styles */
@@ -198,6 +199,7 @@ body:before
     border-radius: 0.5rem;
     padding: 0.5rem;
     font-size: 1.2rem;
+    font-weight: 500;
     color: var(--font_white);
     cursor: pointer;
 }
