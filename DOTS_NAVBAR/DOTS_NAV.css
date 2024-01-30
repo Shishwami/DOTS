@@ -58,7 +58,10 @@
     --input_focus: #e8d9ec;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+/* Font Embed Import */
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Electrolize&family=Orbitron:wght@400..900&display=swap');
 
 /* Regulation */
 *
@@ -72,7 +75,8 @@
 /* Navigation Bar Styles */
 .wrapper
 {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Orbitron", sans-serif;
+    /* font-family: "Electrolize", sans-serif; */
     background-image: var(--gradient_br_dark-blue_to_dark-purple);
     top: 0;
     position: fixed;
@@ -109,6 +113,8 @@ nav .content .links
     font-size: 30px;
     font-weight: 600;
 }
+
+/* PALIITIN MO LISTS SA RESPONSIVENESS */
 
 .content .links li
 {
@@ -288,11 +294,19 @@ nav .content .links
     }
 }
 
-@media screen and (max-width: 956px)
+@media screen and (max-width: 1024px)
 {
     .content .logo a
     {
-        font-size: 20px;    
+        white-space: nowrap;  
+    }
+}
+
+@media screen and (max-width: 901px)
+{
+    .content .logo a
+    {
+        font-size: 18px;
     }
 }
 
