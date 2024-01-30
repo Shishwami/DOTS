@@ -146,9 +146,21 @@ function DELETE_($inputs, $conn)
     );
 }
 
-function getTime($inputs,$conn)
+function getTime($inputs, $conn)
 {
+    $valid = false;
+    $time = "";
 
+    if (isset($inputs['DATE'])) {
+        $time = date("Y-m-d");
+        $valid = true;
+    }
+    if (isset($inputs['TIME'])) {
+        $time = date('Y-m-d');
+    }
+    if (isset($inputs['DATE_TIME'])) {
+
+    }
 }
 
 ?>
