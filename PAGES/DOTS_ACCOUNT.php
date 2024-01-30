@@ -10,5 +10,6 @@
         <label for="searchBar">Search</label>
         <input type="text" name="searchBar" id="searchBar">
     </div>
+    <div></div>
 </body>
 </html>

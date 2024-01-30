@@ -17,16 +17,18 @@
         <label for="searchBar">Search:</label>
         <input type="text" name="searchBar" id="searchBar" placeholder="Search">
     </div>
-    <table id="TABLE_DOC_DIVISION">
-        <thead>
-            <tr>
+    <div>
+        <table id="TABLE_DOC_DIVISION">
+            <thead>
+                <tr>
 
-            </tr>
-        </thead>
-        <tbody>
+                </tr>
+            </thead>
+            <tbody>
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 
     <form action="submit" id="FORM_DOC_DIVISION_ADD">
         <div>

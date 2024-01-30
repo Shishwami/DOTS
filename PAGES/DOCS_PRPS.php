@@ -17,16 +17,18 @@
         <label for="searchBar">Search:</label>
         <input type="text" name="searchBar" id="searchBar" placeholder="Search">
     </div>
-    <table id="TABLE_DOC_PRPS">
-        <thead>
-            <tr>
+    <div>
+        <table id="TABLE_DOC_PRPS">
+            <thead>
+                <tr>
 
-            </tr>
-        </thead>
-        <tbody>
+                </tr>
+            </thead>
+            <tbody>
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 
     <form action="submit" id="FORM_DOC_PRPS_ADD">
         <div>
@@ -55,7 +57,7 @@
         </div>
         <input type="button" value="Delete">
         <input type="submit" value="Edit">
-        
+
     </form>
     <script src="../SCRIPTS/Constants.js"></script>
     <script type="module">
