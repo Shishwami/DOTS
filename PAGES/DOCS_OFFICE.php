@@ -30,12 +30,12 @@
 
     <form action="submit" id="FORM_DOC_OFFICE_ADD">
         <div>
-            <label for="DOC_OFFICE_ADD_NAME">Purpose Type:</label>
+            <label for="DOC_OFFICE_ADD_NAME">Office Name:</label>
             <br>
             <input type="text" name="DOC_OFFICE_ADD_NAME" id="DOC_OFFICE_ADD_NAME">
         </div>
         <div>
-            <label for="DOC_OFFICE_ADD_CODE">Purpose Code:</label>
+            <label for="DOC_OFFICE_ADD_CODE">Office Code:</label>
             <br>
             <input type="text" name="DOC_OFFICE_ADD_CODE" id="DOC_OFFICE_ADD_CODE">
         </div>
@@ -44,12 +44,12 @@
 
     <form action="submit" id="FORM_DOC_OFFICE_EDIT">
         <div>
-            <label for="DOC_OFFICE_EDIT_NAME">Purpose Type:</label>
+            <label for="DOC_OFFICE_EDIT_NAME">Office Name:</label>
             <br>
             <input type="text" name="DOC_OFFICE_EDIT_NAME" id="DOC_OFFICE_EDIT_NAME" data-keys="DOC_OFFICE_NAME">
         </div>
         <div>
-            <label for="DOC_OFFICE_EDIT_CODE">Purpose Code:</label>
+            <label for="DOC_OFFICE_EDIT_CODE">Office Code:</label>
             <br>
             <input type="text" name="DOC_OFFICE_EDIT_CODE" id="DOC_OFFICE_EDIT_CODE" data-keys="DOC_OFFICE_CODE">
         </div>
