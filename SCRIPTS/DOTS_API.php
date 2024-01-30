@@ -146,4 +146,9 @@ function DELETE_($inputs, $conn)
     );
 }
 
+function getTime($inputs,$conn)
+{
+
+}
+
 ?>
