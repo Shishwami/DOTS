@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Modal/Modal.css">
+    <link rel="stylesheet" href="../DOTS_NAVBAR/DOTS_NAV.css">
+    <link rel="stylesheet" href="DOCS_TYPE.css">
     <title></title>
 </head>
 <style>
@@ -13,49 +16,81 @@
 </style>
 
 <body>
-    <div>
-        <label for="searchBar">Search:</label>
-        <input type="text" name="searchBar" id="searchBar" placeholder="Search">
+    <?php include '../DOTS_NAVBAR/DOTS_NAV.php';?>
+
+    <div class="container" id="main">
+
+    <h1>Document Type</h1>
+
+    <div class="main">
+
+        <div class="search">
+            <label for="searchBar">Search:</label>
+            <input type="text" name="searchBar" id="searchBar" placeholder="Search">
+        </div>
+        
+        <table id="TABLE_DOC_TYPE">
+            <thead>
+                <tr>
+
+                 </tr>
+            </thead>
+
+            <tbody>
+
+            </tbody>
+        </table>
+
+        <button class="opt_btn" id="add">Add</button>
+        <button class="opt_btn" id="dlt">Delete</button>
+
+        <div class="modal" id="add_modal">
+            <div class="modal_content add">
+                <span class="add_close">&times;</span>
+
+                <form class="form" action="submit" id="FORM_DOC_TYPE_ADD">
+                    <div class="head">
+                        <label for="DOC_TYPE_ADD_NAME">Purpose Type:</label>
+                        <input type="text" name="DOC_TYPE_ADD_NAME" id="DOC_TYPE_ADD_NAME">
+                    </div>
+                    <div class="head">
+                        <label for="DOC_TYPE_ADD_CODE">Purpose Code:</label>
+                        <input type="text" name="DOC_TYPE_ADD_CODE" id="DOC_TYPE_ADD_CODE">
+                    </div>
+                    <div class="add_inputs">
+                        <input type="submit" value="Add">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal" id="dlt_modal">
+            <div class="modal_content dlt">
+                <span class="dlt_close">&times;</span>
+
+                <form class="form" action="submit" id="FORM_DOC_TYPE_EDIT">
+                    <div class="head">
+                        <label for="DOC_TYPE_EDIT_NAME">Purpose Type:</label>
+                        <input type="text" name="DOC_TYPE_EDIT_NAME" id="DOC_TYPE_EDIT_NAME" data-keys="DOC_TYPE_NAME">
+                    </div>
+                    <div class="head">
+                        <label for="DOC_TYPE_EDIT_CODE">Purpose Code:</label>
+                        <input type="text" name="DOC_TYPE_EDIT_CODE" id="DOC_TYPE_EDIT_CODE" data-keys="DOC_TYPE_CODE">
+                    </div>
+                    <div class="dlt_inputs">
+                        <input type="button" value="Delete">
+                        <input type="submit" value="Edit">
+                    </div>
+                </form>
+            </div>
+        </div>
+
     </div>
-    <table id="TABLE_DOC_TYPE">
-        <thead>
-            <tr>
 
-            </tr>
-        </thead>
-        <tbody>
+    </div>
+    <br>
 
-        </tbody>
-    </table>
-
-    <form action="submit" id="FORM_DOC_TYPE_ADD">
-        <div>
-            <label for="DOC_TYPE_ADD_NAME">Purpose Type:</label>
-            <br>
-            <input type="text" name="DOC_TYPE_ADD_NAME" id="DOC_TYPE_ADD_NAME">
-        </div>
-        <div>
-            <label for="DOC_TYPE_ADD_CODE">Purpose Code:</label>
-            <br>
-            <input type="text" name="DOC_TYPE_ADD_CODE" id="DOC_TYPE_ADD_CODE">
-        </div>
-        <input type="submit" value="Add">
-    </form>
-
-    <form action="submit" id="FORM_DOC_TYPE_EDIT">
-        <div>
-            <label for="DOC_TYPE_EDIT_NAME">Purpose Type:</label>
-            <br>
-            <input type="text" name="DOC_TYPE_EDIT_NAME" id="DOC_TYPE_EDIT_NAME" data-keys="DOC_TYPE_NAME">
-        </div>
-        <div>
-            <label for="DOC_TYPE_EDIT_CODE">Purpose Code:</label>
-            <br>
-            <input type="text" name="DOC_TYPE_EDIT_CODE" id="DOC_TYPE_EDIT_CODE" data-keys="DOC_TYPE_CODE">
-        </div>
-        <input type="button" value="Delete">
-        <input type="submit" value="Edit">
-    </form>
+    <script src="../Modal/Modal.js"></script>
     <script src="../SCRIPTS/Constants.js"></script>
     <script type="module">
 

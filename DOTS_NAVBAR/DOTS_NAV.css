@@ -5,6 +5,8 @@
     --white: #ffffff;
     --black: #000000;
     --light_grey: #c5c5c5;
+    --light_purple: #cf6bee;
+    --dark_purple: #3d0050;
 
     /* Gradients Navigation Bar Specific */
     --gradient_br_dark-blue_to_dark-purple: linear-gradient(to bottom right, #030013, #120129);
@@ -34,9 +36,14 @@
     /* Buttons */
     --submit_btn: linear-gradient(to bottom right, #14101f, #863d9c);
     --submit_btn-hover: linear-gradient(to bottom left, #5a5291, #c198da);
+    --opt_btn: linear-gradient(to bottom, #100825, #7b07ff);
+    --opt_btn-hover: linear-gradient(to top, #17041f, #b81be7);
+    --modal_opt_btn: linear-gradient(to bottom, #100825, #7b07ff);;
+    --modal_opt_btn-hover: linear-gradient(to top, #17041f, #b81be7);;
 
     /* Borders */
-    --border_black: #000000; 
+    --border_black: #000000;
+    --border_white: #ffffff;
 
     /* Input Focus */
     --input_focus: #e8d9ec;
@@ -51,13 +58,14 @@
     padding: 0;
     box-sizing: border-box;
     text-decoration: none;
-    font-family: 'Poppins', sans-serif;
 }
 
 /* Navigation Bar Styles */
 .wrapper
 {
+    font-family: 'Poppins', sans-serif;
     background-image: var(--gradient_br_dark-blue_to_dark-purple);
+    top: 0;
     position: fixed;
     width: 100%;
     border-bottom: 2px solid var(--nav_border_bottom);
