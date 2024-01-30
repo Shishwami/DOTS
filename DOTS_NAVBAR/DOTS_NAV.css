@@ -34,9 +34,11 @@
     /* Font Color */
     --font_white: #ffffff;
     --font_black: #000000;
-    --font_grey: #8b8b8b;
+    --font_grey: #575757;
 
     /* Buttons */
+    --login_btn: linear-gradient(to bottom, #010042, #0003c2);
+    --login_btn-hover: linear-gradient(to top, #af0000, #ff0000);
     --submit_btn: linear-gradient(to bottom right, #200c36, #a502bb);
     --submit_btn-hover: linear-gradient(to bottom left, #5a5291, #c198da);
     --opt_btn: linear-gradient(to bottom, rgb(41, 3, 63), #6c0586);
@@ -50,6 +52,7 @@
     /* Borders */
     --border_black: #000000;
     --border_white: #ffffff;
+    --border_dark_grey: #313131;
 
     /* Input Focus */
     --input_focus: #e8d9ec;
