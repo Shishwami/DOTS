@@ -41,5 +41,22 @@
         <input type="submit" value="Submit">
     </form>
 </body>
+<script src="../SCRIPTS/Constants.js"></script>
+<script type="module">
+    import MyAjax from "../SCRIPTS/MyAjax.js";
+</script>
+<script>
+    //get inputs
+
+
+    //GET DOC_TYPE
+
+    const DOC_TYPE = document.getElementById("DOC_TYPE");
+
+    function getDOC_TYPE() {
+
+    }
+
+</script>
 
 </html>
