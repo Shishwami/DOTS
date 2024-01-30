@@ -10,6 +10,13 @@ _TABLE = {
         DOC_OFFICE_NAME: 'DOC_OFFICE_NAME',
         DOC_OFFICE_CODE: 'DOC_OFFICE_CODE'
     },
+
+    DOTS_DOC_DIVISION: {
+        NAME: 'DOTS_DOC_DIVISION',
+        ID: 'ID',
+        DOC_DIVISION_NAME: 'DOC_DIVISION_NAME',
+        DOC_DIVISION_CODE: 'DOC_DIVISION_CODE'
+    },
     DOTS_DOC_TYPE: {
         NAME: 'DOTS_DOC_TYPE',
         ID: 'ID',
@@ -39,4 +46,6 @@ _SUB_NAME = {
     DOC_PRPS_CODE: 'Purpose Code',
     DOC_OFFICE_NAME: 'Office Name',
     DOC_OFFICE_CODE: 'Office Code',
+    DOC_DIVISION_NAME: 'Division Name',
+    DOC_DIVISION_CODE: 'Division Code',
 }
