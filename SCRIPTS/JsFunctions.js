@@ -3,10 +3,10 @@ class JsFunctions {
         e.preventDefault();
     }
 
-    static disableFormButton(element) {
+    static disableElement(element) {
         element.disabled = true;
     }
-    static enableFormButton(element) {
+    static enableElement(element) {
         element.disabled = false;
     }
 
