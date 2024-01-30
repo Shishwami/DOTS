@@ -4,7 +4,7 @@ include "Querries.php";
 
 $inputs = json_decode(file_get_contents("php://input"), true);
 
-var_dump($inputs);
+// var_dump($inputs);
 
 $REQUEST = $inputs['REQUEST'];
 unset($inputs['REQUEST']);
@@ -35,6 +35,7 @@ function INSERT_($inputs, $conn)
 
 
     $sql = $querries->insertQuerry($TABLE_NAME, $inputs);
+    //echo $sql
 
     if (mysqli_query($conn, $sql)) {
         $valid = true;
@@ -60,7 +61,7 @@ function SELECT_($inputs, $conn)
     unset($inputs['COLUMNS']);
 
     $sql = $querries->selectQuerry($TABLE_NAME, $COLUMNS, $inputs);
-
+    //echo $sql
 
     $result = mysqli_query($conn, $sql);
     if ($result) {
@@ -127,6 +128,7 @@ function DELETE_($inputs, $conn)
     unset($inputs['CONDITION']);
 
     $sql = $querries->deleteQuerry($TABLE_NAME, $CONDITION);
+    //echo $sql
 
     if (mysqli_query($conn, $sql)) {
         $valid = true;
