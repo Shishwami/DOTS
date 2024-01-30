@@ -23,14 +23,13 @@ class JsFunctions {
         }
 
         const keys = Object.keys(tableJSON[0]);
-
         keys.forEach(key => {
             const th = document.createElement('th');
             th.textContent = _SUB_NAME[key];
             thead.appendChild(th);
         });
-        tableJSON.forEach(item => {
 
+        tableJSON.forEach(item => {
             const row = document.createElement('tr');
             let found = 0;
 
