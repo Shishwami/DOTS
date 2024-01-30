@@ -26,8 +26,8 @@
             <select name="DOC_TYPE" id="DOC_TYPE"></select>
         </div>
         <div>
-            <label for="OFFICE_AGENCY">Office/Agency</label> <br>
-            <select name="OFFICE_AGENCY" id="OFFICE_AGENCY"></select>
+            <label for="DOC_OFFICE">Office/Agency</label> <br>
+            <select name="DOC_OFFICE" id="DOC_OFFICE"></select>
 
         </div>
         <div>
@@ -50,9 +50,10 @@
     //GET DOC_TYPE
 
     const DOC_TYPE = document.getElementById("DOC_TYPE");
-    const DOC_PRPS = document.getElementById("DOC_PRPS");
+    const DOC_OFFICE = document.getElementById("DOC_OFFICE");
 
     getDOC_TYPE();
+    getDOC_OFFICE();
 
     function getDOC_TYPE() {
         console.log("GETDOCYY");
@@ -82,13 +83,13 @@
         }, data);
     } 
     
-    function getDOC_PRPS() {
+    function getDOC_OFFICE() {
         console.log("GETDOCYY");
         const column_names = [
-            _TABLE.DOTS_DOC_PRPS.DOC_PRPS_NAME
+            _TABLE.DOTS_DOC_OFFICE.DOC_OFFICE_NAME
         ]
         const data = {
-            TABLE_NAME: _TABLE.DOTS_DOC_PRPS.NAME,
+            TABLE_NAME: _TABLE.DOTS_DOC_OFFICE.NAME,
             REQUEST: _REQUEST.SELECT,
             COLUMNS: column_names,
         }
@@ -101,7 +102,7 @@
                 if (response.VALID) {
                     console.log(response);
                     //success message
-                    setSelect(DOC_PRPS, response.RESULT);
+                    setSelect(DOC_OFFICE, response.RESULT);
                 } else {
                     console.log(response);
                     //error message
