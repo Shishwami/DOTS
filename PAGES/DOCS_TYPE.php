@@ -66,7 +66,7 @@
 
 
         const DOC_TYPE_ADD = document.getElementById("FORM_DOC_TYPE_ADD");
-        //const DOC_TYPE_EDIT = document.getElementById("FORM_DOC_TYPE_EDIT");
+        const DOC_TYPE_EDIT = document.getElementById("FORM_DOC_TYPE_EDIT");
         // const DOC_TYPE_DELETE_BTTN = DOC_TYPE_EDIT.querySelector("input[type=button]");
         const DOC_TYPE_TBL = document.getElementById("TABLE_DOC_TYPE");
         // const DOC_TYPE_SB = document.getElementById("searchBar");
@@ -100,8 +100,52 @@
             data[DOC_TYPE_CODE.dataset.keys] = DOC_TYPE_CODE.value;
 
             MyAjax.createJSON((error, response) => {
-                console.log(response);
+                if (!error) {
+                    if (response.VALID) {
+                        //success message
+                    } else {
+                        //no data taken
+                    }
+                } else {
+                    alert(error);
+                }
             }, data);
+
+        });
+
+        DOC_TYPE_EDIT.addEventListener('click', function (e) {
+
+            JsFunctions.disableFormDefault(e);
+
+            const SubmitButton = DOC_TYPE_EDIT.querySelector('input[type=submit]');
+            JsFunctions.disableElement(SubmitButton);
+            const inputName = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_NAME');
+            const inputCode = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_CODE');
+
+            const keysAndValues = localStorage.getItem('TEMP');
+
+            const data = {
+                TABLE_NAME: _TABLE.DOTS_DOC_TYPE.NAME,
+                REQUEST: _REQUEST.UPDATE,
+                CONDITION: keysAndValues,
+            }
+            data[_TABLE.DOTS_DOC_TYPE.DOC_TYPE_NAME] = inputName.value;
+            data[_TABLE.DOTS_DOC_TYPE.DOC_TYPE_CODE] = inputCode.value;
+
+            MyAjax.createJSON((error, response) => {
+                if (!error) {
+                    if (response.VALID) {
+                        //success
+                        JsFunctions.enableElement(SubmitButton);
+                    } else {
+                        //no data taken
+                    }
+                } else {
+                    alert(error);
+                }
+            }, data);
+
+
 
         });
 
@@ -118,7 +162,8 @@
                 if (!error) {
                     if (response.VALID) {
                         const results = response.RESULT;
-                        JsFunctions.updateTable(results,tHead,tBody,filter);
+                        JsFunctions.updateTable(results, tHead, tBody, filter);
+                        setTableEvent(tBody);
                     } else {
                         //no data taken
                     }
@@ -128,7 +173,35 @@
             }, data);
         }
 
+        function setTableEvent(tBody) {
+            const tableRows = tBody.querySelectorAll('tr');
+            const inputName = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_NAME');
+            const inputCode = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_CODE');
+            const keysAndValues = {};
 
+            for (let i = 0; i < tableRows.length; i++) {
+                const tableRow = tableRows[i];
+                const rowCells = tableRow.querySelectorAll('td');
+                tableRow.addEventListener('click', function (e) {
+                    for (let o = 0; o < rowCells.length; o++) {
+                        const cell = rowCells[o];
+                        const cellValue = cell.dataset.value;
+                        const cellKeys = cell.dataset.keys;
+
+                        keysAndValues[cellKeys] = cellValue;
+
+                        if (inputName.dataset.keys == cellKeys) {
+                            inputName.value = cellValue;
+                        }
+                        if (inputCode.dataset.keys == cellKeys) {
+                            inputCode.value = cellValue;
+                        }
+                    }
+                    sessionStorage.setItem('TEMP', JSON.stringify(keysAndValues));
+                });
+
+            }
+        }
 
     </script>
 </body>
