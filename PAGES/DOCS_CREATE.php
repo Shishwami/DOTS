@@ -44,17 +44,86 @@
 <script src="../SCRIPTS/Constants.js"></script>
 <script type="module">
     import MyAjax from "../SCRIPTS/MyAjax.js";
-</script>
-<script>
     //get inputs
 
-
+    console.log("HI");
     //GET DOC_TYPE
 
     const DOC_TYPE = document.getElementById("DOC_TYPE");
+    const DOC_PRPS = document.getElementById("DOC_PRPS");
+
+    getDOC_TYPE();
 
     function getDOC_TYPE() {
+        console.log("GETDOCYY");
+        const column_names = [
+            _TABLE.DOTS_DOC_TYPE.DOC_TYPE_NAME
+        ]
+        const data = {
+            TABLE_NAME: _TABLE.DOTS_DOC_TYPE.NAME,
+            REQUEST: _REQUEST.SELECT,
+            COLUMNS: column_names,
+        }
 
+        MyAjax.createJSON((error, response) => {
+            if (error) {
+                console.log(error);
+                //message popup
+            } else {
+                if (response.VALID) {
+                    console.log(response);
+                    //success message
+                    setSelect(DOC_TYPE, response.RESULT);
+                } else {
+                    console.log(response);
+                    //error message
+                }
+            }
+        }, data);
+    } 
+    
+    function getDOC_PRPS() {
+        console.log("GETDOCYY");
+        const column_names = [
+            _TABLE.DOTS_DOC_PRPS.DOC_PRPS_NAME
+        ]
+        const data = {
+            TABLE_NAME: _TABLE.DOTS_DOC_PRPS.NAME,
+            REQUEST: _REQUEST.SELECT,
+            COLUMNS: column_names,
+        }
+
+        MyAjax.createJSON((error, response) => {
+            if (error) {
+                console.log(error);
+                //message popup
+            } else {
+                if (response.VALID) {
+                    console.log(response);
+                    //success message
+                    setSelect(DOC_PRPS, response.RESULT);
+                } else {
+                    console.log(response);
+                    //error message
+                }
+            }
+        }, data);
+    }
+
+    function setSelect(element, response) {
+
+        element.innerHTML = '';
+
+        response.forEach(function (item) {
+            var option = document.createElement('option');
+
+            Object.keys(item).forEach(function (key) {
+                option.value = item[key];
+                option.innerText = item[key];
+            });
+
+            element.appendChild(option);
+        });
     }
 
 </script>
