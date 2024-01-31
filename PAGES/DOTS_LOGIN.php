@@ -62,9 +62,11 @@
                     //success message
                     // console.log(response.RESULT[0]);
                     createSession(response.RESULT[0]);
+                    INPUT_USERNAME.value = '';
+                    INPUT_PASSWORD.value = '';
                 } else {
                     //no data taken
-                    console.log(response);
+                    // console.log(response);
                 }
             } else {
                 alert(error);
@@ -72,14 +74,14 @@
         }, data);
 
         function createSession(results) {
-            const data2 = {
+            var data2 = { REQUEST: _REQUEST.CREATE_SESSION };
 
-            };
+            data2 = Object.assign({}, data2, results);
             MyAjax.createJSON((error, response) => {
                 if (!error) {
                     if (response.VALID) {
                         //success message
-
+                        window.location.href = './DOCS_CREATE.php';
                     } else {
                         //no data taken
                         console.log(response);
@@ -87,7 +89,7 @@
                 } else {
                     alert(error);
                 }
-            }, data);
+            }, data2);
         }
 
     });
