@@ -16,15 +16,15 @@
 
         <h1>CHRMO - DOTS</h1>
 
-        <form class="login-form" action="DOTS_LOGIN.html" class="login" method="post">
+        <form class="login-form" action="DOTS_LOGIN.html" class="login" method="post" id="FORM_LOGIN">
             <div class="container">
                 <label for="uname"></label>
-                <input type="text" placeholder="Username" name="uname" id="uname" required>
+                <input type="text" placeholder="Username" name="uname" id="uname" required id="INPUT_USERNAME">
             </div>
 
             <div class="container">
                 <label for="pword"></label>
-                <input type="password" placeholder="Password" name="pword" required>
+                <input type="password" placeholder="Password" name="pword" required id="INPUT_PASSWORD">
             </div>
 
             <div class="container">
@@ -63,6 +63,22 @@
             localStorage.checkbox = "";
         }
     }
+</script>
+
+<script>
+
+    const FORM_LOGIN = document.getElementById("FORM_LOGIN");
+
+    FORM_LOGIN.addEventListener('submit', function (e) {
+        const INPUT_USERNAME =FORM_LOGIN.querySelector('#INPUT_USERNAME');
+        const INPUT_PASSWORD =FORM_LOGIN.querySelector('#INPUT_PASSWORD');
+
+        const data = {
+            TABLE_NAME: 
+        }
+    });
+
+
 </script>
 
 </html>
