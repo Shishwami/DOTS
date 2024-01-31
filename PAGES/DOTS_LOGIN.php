@@ -16,7 +16,7 @@
 
         <h1>CHRMO - DOTS</h1>
 
-        <form class="login-form" action="DOTS_LOGIN.html" class="login" method="post" id="FORM_LOGIN">
+        <form class="login-form" action="submit" class="login" method="post" id="FORM_LOGIN">
             <div class="container">
                 <label for="uname"></label>
                 <input type="text" placeholder="Username" name="uname" id="uname" required id="INPUT_USERNAME">
@@ -65,17 +65,28 @@
     }
 </script>
 
-<script>
+<script type="module">
+
+    import MyAjax from "../SCRIPTS/MyAjax.js";
 
     const FORM_LOGIN = document.getElementById("FORM_LOGIN");
 
     FORM_LOGIN.addEventListener('submit', function (e) {
-        const INPUT_USERNAME =FORM_LOGIN.querySelector('#INPUT_USERNAME');
-        const INPUT_PASSWORD =FORM_LOGIN.querySelector('#INPUT_PASSWORD');
+        const INPUT_USERNAME = FORM_LOGIN.querySelector('#INPUT_USERNAME');
+        const INPUT_PASSWORD = FORM_LOGIN.querySelector('#INPUT_PASSWORD');
 
         const data = {
-            TABLE_NAME: 
+            TABLE_NAME: _TABLE.DOTS_ACCOUNT_INFO.NAME,
+            REQUEST: _REQUEST.SELECT,
         }
+
+        data[_TABLE.DOTS_ACCOUNT_INFO.USERNAME] = INPUT_USERNAME.value;
+        data[_TABLE.DOTS_ACCOUNT_INFO.PASSWORD] = INPUT_PASSWORD.value;
+
+        MyAjax.createJSON((error, response) => {
+            console.log(response);
+        }, data);
+
     });
 
 
