@@ -44,6 +44,7 @@ const _REQUEST = {
     SELECT: 'SELECT',
     UPDATE: 'UPDATE',
     DELETE: 'DELETE',
+    CREATE_SESSION: 'CREATE_SESSION',
 }
 
 const _SUB_NAME = {
