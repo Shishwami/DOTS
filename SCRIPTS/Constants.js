@@ -1,6 +1,6 @@
-_RESET_TIME = 1000;
+const _RESET_TIME = 1000;
 
-_TABLE = {
+const _TABLE = {
     DOTS_DOC: {
 
     },
@@ -39,14 +39,14 @@ _TABLE = {
         PASSWORD: 'PASSWORD',
     }
 }
-_REQUEST = {
+const _REQUEST = {
     INSERT: 'INSERT',
     SELECT: 'SELECT',
     UPDATE: 'UPDATE',
     DELETE: 'DELETE',
 }
 
-_SUB_NAME = {
+const _SUB_NAME = {
     ID: "ID",
     DOC_TYPE_NAME: 'Document Name',
     DOC_TYPE_CODE: 'Document Code',
