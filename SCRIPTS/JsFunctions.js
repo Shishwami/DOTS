@@ -13,19 +13,26 @@ class JsFunctions {
     static clearInputText(element) {
         element.value = "";
     }
-    
+
     static updateTable(tableJSON, thead, tbody, filter) {
         thead.innerHTML = '';
         tbody.innerHTML = '';
 
-        if(tableJSON[0]==null){
+        if (tableJSON[0] == null) {
             return
         }
 
         const keys = Object.keys(tableJSON[0]);
         keys.forEach(key => {
             const th = document.createElement('th');
-            th.textContent = _SUB_NAME[key];
+
+
+            if (_SUB_NAME[key] == "") {
+                th.textContent = key;
+            } else {
+                th.textContent = _SUB_NAME[key];
+            }
+
             thead.appendChild(th);
         });
 
