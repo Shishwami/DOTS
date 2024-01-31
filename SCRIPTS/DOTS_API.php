@@ -2,6 +2,10 @@
 include "DB_Connect.php";
 include "Querries.php";
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 $inputs = json_decode(file_get_contents("php://input"), true);
 
 // var_dump($inputs);
@@ -20,6 +24,9 @@ switch ($REQUEST) {
         break;
     case 'DELETE':
         DELETE_($inputs, $conn);
+        break;
+    case 'CREATE_SESSION':
+        createSession($inputs, $conn);
         break;
 }
 $conn->close();
@@ -161,6 +168,24 @@ function getTime($inputs, $conn)
     if (isset($inputs['DATE_TIME'])) {
 
     }
+}
+
+function createSession($inputs, $conn)
+{
+    $valid = true;
+
+    $keys = array_keys($inputs);
+    $values = array_values($inputs);
+
+    for ($i = 0; $i < count($inputs); $i++) {
+        $_SESSION[$keys[$i]] = $values[$i];
+    }
+
+    echo json_encode(
+        array(
+            'VALID' => $valid
+        )
+    );
 }
 
 ?>
