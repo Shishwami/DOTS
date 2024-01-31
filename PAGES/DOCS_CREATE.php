@@ -41,13 +41,12 @@
         <input type="submit" value="Submit">
     </form>
 </body>
-<script src="../SCRIPTS/Constants.js"></script>
-<script type="module">
-    import MyAjax from "../SCRIPTS/MyAjax.js";
-    //get inputs
 
-    console.log("HI");
-    //GET DOC_TYPE
+<script src="../SCRIPTS/Constants.js"></script>
+
+<script type="module">
+
+    import MyAjax from "../SCRIPTS/MyAjax.js";
 
     const DOC_TYPE = document.getElementById("DOC_TYPE");
     const DOC_OFFICE = document.getElementById("DOC_OFFICE");
@@ -84,7 +83,7 @@
     } 
     
     function getDOC_OFFICE() {
-        console.log("GETDOCYY");
+
         const column_names = [
             _TABLE.DOTS_DOC_OFFICE.DOC_OFFICE_NAME
         ]
@@ -109,6 +108,7 @@
                 }
             }
         }, data);
+
     }
 
     function setSelect(element, response) {
@@ -125,6 +125,7 @@
 
             element.appendChild(option);
         });
+        
     }
 
 </script>
