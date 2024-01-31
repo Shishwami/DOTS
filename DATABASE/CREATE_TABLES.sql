@@ -21,3 +21,11 @@ CREATE TABLE `dots`.`dots_doc_division`
 , `DOC_DIVISION_NAME` VARCHAR(255) NOT NULL 
 , `DOC_DIVISION_CODE` VARCHAR(255) NOT NULL 
 , PRIMARY KEY (`ID`)) ENGINE = InnoDB;
+
+CREATE TABLE `dots_account_info` (
+  `HRIS_ID` int(11) NOT NULL,
+  `FULL_NAME` varchar(255) NOT NULL,
+  `INITIAL` varchar(255) NOT NULL,
+  `USERNAME` varchar(255) NOT NULL,
+  `PASSWORD` varchar(255) NOT NULL
+) ENGINE=InnoDB;
