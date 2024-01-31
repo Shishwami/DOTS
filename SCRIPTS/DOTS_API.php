@@ -68,10 +68,10 @@ function SELECT_($inputs, $conn)
 
     $result = mysqli_query($conn, $sql);
     if ($result) {
-        $valid = true;
         $rows = array();
         while ($row = mysqli_fetch_assoc($result)) {
             $rows[] = $row;
+            $valid = true;
         }
         mysqli_free_result($result);
 
