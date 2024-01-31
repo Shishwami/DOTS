@@ -1,6 +1,6 @@
 _RESET_TIME = 1000;
 
- _TABLE = {
+_TABLE = {
     DOTS_DOC: {
 
     },
@@ -29,6 +29,14 @@ _RESET_TIME = 1000;
         ID: 'ID',
         DOC_PRPS_NAME: 'DOC_PRPS_NAME',
         DOC_PRPS_CODE: 'DOC_PRPS_CODE'
+    },
+    DOTS_ACCOUNT_INFO: {
+        NAME: 'DOTS_ACCOUNT_INFO',
+        HRIS_ID: 'HRIS_ID',
+        FULL_NAME: 'FULL_NAME',
+        INITIAL: 'INITIAL',
+        USERNAME: 'USERNAME',
+        PASSWORD: 'PASSWORD',
     }
 }
 _REQUEST = {
