@@ -16,15 +16,15 @@
 
         <h1>CHRMO - DOTS</h1>
 
-        <form class="login-form" action="submit" class="login" method="post" id="FORM_LOGIN">
+        <form action="submit" class="login-form" class="login" id="FORM_LOGIN">
             <div class="container">
-                <label for="uname"></label>
-                <input type="text" placeholder="Username" name="uname" id="uname" required id="INPUT_USERNAME">
+                <label for="INPUT_USERNAME"></label>
+                <input type="text" placeholder="Username" name="INPUT_USERNAME" id="INPUT_USERNAME" required>
             </div>
 
             <div class="container">
-                <label for="pword"></label>
-                <input type="password" placeholder="Password" name="pword" required id="INPUT_PASSWORD">
+                <label for="INPUT_PASSWORD"></label>
+                <input type="password" placeholder="Password" name="INPUT_PASSWORD" id="INPUT_PASSWORD" required>
             </div>
 
             <div class="container">
@@ -32,46 +32,51 @@
                 <label class="rmb" for="RememberMe">Remember Me</label>
             </div>
             <br>
-            <input type="submit" value="Login" name="submit" onclick="RememberMe()">
+            <input type="submit" value="Login" name="submit">
         </form>
 
         <div class="container">
             <a href="#">Reset Password</a>
         </div>
     </div>
+    <script>
+        const rmCheck = document.getElementById("RememberMe"),
+            unameInput = document.getElementById("INPUT_USERNAME");
+
+        if (localStorage.checkbox && localStorage.checkbox !== "") {
+            rmCheck.setAttribute("checked", "checked");
+            unameInput.value = localStorage.username;
+        } else {
+            rmCheck.removeAttribute("checked");
+            unameInput.value = "";
+        }
+
+        function RememberMe() {
+            if (rmCheck.checked && unameInput.value !== "") {
+                localStorage.username = unameInput.value;
+                localStorage.checkbox = rmCheck.value;
+            } else {
+                localStorage.username = "";
+                localStorage.checkbox = "";
+            }
+        }
+    </script>
 
 </body>
 
-<script>
-    const rmCheck = document.getElementById("RememberMe"),
-        unameInput = document.getElementById("uname");
 
-    if (localStorage.checkbox && localStorage.checkbox !== "") {
-        rmCheck.setAttribute("checked", "checked");
-        unameInput.value = localStorage.username;
-    } else {
-        rmCheck.removeAttribute("checked");
-        unameInput.value = "";
-    }
 
-    function RememberMe() {
-        if (rmCheck.checked && unameInput.value !== "") {
-            localStorage.username = unameInput.value;
-            localStorage.checkbox = rmCheck.value;
-        } else {
-            localStorage.username = "";
-            localStorage.checkbox = "";
-        }
-    }
-</script>
-
-<script type="module">
+<script type="module" src="../SCRIPTS/Constants.js">
 
     import MyAjax from "../SCRIPTS/MyAjax.js";
+    import JsFunction from "../SCRIPTS/JsFunctions.js"
 
     const FORM_LOGIN = document.getElementById("FORM_LOGIN");
 
     FORM_LOGIN.addEventListener('submit', function (e) {
+
+        JsFunction.disableFormDefault(e);
+
         const INPUT_USERNAME = FORM_LOGIN.querySelector('#INPUT_USERNAME');
         const INPUT_PASSWORD = FORM_LOGIN.querySelector('#INPUT_PASSWORD');
 
