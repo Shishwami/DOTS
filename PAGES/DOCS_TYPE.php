@@ -122,7 +122,7 @@
             const inputName = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_NAME');
             const inputCode = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_CODE');
 
-            const keysAndValues = sessionStorage.getItem('TEMP');
+            const keysAndValues = sessionStorage.getItem('TEMP_DATA');
 
             const data = {
                 TABLE_NAME: _TABLE.DOTS_DOC_TYPE.NAME,
@@ -194,7 +194,7 @@
                             inputCode.value = cellValue;
                         }
                     }
-                    sessionStorage.setItem('TEMP', JSON.stringify(keysAndValues));
+                    sessionStorage.setItem('TEMP_DATA', JSON.stringify(keysAndValues));
                 });
 
             }
