@@ -155,7 +155,7 @@ function DELETE_($inputs, $conn)
 
 function getTime($inputs, $conn)
 {
-    $valid = false;
+
     $time = "";
 
     if (isset($inputs['DATE'])) {
@@ -163,10 +163,27 @@ function getTime($inputs, $conn)
         $valid = true;
     }
     if (isset($inputs['TIME'])) {
-        $time = date('Y-m-d');
+        $time = date('h:i a');
     }
     if (isset($inputs['DATE_TIME'])) {
+        $time = date("Y-m-d\Th:i a");
+    }
 
+    if ($time != "") {
+        $valid = true;
+
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'TIME' => $time,
+            )
+        );
+    } else {
+        echo json_encode(
+            array(
+                'VALID' => $valid
+            )
+        );
     }
 }
 
