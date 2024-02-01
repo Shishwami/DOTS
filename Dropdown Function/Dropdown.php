@@ -9,7 +9,7 @@
 <body>
 
     <div class="dropdown_opt">
-        <form action="" class="dropdown_form">
+        <form class="dropdown_form">
             <div class="form_group">
                 <!-- <label for="db_opt"></label> -->
                 <select name="db_opt" id="db_opt" data-dropdown>

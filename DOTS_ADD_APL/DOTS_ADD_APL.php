@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="DOTS_ADD_APL.css">
     <link rel="stylesheet" href="../DOTS_NAVBAR/DOTS_NAV.css">
+    <link rel="stylesheet" href="../Dropdown Function/Dropdown.css">
     <title></title>
 </head>
 
@@ -73,9 +74,11 @@
                         </tr>
                         <tr>
                             <td><?php //purpose row from db?></td>
-                            <td><?php include "../Dropdown Function/Dropdown.php" ?></td>
+                            <td></td>
                         </tr>
                     </table>
+
+                    <?php include "../Dropdown Function/Dropdown.php" ?>
                 </div>
             </div>
 
