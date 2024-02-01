@@ -51,6 +51,7 @@
 
     const DOC_TYPE = document.getElementById("DOC_TYPE");
     const DOC_OFFICE = document.getElementById("DOC_OFFICE");
+    const DATE_TIME_RECEIVED = document.getElementById("DATE_TIME_RECEIVED");
 
     getDOC_TYPE();
     getDOC_OFFICE();
@@ -109,6 +110,10 @@
                 }
             }
         }, data);
+    }
+
+    function getDateTime(){
+
     }
 
     function setSelect(element, response) {
