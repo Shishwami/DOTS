@@ -103,6 +103,8 @@
                 if (!error) {
                     if (response.VALID) {
                         //success message
+                        DOC_PRPS_NAME.value = "";
+                        DOC_PRPS_CODE.value = "";
                     } else {
                         //no data taken
                     }
