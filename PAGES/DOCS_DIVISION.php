@@ -103,6 +103,8 @@
                 if (!error) {
                     if (response.VALID) {
                         //success message
+                        DOC_DIVISION_NAME.value = "";
+                        DOC_DIVISION_CODE.value = "";
                     } else {
                         //no data taken
                     }
