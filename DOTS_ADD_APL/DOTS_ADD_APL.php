@@ -73,6 +73,7 @@
                         </tr>
                         <tr>
                             <td><?php //purpose row from db?></td>
+                            <td><?php include "../Dropdown Function/Dropdown.php" ?></td>
                         </tr>
                     </table>
                 </div>
@@ -86,6 +87,7 @@
     
 </body>
 
+<script src="../Dropdown Function/Dropdown.js"></script>
 <script>
     //Side Panel Function
     document.getElementById("main").addEventListener("click", closeSidePanel);
