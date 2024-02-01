@@ -102,6 +102,8 @@
                 if (!error) {
                     if (response.VALID) {
                         //success message
+                        DOC_STATUS_NAME.value = "";
+                        DOC_STATUS_CODE.value = "";
                     } else {
                         //no data taken
                     }
@@ -203,4 +205,3 @@
 </body>
 
 </html>
-
