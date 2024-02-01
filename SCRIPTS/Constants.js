@@ -3,9 +3,7 @@ const _RESET_TIME = 1000;
 const _TABLE = {
     DOTS_DOC: {
         NAME: 'DOTS_DOC',
-        ID: 'ID',
         DOC_NUMBER: 'DOC_NUMBER',
-        SUBJECT: 'SUBJECT',
         LETTER_DATE: 'LETTER_DATE',
         DOC_TYPE: 'DOC_TYPE',
         SUBJECT: 'SUBJECT',
@@ -78,4 +76,11 @@ const _SUB_NAME = {
     DOC_DIVISION_CODE: 'Division Code',
     DOC_STATUS_NAME: 'Status Name',
     DOC_STATUS_CODE: 'Status Code',
+    DOC_NUMBER: 'Document Number',
+    SUBJECT: 'Subject',
+    LETTER_DATE: 'Letter Date',
+    DOC_TYPE: 'Document Type',
+    OFFICE_AGENCY: 'Office/Agency',
+    RECEIVED_BY: 'Received By',
+    DATE_TIME_RECEIVED: 'Date Received',
 }
