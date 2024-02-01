@@ -74,4 +74,6 @@ const _SUB_NAME = {
     DOC_OFFICE_CODE: 'Office Code',
     DOC_DIVISION_NAME: 'Division Name',
     DOC_DIVISION_CODE: 'Division Code',
+    DOC_STATUS_NAME: 'Status Name',
+    DOC_STATUS_CODE: 'Status Code',
 }
