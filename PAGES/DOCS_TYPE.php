@@ -67,17 +67,18 @@
 
         const DOC_TYPE_ADD = document.getElementById("FORM_DOC_TYPE_ADD");
         const DOC_TYPE_EDIT = document.getElementById("FORM_DOC_TYPE_EDIT");
-        // const DOC_TYPE_DELETE_BTTN = DOC_TYPE_EDIT.querySelector("input[type=button]");
+        const DOC_TYPE_DELETE_BTTN = DOC_TYPE_EDIT.querySelector("input[type=button]");
         const DOC_TYPE_TBL = document.getElementById("TABLE_DOC_TYPE");
-        // const DOC_TYPE_SB = document.getElementById("searchBar");
+        const DOC_TYPE_SB = document.getElementById("searchBar");
 
         getTable("");
         setInterval(function () {
-            getTable("");
+            getTable(DOC_TYPE_SB.value.toUpperCase());
         }, _RESET_TIME);
-        // DOC_TYPE_SB.addEventListener('input', function (e) {
-        //     updateTable(DOC_TYPE_SB.value.toUpperCase());
-        // });
+
+        DOC_TYPE_SB.addEventListener('input', function (e) {
+            getTable(DOC_TYPE_SB.value.toUpperCase());
+        });
 
         DOC_TYPE_ADD.addEventListener('submit', function (e) {
 
@@ -148,8 +149,29 @@
             }, data);
         });
 
+        DOC_TYPE_EDIT.addEventListener('click', function (e) {
+            const keysAndValues = sessionStorage.getItem('TEMP_DATA');
+
+            const data = {
+                TABLE_NAME: _TABLE.DOTS_DOC_TYPE.NAME,
+                REQUEST: _REQUEST.DELETE,
+                CONDITION: keysAndValues,
+            }
+
+            MyAjax.createJSON((error, response) => {
+                if (!error) {
+                    if (response.VALID) {
+                        //success
+                    } else {
+                        //no data taken
+                    }
+                } else {
+                    alert(error);
+                }
+            }, data);
+        });
+
         function getTable(filter) {
-            filter = "";
             const tHead = DOC_TYPE_TBL.querySelector('thead');
             const tBody = DOC_TYPE_TBL.querySelector('tbody');
 

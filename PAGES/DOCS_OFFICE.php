@@ -32,12 +32,12 @@
 
     <form action="submit" id="FORM_DOC_OFFICE_ADD">
         <div>
-            <label for="DOC_OFFICE_ADD_NAME">Office Type:</label>
+            <label for="DOC_OFFICE_ADD_NAME">Purpose Type:</label>
             <br>
             <input type="text" name="DOC_OFFICE_ADD_NAME" id="DOC_OFFICE_ADD_NAME" data-keys="DOC_OFFICE_NAME">
         </div>
         <div>
-            <label for="DOC_OFFICE_ADD_CODE">Office Code:</label>
+            <label for="DOC_OFFICE_ADD_CODE">Purpose Code:</label>
             <br>
             <input type="text" name="DOC_OFFICE_ADD_CODE" id="DOC_OFFICE_ADD_CODE" data-keys="DOC_OFFICE_CODE">
         </div>
@@ -46,12 +46,12 @@
 
     <form action="submit" id="FORM_DOC_OFFICE_EDIT">
         <div>
-            <label for="DOC_OFFICE_EDIT_NAME">Office Type:</label>
+            <label for="DOC_OFFICE_EDIT_NAME">Purpose Type:</label>
             <br>
             <input type="text" name="DOC_OFFICE_EDIT_NAME" id="DOC_OFFICE_EDIT_NAME" data-keys="DOC_OFFICE_NAME">
         </div>
         <div>
-            <label for="DOC_OFFICE_EDIT_CODE">Office Code:</label>
+            <label for="DOC_OFFICE_EDIT_CODE">Purpose Code:</label>
             <br>
             <input type="text" name="DOC_OFFICE_EDIT_CODE" id="DOC_OFFICE_EDIT_CODE" data-keys="DOC_OFFICE_CODE">
         </div>
@@ -67,17 +67,18 @@
 
         const DOC_OFFICE_ADD = document.getElementById("FORM_DOC_OFFICE_ADD");
         const DOC_OFFICE_EDIT = document.getElementById("FORM_DOC_OFFICE_EDIT");
-        // const DOC_OFFICE_DELETE_BTTN = DOC_OFFICE_EDIT.querySelector("input[type=button]");
+        const DOC_OFFICE_DELETE_BTTN = DOC_OFFICE_EDIT.querySelector("input[type=button]");
         const DOC_OFFICE_TBL = document.getElementById("TABLE_DOC_OFFICE");
-        // const DOC_OFFICE_SB = document.getElementById("searchBar");
+        const DOC_OFFICE_SB = document.getElementById("searchBar");
 
         getTable("");
         setInterval(function () {
-            getTable("");
+            getTable(DOC_OFFICE_SB.value.toUpperCase());
         }, _RESET_TIME);
-        // DOC_OFFICE_SB.addEventListener('input', function (e) {
-        //     updateTable(DOC_OFFICE_SB.value.toUpperCase());
-        // });
+
+        DOC_OFFICE_SB.addEventListener('input', function (e) {
+            getTable(DOC_OFFICE_SB.value.toUpperCase());
+        });
 
         DOC_OFFICE_ADD.addEventListener('submit', function (e) {
 
@@ -124,7 +125,7 @@
             const inputName = DOC_OFFICE_EDIT.querySelector('#DOC_OFFICE_EDIT_NAME');
             const inputCode = DOC_OFFICE_EDIT.querySelector('#DOC_OFFICE_EDIT_CODE');
 
-            const keysAndValues = sessionStorage.getItem('TEMP');
+            const keysAndValues = sessionStorage.getItem('TEMP_DATA');
 
             const data = {
                 TABLE_NAME: _TABLE.DOTS_DOC_OFFICE.NAME,
@@ -148,8 +149,29 @@
             }, data);
         });
 
+        DOC_OFFICE_EDIT.addEventListener('click', function (e) {
+            const keysAndValues = sessionStorage.getItem('TEMP_DATA');
+
+            const data = {
+                TABLE_NAME: _TABLE.DOTS_DOC_OFFICE.NAME,
+                REQUEST: _REQUEST.DELETE,
+                CONDITION: keysAndValues,
+            }
+
+            MyAjax.createJSON((error, response) => {
+                if (!error) {
+                    if (response.VALID) {
+                        //success
+                    } else {
+                        //no data taken
+                    }
+                } else {
+                    alert(error);
+                }
+            }, data);
+        });
+
         function getTable(filter) {
-            filter = "";
             const tHead = DOC_OFFICE_TBL.querySelector('thead');
             const tBody = DOC_OFFICE_TBL.querySelector('tbody');
 
@@ -196,7 +218,7 @@
                             inputCode.value = cellValue;
                         }
                     }
-                    sessionStorage.setItem('TEMP', JSON.stringify(keysAndValues));
+                    sessionStorage.setItem('TEMP_DATA', JSON.stringify(keysAndValues));
                 });
 
             }

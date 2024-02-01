@@ -67,17 +67,18 @@
 
         const DOC_DIVISION_ADD = document.getElementById("FORM_DOC_DIVISION_ADD");
         const DOC_DIVISION_EDIT = document.getElementById("FORM_DOC_DIVISION_EDIT");
-        // const DOC_DIVISION_DELETE_BTTN = DOC_DIVISION_EDIT.querySelector("input[type=button]");
+        const DOC_DIVISION_DELETE_BTTN = DOC_DIVISION_EDIT.querySelector("input[type=button]");
         const DOC_DIVISION_TBL = document.getElementById("TABLE_DOC_DIVISION");
-        // const DOC_DIVISION_SB = document.getElementById("searchBar");
+        const DOC_DIVISION_SB = document.getElementById("searchBar");
 
         getTable("");
         setInterval(function () {
-            getTable("");
+            getTable(DOC_DIVISION_SB.value.toUpperCase());
         }, _RESET_TIME);
-        // DOC_DIVISION_SB.addEventListener('input', function (e) {
-        //     updateTable(DOC_DIVISION_SB.value.toUpperCase());
-        // });
+
+        DOC_DIVISION_SB.addEventListener('input', function (e) {
+            getTable(DOC_DIVISION_SB.value.toUpperCase());
+        });
 
         DOC_DIVISION_ADD.addEventListener('submit', function (e) {
 
@@ -124,7 +125,7 @@
             const inputName = DOC_DIVISION_EDIT.querySelector('#DOC_DIVISION_EDIT_NAME');
             const inputCode = DOC_DIVISION_EDIT.querySelector('#DOC_DIVISION_EDIT_CODE');
 
-            const keysAndValues = sessionStorage.getItem('TEMP');
+            const keysAndValues = sessionStorage.getItem('TEMP_DATA');
 
             const data = {
                 TABLE_NAME: _TABLE.DOTS_DOC_DIVISION.NAME,
@@ -148,8 +149,29 @@
             }, data);
         });
 
+        DOC_DIVISION_EDIT.addEventListener('click', function (e) {
+            const keysAndValues = sessionStorage.getItem('TEMP_DATA');
+
+            const data = {
+                TABLE_NAME: _TABLE.DOTS_DOC_DIVISION.NAME,
+                REQUEST: _REQUEST.DELETE,
+                CONDITION: keysAndValues,
+            }
+
+            MyAjax.createJSON((error, response) => {
+                if (!error) {
+                    if (response.VALID) {
+                        //success
+                    } else {
+                        //no data taken
+                    }
+                } else {
+                    alert(error);
+                }
+            }, data);
+        });
+
         function getTable(filter) {
-            filter = "";
             const tHead = DOC_DIVISION_TBL.querySelector('thead');
             const tBody = DOC_DIVISION_TBL.querySelector('tbody');
 
@@ -196,7 +218,7 @@
                             inputCode.value = cellValue;
                         }
                     }
-                    sessionStorage.setItem('TEMP', JSON.stringify(keysAndValues));
+                    sessionStorage.setItem('TEMP_DATA', JSON.stringify(keysAndValues));
                 });
 
             }

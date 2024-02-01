@@ -67,17 +67,18 @@
 
         const DOC_STATUS_ADD = document.getElementById("FORM_DOC_STATUS_ADD");
         const DOC_STATUS_EDIT = document.getElementById("FORM_DOC_STATUS_EDIT");
-        // const DOC_STATUS_DELETE_BTTN = DOC_STATUS_EDIT.querySelector("input[type=button]");
+        const DOC_STATUS_DELETE_BTTN = DOC_STATUS_EDIT.querySelector("input[type=button]");
         const DOC_STATUS_TBL = document.getElementById("TABLE_DOC_STATUS");
-        // const DOC_STATUS_SB = document.getElementById("searchBar");
+        const DOC_STATUS_SB = document.getElementById("searchBar");
 
         getTable("");
         setInterval(function () {
-            getTable("");
+            getTable(DOC_STATUS_SB.value.toUpperCase());
         }, _RESET_TIME);
-        // DOC_STATUS_SB.addEventListener('input', function (e) {
-        //     updateTable(DOC_STATUS_SB.value.toUpperCase());
-        // });
+
+        DOC_STATUS_SB.addEventListener('input', function (e) {
+            getTable(DOC_STATUS_SB.value.toUpperCase());
+        });
 
         DOC_STATUS_ADD.addEventListener('submit', function (e) {
 
@@ -98,6 +99,7 @@
 
             data[DOC_STATUS_NAME.dataset.keys] = DOC_STATUS_NAME.value;
             data[DOC_STATUS_CODE.dataset.keys] = DOC_STATUS_CODE.value;
+
             MyAjax.createJSON((error, response) => {
                 if (!error) {
                     if (response.VALID) {
@@ -123,7 +125,7 @@
             const inputName = DOC_STATUS_EDIT.querySelector('#DOC_STATUS_EDIT_NAME');
             const inputCode = DOC_STATUS_EDIT.querySelector('#DOC_STATUS_EDIT_CODE');
 
-            const keysAndValues = sessionStorage.getItem('TEMP');
+            const keysAndValues = sessionStorage.getItem('TEMP_DATA');
 
             const data = {
                 TABLE_NAME: _TABLE.DOTS_DOC_STATUS.NAME,
@@ -147,8 +149,29 @@
             }, data);
         });
 
+        DOC_STATUS_EDIT.addEventListener('click', function (e) {
+            const keysAndValues = sessionStorage.getItem('TEMP_DATA');
+
+            const data = {
+                TABLE_NAME: _TABLE.DOTS_DOC_STATUS.NAME,
+                REQUEST: _REQUEST.DELETE,
+                CONDITION: keysAndValues,
+            }
+
+            MyAjax.createJSON((error, response) => {
+                if (!error) {
+                    if (response.VALID) {
+                        //success
+                    } else {
+                        //no data taken
+                    }
+                } else {
+                    alert(error);
+                }
+            }, data);
+        });
+
         function getTable(filter) {
-            filter = "";
             const tHead = DOC_STATUS_TBL.querySelector('thead');
             const tBody = DOC_STATUS_TBL.querySelector('tbody');
 
@@ -195,7 +218,7 @@
                             inputCode.value = cellValue;
                         }
                     }
-                    sessionStorage.setItem('TEMP', JSON.stringify(keysAndValues));
+                    sessionStorage.setItem('TEMP_DATA', JSON.stringify(keysAndValues));
                 });
 
             }
