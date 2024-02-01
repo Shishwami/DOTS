@@ -39,6 +39,7 @@ const _TABLE = {
         DOC_PRPS_CODE: 'DOC_PRPS_CODE'
     },
     DOTS_DOC_STATUS: {
+        
         NAME: 'DOTS_DOC_STATUS',
         ID: 'ID',
         DOC_STATUS_NAME: 'DOC_STATUS_NAME',
