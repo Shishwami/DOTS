@@ -28,15 +28,18 @@
     import JsFunctions from "../SCRIPTS/JsFunctions.js";
 
     const DOC_VIEW_TBL = document.getElementById("DOC_VIEW_TBL");
+    const DOC_VIEW_SB = document.getElementById("searchBar");   
 
     getTable("");
     setInterval(function () {
-        getTable("");
+        getTable(DOC_VIEW_SB.value.toUpperCase());
     }, _RESET_TIME);
 
+    DOC_VIEW_SB.addEventListener('input', function (e) {
+        getTable(DOC_VIEW_SB.value.toUpperCase());
+    });
 
     function getTable(filter) {
-        filter = "";
         const tHead = DOC_VIEW_TBL.querySelector('thead');
         const tBody = DOC_VIEW_TBL.querySelector('tbody');
 
