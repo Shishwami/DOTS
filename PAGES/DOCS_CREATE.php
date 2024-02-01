@@ -1,3 +1,7 @@
+<?php if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+} ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,7 +26,7 @@
             <input type="datetime-local" name="DATE_TIME_RECEIVED" id="DATE_TIME_RECEIVED">
         </div>
         <div>
-            <label for="LETTER_DATE">Date Received:</label> <br>
+            <label for="LETTER_DATE">Letter Date:</label> <br>
             <input type="date" name="LETTER_DATE" id="LETTER_DATE">
         </div>
         <div>
@@ -46,18 +50,25 @@
     import MyAjax from "../SCRIPTS/MyAjax.js";
     //get inputs
 
-    console.log("HI");
     //GET DOC_TYPE
-
+    const DOC_NUM = document.getElementById("DOC_NUM");
     const DOC_TYPE = document.getElementById("DOC_TYPE");
     const DOC_OFFICE = document.getElementById("DOC_OFFICE");
     const DATE_TIME_RECEIVED = document.getElementById("DATE_TIME_RECEIVED");
     const LETTER_DATE = document.getElementById("LETTER_DATE");
+    const RECEIVED_BY = document.getElementById("RECEIVED_BY");
 
     getDOC_TYPE();
     getDOC_OFFICE();
     getDateTime();
     getDate();
+    getSessionName();
+    updateDOC_NUMBER();
+    setInterval(updateDOC_NUMBER, _RESET_TIME);
+
+    function updateDOC_NUMBER() {
+        getDOC_NUMBER(DOC_NUM);
+    }
 
     function getDOC_TYPE() {
         const column_names = [
@@ -75,7 +86,9 @@
                 //message popup
             } else {
                 if (response.VALID) {
-                    setSelect(DOC_TYPE, response.RESULT);
+                    delete response.VALID;
+                    delete response.SQL;//to be removed
+                    setSelect(DOC_TYPE, Object.values(response)[0]);
                 } else {
                     console.log(response);
                     //error message
@@ -85,7 +98,6 @@
     }
 
     function getDOC_OFFICE() {
-        console.log("GETDOCYY");
         const column_names = [
             _TABLE.DOTS_DOC_OFFICE.DOC_OFFICE_NAME
         ]
@@ -101,8 +113,9 @@
                 //message popup
             } else {
                 if (response.VALID) {
-                    console.log(response);
-                    setSelect(DOC_OFFICE, response.RESULT);
+                    delete response.VALID;
+                    delete response.SQL;//to be removed
+                    setSelect(DOC_OFFICE, Object.values(response)[0]);
                 } else {
                     console.log(response);
                     //error message
@@ -122,17 +135,20 @@
                 //message popup
             } else {
                 if (response.VALID) {
-                    DATE_TIME_RECEIVED.value = response.TIME;
+                    delete response.VALID;
+                    DATE_TIME_RECEIVED.value = Object.values(response)[0];
                 } else {
                     console.log(response);
                     //error message
                 }
             }
         }, data);
-    } function getDate() {
+    }
+    function getDate() {
         const data = {
             REQUEST: _REQUEST.GET_DATE,
             DATE: "true",
+
         }
         MyAjax.createJSON((error, response) => {
             if (error) {
@@ -140,7 +156,8 @@
                 //message popup
             } else {
                 if (response.VALID) {
-                    LETTER_DATE.value = response.TIME;
+                    delete response.VALID;
+                    LETTER_DATE.value = Object.values(response)[0];
                 } else {
                     console.log(response);
                     //error message
@@ -149,6 +166,55 @@
         }, data);
     }
 
+    function getSessionName() {
+        const data = {
+            REQUEST: _REQUEST.GET_SESSION_NAME,
+        }
+        MyAjax.createJSON((error, response) => {
+            if (error) {
+                alert(error);
+                //message popup
+            } else {
+                if (response.VALID) {
+                    delete response.VALID;
+                    RECEIVED_BY.value = Object.values(response)[0];
+                } else {
+                    console.log(response);
+                    //error message
+                }
+            }
+        }, data);
+    }
+
+    function getDOC_NUMBER(element) {
+        const columns = []
+        columns.push(_TABLE.DOTS_DOC.DOC_NUMBER);
+
+        const data = {
+            TABLE_NAME: _TABLE.DOTS_DOC.NAME,
+            REQUEST: _REQUEST.SELECT,
+            COLUMNS: columns,
+        }
+        MyAjax.createJSON((error, response) => {
+            if (error) {
+                alert(error);
+                //message popup
+            } else {
+                if (response.VALID) {
+                    delete response.VALID;
+                    delete response.SQL;//to be removed
+                    // return Object.values(response)[0];
+                    const doc_numbers = Object.values(response)[0];
+                    const last_obj = doc_numbers[doc_numbers.length - 1];
+                    const last_number = Object.values(last_obj)[0];
+                    const number_increased = Number(last_number) + 1;
+                    element.value = number_increased;
+                } else {
+                    console.log(response);
+                }
+            }
+        }, data);
+    }
 
     function setSelect(element, response) {
 
