@@ -2,7 +2,15 @@ const _RESET_TIME = 1000;
 
 const _TABLE = {
     DOTS_DOC: {
-
+        NAME: 'DOTS_DOC',
+        ID: 'ID',
+        DOC_NUMBER: 'DOC_NUMBER',
+        SUBJECT: 'SUBJECT',
+        LETTER_DATE: 'LETTER_DATE',
+        DOC_TYPE: 'DOC_TYPE',
+        OFFICE_AGENCY: 'OFFICE_AGENCY',
+        RECEIVED_BY: 'RECEIVED_BY',
+        DATE_TIME_RECEIVED: 'DATE_TIME_RECEIVED',
     },
     DOTS_DOC_OFFICE: {
         NAME: 'DOTS_DOC_OFFICE',
@@ -44,8 +52,10 @@ const _REQUEST = {
     SELECT: 'SELECT',
     UPDATE: 'UPDATE',
     DELETE: 'DELETE',
-    GET_DATE:'GET_DATE',
+    GET_DOC_NUM: 'GET_DOC_NUM',
+    GET_DATE: 'GET_DATE',
     CREATE_SESSION: 'CREATE_SESSION',
+    GET_SESSION_NAME: 'GET_SESSION_NAME',
 }
 
 const _SUB_NAME = {
