@@ -236,14 +236,60 @@
 
 <script type="module">
     import JsFunctions from "../SCRIPTS/JsFunctions.js";
+    import MyAjax from "../SCRIPTS/MyAjax.js";
 
     const DOC_CREATE = document.getElementById("DOC_CREATE");
+
+    const mainData = {
+        TABLE_NAME: _TABLE.DOTS_DOC.NAME,
+        REQUEST: _REQUEST.INSERT,
+    }
 
     DOC_CREATE.addEventListener('submit', function (e) {
 
         JsFunctions.disableFormDefault(e);
+        getInputValues();
+
+        console.log(mainData);
+
+        MyAjax.createJSON((error, response) => {
+            if (error) {
+                alert(error);
+                //message popup
+            } else {
+                if (response.VALID) {
+                    delete response.VALID;
+                    delete response.SQL;//to be removed
+                    // return Object.values(response)[0];
+                    console.log(response);
+
+                } else {
+                    console.log(response);
+                }
+            }
+        }, mainData);
 
     });
+
+    function getInputValues() {
+
+        const SUBJECT = document.getElementById("SUBJECT");
+        const LETTER_DATE = document.getElementById("LETTER_DATE");
+        const DOC_TYPE = document.getElementById("DOC_TYPE");
+        const OFFICE_AGENCY = document.getElementById("DOC_OFFICE");
+        const RECEIVED_BY = document.getElementById("RECEIVED_BY");
+        const DATE_TIME_RECEIVED = document.getElementById("DATE_TIME_RECEIVED");
+
+        mainData[_TABLE.DOTS_DOC.SUBJECT] = SUBJECT.value;
+        mainData[_TABLE.DOTS_DOC.LETTER_DATE] = LETTER_DATE.value;
+        mainData[_TABLE.DOTS_DOC.DOC_TYPE] = DOC_TYPE.value;
+        mainData[_TABLE.DOTS_DOC.OFFICE_AGENCY] = OFFICE_AGENCY.value;
+        mainData[_TABLE.DOTS_DOC.RECEIVED_BY] = RECEIVED_BY.value;
+        mainData[_TABLE.DOTS_DOC.DATE_TIME_RECEIVED] = DATE_TIME_RECEIVED.value;
+        
+    }
+
+
 </script>
 
 </html>
