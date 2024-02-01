@@ -38,6 +38,12 @@ const _TABLE = {
         DOC_PRPS_NAME: 'DOC_PRPS_NAME',
         DOC_PRPS_CODE: 'DOC_PRPS_CODE'
     },
+    DOTS_DOC_STATUS: {
+        NAME: 'DOTS_DOC_STATUS',
+        ID: 'ID',
+        DOC_STATUS_NAME: 'DOC_STATUS_NAME',
+        DOC_STATUS_CODE: 'DOC_STATUS_CODE'
+    },
     DOTS_ACCOUNT_INFO: {
         NAME: 'DOTS_ACCOUNT_INFO',
         HRIS_ID: 'HRIS_ID',
