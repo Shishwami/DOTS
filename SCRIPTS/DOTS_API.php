@@ -31,6 +31,9 @@ switch ($REQUEST) {
     case 'CREATE_SESSION':
         createSession($inputs, $conn);
         break;
+    case 'GET_SESSION_NAME':
+        getSessionName();
+        break;
 }
 $conn->close();
 
@@ -41,7 +44,7 @@ function INSERT_($inputs, $conn)
     $valid = false;
 
     $TABLE_NAME = $inputs['TABLE_NAME'];
-    unset($inputs['TABLE_NAME']);
+    unset($inputs['TABLjjE_NAME']);
 
 
     $sql = $querries->insertQuerry($TABLE_NAME, $inputs);
@@ -193,13 +196,14 @@ function get_Date($inputs)
 
 function createSession($inputs, $conn)
 {
-    $valid = true;
+    $valid = false;
 
     $keys = array_keys($inputs);
     $values = array_values($inputs);
 
     for ($i = 0; $i < count($inputs); $i++) {
         $_SESSION[$keys[$i]] = $values[$i];
+        $valid = true;
     }
 
     echo json_encode(
@@ -208,5 +212,26 @@ function createSession($inputs, $conn)
         )
     );
 }
+function getSessionName()
+{
+    $valid = false;
 
+    if (isset($_SESSION["FULL_NAME"])) {
+        $valid = true;
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'FULLNAME' => $_SESSION["FULL_NAME"],
+            )
+        );
+    } else {
+        echo json_encode(
+            array(
+                'VALID' => $valid
+            )
+        );
+    }
+
+
+}
 ?>
