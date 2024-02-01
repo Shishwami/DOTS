@@ -14,12 +14,16 @@
             <input type="text" name="DOC_NUM" id="DOC_NUM" disabled>
         </div>
         <div>
+            <label for="RECEIVED_BY">Received By:</label> <br>
+            <input type="text" name="RECEIVED_BY" id="RECEIVED_BY" disabled>
+        </div>
+        <div>
             <label for="DATE_TIME_RECEIVED">Date Received:</label> <br>
             <input type="datetime-local" name="DATE_TIME_RECEIVED" id="DATE_TIME_RECEIVED">
         </div>
         <div>
-            <label for="RECEIVED_BY">Received By:</label> <br>
-            <input type="text" name="RECEIVED_BY" id="RECEIVED_BY" disabled>
+            <label for="LETTER_DATE">Date Received:</label> <br>
+            <input type="date" name="LETTER_DATE" id="LETTER_DATE">
         </div>
         <div>
             <label for="DOC_TYPE">Document Type:</label> <br>
@@ -29,10 +33,6 @@
             <label for="DOC_OFFICE">Office/Agency</label> <br>
             <select name="DOC_OFFICE" id="DOC_OFFICE"></select>
 
-        </div>
-        <div>
-            <label for="LETTER_DATE">Date Received:</label> <br>
-            <input type="date" name="LETTER_DATE" id="LETTER_DATE">
         </div>
         <div>
             <label for="SUBJECT">Subject:</label> <br>
@@ -52,12 +52,14 @@
     const DOC_TYPE = document.getElementById("DOC_TYPE");
     const DOC_OFFICE = document.getElementById("DOC_OFFICE");
     const DATE_TIME_RECEIVED = document.getElementById("DATE_TIME_RECEIVED");
+    const LETTER_DATE = document.getElementById("LETTER_DATE");
 
     getDOC_TYPE();
     getDOC_OFFICE();
+    getDateTime();
+    getDate();
 
     function getDOC_TYPE() {
-        console.log("GETDOCYY");
         const column_names = [
             _TABLE.DOTS_DOC_TYPE.DOC_TYPE_NAME
         ]
@@ -69,12 +71,10 @@
 
         MyAjax.createJSON((error, response) => {
             if (error) {
-                console.log(error);
+                alert(error);
                 //message popup
             } else {
                 if (response.VALID) {
-                    console.log(response);
-                    //success message
                     setSelect(DOC_TYPE, response.RESULT);
                 } else {
                     console.log(response);
@@ -82,8 +82,8 @@
                 }
             }
         }, data);
-    } 
-    
+    }
+
     function getDOC_OFFICE() {
         console.log("GETDOCYY");
         const column_names = [
@@ -97,12 +97,11 @@
 
         MyAjax.createJSON((error, response) => {
             if (error) {
-                console.log(error);
+                alert(error);
                 //message popup
             } else {
                 if (response.VALID) {
                     console.log(response);
-                    //success message
                     setSelect(DOC_OFFICE, response.RESULT);
                 } else {
                     console.log(response);
@@ -112,9 +111,44 @@
         }, data);
     }
 
-    function getDateTime(){
-
+    function getDateTime() {
+        const data = {
+            REQUEST: _REQUEST.GET_DATE,
+            DATE_TIME: "true",
+        }
+        MyAjax.createJSON((error, response) => {
+            if (error) {
+                alert(error);
+                //message popup
+            } else {
+                if (response.VALID) {
+                    DATE_TIME_RECEIVED.value = response.TIME;
+                } else {
+                    console.log(response);
+                    //error message
+                }
+            }
+        }, data);
+    } function getDate() {
+        const data = {
+            REQUEST: _REQUEST.GET_DATE,
+            DATE: "true",
+        }
+        MyAjax.createJSON((error, response) => {
+            if (error) {
+                alert(error);
+                //message popup
+            } else {
+                if (response.VALID) {
+                    LETTER_DATE.value = response.TIME;
+                } else {
+                    console.log(response);
+                    //error message
+                }
+            }
+        }, data);
     }
+
 
     function setSelect(element, response) {
 
