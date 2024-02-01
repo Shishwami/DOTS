@@ -20,6 +20,14 @@
 
         </tbody>
     </table>
+
+    <div>
+        <button>Create Document</button>
+        <button>Send Document</button>
+        <button>Edit Document</button>
+        <button>Receive Document</button>
+    </div>
+
 </body>
 <script src="../SCRIPTS/Constants.js"></script>
 <script type="module">
@@ -28,7 +36,7 @@
     import JsFunctions from "../SCRIPTS/JsFunctions.js";
 
     const DOC_VIEW_TBL = document.getElementById("DOC_VIEW_TBL");
-    const DOC_VIEW_SB = document.getElementById("searchBar");   
+    const DOC_VIEW_SB = document.getElementById("searchBar");
 
     getTable("");
     setInterval(function () {
