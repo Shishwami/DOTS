@@ -8,6 +8,7 @@ const _TABLE = {
         SUBJECT: 'SUBJECT',
         LETTER_DATE: 'LETTER_DATE',
         DOC_TYPE: 'DOC_TYPE',
+        SUBJECT: 'SUBJECT',
         OFFICE_AGENCY: 'OFFICE_AGENCY',
         RECEIVED_BY: 'RECEIVED_BY',
         DATE_TIME_RECEIVED: 'DATE_TIME_RECEIVED',
@@ -39,7 +40,7 @@ const _TABLE = {
         DOC_PRPS_CODE: 'DOC_PRPS_CODE'
     },
     DOTS_DOC_STATUS: {
-        
+
         NAME: 'DOTS_DOC_STATUS',
         ID: 'ID',
         DOC_STATUS_NAME: 'DOC_STATUS_NAME',
