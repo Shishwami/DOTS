@@ -25,6 +25,9 @@ switch ($REQUEST) {
     case 'DELETE':
         DELETE_($inputs, $conn);
         break;
+    case 'GET_DATE':
+        get_Date($inputs);
+        break;
     case 'CREATE_SESSION':
         createSession($inputs, $conn);
         break;
@@ -153,20 +156,21 @@ function DELETE_($inputs, $conn)
     );
 }
 
-function getTime($inputs, $conn)
+function get_Date($inputs)
 {
 
     $time = "";
+    date_default_timezone_set("Asia/Manila");
 
     if (isset($inputs['DATE'])) {
         $time = date("Y-m-d");
         $valid = true;
     }
     if (isset($inputs['TIME'])) {
-        $time = date('h:i a');
+        $time = date('h:i');
     }
     if (isset($inputs['DATE_TIME'])) {
-        $time = date("Y-m-d\Th:i a");
+        $time = date("Y-m-d\TH:i");
     }
 
     if ($time != "") {
