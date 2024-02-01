@@ -8,7 +8,14 @@
 </head>
 
 <body>
-    <table id=""></table>
+    <table id="TABLE_DOC_VIEW">
+        <thead>
+            <tr></tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
 </body>
 
 </html>
