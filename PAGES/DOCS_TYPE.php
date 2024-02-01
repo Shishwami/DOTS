@@ -103,6 +103,8 @@
                 if (!error) {
                     if (response.VALID) {
                         //success message
+                        DOC_TYPE_NAME.value = "";
+                        DOC_TYPE_CODE.value = "";
                     } else {
                         //no data taken
                     }
