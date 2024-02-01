@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Modal/Modal.css">
     <link rel="stylesheet" href="DOTS_DOCS_PRPS.css">
     <link rel="stylesheet" href="../DOTS_NAVBAR/DOTS_NAV.css">
     <title></title>
@@ -15,51 +16,84 @@
 </style>
 
 <body>
-    <?php //include '../DOTS_NAVBAR/DOTS_NAV.php';?>
+    <?php include '../DOTS_NAVBAR/DOTS_NAV.php';?>
 
-    <div>
-        <label for="searchBar">Search:</label>
-        <input type="text" name="searchBar" id="searchBar" placeholder="Search">
+
+    <div class="container" id="main">
+        <h1>DOCUMENT PURPOSE</h1>
+
+        <div class="main">
+
+        <div class="search">
+            <label for="searchBar">Search:</label>
+            <input type="text" name="searchBar" id="searchBar" placeholder="Search">
+        </div>
+        
+        <table id="TABLE_DOC_PRPS">
+            <thead>
+                <tr>
+
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+
+        <button class="opt_btn" id="add">Add</button>
+        <button class="opt_btn" id="dlt">Delete</button>
+
+        <div class="modal" id="add_modal">
+            <div class="modal_content add">
+                <div class="modal_banner">
+                    <span class="add_close">&times;</span>
+                    <h1>Add Something</h1>
+                </div>
+
+                <form class="form" action="submit" id="FORM_DOC_PRPS_ADD">
+                    <div class="head">
+                        <label for="DOC_PRPS_ADD_NAME">Purpose Type:</label>
+                        <input type="text" name="DOC_PRPS_ADD_NAME" id="DOC_PRPS_ADD_NAME">
+                    </div>
+                    <div class="head">
+                        <label for="DOC_PRPS_ADD_CODE">Purpose Code:</label>
+                        <input type="text" name="DOC_PRPS_ADD_CODE" id="DOC_PRPS_ADD_CODE">
+                    </div>
+                    <div class="add_inputs">
+                        <input type="submit" value="Add">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal" id="dlt_modal">
+            <div class="modal_content dlt">
+                <div class="modal_banner">
+                    <span class="dlt_close">&times;</span>
+                    <h1>Add Something</h1>
+                </div>
+
+                <form class="form" action="submit" id="FORM_DOC_PRPS_EDIT">
+                    <div class="head">
+                        <label for="DOC_PRPS_EDIT_NAME">Purpose Type:</label>
+                        <input type="text" name="DOC_PRPS_EDIT_NAME" id="DOC_PRPS_EDIT_NAME" data-keys="DOC_PRPS_NAME">
+                    </div>
+                    <div class="head">
+                        <label for="DOC_PRPS_EDIT_CODE">Purpose Code:</label>
+                        <input type="text" name="DOC_PRPS_EDIT_CODE" id="DOC_PRPS_EDIT_CODE" data-keys="DOC_PRPS_CODE">
+                    </div>
+                    <div class="dlt_inputs">
+                        <input type="button" value="Delete">
+                        <input type="submit" value="Edit">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        </div>
     </div>
-    <table id="TABLE_DOC_PRPS">
-        <thead>
-            <tr>
 
-            </tr>
-        </thead>
-        <tbody>
-
-        </tbody>
-    </table>
-
-    <form action="submit" id="FORM_DOC_PRPS_ADD">
-        <div>
-            <label for="DOC_PRPS_ADD_NAME">Purpose Type:</label>
-            <br>
-            <input type="text" name="DOC_PRPS_ADD_NAME" id="DOC_PRPS_ADD_NAME">
-        </div>
-        <div>
-            <label for="DOC_PRPS_ADD_CODE">Purpose Code:</label>
-            <br>
-            <input type="text" name="DOC_PRPS_ADD_CODE" id="DOC_PRPS_ADD_CODE">
-        </div>
-        <input type="submit" value="Add">
-    </form>
-
-    <form action="submit" id="FORM_DOC_PRPS_EDIT">
-        <div>
-            <label for="DOC_PRPS_EDIT_NAME">Purpose Type:</label>
-            <br>
-            <input type="text" name="DOC_PRPS_EDIT_NAME" id="DOC_PRPS_EDIT_NAME" data-keys="DOC_PRPS_NAME">
-        </div>
-        <div>
-            <label for="DOC_PRPS_EDIT_CODE">Purpose Code:</label>
-            <br>
-            <input type="text" name="DOC_PRPS_EDIT_CODE" id="DOC_PRPS_EDIT_CODE" data-keys="DOC_PRPS_CODE">
-        </div>
-        <input type="button" value="Delete">
-        <input type="submit" value="Edit">
-    </form>
+    <script src="../Modal/Modal.js"></script>
     <script src="../SCRIPTS/Constants.js"></script>
     <script type="module">
 
