@@ -14,7 +14,7 @@
                 <!-- <label for="db_opt"></label> -->
                 <select name="db_opt" id="db_opt" data-dropdown>
                     <!-- <option value=""></option> -->
-                    <option value="">Please select a country</option>
+                    <option value="">Option</option>
                     <option value="Afganistan">Afghanistan</option>
                     <option value="Albania">Albania</option>
                     <option value="Algeria">Algeria</option>

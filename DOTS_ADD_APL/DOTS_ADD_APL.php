@@ -46,7 +46,7 @@
                             <td class="">
                                 <form action="" class="select">
                                     <div class="form_group">
-                                        <select name="recepient" id="recepient" data-dropdown>
+                                        <select name="recepient" id="recepient" >
                                             <option value="">From DB</option>
                                         </select>
                                     </div>
@@ -55,7 +55,7 @@
                             <td class="">
                                 <form action="" class="select">
                                     <div class="form_group">
-                                        <select name="recepient" id="recepient" data-dropdown>
+                                        <select name="recepient" id="recepient" >
                                             <option value="">From DB</option>
                                         </select>
                                     </div>
@@ -73,12 +73,12 @@
                             <th><h2>Purpose</h2></th>
                         </tr>
                         <tr>
+                            <td><?php include "../Dropdown Function/Dropdown.php" ?></td>
                             <td><?php //purpose row from db?></td>
-                            <td></td>
                         </tr>
                     </table>
 
-                    <?php include "../Dropdown Function/Dropdown.php" ?>
+                    
                 </div>
             </div>
 

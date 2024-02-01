@@ -53,6 +53,10 @@
     --border_black: #000000;
     --border_white: #ffffff;
     --border_dark_grey: #313131;
+    --border_dark_purple: #300042;
+
+    /* Box Shadow */
+    --box_shadow_dark_purple: rgba(57, 0, 80, 0.8);
 
     /* Input Focus */
     --input_focus: #e8d9ec;
