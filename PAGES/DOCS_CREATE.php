@@ -234,4 +234,16 @@
 
 </script>
 
+<script type="module">
+    import JsFunctions from "../SCRIPTS/JsFunctions.js";
+
+    const DOC_CREATE = document.getElementById("DOC_CREATE");
+
+    DOC_CREATE.addEventListener('submit', function (e) {
+
+        JsFunctions.disableFormDefault(e);
+
+    });
+</script>
+
 </html>
