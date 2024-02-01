@@ -215,8 +215,9 @@ body:before
     border: none;
     border-radius: 0.5rem;
     padding: 0.5rem;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 500;
+    letter-spacing: 0.1rem;
     color: var(--font_white);
     cursor: pointer;
 }

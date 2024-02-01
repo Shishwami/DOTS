@@ -114,8 +114,6 @@ nav .content .links
     font-weight: 600;
 }
 
-/* PALIITIN MO LISTS SA RESPONSIVENESS */
-
 .content .links li
 {
     list-style: none;
@@ -302,11 +300,20 @@ nav .content .links
     }
 }
 
+@media screen and (max-width: 980px)
+{
+    .content .links li a,
+    .content .links li label
+    {
+        font-size: 15px;  
+    }
+}
+
 @media screen and (max-width: 901px)
 {
     .content .logo a
     {
-        font-size: 18px;
+        font-size: 19px;
     }
 }
 

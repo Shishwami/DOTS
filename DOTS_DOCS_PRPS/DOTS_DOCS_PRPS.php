@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="DOTS_DOCS_PRPS.css">
+    <link rel="stylesheet" href="../DOTS_NAVBAR/DOTS_NAV.css">
+    <title></title>
 </head>
 <style>
     tr:hover {
@@ -13,6 +15,8 @@
 </style>
 
 <body>
+    <?php //include '../DOTS_NAVBAR/DOTS_NAV.php';?>
+
     <div>
         <label for="searchBar">Search:</label>
         <input type="text" name="searchBar" id="searchBar" placeholder="Search">

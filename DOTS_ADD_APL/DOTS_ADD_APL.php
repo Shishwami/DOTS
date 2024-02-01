@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="DOTS_DOCS_ADD_APL.css">
+    <link rel="stylesheet" href="DOTS_ADD_APL.css">
     <link rel="stylesheet" href="../DOTS_NAVBAR/DOTS_NAV.css">
-    <title>DOTS</title>
+    <title></title>
 </head>
 
 <body>

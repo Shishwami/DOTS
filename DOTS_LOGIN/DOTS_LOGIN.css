@@ -151,3 +151,8 @@ input[type=checkbox]
     font-weight: 600;
     color: var(--dark_purple);
 }
+
+.rmb:hover
+{
+    color: var(--light_purple);
+}
