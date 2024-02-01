@@ -44,8 +44,7 @@ function INSERT_($inputs, $conn)
     $valid = false;
 
     $TABLE_NAME = $inputs['TABLE_NAME'];
-    unset($inputs['TABLjjE_NAME']);
-
+    unset($inputs['TABLE_NAME']);
 
     $sql = $querries->insertQuerry($TABLE_NAME, $inputs);
     //echo $sql
