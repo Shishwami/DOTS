@@ -98,7 +98,6 @@
 
             data[DOC_STATUS_NAME.dataset.keys] = DOC_STATUS_NAME.value;
             data[DOC_STATUS_CODE.dataset.keys] = DOC_STATUS_CODE.value;
-
             MyAjax.createJSON((error, response) => {
                 if (!error) {
                     if (response.VALID) {
