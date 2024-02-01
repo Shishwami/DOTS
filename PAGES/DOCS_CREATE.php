@@ -31,11 +31,15 @@
         </div>
         <div>
             <label for="DOC_TYPE">Document Type:</label> <br>
-            <select name="DOC_TYPE" id="DOC_TYPE"></select>
+            <select name="DOC_TYPE" id="DOC_TYPE">
+                <option value="">Please Select Type</option>
+            </select>
         </div>
         <div>
             <label for="DOC_OFFICE">Office/Agency</label> <br>
-            <select name="DOC_OFFICE" id="DOC_OFFICE"></select>
+            <select name="DOC_OFFICE" id="DOC_OFFICE">
+                <option value="">Please Select Office</option>
+            </select>
 
         </div>
         <div>
@@ -44,6 +48,8 @@
         </div>
         <input type="submit" value="Submit">
     </form>
+    
+   
 </body>
 <script src="../SCRIPTS/Constants.js"></script>
 <script type="module">
@@ -218,8 +224,6 @@
 
     function setSelect(element, response) {
 
-        element.innerHTML = '';
-
         response.forEach(function (item) {
             var option = document.createElement('option');
 
@@ -286,7 +290,7 @@
         mainData[_TABLE.DOTS_DOC.OFFICE_AGENCY] = OFFICE_AGENCY.value;
         mainData[_TABLE.DOTS_DOC.RECEIVED_BY] = RECEIVED_BY.value;
         mainData[_TABLE.DOTS_DOC.DATE_TIME_RECEIVED] = DATE_TIME_RECEIVED.value;
-        
+
     }
 
 
