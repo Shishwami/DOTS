@@ -103,6 +103,8 @@
                 if (!error) {
                     if (response.VALID) {
                         //success message
+                        DOC_OFFICE_NAME.value = "";
+                        DOC_OFFICE_CODE.value = "";
                     } else {
                         //no data taken
                     }
