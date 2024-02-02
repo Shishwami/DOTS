@@ -21,9 +21,10 @@
         <div class="content">
         <div class="logo"><a href="#">CHRMO - DOTS</a></div> 
             <ul class="links">
-            <li><a href="#">Dashboard</a></li>
-            <!-- <li><a href="#"></a></li> -->
-                <li>
+            <li><a href="#">Dashboard</a></li> <!--  specific to sir joseph -->
+            <li><a href="#">Home</a></li> <!--  for most users -->
+            <li><a href="#">Routing</a></li>
+                <!-- <li>
                     <a href="#" class="desktop-link">Process</a>
                     <input type="checkbox" id="show-process">
                     <label for="show-process">Process</label>
@@ -33,11 +34,11 @@
                     <li><a href="#">Drop Menu 3</a></li>
                     <li><a href="#">Drop Menu 4</a></li>
                     </ul>
-                </li>
-                <li>
-                    <a href="#" class="desktop-link">Filing</a>
-                    <input type="checkbox" id="show-filing">
-                    <label for="show-filing">Filing</label>
+                </li> -->
+                <!-- <li>
+                    <a href="#" class="desktop-link">Routing</a>
+                    <input type="checkbox" id="show-routing">
+                    <label for="show-routing">Routing</label>
                     <ul>
                     <li><a href="#">Drop Menu 1</a></li>
                     <li><a href="#">Drop Menu 2</a></li>
@@ -53,7 +54,7 @@
                         </ul>
                     </li>
                     </ul>
-                </li>
+                </li> -->
                 <!-- <li><a href="#">Appointment</a></li> -->
                 <li>
                     <a href="#" class="desktop-link">Setting</a>
