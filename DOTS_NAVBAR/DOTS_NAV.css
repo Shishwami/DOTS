@@ -92,6 +92,7 @@
     position: fixed;
     width: 100%;
     border-bottom: 2px solid var(--nav_border_bottom);
+    z-index: 1;
 }
 
 .wrapper nav
