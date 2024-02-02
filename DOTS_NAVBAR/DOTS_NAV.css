@@ -53,6 +53,7 @@
     --border_black: #000000;
     --border_white: #ffffff;
     --border_dark_grey: #313131;
+    --border_light_purple: #8c00ff;
     --border_dark_purple: #300042;
 
     /* Box Shadow */
@@ -60,6 +61,11 @@
 
     /* Input Focus */
     --input_focus: #e8d9ec;
+
+    /* Options Background */
+    --opt_bg_light: #ecc2f1;
+    --opt_bg_dark: #be7eca;
+    --opt_bg_hover: #421477;
 }
 
 /* Font Embed Import */
