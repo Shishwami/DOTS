@@ -81,6 +81,13 @@
         getTable(DOC_VIEW_SB.value.toUpperCase());
     });
 
+    FORM_DOC_EDIT.addEventListener('submit', function (e) {
+        JsFunctions.disableFormDefault(e);
+
+        const SubmitButton = FORM_DOC_EDIT.querySelector('input[type=submit]');
+        JsFunctions.disableElement(SubmitButton);
+    });
+
     function getTable(filter) {
         const tHead = DOC_VIEW_TBL.querySelector('thead');
         const tBody = DOC_VIEW_TBL.querySelector('tbody');
