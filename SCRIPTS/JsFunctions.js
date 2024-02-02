@@ -59,6 +59,21 @@ class JsFunctions {
             tbody.appendChild(row);
         });
     }
+
+    static FormToJson(form) {
+        form.addEventListener("submit", function (event) {
+            event.preventDefault(); 
+            var formData = new FormData(form); 
+            var formDataObject = {};
+            formData.forEach(function (value, key) {
+                formDataObject[key] = value;
+            });
+
+            var jsonData = JSON.stringify(formDataObject); 
+
+            console.log(jsonData); 
+        });
+    }
 }
 
 export default JsFunctions;

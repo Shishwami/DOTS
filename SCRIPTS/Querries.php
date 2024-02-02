@@ -2,93 +2,104 @@
 class Querries
 {
 
-    function selectQuerry($tableName, $tableColumns, $condiion)
+    function selectQuery($tableName, $tableColumns = "*", $condition = array())
     {
+        if (empty($tableName)) {
+            throw new InvalidArgumentException("Table name cannot be empty");
+        }
+
         $sql = "SELECT ";
-        if ($tableColumns == "") {
-            $sql .= "* ";
+        if (!empty($tableColumns)) {
+            if (!is_array($tableColumns)) {
+                throw new InvalidArgumentException("Table columns must be an array");
+            }
+            $sql .= "`" . implode("`, `", $tableColumns) . "`";
         } else {
-            $sql .= "`" . implode("` , `", $tableColumns) . "`";
+            $sql .= "*";
         }
         $sql .= " FROM `" . $tableName . "`";
-        if ($condiion) {
 
+        if (!empty($condition)) {
             $sql .= " WHERE ";
-
-            $tableKeys = array_keys($condiion);
-            $tableValues = array_values($condiion);
-
-            for ($i = 0; $i < count($condiion); $i++) {
-                $sql .= "" . $tableKeys[$i] . " = '" . $tableValues[$i] . "' ";
-                if ($i < (count($tableKeys) - 1)) {
-                    $sql .= " AND ";
-                }
+            $conditions = array();
+            foreach ($condition as $column => $value) {
+                $conditions[] = "`$column` = ?";
             }
+            $sql .= implode(" AND ", $conditions);
         }
-        $sql .= ";";
+
         return $sql;
     }
 
-    function insertQuerry($tableName, $tableKeysAndValues)
+
+    function insertQuery($tableName, $tableKeysAndValues)
     {
+        if (empty($tableName)) {
+            throw new InvalidArgumentException("Table name cannot be empty");
+        }
+        if (empty($tableKeysAndValues)) {
+            throw new InvalidArgumentException("Table keys and values cannot be empty");
+        }
+
         $tableKeys = array_keys($tableKeysAndValues);
-        $tableValues = array_values($tableKeysAndValues);
+        $tableValues = array_map(function ($value) {
+            return "'" . addslashes($value) . "'";
+        }, array_values($tableKeysAndValues));
 
-        $sql = "INSERT INTO `" . $tableName . "` (`" . implode('` , `', $tableKeys) . "`) VALUES ('" . implode("' , '", $tableValues) . "')";
+        $sql = "INSERT INTO `" . $tableName . "` (`" . implode('`, `', $tableKeys) . "`) VALUES (" . implode(', ', $tableValues) . ")";
 
-        $sql .= ";";
         return $sql;
     }
 
-    function updateQuerry($tableName, $tableKeysAndValues, $condition)
+    function updateQuery($tableName, $tableKeysAndValues, $condition)
     {
-        $tableKeys = array_keys($tableKeysAndValues);
-        $tableValues = array_values($tableKeysAndValues);
+        // Validate inputs
+        if (empty($tableName)) {
+            throw new InvalidArgumentException("Table name cannot be empty");
+        }
+        if (empty($tableKeysAndValues)) {
+            throw new InvalidArgumentException("Table keys and values cannot be empty");
+        }
+        if (empty($condition)) {
+            throw new InvalidArgumentException("Condition cannot be empty for update query");
+        }
 
-
+        // Construct the SQL query
         $sql = "UPDATE `" . $tableName . "` SET ";
-
-        for ($i = 0; $i < count($tableKeysAndValues); $i++) {
-            $sql .= "`" . $tableKeys[$i] . "` = '" . $tableValues[$i] . "' ";
-            if ($i < (count($tableKeysAndValues) - 1)) {
-                $sql .= ", ";
-            }
+        $updates = array();
+        foreach ($tableKeysAndValues as $column => $value) {
+            $updates[] = "`$column` = '" . addslashes($value) . "'";
         }
+        $sql .= implode(", ", $updates);
 
-        $conditionKeys = array_keys($condition);
-        $conditionValues = array_values($condition);
-
-        $sql .= " WHERE ";
-
-        for ($i = 0; $i < count($condition); $i++) {
-            $sql .= "`" . $conditionKeys[$i] . "` = '" . $conditionValues[$i] . "'";
-            if ($i < (count($condition) - 1)) {
-                $sql .= " AND ";
-            }
+        $conditions = array();
+        foreach ($condition as $column => $value) {
+            $conditions[] = "`$column` = '" . addslashes($value) . "'";
         }
+        $sql .= " WHERE " . implode(" AND ", $conditions);
 
-        $sql .= ";";
         return $sql;
     }
 
-    function deleteQuerry($tableName, $condition)
+    function deleteQuery($tableName, $condition)
     {
-        $sql = "DELETE FROM $tableName ";
-        $conditionKeys = array_keys($condition);
-        $conditionValues = array_values($condition);
-
-        $sql .= " WHERE ";
-
-        for ($i = 0; $i < count($condition); $i++) {
-            $sql .= "`" . $conditionKeys[$i] . "` = '" . $conditionValues[$i] . "'";
-            if ($i < (count($condition) - 1)) {
-                $sql .= " AND ";
-            }
+        if (empty($tableName)) {
+            throw new InvalidArgumentException("Table name cannot be empty");
+        }
+        if (empty($condition)) {
+            throw new InvalidArgumentException("Condition cannot be empty for delete query");
         }
 
-        $sql .= ";";
+        $sql = "DELETE FROM `$tableName` WHERE ";
+        $conditions = array();
+        foreach ($condition as $column => $value) {
+            $conditions[] = "`$column` = '" . addslashes($value) . "'";
+        }
+        $sql .= implode(" AND ", $conditions);
+
         return $sql;
     }
+
 }
 
 
