@@ -86,6 +86,44 @@
 
         const SubmitButton = FORM_DOC_EDIT.querySelector('input[type=submit]');
         JsFunctions.disableElement(SubmitButton);
+
+        const DATE_TIME_RECEIVED = FORM_DOC_EDIT.querySelector("#DATE_TIME_RECEIVED");
+        const LETTER_DATE = FORM_DOC_EDIT.querySelector("#LETTER_DATE");
+        const DOC_TYPE = FORM_DOC_EDIT.querySelector("#DOC_TYPE");
+        const OFFICE_AGENCY = FORM_DOC_EDIT.querySelector("#DOC_OFFICE");
+        const SUBJECT = FORM_DOC_EDIT.querySelector("#SUBJECT");
+
+        const keysAndValues = sessionStorage.getItem('TEMP_DATA');
+
+        const data = {
+            TABLE_NAME: _TABLE.DOTS_DOC.NAME,
+            REQUEST: _REQUEST.UPDATE,
+            CONDITION: keysAndValues,
+        }
+
+        data[_TABLE.DOTS_DOC.DATE_TIME_RECEIVED] = DATE_TIME_RECEIVED.value;
+        data[_TABLE.DOTS_DOC.LETTER_DATE] = LETTER_DATE.value;
+        data[_TABLE.DOTS_DOC.DOC_TYPE] = DOC_TYPE.value;
+        data[_TABLE.DOTS_DOC.OFFICE_AGENCY] = OFFICE_AGENCY.value;
+        data[_TABLE.DOTS_DOC.SUBJECT] = SUBJECT.value;
+
+        console.log(data);
+
+        MyAjax.createJSON((error, response) => {
+            if (!error) {
+                if (response.VALID) {
+                    //success
+                    JsFunctions.enableElement(SubmitButton);
+                } else {
+                    //no data taken
+                }
+            } else {
+                alert(error);
+            }
+        }, data);
+
+        sessionStorage.removeItem('TEMP_DATA');
+
     });
 
     function getTable(filter) {
