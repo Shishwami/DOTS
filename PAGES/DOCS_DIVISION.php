@@ -147,6 +147,8 @@
                     alert(error);
                 }
             }, data);
+
+            sessionStorage.removeItem('TEMP_DATA');
         });
 
         DOC_DIVISION_EDIT.addEventListener('click', function (e) {
