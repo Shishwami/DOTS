@@ -2,7 +2,14 @@ const _RESET_TIME = 1000;
 
 const _TABLE = {
     DOTS_DOC: {
-
+        NAME: 'DOTS_DOC',
+        DOC_NUMBER: 'DOC_NUMBER',
+        LETTER_DATE: 'LETTER_DATE',
+        DOC_TYPE: 'DOC_TYPE',
+        SUBJECT: 'SUBJECT',
+        OFFICE_AGENCY: 'OFFICE_AGENCY',
+        RECEIVED_BY: 'RECEIVED_BY',
+        DATE_TIME_RECEIVED: 'DATE_TIME_RECEIVED',
     },
     DOTS_DOC_OFFICE: {
         NAME: 'DOTS_DOC_OFFICE',
@@ -30,6 +37,13 @@ const _TABLE = {
         DOC_PRPS_NAME: 'DOC_PRPS_NAME',
         DOC_PRPS_CODE: 'DOC_PRPS_CODE'
     },
+    DOTS_DOC_STATUS: {
+
+        NAME: 'DOTS_DOC_STATUS',
+        ID: 'ID',
+        DOC_STATUS_NAME: 'DOC_STATUS_NAME',
+        DOC_STATUS_CODE: 'DOC_STATUS_CODE'
+    },
     DOTS_ACCOUNT_INFO: {
         NAME: 'DOTS_ACCOUNT_INFO',
         HRIS_ID: 'HRIS_ID',
@@ -44,7 +58,10 @@ const _REQUEST = {
     SELECT: 'SELECT',
     UPDATE: 'UPDATE',
     DELETE: 'DELETE',
+    GET_DOC_NUM: 'GET_DOC_NUM',
+    GET_DATE: 'GET_DATE',
     CREATE_SESSION: 'CREATE_SESSION',
+    GET_SESSION_NAME: 'GET_SESSION_NAME',
 }
 
 const _SUB_NAME = {
@@ -57,4 +74,13 @@ const _SUB_NAME = {
     DOC_OFFICE_CODE: 'Office Code',
     DOC_DIVISION_NAME: 'Division Name',
     DOC_DIVISION_CODE: 'Division Code',
+    DOC_STATUS_NAME: 'Status Name',
+    DOC_STATUS_CODE: 'Status Code',
+    DOC_NUMBER: 'Document Number',
+    SUBJECT: 'Subject',
+    LETTER_DATE: 'Letter Date',
+    DOC_TYPE: 'Document Type',
+    OFFICE_AGENCY: 'Office/Agency',
+    RECEIVED_BY: 'Received By',
+    DATE_TIME_RECEIVED: 'Date Received',
 }

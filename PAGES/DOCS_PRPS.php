@@ -18,7 +18,7 @@
         <input type="text" name="searchBar" id="searchBar" placeholder="Search">
     </div>
     <div>
-        <table id="TABLE_DOC_TYPE">
+        <table id="TABLE_DOC_PRPS">
             <thead>
                 <tr>
 
@@ -30,30 +30,30 @@
         </table>
     </div>
 
-    <form action="submit" id="FORM_DOC_TYPE_ADD">
+    <form action="submit" id="FORM_DOC_PRPS_ADD">
         <div>
-            <label for="DOC_TYPE_ADD_NAME">Purpose Type:</label>
+            <label for="DOC_PRPS_ADD_NAME">Purpose Type:</label>
             <br>
-            <input type="text" name="DOC_TYPE_ADD_NAME" id="DOC_TYPE_ADD_NAME" data-keys="DOC_TYPE_NAME">
+            <input type="text" name="DOC_PRPS_ADD_NAME" id="DOC_PRPS_ADD_NAME" data-keys="DOC_PRPS_NAME">
         </div>
         <div>
-            <label for="DOC_TYPE_ADD_CODE">Purpose Code:</label>
+            <label for="DOC_PRPS_ADD_CODE">Purpose Code:</label>
             <br>
-            <input type="text" name="DOC_TYPE_ADD_CODE" id="DOC_TYPE_ADD_CODE" data-keys="DOC_TYPE_CODE">
+            <input type="text" name="DOC_PRPS_ADD_CODE" id="DOC_PRPS_ADD_CODE" data-keys="DOC_PRPS_CODE">
         </div>
         <input type="submit" value="Add">
     </form>
 
-    <form action="submit" id="FORM_DOC_TYPE_EDIT">
+    <form action="submit" id="FORM_DOC_PRPS_EDIT">
         <div>
-            <label for="DOC_TYPE_EDIT_NAME">Purpose Type:</label>
+            <label for="DOC_PRPS_EDIT_NAME">Purpose Type:</label>
             <br>
-            <input type="text" name="DOC_TYPE_EDIT_NAME" id="DOC_TYPE_EDIT_NAME" data-keys="DOC_TYPE_NAME">
+            <input type="text" name="DOC_PRPS_EDIT_NAME" id="DOC_PRPS_EDIT_NAME" data-keys="DOC_PRPS_NAME">
         </div>
         <div>
-            <label for="DOC_TYPE_EDIT_CODE">Purpose Code:</label>
+            <label for="DOC_PRPS_EDIT_CODE">Purpose Code:</label>
             <br>
-            <input type="text" name="DOC_TYPE_EDIT_CODE" id="DOC_TYPE_EDIT_CODE" data-keys="DOC_TYPE_CODE">
+            <input type="text" name="DOC_PRPS_EDIT_CODE" id="DOC_PRPS_EDIT_CODE" data-keys="DOC_PRPS_CODE">
         </div>
         <input type="button" value="Delete">
         <input type="submit" value="Edit">
@@ -65,44 +65,47 @@
         import JsFunctions from "../SCRIPTS/JsFunctions.js";
 
 
-        const DOC_TYPE_ADD = document.getElementById("FORM_DOC_TYPE_ADD");
-        const DOC_TYPE_EDIT = document.getElementById("FORM_DOC_TYPE_EDIT");
-        // const DOC_TYPE_DELETE_BTTN = DOC_TYPE_EDIT.querySelector("input[type=button]");
-        const DOC_TYPE_TBL = document.getElementById("TABLE_DOC_TYPE");
-        // const DOC_TYPE_SB = document.getElementById("searchBar");
+        const DOC_PRPS_ADD = document.getElementById("FORM_DOC_PRPS_ADD");
+        const DOC_PRPS_EDIT = document.getElementById("FORM_DOC_PRPS_EDIT");
+        const DOC_PRPS_DELETE_BTTN = DOC_PRPS_EDIT.querySelector("input[type=button]");
+        const DOC_PRPS_TBL = document.getElementById("TABLE_DOC_PRPS");
+        const DOC_PRPS_SB = document.getElementById("searchBar");
 
         getTable("");
         setInterval(function () {
-            getTable("");
+            getTable(DOC_PRPS_SB.value.toUpperCase());
         }, _RESET_TIME);
-        // DOC_TYPE_SB.addEventListener('input', function (e) {
-        //     updateTable(DOC_TYPE_SB.value.toUpperCase());
-        // });
 
-        DOC_TYPE_ADD.addEventListener('submit', function (e) {
+        DOC_PRPS_SB.addEventListener('input', function (e) {
+            getTable(DOC_PRPS_SB.value.toUpperCase());
+        });
+
+        DOC_PRPS_ADD.addEventListener('submit', function (e) {
 
             JsFunctions.disableFormDefault(e);
 
-            const DOC_TYPE_NAME = DOC_TYPE_ADD.querySelector('#DOC_TYPE_ADD_NAME');
-            const DOC_TYPE_CODE = DOC_TYPE_ADD.querySelector('#DOC_TYPE_ADD_CODE');
-            const SubmitButton = DOC_TYPE_ADD.querySelector('input[type=submit]');
+            const DOC_PRPS_NAME = DOC_PRPS_ADD.querySelector('#DOC_PRPS_ADD_NAME');
+            const DOC_PRPS_CODE = DOC_PRPS_ADD.querySelector('#DOC_PRPS_ADD_CODE');
+            const SubmitButton = DOC_PRPS_ADD.querySelector('input[type=submit]');
 
             const keysAndValues = {}
-            keysAndValues[DOC_TYPE_NAME.dataset.keys] = DOC_TYPE_NAME.value;
-            keysAndValues[DOC_TYPE_CODE.dataset.keys] = DOC_TYPE_CODE.value;
+            keysAndValues[DOC_PRPS_NAME.dataset.keys] = DOC_PRPS_NAME.value;
+            keysAndValues[DOC_PRPS_CODE.dataset.keys] = DOC_PRPS_CODE.value;
 
             const data = {
-                TABLE_NAME: _TABLE.DOTS_DOC_TYPE.NAME,
+                TABLE_NAME: _TABLE.DOTS_DOC_PRPS.NAME,
                 REQUEST: _REQUEST.INSERT,
             }
 
-            data[DOC_TYPE_NAME.dataset.keys] = DOC_TYPE_NAME.value;
-            data[DOC_TYPE_CODE.dataset.keys] = DOC_TYPE_CODE.value;
+            data[DOC_PRPS_NAME.dataset.keys] = DOC_PRPS_NAME.value;
+            data[DOC_PRPS_CODE.dataset.keys] = DOC_PRPS_CODE.value;
 
             MyAjax.createJSON((error, response) => {
                 if (!error) {
                     if (response.VALID) {
                         //success message
+                        DOC_PRPS_NAME.value = "";
+                        DOC_PRPS_CODE.value = "";
                     } else {
                         //no data taken
                     }
@@ -113,24 +116,24 @@
 
         });
 
-        DOC_TYPE_EDIT.addEventListener('submit', function (e) {
+        DOC_PRPS_EDIT.addEventListener('submit', function (e) {
 
             JsFunctions.disableFormDefault(e);
 
-            const SubmitButton = DOC_TYPE_EDIT.querySelector('input[type=submit]');
+            const SubmitButton = DOC_PRPS_EDIT.querySelector('input[type=submit]');
             JsFunctions.disableElement(SubmitButton);
-            const inputName = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_NAME');
-            const inputCode = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_CODE');
+            const inputName = DOC_PRPS_EDIT.querySelector('#DOC_PRPS_EDIT_NAME');
+            const inputCode = DOC_PRPS_EDIT.querySelector('#DOC_PRPS_EDIT_CODE');
 
-            const keysAndValues = sessionStorage.getItem('TEMP');
+            const keysAndValues = sessionStorage.getItem('TEMP_DATA');
 
             const data = {
-                TABLE_NAME: _TABLE.DOTS_DOC_TYPE.NAME,
+                TABLE_NAME: _TABLE.DOTS_DOC_PRPS.NAME,
                 REQUEST: _REQUEST.UPDATE,
                 CONDITION: keysAndValues,
             }
-            data[_TABLE.DOTS_DOC_TYPE.DOC_TYPE_NAME] = inputName.value;
-            data[_TABLE.DOTS_DOC_TYPE.DOC_TYPE_CODE] = inputCode.value;
+            data[_TABLE.DOTS_DOC_PRPS.DOC_PRPS_NAME] = inputName.value;
+            data[_TABLE.DOTS_DOC_PRPS.DOC_PRPS_CODE] = inputCode.value;
 
             MyAjax.createJSON((error, response) => {
                 if (!error) {
@@ -146,13 +149,34 @@
             }, data);
         });
 
-        function getTable(filter) {
-            filter = "";
-            const tHead = DOC_TYPE_TBL.querySelector('thead');
-            const tBody = DOC_TYPE_TBL.querySelector('tbody');
+        DOC_PRPS_EDIT.addEventListener('click', function (e) {
+            const keysAndValues = sessionStorage.getItem('TEMP_DATA');
 
             const data = {
-                TABLE_NAME: _TABLE.DOTS_DOC_TYPE.NAME,
+                TABLE_NAME: _TABLE.DOTS_DOC_PRPS.NAME,
+                REQUEST: _REQUEST.DELETE,
+                CONDITION: keysAndValues,
+            }
+
+            MyAjax.createJSON((error, response) => {
+                if (!error) {
+                    if (response.VALID) {
+                        //success
+                    } else {
+                        //no data taken
+                    }
+                } else {
+                    alert(error);
+                }
+            }, data);
+        });
+
+        function getTable(filter) {
+            const tHead = DOC_PRPS_TBL.querySelector('thead');
+            const tBody = DOC_PRPS_TBL.querySelector('tbody');
+
+            const data = {
+                TABLE_NAME: _TABLE.DOTS_DOC_PRPS.NAME,
                 REQUEST: _REQUEST.SELECT,
             }
             MyAjax.createJSON((error, response) => {
@@ -172,8 +196,8 @@
 
         function setTableEvent(tBody) {
             const tableRows = tBody.querySelectorAll('tr');
-            const inputName = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_NAME');
-            const inputCode = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_CODE');
+            const inputName = DOC_PRPS_EDIT.querySelector('#DOC_PRPS_EDIT_NAME');
+            const inputCode = DOC_PRPS_EDIT.querySelector('#DOC_PRPS_EDIT_CODE');
             const keysAndValues = {};
 
             for (let i = 0; i < tableRows.length; i++) {
@@ -194,7 +218,7 @@
                             inputCode.value = cellValue;
                         }
                     }
-                    sessionStorage.setItem('TEMP', JSON.stringify(keysAndValues));
+                    sessionStorage.setItem('TEMP_DATA', JSON.stringify(keysAndValues));
                 });
 
             }

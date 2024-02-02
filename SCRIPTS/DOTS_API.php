@@ -25,8 +25,14 @@ switch ($REQUEST) {
     case 'DELETE':
         DELETE_($inputs, $conn);
         break;
+    case 'GET_DATE':
+        get_Date($inputs);
+        break;
     case 'CREATE_SESSION':
         createSession($inputs, $conn);
+        break;
+    case 'GET_SESSION_NAME':
+        getSessionName();
         break;
 }
 $conn->close();
@@ -39,7 +45,6 @@ function INSERT_($inputs, $conn)
 
     $TABLE_NAME = $inputs['TABLE_NAME'];
     unset($inputs['TABLE_NAME']);
-
 
     $sql = $querries->insertQuerry($TABLE_NAME, $inputs);
     //echo $sql
@@ -153,32 +158,51 @@ function DELETE_($inputs, $conn)
     );
 }
 
-function getTime($inputs, $conn)
+function get_Date($inputs)
 {
-    $valid = false;
+
     $time = "";
+    date_default_timezone_set("Asia/Manila");
 
     if (isset($inputs['DATE'])) {
         $time = date("Y-m-d");
         $valid = true;
     }
     if (isset($inputs['TIME'])) {
-        $time = date('Y-m-d');
+        $time = date('h:i');
     }
     if (isset($inputs['DATE_TIME'])) {
+        $time = date("Y-m-d\TH:i");
+    }
 
+    if ($time != "") {
+        $valid = true;
+
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'TIME' => $time,
+            )
+        );
+    } else {
+        echo json_encode(
+            array(
+                'VALID' => $valid
+            )
+        );
     }
 }
 
 function createSession($inputs, $conn)
 {
-    $valid = true;
+    $valid = false;
 
     $keys = array_keys($inputs);
     $values = array_values($inputs);
 
     for ($i = 0; $i < count($inputs); $i++) {
         $_SESSION[$keys[$i]] = $values[$i];
+        $valid = true;
     }
 
     echo json_encode(
@@ -187,5 +211,26 @@ function createSession($inputs, $conn)
         )
     );
 }
+function getSessionName()
+{
+    $valid = false;
 
+    if (isset($_SESSION["FULL_NAME"])) {
+        $valid = true;
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'FULLNAME' => $_SESSION["FULL_NAME"],
+            )
+        );
+    } else {
+        echo json_encode(
+            array(
+                'VALID' => $valid
+            )
+        );
+    }
+
+
+}
 ?>
