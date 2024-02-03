@@ -39,19 +39,51 @@
 
         </div>
         <div>
-            <label for="SUBJECT">Subject:</label> <br>
-            <input type="text" name="SUBJECT" id="SUBJECT">
+            <label for="DOC_SUBJECT">Subject:</label> <br>
+            <input type="text" name="DOC_SUBJECT" id="DOC_SUBJECT">
         </div>
         <input type="submit" value="Submit">
     </form>
 </body>
 
-
+<script src="../SCRIPTS/Constants.js"></script>
 <script type="module">
 
     import JsFunctions from "../SCRIPTS/JsFunctions.js";
+    import MyAjax from "../SCRIPTS/MyAjax.js";
 
-    JsFunctions.FormToJson(document.getElementById("FORM_RECEIVE"));
+    document.addEventListener('DOMContentLoaded', function (event) {
+
+        const FORM_RECEIVE = document.getElementById("FORM_RECEIVE");
+
+        FORM_RECEIVE.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            var data = JsFunctions.FormToJson(FORM_RECEIVE);
+
+            delete data.DOC_NUM;
+            delete data.RECEIVED_BY;
+
+            data = {
+                ...data,
+                TABLE_NAME: DOTS_DOCUMENT.NAME,
+                REQUEST: _REQUEST.INSERT,
+            };
+            
+            console.log(data);
+
+            MyAjax.createJSON((error, response) => {
+                if (!error) {
+                    if (response.VALID) {
+                        alert("Success");
+                    }
+                } else {
+                    alert(error);
+                }
+            }, data);
+        });
+    });
+
 
 </script>
 
