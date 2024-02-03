@@ -69,7 +69,7 @@
                 TABLE_NAME: DOTS_DOCUMENT.NAME,
                 REQUEST: _REQUEST.INSERT,
             };
-            
+
             console.log(data);
 
             MyAjax.createJSON((error, response) => {
@@ -85,6 +85,23 @@
     });
 
 
+</script>
+
+
+<script type="module">
+
+    import JsFunctions from "../SCRIPTS/JsFunctions.js";
+    import MyAjax from "../SCRIPTS/MyAjax.js";
+
+    document.addEventListener('DOMContentLoaded', function (event) {
+
+        const FORM_RECEIVE = document.getElementById("FORM_RECEIVE");
+
+
+
+
+
+    });
 </script>
 
 </html>
