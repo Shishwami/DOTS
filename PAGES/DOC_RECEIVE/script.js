@@ -6,7 +6,6 @@ setDOC_TYPE();
 setDOC_OFFICE();
 
 getSessionName();
-getSessionInitial();
 
 FORM_RECEIVE.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -98,10 +97,6 @@ function getSessionName() {
             }
         }
     }, data);
-}
-
-function getSessionInitial() {
-
 }
 
 function setDOC_TYPE() {
