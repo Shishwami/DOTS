@@ -1,6 +1,6 @@
 <?php
 include "DB_Connect.php";
-include "Querries.php";
+include "Queries.php";
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -40,7 +40,7 @@ $conn->close();
 
 function INSERT_($inputs, $conn)
 {
-    $querries = new Querries();
+    $querries = new Queries();
     $valid = false;
 
     $TABLE_NAME = $inputs['TABLE_NAME'];
@@ -64,7 +64,7 @@ function INSERT_($inputs, $conn)
 
 function SELECT_($inputs, $conn)
 {
-    $querries = new Querries();
+    $querries = new Queries();
     $valid = false;
 
     $TABLE_NAME = $inputs['TABLE_NAME'];
@@ -107,7 +107,7 @@ function SELECT_($inputs, $conn)
 }
 function UPDATE_($inputs, $conn)
 {
-    $querries = new Querries();
+    $querries = new Queries();
     $valid = false;
 
     $TABLE_NAME = $inputs['TABLE_NAME'];
@@ -133,7 +133,7 @@ function UPDATE_($inputs, $conn)
 
 function DELETE_($inputs, $conn)
 {
-    $querries = new Querries();
+    $querries = new Queries();
     $valid = false;
 
     $TABLE_NAME = $inputs['TABLE_NAME'];
