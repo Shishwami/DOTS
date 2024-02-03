@@ -76,7 +76,7 @@ function SELECT_($inputs, $conn)
     }
 
     $sql = $querries->selectQuery($TABLE_NAME, $COLUMNS, $inputs);
-    //echo $sql
+    //echo $sql;
 
     $result = mysqli_query($conn, $sql);
     if ($result) {
@@ -90,7 +90,7 @@ function SELECT_($inputs, $conn)
         echo json_encode(
             array(
                 'VALID' => $valid,
-                'SQL' => $sql,
+                // 'SQL' => $sql,
                 'RESULT' => $rows
             )
         );
