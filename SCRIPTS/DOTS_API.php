@@ -34,6 +34,9 @@ switch ($REQUEST) {
     case 'GET_SESSION_NAME':
         getSessionName();
         break;
+    case 'GET_SESSION_INITIAL':
+        getSessionInitial();
+        break;
 }
 $conn->close();
 
@@ -221,6 +224,29 @@ function getSessionName()
             array(
                 'VALID' => $valid,
                 'FULLNAME' => $_SESSION["FULL_NAME"],
+            )
+        );
+    } else {
+        echo json_encode(
+            array(
+                'VALID' => $valid
+            )
+        );
+    }
+
+
+}
+
+function getSessionInitial()
+{
+    $valid = false;
+
+    if (isset($_SESSION["INITIAL"])) {
+        $valid = true;
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'INITIAL' => $_SESSION["INITIAL"],
             )
         );
     } else {
