@@ -1,18 +1,4 @@
 class JsFunctions {
-    static disableFormDefault(e) {
-        e.preventDefault();
-    }
-
-    static disableElement(element) {
-        element.disabled = true;
-    }
-    static enableElement(element) {
-        element.disabled = false;
-    }
-
-    static clearInputText(element) {
-        element.value = "";
-    }
 
     static updateTable(tableJSON, thead, tbody, filter) {
         thead.innerHTML = '';
@@ -61,18 +47,14 @@ class JsFunctions {
     }
 
     static FormToJson(form) {
-        form.addEventListener("submit", function (event) {
-            event.preventDefault(); 
-            var formData = new FormData(form); 
-            var formDataObject = {};
-            formData.forEach(function (value, key) {
-                formDataObject[key] = value;
-            });
-
-            var jsonData = JSON.stringify(formDataObject); 
-
-            console.log(jsonData); 
+        var formData = new FormData(form);
+        var formDataObject = {};
+        formData.forEach(function (value, key) {
+            formDataObject[key] = value;
         });
+
+        // console.log(formDataObject); 
+        return formDataObject;
     }
 }
 
