@@ -2,7 +2,7 @@
 class Queries
 {
 
-    function selectQuery($tableName, $tableColumns, $condiion)
+    function selectQuery($tableName, $tableColumns, $condition)
     {
         $sql = "SELECT ";
         if ($tableColumns == "") {
@@ -11,14 +11,14 @@ class Queries
             $sql .= "`" . implode("` , `", $tableColumns) . "`";
         }
         $sql .= " FROM `" . $tableName . "`";
-        if ($condiion) {
+        if ($condition) {
 
             $sql .= " WHERE ";
 
-            $tableKeys = array_keys($condiion);
-            $tableValues = array_values($condiion);
+            $tableKeys = array_keys($condition);
+            $tableValues = array_values($condition);
 
-            for ($i = 0; $i < count($condiion); $i++) {
+            for ($i = 0; $i < count($condition); $i++) {
                 $sql .= "" . $tableKeys[$i] . " = '" . $tableValues[$i] . "' ";
                 if ($i < (count($tableKeys) - 1)) {
                     $sql .= " AND ";
