@@ -46,7 +46,7 @@ function INSERT_($inputs, $conn)
     $TABLE_NAME = $inputs['TABLE_NAME'];
     unset($inputs['TABLE_NAME']);
 
-    $sql = $querries->insertQuerry($TABLE_NAME, $inputs);
+    $sql = $querries->insertQuery($TABLE_NAME, $inputs);
     //echo $sql
 
     if (mysqli_query($conn, $sql)) {
@@ -75,7 +75,7 @@ function SELECT_($inputs, $conn)
         unset($inputs['COLUMNS']);
     }
 
-    $sql = $querries->selectQuerry($TABLE_NAME, $COLUMNS, $inputs);
+    $sql = $querries->selectQuery($TABLE_NAME, $COLUMNS, $inputs);
     //echo $sql
 
     $result = mysqli_query($conn, $sql);
@@ -116,7 +116,7 @@ function UPDATE_($inputs, $conn)
     $CONDITION = json_decode($CONDITION, true);
     unset($inputs['CONDITION']);
 
-    $sql = $querries->updateQuerry($TABLE_NAME, $inputs, $CONDITION);
+    $sql = $querries->updateQuery($TABLE_NAME, $inputs, $CONDITION);
 
     if (mysqli_query($conn, $sql)) {
         $valid = true;
@@ -142,7 +142,7 @@ function DELETE_($inputs, $conn)
     $CONDITION = json_decode($CONDITION, true);
     unset($inputs['CONDITION']);
 
-    $sql = $querries->deleteQuerry($TABLE_NAME, $CONDITION);
+    $sql = $querries->deleteQuery($TABLE_NAME, $CONDITION);
     //echo $sql
 
     if (mysqli_query($conn, $sql)) {
