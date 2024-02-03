@@ -36,7 +36,7 @@
 
         var data = JsFunctions.FormToJson(FORM_LOGIN);
 
-        var filter = [
+        var columns = [
             DOTS_ACCOUNT.HRIS_ID,
             DOTS_ACCOUNT.FULL_NAME,
             DOTS_ACCOUNT.INITIAL,
@@ -46,7 +46,7 @@
             ...data,
             TABLE_NAME: DOTS_ACCOUNT.NAME,
             REQUEST: _REQUEST.SELECT,
-            COLUMNS: filter
+            COLUMNS: columns
         };
 
 
