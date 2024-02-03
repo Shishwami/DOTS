@@ -29,70 +29,30 @@
     import MyAjax from "../SCRIPTS/MyAjax.js"
     import JsFunctions from "../SCRIPTS/JsFunctions.js"
 
-    const FORM_LOGIN = document.getElementById('FORM_LOGIN');
+    const FORM_LOGIN = document.getElementById("FORM_LOGIN");
 
     FORM_LOGIN.addEventListener('submit', function (e) {
+        e.preventDefault();
 
-        JsFunctions.disableFormDefault(e);
+        var data = JsFunctions.FormToJson(FORM_LOGIN);
 
-        const INPUT_USERNAME = FORM_LOGIN.querySelector('#INPUT_USERNAME');
-        const INPUT_PASSWORD = FORM_LOGIN.querySelector('#INPUT_PASSWORD');
-        const SUBMIT_BUTTON = FORM_LOGIN.querySelector("input[type=submit]");
-
-        JsFunctions.disableElement(SUBMIT_BUTTON);
-
-        const columns = [];
-        columns.push(_TABLE.DOTS_ACCOUNT_INFO.HRIS_ID);
-        columns.push(_TABLE.DOTS_ACCOUNT_INFO.FULL_NAME);
-        columns.push(_TABLE.DOTS_ACCOUNT_INFO.INITIAL);
-
-        const data = {
-            TABLE_NAME: _TABLE.DOTS_ACCOUNT_INFO.NAME,
+        data = {
+            ...data,
+            TABLE_NAME: DOTS_ACCOUNT.NAME,
             REQUEST: _REQUEST.SELECT,
-            COLUMNS: columns,
-        }
-
-        data[_TABLE.DOTS_ACCOUNT_INFO.USERNAME] = INPUT_USERNAME.value;
-        data[_TABLE.DOTS_ACCOUNT_INFO.PASSWORD] = INPUT_PASSWORD.value;
-
+        };
 
         MyAjax.createJSON((error, response) => {
             if (!error) {
                 if (response.VALID) {
-                    //success message
-                    // console.log(response.RESULT[0]);
-                    createSession(response.RESULT[0]);
-                    INPUT_USERNAME.value = '';
-                    INPUT_PASSWORD.value = '';
-                } else {
-                    //no data taken
-                    // console.log(response);
+                    alert("Success");
                 }
             } else {
                 alert(error);
             }
         }, data);
-
-        function createSession(results) {
-            var data2 = { REQUEST: _REQUEST.CREATE_SESSION };
-
-            data2 = Object.assign({}, data2, results);
-            MyAjax.createJSON((error, response) => {
-                if (!error) {
-                    if (response.VALID) {
-                        //success message
-                        window.location.href = './DOCS_CREATE.php';
-                    } else {
-                        //no data taken
-                        console.log(response);
-                    }
-                } else {
-                    alert(error);
-                }
-            }, data2);
-        }
-
     });
+
 </script>
 
 </html>
