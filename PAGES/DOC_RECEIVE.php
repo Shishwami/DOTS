@@ -17,6 +17,7 @@
             <label for="FULLNAME">Received By:</label> <br>
             <input type="text" name="FULLNAME" id="FULLNAME" disabled>
             <input type="text" name="RECEIVED_BY" id="RECEIVED_BY" hidden>
+            <input type="text" name="DOC_OPERATION" id="RECEIVED_BY" value="RECEIVED"hidden>
         </div>
         <div>
             <label for="DATE_TIME_RECEIVED">Date Received:</label> <br>
@@ -80,7 +81,7 @@
                 }
             }, data);
         });
-        
+
     });
 
 
@@ -221,7 +222,6 @@
                 }
             }, data);
         }
-
     });
 </script>
 
