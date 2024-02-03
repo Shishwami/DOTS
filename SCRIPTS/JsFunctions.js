@@ -56,6 +56,20 @@ class JsFunctions {
         // console.log(formDataObject); 
         return formDataObject;
     }
+
+    static setSelect(element, options) {
+
+        options.forEach(function (item) {
+            var option = document.createElement('option');
+
+            Object.keys(item).forEach(function (key) {
+                option.value = item[key];
+                option.innerText = item[key];
+            });
+
+            element.appendChild(option);
+        });
+    }
 }
 
 export default JsFunctions;
