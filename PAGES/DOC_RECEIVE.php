@@ -14,8 +14,9 @@
             <input type="text" name="DOC_NUM" id="DOC_NUM" disabled>
         </div>
         <div>
-            <label for="RECEIVED_BY">Received By:</label> <br>
-            <input type="text" name="RECEIVED_BY" id="RECEIVED_BY" disabled>
+            <label for="FULLNAME">Received By:</label> <br>
+            <input type="text" name="FULLNAME" id="FULLNAME" disabled>
+            <input type="text" name="RECEIVED_BY" id="RECEIVED_BY" hidden>
         </div>
         <div>
             <label for="DATE_TIME_RECEIVED">Date Received:</label> <br>
@@ -61,9 +62,6 @@
 
             var data = JsFunctions.FormToJson(FORM_RECEIVE);
 
-            delete data.DOC_NUM;
-            delete data.RECEIVED_BY;
-
             data = {
                 ...data,
                 TABLE_NAME: DOTS_DOCUMENT.NAME,
@@ -82,6 +80,7 @@
                 }
             }, data);
         });
+        
     });
 
 
@@ -95,11 +94,133 @@
 
     document.addEventListener('DOMContentLoaded', function (event) {
 
-        const FORM_RECEIVE = document.getElementById("FORM_RECEIVE");
+        setDOC_NUM();
+        setDOC_TYPE();
+        setDOC_OFFICE();
+        getSessionName();
+        getSessionInitial();
 
+        function setDOC_NUM() {
 
+            const columns = [
+                DOTS_DOCUMENT.DOC_NUMBER,
+            ]
 
+            var data = {
+                TABLE_NAME: DOTS_DOCUMENT.NAME,
+                REQUEST: _REQUEST.SELECT,
+            }
 
+            MyAjax.createJSON((error, response) => {
+                if (error) {
+                    alert(error);
+                    //message popup
+                } else {
+                    if (response.VALID) {
+                        delete response.VALID;
+                        const doc_numbers = Object.values(response)[0];
+                        const last_obj = doc_numbers[doc_numbers.length - 1];
+                        const last_number = Object.values(last_obj)[0];
+                        const number_increased = Number(last_number) + 1;
+                        DOC_NUM.value = number_increased;
+                    } else {
+                        console.log(response);
+                    }
+                }
+            }, data);
+        }
+
+        function getSessionName() {
+            const data = {
+                REQUEST: _REQUEST.GET_SESSION_NAME,
+            }
+            MyAjax.createJSON((error, response) => {
+                if (error) {
+                    alert(error);
+                    //message popup
+                } else {
+                    if (response.VALID) {
+                        delete response.VALID;
+                        FULLNAME.value = Object.values(response)[0];
+                    } else {
+                        console.log(response);
+                        //error message
+                    }
+                }
+            }, data);
+        }
+
+        function getSessionInitial() {
+            const data = {
+                REQUEST: _REQUEST.GET_SESSION_INITIAL,
+            }
+            MyAjax.createJSON((error, response) => {
+                if (error) {
+                    alert(error);
+                    //message popup
+                } else {
+                    if (response.VALID) {
+                        delete response.VALID;
+                        RECEIVED_BY.value = Object.values(response)[0];
+                    } else {
+                        console.log(response);
+                        //error message
+                    }
+                }
+            }, data);
+        }
+
+        function setDOC_TYPE() {
+
+            const columns = [
+                DOTS_DOC_TYPE.DOC_TYPE_NAME,
+            ]
+
+            var data = {
+                TABLE_NAME: DOTS_DOC_TYPE.NAME,
+                REQUEST: _REQUEST.SELECT,
+                COLUMNS: columns
+            }
+            MyAjax.createJSON((error, response) => {
+                if (error) {
+                    alert(error);
+                    //message popup
+                } else {
+                    if (response.VALID) {
+                        delete response.VALID;
+                        JsFunctions.setSelect(DOC_TYPE, Object.values(response)[0]);
+                    } else {
+                        console.log(response);
+                    }
+                }
+            }, data);
+        }
+
+        function setDOC_OFFICE() {
+
+            const columns = [
+                DOTS_DOC_OFFICE.DOC_OFFICE_NAME,
+            ]
+
+            var data = {
+                TABLE_NAME: DOTS_DOC_OFFICE.NAME,
+                REQUEST: _REQUEST.SELECT,
+                COLUMNS: columns
+            }
+            MyAjax.createJSON((error, response) => {
+                if (error) {
+                    alert(error);
+                    //message popup
+                } else {
+                    if (response.VALID) {
+                        delete response.VALID;
+                        JsFunctions.setSelect(DOC_OFFICE, Object.values(response)[0]);
+                    } else {
+                        console.log(response);
+                    }
+                }
+            }, data);
+        }
 
     });
 </script>
