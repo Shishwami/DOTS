@@ -5,6 +5,9 @@ setDOC_NUM();
 setDOC_TYPE();
 setDOC_OFFICE();
 
+setRECEIVED_TIME();
+setLETTER_DATE();
+
 getSessionName();
 
 FORM_RECEIVE.addEventListener('submit', function (e) {
@@ -33,7 +36,7 @@ FORM_RECEIVE.addEventListener('submit', function (e) {
                 MyAjax.createJSON((error, response) => {
                     if (!error) {
                         if (response.VALID) {
-                            alert("Success");
+                            alert("DOC CREATED");
                         }
                     } else {
                         alert(error);
@@ -48,7 +51,6 @@ FORM_RECEIVE.addEventListener('submit', function (e) {
 
 });
 
-
 function setDOC_NUM() {
 
     const columns = [
@@ -61,7 +63,6 @@ function setDOC_NUM() {
         COLUMNS: columns,
     }
 
-    console.log(data);
     MyAjax.createJSON((error, response) => {
         if (error) {
             alert(error);
@@ -75,25 +76,6 @@ function setDOC_NUM() {
                 DOC_NUM.value = number_increased;
             } else {
                 console.log(response);
-            }
-        }
-    }, data);
-}
-
-function getSessionName() {
-    const data = {
-        REQUEST: _REQUEST.GET_SESSION_NAME,
-    }
-    MyAjax.createJSON((error, response) => {
-        if (error) {
-            alert(error);
-        } else {
-            if (response.VALID) {
-                delete response.VALID;
-                FULLNAME.value = Object.values(response)[0];
-            } else {
-                console.log(response);
-                //error message
             }
         }
     }, data);
@@ -150,22 +132,62 @@ function setDOC_OFFICE() {
 
 
 }
-function createHidden() {
-    const RECEIVED_BY_HIDDEN = document.createElement("input");
-    RECEIVED_BY_HIDDEN.type = "text";
-    RECEIVED_BY_HIDDEN.name = "RECEIVED_BY";
-    RECEIVED_BY_HIDDEN.id = "RECEIVED_BY";
-    RECEIVED_BY_HIDDEN.hidden = true;
 
-    const DOC_OPERATION_HIDDEN = document.createElement("input");
-    DOC_OPERATION_HIDDEN.type = "text";
-    DOC_OPERATION_HIDDEN.name = "DOC_OPERATION";
-    DOC_OPERATION_HIDDEN.id = "DOC_OPERATION";
-    DOC_OPERATION_HIDDEN.hidden = true;
-    DOC_OPERATION_HIDDEN.value = "RECEIVED";
-    DOC_OPERATION_HIDDEN.style.display = "none";
+function setRECEIVED_TIME() {
+    var data = {
+        REQUEST: _REQUEST.GET_DATE,
+        DATE: "DATE_TIME"
+    }
 
-    FORM_RECEIVE.append(RECEIVED_BY_HIDDEN);
-    FORM_RECEIVE.append(DOC_OPERATION_HIDDEN);
+    MyAjax.createJSON((error, response) => {
+        if (error) {
+            alert(error);
+        } else {
+            if (response.VALID) {
+                delete response.VALID;
+                DATE_TIME_RECEIVED.value = Object.values(response)[0];
+            } else {
+                console.log(response);
+            }
+        }
+    }, data);
+}
 
+function setLETTER_DATE() {
+    var data = {
+        REQUEST: _REQUEST.GET_DATE,
+        DATE: "DATE"
+    }
+
+    MyAjax.createJSON((error, response) => {
+        if (error) {
+            alert(error);
+        } else {
+            if (response.VALID) {
+                delete response.VALID;
+                LETTER_DATE.value = Object.values(response)[0];
+            } else {
+                console.log(response);
+            }
+        }
+    }, data);
+}
+
+function getSessionName() {
+    const data = {
+        REQUEST: _REQUEST.GET_SESSION_NAME,
+    }
+    MyAjax.createJSON((error, response) => {
+        if (error) {
+            alert(error);
+        } else {
+            if (response.VALID) {
+                delete response.VALID;
+                FULLNAME.value = Object.values(response)[0];
+            } else {
+                console.log(response);
+                //error message
+            }
+        }
+    }, data);
 }
