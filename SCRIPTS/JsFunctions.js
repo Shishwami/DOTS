@@ -1,6 +1,10 @@
 class JsFunctions {
 
-    static updateTable(tableJSON, thead, tbody, filter) {
+    static updateTable(tableJSON, table, filter) {
+
+        const thead = table.querySelector('thead');
+        const tbody = table.querySelector('tbody');
+
         thead.innerHTML = '';
         tbody.innerHTML = '';
 
@@ -11,7 +15,6 @@ class JsFunctions {
         const keys = Object.keys(tableJSON[0]);
         keys.forEach(key => {
             const th = document.createElement('th');
-
 
             if (_SUB_NAME[key] == "") {
                 th.textContent = key;
