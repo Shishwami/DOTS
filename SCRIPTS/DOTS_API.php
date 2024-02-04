@@ -167,14 +167,14 @@ function get_Date($inputs)
     $time = "";
     date_default_timezone_set("Asia/Manila");
 
-    if (isset($inputs['DATE'])) {
+    if ($inputs['DATE'] == "DATE") {
         $time = date("Y-m-d");
         $valid = true;
     }
-    if (isset($inputs['TIME'])) {
+    if ($inputs['DATE'] == "TIME") {
         $time = date('h:i');
     }
-    if (isset($inputs['DATE_TIME'])) {
+    if ($inputs['DATE'] == "DATE_TIME") {
         $time = date("Y-m-d\TH:i");
     }
 
