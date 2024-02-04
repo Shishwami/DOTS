@@ -9,7 +9,7 @@ const DOTS_DOCUMENT = {
     OFFICE_AGENCY: 'OFFICE_AGENCY',
     RECEIVED_BY: 'RECEIVED_BY',
     DATE_TIME_RECEIVED: 'DATE_TIME_RECEIVED',
-    DOC_OPERATION: 'DOC_OPERATION'
+    DOC_STATUS: 'DOC_OPERATION'
 };
 const DOTS_DOC_OFFICE = {
     NAME: 'DOTS_DOC_OFFICE',
@@ -76,11 +76,13 @@ const _SUB_NAME = {
     DOC_DIVISION_CODE: 'Division Code',
     DOC_STATUS_NAME: 'Status Name',
     DOC_STATUS_CODE: 'Status Code',
-    DOC_NUMBER: 'Document Number',
-    SUBJECT: 'Subject',
+    
+    DOC_NUM: 'No.',
+    DOC_SUBJECT: 'Subject',
     LETTER_DATE: 'Letter Date',
     DOC_TYPE: 'Document Type',
     OFFICE_AGENCY: 'Office/Agency',
     RECEIVED_BY: 'Received By',
     DATE_TIME_RECEIVED: 'Date Received',
+    DOC_STATUS: "Status"
 }
