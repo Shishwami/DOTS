@@ -6,10 +6,9 @@ const DOTS_DOCUMENT = {
     LETTER_DATE: 'LETTER_DATE',
     DOC_TYPE: 'DOC_TYPE',
     DOC_SUBJECT: 'DOC_SUBJECT',
-    OFFICE_AGENCY: 'OFFICE_AGENCY',
-    RECEIVED_BY: 'RECEIVED_BY',
+    DOC_LOCATION: 'DOC_LOCATION',
     DATE_TIME_RECEIVED: 'DATE_TIME_RECEIVED',
-    DOC_STATUS: 'DOC_OPERATION'
+    DOC_STATUS: 'DOC_STATUS',
 };
 const DOTS_DOC_OFFICE = {
     NAME: 'DOTS_DOC_OFFICE',
@@ -52,6 +51,12 @@ const DOTS_ACCOUNT = {
     USERNAME: 'USERNAME',
     PASSWORD: 'PASSWORD',
 }
+
+const DOC_STATUS = {
+    NAME: 'DOC_STATUS',
+    ID: 'ID',
+    DOC_STATUS_NAME: "DOC_STATUS",
+}
 const _REQUEST = {
     INSERT: 'INSERT',
     SELECT: 'SELECT',
@@ -65,24 +70,30 @@ const _REQUEST = {
 }
 
 const _SUB_NAME = {
+    
     ID: "ID",
+
     DOC_TYPE_NAME: 'Document Name',
     DOC_TYPE_CODE: 'Document Code',
+
     DOC_PRPS_NAME: 'Purpose Name',
     DOC_PRPS_CODE: 'Purpose Code',
+
     DOC_OFFICE_NAME: 'Office Name',
     DOC_OFFICE_CODE: 'Office Code',
+
     DOC_DIVISION_NAME: 'Division Name',
     DOC_DIVISION_CODE: 'Division Code',
-    DOC_STATUS_NAME: 'Status Name',
+
+    DOC_STATUS_NAME: 'Status',
     DOC_STATUS_CODE: 'Status Code',
-    
+
     DOC_NUM: 'No.',
     DOC_SUBJECT: 'Subject',
     LETTER_DATE: 'Letter Date',
     DOC_TYPE: 'Document Type',
     OFFICE_AGENCY: 'Office/Agency',
-    RECEIVED_BY: 'Received By',
+    DOC_LOCATION: 'Location',
     DATE_TIME_RECEIVED: 'Date Received',
     DOC_STATUS: "Status"
 }

@@ -31,8 +31,8 @@ FORM_RECEIVE.addEventListener('submit', function (e) {
         } else {
             if (response.VALID) {
                 delete response.VALID;
-                data["RECEIVED_BY"] = Object.values(response)[0];
-                data["DOC_OPERATION"] = "RECEIVED";
+                data["DOC_LOCATION"] = Object.values(response)[0];
+                data["DOC_STATUS"] = 1;
                 MyAjax.createJSON((error, response) => {
                     if (!error) {
                         if (response.VALID) {

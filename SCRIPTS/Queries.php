@@ -2,7 +2,7 @@
 class Queries
 {
 
-    function selectQuery($tableName, $tableColumns, $condition)
+    function selectQuery($tableName, $tableColumns, $condition, $joinCondition)
     {
         $sql = "SELECT ";
         if ($tableColumns == "") {
@@ -11,6 +11,11 @@ class Queries
             $sql .= "`" . implode("` , `", $tableColumns) . "`";
         }
         $sql .= " FROM `" . $tableName . "`";
+
+        if (!empty($joinCondition)) {
+            $sql .= " " . $joinCondition;
+        }
+
         if ($condition) {
 
             $sql .= " WHERE ";
@@ -26,6 +31,7 @@ class Queries
             }
         }
         $sql .= ";";
+        
         return $sql;
     }
 
