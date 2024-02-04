@@ -36,7 +36,6 @@
             <select name="DOC_OFFICE" id="DOC_OFFICE">
                 <option value="">Please Select Office</option>
             </select>
-
         </div>
         <div>
             <label for="DOC_SUBJECT">Subject:</label> <br>
