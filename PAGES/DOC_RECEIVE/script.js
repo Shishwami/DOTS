@@ -21,33 +21,52 @@ FORM_RECEIVE.addEventListener('submit', function (e) {
         REQUEST: _REQUEST.INSERT,
     };
 
-
     const data2 = {
         REQUEST: _REQUEST.GET_SESSION_INITIAL,
     }
-    MyAjax.createJSON((error, response) => {
-        if (error) {
-            alert(error);
-        } else {
-            if (response.VALID) {
-                delete response.VALID;
-                data["DOC_LOCATION"] = Object.values(response)[0];
-                data["DOC_STATUS"] = 1;
-                MyAjax.createJSON((error, response) => {
-                    if (!error) {
-                        if (response.VALID) {
-                            alert("DOC CREATED");
-                        }
-                    } else {
-                        alert(error);
-                    }
-                }, data);
-            } else {
-                console.log(response);
-                //error message
-            }
-        }
-    }, data2);
+
+    // MyAjax.createJSON((error, response) => {
+    //     if (error) {
+    //         alert(error);
+    //     } else {
+    //         if (response.VALID) {
+    //             delete response.VALID;
+    //             data["DOC_LOCATION"] = Object.values(response)[0];
+    //             data["DOC_STATUS"] = 1;
+    //             MyAjax.createJSON((error, response) => {
+    //                 if (!error) {
+    //                     if (response.VALID) {
+    //                         alert("DOC CREATED");
+    //                     }
+    //                 } else {
+    //                     alert(error);
+    //                 }
+    //             }, data);
+    //         } else {
+    //             console.log(response);
+    //             //error message
+    //         }
+    //     }
+    // }, data2);
+
+
+    var table_1 = {
+        DATE_TIME_RECEIVED: DATE_TIME_RECEIVED,
+        LETTER_DATE: LETTER_DATE,
+        DOC_TYPE: DOC_TYPE,
+        DOC_OFFICE: DOC_OFFICE,
+        DOC_SUBJECT: DOC_SUBJECT,
+        DOC_STATUS: "0",
+    }
+
+    var table_2 = {
+
+    }
+    var data = {
+        TABLE_NAME: DOTS_DOCUMENT.NAME,
+        REQUEST: _REQUEST.INSERT_DOUBLE_ID,
+
+    }
 
 });
 
