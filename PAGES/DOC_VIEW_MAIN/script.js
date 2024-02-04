@@ -2,6 +2,9 @@ import JsFunctions from "../../SCRIPTS/JsFunctions.js";
 import MyAjax from "../../SCRIPTS/MyAjax.js";
 
 setTable("");
+searchBar.addEventListener('input', function (e) {
+    setTable(searchBar.value.toUpperCase());
+});
 
 function setTable(filter) {
 
