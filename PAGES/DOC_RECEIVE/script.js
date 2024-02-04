@@ -51,23 +51,24 @@ FORM_RECEIVE.addEventListener('submit', function (e) {
 
 
     var table_1 = {
-        DATE_TIME_RECEIVED: DATE_TIME_RECEIVED,
-        LETTER_DATE: LETTER_DATE,
-        DOC_TYPE: DOC_TYPE,
-        DOC_OFFICE: DOC_OFFICE,
-        DOC_SUBJECT: DOC_SUBJECT,
+        DATE_TIME_RECEIVED: DATE_TIME_RECEIVED.value,
+        LETTER_DATE: LETTER_DATE.value,
+        DOC_TYPE: DOC_TYPE.value,
+        DOC_SUBJECT: DOC_SUBJECT.value,
         DOC_STATUS: "0",
     }
 
     var table_2 = {
+        DOC_OFFICE: DOC_OFFICE.value,
 
     }
     var data = {
         TABLE_NAME: DOTS_DOCUMENT.NAME,
         REQUEST: _REQUEST.INSERT_DOUBLE_ID,
-
+        TABLE_1: table_1,
+        TABLE_2: table_2,
     }
-
+    console.log(data);
 });
 
 function setDOC_NUM() {
