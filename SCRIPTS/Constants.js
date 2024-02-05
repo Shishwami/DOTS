@@ -63,12 +63,6 @@ const DOTS_ACCOUNT_INFO = {
     PASSWORD: 'PASSWORD',
 }
 
-const DOC_STATUS = {
-    NAME: 'DOC_STATUS',
-    ID: 'ID',
-    DOC_STATUS_NAME: "DOC_STATUS_NAME",
-    DOC_STATUS_CODE: "DOC_STATUS_CODE",
-}
 const _REQUEST = {
     INSERT: 'INSERT',
     SELECT: 'SELECT',
@@ -104,10 +98,11 @@ const _SUB_NAME = {
 
     DOC_NUM: 'No.',
     DOC_SUBJECT: 'Subject',
-    LETTER_DATE: 'Letter Date',
     DOC_TYPE: 'Document Type',
+    DOC_OFFICE:'Document Office',
+    LETTER_DATE: 'Letter Date',
     OFFICE_AGENCY: 'Office/Agency',
-    DOC_LOCATION: 'Location',
+    RECEIVED_BY: 'Received By',
     DATE_TIME_RECEIVED: 'Date Received',
     DOC_STATUS: "Status"
 }

@@ -56,7 +56,7 @@ function INSERT_($inputs, $conn)
     unset($inputs['TABLE_NAME']);
 
     $sql = $querries->insertQuery($TABLE_NAME, $inputs);
-    //echo $sql
+    // echo $sql;
 
     if (mysqli_query($conn, $sql)) {
         $valid = true;

@@ -15,8 +15,7 @@ class JsFunctions {
         const keys = Object.keys(tableJSON[0]);
         keys.forEach(key => {
             const th = document.createElement('th');
-
-            if (_SUB_NAME[key] == "") {
+            if (_SUB_NAME[key] == null) {
                 th.textContent = key;
             } else {
                 th.textContent = _SUB_NAME[key];
@@ -36,6 +35,10 @@ class JsFunctions {
                 cell.dataset.value = value;
                 row.appendChild(cell);
 
+                if (value == null) {
+                    value = "";
+                }
+                
                 if (value.toUpperCase().indexOf(filter) > -1) {
                     found++;
                 }
@@ -75,7 +78,7 @@ class JsFunctions {
     static checkIfEmpty(values) {
         var empty = false;
         for (let i = 0; i < values.length; i++) {
-            if (values[i] == "") { 
+            if (values[i] == "") {
                 empty = true;
             }
         }

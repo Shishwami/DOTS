@@ -8,21 +8,29 @@ searchBar.addEventListener('input', function (e) {
 
 function setTable(filter) {
 
-    const joinCondition = "LEFT JOIN `" + DOC_STATUS.DOC_STATUS_NAME + "` ON `"
-        + DOTS_DOCUMENT.NAME + "`.`" + DOTS_DOCUMENT.DOC_STATUS + "` = `"
-        + DOC_STATUS.NAME + "`.`" + DOC_STATUS.ID + "` ";
+    const joinCondition =
+        "LEFT JOIN `" + DOTS_DOC_STATUS.NAME + "` ON `" +
+        DOTS_DOCUMENT.NAME + "`.`" + DOTS_DOCUMENT.DOC_STATUS + "` = `" +
+        DOTS_DOC_STATUS.NAME + "`.`" + DOTS_DOC_STATUS.ID + "` " +
 
-    const columns = {
-        DOC_NUM: 'DOC_NUM',
-        DOC_SUBJECT: 'DOC_SUBJECT',
-        LETTER_DATE: 'LETTER_DATE',
-        DOC_TYPE: 'DOC_TYPE',
-        DOC_LOCATION: 'DOC_LOCATION',
-        DATE_TIME_RECEIVED: 'DATE_TIME_RECEIVED',
-        DOC_STATUS: 'DOC_STATUS`.`DOC_STATUS_NAME',
-    }
+        " LEFT JOIN `" + DOTS_DOC_TYPE.NAME + "` ON `" +
+        DOTS_DOCUMENT.NAME + "`.`" + DOTS_DOCUMENT.DOC_STATUS + "` = `" +
+        DOTS_DOC_TYPE.NAME + '`.`' + DOTS_DOC_TYPE.ID + "` " +
 
-    console.log(joinCondition);
+        " LEFT JOIN `" + DOTS_ACCOUNT_INFO.NAME + "` ON `" +
+        DOTS_DOCUMENT.NAME + "`.`" + DOTS_DOCUMENT.RECEIVED_BY + "` = `" +
+        DOTS_ACCOUNT_INFO.NAME + '`.`' + DOTS_ACCOUNT_INFO.HRIS_ID + "` ";
+
+    const columns = [
+        'DOC_NUM',
+        'DOC_SUBJECT',
+        'LETTER_DATE',
+        DOTS_DOC_TYPE.NAME + '`.`' + DOTS_DOC_TYPE.DOC_TYPE_NAME,
+        DOTS_ACCOUNT_INFO.NAME + '`.`' + DOTS_ACCOUNT_INFO.FULL_NAME,
+        'DATE_TIME_RECEIVED',
+        DOTS_DOC_STATUS.NAME + '`.`' + DOTS_DOC_STATUS.DOC_STATUS_NAME,
+    ]
+
     var data = {
         TABLE_NAME: DOTS_DOCUMENT.NAME,
         REQUEST: _REQUEST.SELECT,
