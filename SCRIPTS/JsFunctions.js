@@ -35,10 +35,13 @@ class JsFunctions {
                 cell.dataset.value = value;
                 row.appendChild(cell);
 
-                if (value != null)
-                    if (value.toUpperCase().indexOf(filter) > -1) {
-                        found++;
-                    }
+                if (value != null) {
+                    value = "NULL";
+                }
+
+                if (value.toUpperCase().indexOf(filter) > -1) {
+                    found++;
+                }
             });
 
             if (found == 0) {

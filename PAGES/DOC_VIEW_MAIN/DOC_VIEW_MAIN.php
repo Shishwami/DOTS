@@ -17,6 +17,13 @@
 
         </tbody>
     </table>
+
+    <div>
+        <button>SEND</button>
+        <button>EDIT</button>
+        <button>ATTACHMENTS</button>
+        <button>DELETE</button>
+    </div>
 </body>
 
 <script src="../../SCRIPTS/Constants.js"></script>
