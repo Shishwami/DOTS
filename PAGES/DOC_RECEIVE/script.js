@@ -13,62 +13,55 @@ getSessionName();
 FORM_RECEIVE.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    var data = JsFunctions.FormToJson(FORM_RECEIVE);
-
-    data = {
-        ...data,
-        TABLE_NAME: DOTS_DOCUMENT.NAME,
-        REQUEST: _REQUEST.INSERT,
-    };
-
     const data2 = {
         REQUEST: _REQUEST.GET_SESSION_INITIAL,
     }
 
-    // MyAjax.createJSON((error, response) => {
-    //     if (error) {
-    //         alert(error);
-    //     } else {
-    //         if (response.VALID) {
-    //             delete response.VALID;
-    //             data["DOC_LOCATION"] = Object.values(response)[0];
-    //             data["DOC_STATUS"] = 1;
-    //             MyAjax.createJSON((error, response) => {
-    //                 if (!error) {
-    //                     if (response.VALID) {
-    //                         alert("DOC CREATED");
-    //                     }
-    //                 } else {
-    //                     alert(error);
-    //                 }
-    //             }, data);
-    //         } else {
-    //             console.log(response);
-    //             //error message
-    //         }
-    //     }
-    // }, data2);
+
 
 
     var table_1 = {
+        TABLE_NAME: DOTS_DOCUMENT.NAME,
         DATE_TIME_RECEIVED: DATE_TIME_RECEIVED.value,
         LETTER_DATE: LETTER_DATE.value,
         DOC_TYPE: DOC_TYPE.value,
+        DOC_OFFICE: DOC_OFFICE.value,
         DOC_SUBJECT: DOC_SUBJECT.value,
-        DOC_STATUS: "0",
     }
 
     var table_2 = {
-        DOC_OFFICE: DOC_OFFICE.value,
+        TABLE_NAME: DOTS_DOC_LOGS.NAME,
 
     }
     var data = {
-        TABLE_NAME: DOTS_DOCUMENT.NAME,
-        REQUEST: _REQUEST.INSERT_DOUBLE_ID,
+        REQUEST: _REQUEST.INSERT_DOCLOG,
         TABLE_1: table_1,
         TABLE_2: table_2,
     }
-    console.log(data);
+
+    MyAjax.createJSON((error, response) => {
+        if (error) {
+            alert(error);
+        } else {
+            if (response.VALID) {
+                delete response.VALID;
+                table_1["DOC_LOCATION"] = Object.values(response)[0];
+                table_2["DOC_LOCATION"] = Object.values(response)[0];
+                MyAjax.createJSON((error, response) => {
+                    if (!error) {
+                        if (response.VALID) {
+                            alert("DOC CREATED");
+                        }
+                    } else {
+                        alert(error);
+                    }
+                }, data);
+            } else {
+                console.log(response);
+                //error message
+            }
+        }
+    }, data2);
 });
 
 function setDOC_NUM() {
@@ -104,6 +97,7 @@ function setDOC_NUM() {
 function setDOC_TYPE() {
 
     const columns = [
+        DOTS_DOC_TYPE.ID,
         DOTS_DOC_TYPE.DOC_TYPE_NAME,
     ]
 
@@ -129,6 +123,7 @@ function setDOC_TYPE() {
 function setDOC_OFFICE() {
 
     const columns = [
+        DOTS_DOC_OFFICE.ID,
         DOTS_DOC_OFFICE.DOC_OFFICE_NAME,
     ]
 

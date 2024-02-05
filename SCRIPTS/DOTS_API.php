@@ -37,6 +37,9 @@ switch ($REQUEST) {
     case 'GET_SESSION_INITIAL':
         getSessionInitial();
         break;
+    case 'INSERT_DOCLOG':
+        insertDocLog($inputs, $conn);
+        break;
 }
 $conn->close();
 
@@ -263,6 +266,16 @@ function getSessionInitial()
         );
     }
 
+
+}
+
+function insertDocLog($inputs, $conn)
+{
+    $TABLE_1 = $inputs["TABLE_1"];
+    unset($inputs["TABLE_1"]);
+    
+    $TABLE_2 = $inputs["TABLE_2"];
+    unset($inputs["TABLE_1"]);
 
 }
 ?>

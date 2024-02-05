@@ -62,16 +62,15 @@ class JsFunctions {
 
     static setSelect(element, options) {
 
-        options.forEach(function (item) {
+        for (let i = 0; i < options.length; i++) {
             var option = document.createElement('option');
+            var somedata = Object.values(options[i]);
 
-            Object.keys(item).forEach(function (key) {
-                option.value = item[key];
-                option.innerText = item[key];
-            });
+            option.value = somedata[0];
+            option.innerText = somedata[1];
 
             element.appendChild(option);
-        });
+        }
     }
 }
 
