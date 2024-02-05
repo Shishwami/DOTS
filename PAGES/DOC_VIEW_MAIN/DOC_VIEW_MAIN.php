@@ -9,7 +9,7 @@
 
 <body>
     <input type="text" name="searchBar" id="searchBar">
-    <table id="DOC_VIEW_MAIN">
+    <table id="DOC_VIEW_MAIN" name="DOC_VIEW_MAIN">
         <thead>
             <tr></tr>
         </thead>
@@ -22,7 +22,7 @@
         <button name="DOC_SEND" id="DOC_SEND">SEND</button>
         <button name="DOC_EDIT" id="DOC_EDIT">EDIT</button>
         <button name="DOC_ATTACHMENTS" id="DOC_ATTACHMENTS">ATTACHMENTS</button>
-        <button>DELETE</button>
+        <button name="DOC_DELETE" id="DOC_DELETE">DELETE</button>
     </div>
 </body>
 

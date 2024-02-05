@@ -6,6 +6,9 @@ searchBar.addEventListener('input', function (e) {
     setTable(searchBar.value.toUpperCase());
 });
 
+const TBODY = DOC_VIEW_MAIN.querySelector("tbody");
+JsFunctions.tbodyEventListener(TBODY);
+
 function setTable(filter) {
 
     const joinCondition =

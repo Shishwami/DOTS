@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 $inputs = json_decode(file_get_contents("php://input"), true);
-
+$inputs = sanitizeInputs($inputs);
 // var_dump($inputs);
 
 $REQUEST = $inputs['REQUEST'];
@@ -298,5 +298,17 @@ function insertDocLog($inputs, $conn)
     $TABLE_2 = $inputs["TABLE_2"];
     unset($inputs["TABLE_1"]);
 
+}
+
+function sanitizeInputs($input)
+{
+    if (is_array($input)) {
+        foreach ($input as $key => $value) {
+            $input[$key] = sanitizeInputs($value);
+        }
+    } else {
+        $input = filter_var($input, FILTER_SANITIZE_STRING);
+    }
+    return $input;
 }
 ?>
