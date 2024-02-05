@@ -37,6 +37,9 @@ switch ($REQUEST) {
     case 'GET_SESSION_INITIAL':
         getSessionInitial();
         break;
+    case 'GET_SESSION_ID':
+        getSessionID();
+        break;
     case 'INSERT_DOCLOG':
         insertDocLog($inputs, $conn);
         break;
@@ -242,8 +245,6 @@ function getSessionName()
             )
         );
     }
-
-
 }
 
 function getSessionInitial()
@@ -265,15 +266,34 @@ function getSessionInitial()
             )
         );
     }
+}
 
+function getSessionID()
+{
+    $valid = false;
 
+    if (isset($_SESSION["HRIS_ID"])) {
+        $valid = true;
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'HRIS_ID' => $_SESSION["HRIS_ID"],
+            )
+        );
+    } else {
+        echo json_encode(
+            array(
+                'VALID' => $valid
+            )
+        );
+    }
 }
 
 function insertDocLog($inputs, $conn)
 {
     $TABLE_1 = $inputs["TABLE_1"];
     unset($inputs["TABLE_1"]);
-    
+
     $TABLE_2 = $inputs["TABLE_2"];
     unset($inputs["TABLE_1"]);
 

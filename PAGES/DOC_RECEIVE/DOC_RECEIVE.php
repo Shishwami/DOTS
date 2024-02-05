@@ -9,9 +9,6 @@
 
 <body>
     <form action="submit" id="FORM_RECEIVE">
-        <hidden>
-            <input type="text" name="DOC_STATUS" id="DOC_STATUS" value="0" hidden>
-        </hidden>
         <div>
             <label for="DOC_NUM">Document Number:</label> <br>
             <input type="text" name="DOC_NUM" id="DOC_NUM" disabled>
@@ -44,7 +41,9 @@
             <label for="DOC_SUBJECT">Subject:</label> <br>
             <input type="text" name="DOC_SUBJECT" id="DOC_SUBJECT">
         </div>
+
         <input type="submit" value="Submit">
+
     </form>
 </body>
 

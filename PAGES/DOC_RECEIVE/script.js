@@ -14,54 +14,46 @@ FORM_RECEIVE.addEventListener('submit', function (e) {
     e.preventDefault();
 
     const data2 = {
-        REQUEST: _REQUEST.GET_SESSION_INITIAL,
+        REQUEST: _REQUEST.GET_SESSION_ID,
     }
-
-
-
-
-    var table_1 = {
+    var data = JsFunctions.FormToJson(FORM_RECEIVE);
+    data = {
         TABLE_NAME: DOTS_DOCUMENT.NAME,
-        DATE_TIME_RECEIVED: DATE_TIME_RECEIVED.value,
-        LETTER_DATE: LETTER_DATE.value,
-        DOC_TYPE: DOC_TYPE.value,
-        DOC_OFFICE: DOC_OFFICE.value,
-        DOC_SUBJECT: DOC_SUBJECT.value,
+        REQUEST: _REQUEST.INSERT,
+        ...data,
     }
 
-    var table_2 = {
-        TABLE_NAME: DOTS_DOC_LOGS.NAME,
+    const dataValues = Object.values(data);
+    var empty = JsFunctions.checkIfEmpty(dataValues);
 
-    }
-    var data = {
-        REQUEST: _REQUEST.INSERT_DOCLOG,
-        TABLE_1: table_1,
-        TABLE_2: table_2,
-    }
-
-    MyAjax.createJSON((error, response) => {
-        if (error) {
-            alert(error);
-        } else {
-            if (response.VALID) {
-                delete response.VALID;
-                table_1["DOC_LOCATION"] = Object.values(response)[0];
-                table_2["DOC_LOCATION"] = Object.values(response)[0];
-                MyAjax.createJSON((error, response) => {
-                    if (!error) {
-                        if (response.VALID) {
-                            alert("DOC CREATED");
-                        }
-                    } else {
-                        alert(error);
-                    }
-                }, data);
+    if (!empty) {
+        MyAjax.createJSON((error, response) => {
+            if (error) {
+                alert(error);
             } else {
-                console.log(response);
-                //error message
+                if (response.VALID) {
+                    delete response.VALID;
+                    console.log(response);
+                    data["RECEIVED_BY"] = Object.values(response)[0];
+                    MyAjax.createJSON((error, response) => {
+                        if (!error) {
+                            if (response.VALID) {
+                                alert("DOC CREATED");
+                            }
+                        } else {
+                            alert(error);
+                        }
+                    }, data);
+                } else {
+                    console.log(response);
+                    //error message
+                }
             }
-        }
-    }, data2);
+        }, data2);
+    } else {
+        //validation
+    }
+
 });
 
 function setDOC_NUM() {
@@ -89,6 +81,7 @@ function setDOC_NUM() {
                 DOC_NUM.value = number_increased;
             } else {
                 console.log(response);
+                DOC_NUM.value = 0;
             }
         }
     }, data);

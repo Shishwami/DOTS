@@ -72,6 +72,15 @@ class JsFunctions {
             element.appendChild(option);
         }
     }
+    static checkIfEmpty(values) {
+        var empty = false;
+        for (let i = 0; i < values.length; i++) {
+            if (values[i] == "") { 
+                empty = true;
+            }
+        }
+        return empty;
+    }
 }
 
 export default JsFunctions;
