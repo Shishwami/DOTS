@@ -1,7 +1,7 @@
 class MyAjax {
     static createJSON(callback,data) {
         const xhr = new XMLHttpRequest();
-        xhr.open('POST', "../SCRIPTS/DOTS_API.php", true);
+        xhr.open('POST', "../../SCRIPTS/DOTS_API.php", true);
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4) {
