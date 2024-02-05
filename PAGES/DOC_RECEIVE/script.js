@@ -2,6 +2,8 @@ import JsFunctions from "../../SCRIPTS/JsFunctions.js";
 import MyAjax from "../../SCRIPTS/MyAjax.js";
 
 setDOC_NUM();
+setInterval(setDOC_NUM, _RESET_TIME);
+
 setDOC_TYPE();
 setDOC_OFFICE();
 
