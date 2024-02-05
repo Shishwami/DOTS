@@ -14,7 +14,7 @@ function setTable(filter) {
         DOTS_DOC_STATUS.NAME + "`.`" + DOTS_DOC_STATUS.ID + "` " +
 
         " LEFT JOIN `" + DOTS_DOC_TYPE.NAME + "` ON `" +
-        DOTS_DOCUMENT.NAME + "`.`" + DOTS_DOCUMENT.DOC_STATUS + "` = `" +
+        DOTS_DOCUMENT.NAME + "`.`" + DOTS_DOCUMENT.DOC_TYPE + "` = `" +
         DOTS_DOC_TYPE.NAME + '`.`' + DOTS_DOC_TYPE.ID + "` " +
 
         " LEFT JOIN `" + DOTS_ACCOUNT_INFO.NAME + "` ON `" +
@@ -46,6 +46,8 @@ function setTable(filter) {
                 delete response.VALID;
                 const results = Object.values(response)[0]; console.log(DOC_VIEW_MAIN);
                 JsFunctions.updateTable(results, DOC_VIEW_MAIN, filter);
+                console.log(response);
+
             } else {
                 console.log(response);
             }

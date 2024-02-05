@@ -104,5 +104,9 @@ const _SUB_NAME = {
     OFFICE_AGENCY: 'Office/Agency',
     RECEIVED_BY: 'Received By',
     DATE_TIME_RECEIVED: 'Date Received',
-    DOC_STATUS: "Status"
+    DOC_STATUS: "Status",
+
+    HRIS_ID: 'HRIS ID',
+    FULL_NAME: 'Fullname',
+    INITIAL: 'Initial',
 }

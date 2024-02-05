@@ -66,7 +66,8 @@ function INSERT_($inputs, $conn)
 
     echo json_encode(
         array(
-            'VALID' => $valid
+            'VALID' => $valid,
+            'SQL' => $sql,
         )
     );
 }

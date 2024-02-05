@@ -35,12 +35,12 @@ FORM_RECEIVE.addEventListener('submit', function (e) {
             } else {
                 if (response.VALID) {
                     delete response.VALID;
-                    console.log(response);
                     data["RECEIVED_BY"] = Object.values(response)[0];
                     MyAjax.createJSON((error, response) => {
                         if (!error) {
                             if (response.VALID) {
-                                alert("DOC CREATED");
+                                console.log(response);
+                                alert("DOC CREsddssddsATED");
                             }
                         } else {
                             alert(error);
