@@ -58,11 +58,15 @@
                     </div>
                     <div class="content">
                         <label for="DOC_SUBJECT">Subject:</label>
-                        <input type="text" name="DOC_SUBJECT" id="DOC_SUBJECT">
+                        <textarea name="DOC_SUBJECT" id="DOC_SUBJECT" cols="20" rows="5"></textarea>
                     </div>
                 </div>
 
-                <input type="submit" value="Submit">
+                <div class="submit">
+                    <input type="submit" value="Submit">
+                </div>
+
+                <?php include "../Dropdown Function/Dropdown.php"; ?>
 
             </form>
             

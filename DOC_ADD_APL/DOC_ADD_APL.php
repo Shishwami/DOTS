@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="DOTS_ADD_APL.css">
-    <link rel="stylesheet" href="../DOTS_NAVBAR/DOTS_NAV.css">
     <link rel="stylesheet" href="../Dropdown Function/Dropdown.css">
+    <link rel="stylesheet" href="DOC_ADD_APL.css">
+    <link rel="stylesheet" href="../DOTS_NAVBAR/DOTS_NAV.css">
+    <!-- <link rel="stylesheet" href="../Dropdown Function/Dropdown.css"> -->
     <title></title>
 </head>
 
@@ -73,7 +74,7 @@
                             <th><h2>Purpose</h2></th>
                         </tr>
                         <tr>
-                            <td><?php include "../Dropdown Function/Dropdown.php" ?></td>
+                            <td><?php include "../Dropdown Function/Dropdown.php"; ?></td>
                             <td><?php //purpose row from db?></td>
                         </tr>
                     </table>
