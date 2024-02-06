@@ -26,40 +26,44 @@
         <button name="DOC_DELETE" id="DOC_DELETE">DELETE</button>
     </div>
 
-    <form action="submit" name="FORM_DOC_SEND" id="FORM_DOC_SEND">
-        <div>
-            <label for="DOC_NUMBER">Document Number:</label>
-            <input type="text" name="DOC_NUMBER" id="DOC_NUMBER" disabled>
-        </div>
-        <div>
-            <label for="DOC_PRPS">Documnet Purpose:</label>
-            <select name="DOC_PRPS" id="DOC_PRPS">
+    <div>
+        <h1>SEND MODAL</h1>
+        <form action="submit" name="FORM_DOC_SEND" id="FORM_DOC_SEND">
+            <div>
+                <label for="DOC_NUM">Document Number:</label>
+                <input type="text" name="DOC_NUM" id="DOC_NUM" disabled>
+            </div>
+            <div>
+                <label for="DOC_PRPS">Documnet Purpose:</label>
+                <select name="DOC_PRPS" id="DOC_PRPS">
+                    <option value="" disabled selected>Please Select Purpose</option>
+                    <!-- to be filled using database -->
+                </select>
+            </div>
+            <div>
+                <label for="DOC_DIVISION">Division:</label>
+                <select name="DOC_DIVISION" id="DOC_DIVISION">
+                    <option value="" disabled selected>Please Select Division</option>
+                    <!-- to be filled using database -->
+                </select>
+            </div>
+            <div>
+                <label for="DOC_ADDRESSEE">Addressee:</label>
+                <select name="DOC_ADDRESSEE" id="DOC_ADDRESSEE">
+                    <!-- to be filled using database -->
+                </select>
+            </div>
+            <div>
+                <label for="DOC_NOTES">Notes:</label>
+                <input type="text" name="DOC_NOTES" id="DOC_NOTES">
+            </div>
 
-            </select>
-        </div>
-        <div>
-            <label for="DOC_DIVISION">Division:</label>
-            <select name="DOC_DIVISION" id="DOC_DIVISION">
-                <option value="" disabled selected>Please Select Division</option>
-                <!-- to be filled using database -->
-            </select>
-        </div>
-        <div>
-            <label for="DOC_ADDRESSEE">Addressee:</label>
-            <select name="DOC_ADDRESSEE" id="DOC_ADDRESSEE">
-                <!-- to be filled using database -->
-            </select>
-        </div>
-        <div>
-            <label for="DOC_NOTES">Notes:</label>
-            <input type="text" name="DOC_NOTES" id="DOC_NOTES">
-        </div>
-
-        <hidden style="display:block">
-            <input type="text" value = "Sending">
-        </hidden>
-        <input type="submit" value="Send">
-    </form>
+            <hidden style="display:block">
+                <input type="text" value="Sending">
+            </hidden>
+            <input type="submit" value="Send">
+        </form>
+    </div>
 </body>
 
 <script src="../../SCRIPTS/Constants.js"></script>
