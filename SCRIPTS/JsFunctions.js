@@ -91,7 +91,6 @@ class JsFunctions {
 
             if (target != null) {
                 var firstTdValue = target.querySelector('td:first-child').dataset.value;
-                console.log(firstTdValue);
                 sessionStorage.setItem("TEMP_DATA", firstTdValue);
             }
 

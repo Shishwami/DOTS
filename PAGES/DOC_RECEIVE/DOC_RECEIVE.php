@@ -28,13 +28,13 @@
         <div>
             <label for="DOC_TYPE">Document Type:</label> <br>
             <select name="DOC_TYPE" id="DOC_TYPE">
-                <option value="">Please Select Type</option>
+                <option value="" disabled selected>Please Select Type</option>
             </select>
         </div>
         <div>
             <label for="DOC_OFFICE">Office/Agency</label> <br>
             <select name="DOC_OFFICE" id="DOC_OFFICE">
-                <option value="">Please Select Office</option>
+                <option value="" disabled selected>Please Select Office</option>
             </select>
         </div>
         <div>

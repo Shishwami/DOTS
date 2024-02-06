@@ -40,6 +40,7 @@
         <div>
             <label for="DOC_DIVISION">Division:</label>
             <select name="DOC_DIVISION" id="DOC_DIVISION">
+                <option value="" disabled selected>Please Select Division</option>
                 <!-- to be filled using database -->
             </select>
         </div>
@@ -53,6 +54,10 @@
             <label for="DOC_NOTES">Notes:</label>
             <input type="text" name="DOC_NOTES" id="DOC_NOTES">
         </div>
+
+        <hidden style="display:block">
+            <input type="text" value = "Sending">
+        </hidden>
         <input type="submit" value="Send">
     </form>
 </body>

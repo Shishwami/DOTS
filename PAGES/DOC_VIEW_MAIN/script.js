@@ -4,7 +4,6 @@ import MyAjax from "../../SCRIPTS/MyAjax.js";
 setDOC_PURPOSE();
 setDOC_DIVISION();
 
-
 setTable("");
 searchBar.addEventListener('input', function (e) {
     setTable(searchBar.value.toUpperCase());
@@ -12,6 +11,8 @@ searchBar.addEventListener('input', function (e) {
 
 const TBODY = DOC_VIEW_MAIN.querySelector("tbody");
 JsFunctions.tbodyEventListener(TBODY);
+
+
 
 function setTable(filter) {
 
@@ -137,7 +138,7 @@ function setADDRESSEE(DIVISION_ID) {
             if (response.VALID) {
                 delete response.VALID;
                 var object = Object.values(response)[0];
-                JsFunctions.setSelect(DIVISION, object);
+                JsFunctions.setSelect(DOC_ADDRESSEE, object);
             } else {
             }
         } else {
