@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../Modal/Modal.css">
-    <link rel="stylesheet" href="DOTS_DOCS_PRPS.css">
     <link rel="stylesheet" href="../DOTS_NAVBAR/DOTS_NAV.css">
+    <link rel="stylesheet" href="DOCS_TYPE.css">
     <title></title>
 </head>
 <style>
@@ -18,23 +18,24 @@
 <body>
     <?php include '../DOTS_NAVBAR/DOTS_NAV.php';?>
 
-
     <div class="container" id="main">
-        <h1>DOCUMENT PURPOSE</h1>
 
-        <div class="main">
+    <h1>Document Type</h1>
+
+    <div class="main">
 
         <div class="search">
             <label for="searchBar">Search:</label>
             <input type="text" name="searchBar" id="searchBar" placeholder="Search">
         </div>
         
-        <table id="TABLE_DOC_PRPS">
+        <table id="TABLE_DOC_TYPE">
             <thead>
                 <tr>
 
-                </tr>
+                 </tr>
             </thead>
+
             <tbody>
 
             </tbody>
@@ -50,14 +51,14 @@
                     <h1>Add Something</h1>
                 </div>
 
-                <form class="form" action="submit" id="FORM_DOC_PRPS_ADD">
+                <form class="form" action="submit" id="FORM_DOC_TYPE_ADD">
                     <div class="head">
-                        <label for="DOC_PRPS_ADD_NAME">Purpose Type:</label>
-                        <input type="text" name="DOC_PRPS_ADD_NAME" id="DOC_PRPS_ADD_NAME">
+                        <label for="DOC_TYPE_ADD_NAME">Purpose Type:</label>
+                        <input type="text" name="DOC_TYPE_ADD_NAME" id="DOC_TYPE_ADD_NAME">
                     </div>
                     <div class="head">
-                        <label for="DOC_PRPS_ADD_CODE">Purpose Code:</label>
-                        <input type="text" name="DOC_PRPS_ADD_CODE" id="DOC_PRPS_ADD_CODE">
+                        <label for="DOC_TYPE_ADD_CODE">Purpose Code:</label>
+                        <input type="text" name="DOC_TYPE_ADD_CODE" id="DOC_TYPE_ADD_CODE">
                     </div>
                     <div class="add_inputs">
                         <input type="submit" value="Add">
@@ -73,14 +74,14 @@
                     <h1>Add Something</h1>
                 </div>
 
-                <form class="form" action="submit" id="FORM_DOC_PRPS_EDIT">
+                <form class="form" action="submit" id="FORM_DOC_TYPE_EDIT">
                     <div class="head">
-                        <label for="DOC_PRPS_EDIT_NAME">Purpose Type:</label>
-                        <input type="text" name="DOC_PRPS_EDIT_NAME" id="DOC_PRPS_EDIT_NAME" data-keys="DOC_PRPS_NAME">
+                        <label for="DOC_TYPE_EDIT_NAME">Purpose Type:</label>
+                        <input type="text" name="DOC_TYPE_EDIT_NAME" id="DOC_TYPE_EDIT_NAME" data-keys="DOC_TYPE_NAME">
                     </div>
                     <div class="head">
-                        <label for="DOC_PRPS_EDIT_CODE">Purpose Code:</label>
-                        <input type="text" name="DOC_PRPS_EDIT_CODE" id="DOC_PRPS_EDIT_CODE" data-keys="DOC_PRPS_CODE">
+                        <label for="DOC_TYPE_EDIT_CODE">Purpose Code:</label>
+                        <input type="text" name="DOC_TYPE_EDIT_CODE" id="DOC_TYPE_EDIT_CODE" data-keys="DOC_TYPE_CODE">
                     </div>
                     <div class="dlt_inputs">
                         <input type="button" value="Delete">
@@ -90,8 +91,10 @@
             </div>
         </div>
 
-        </div>
     </div>
+
+    </div>
+    <br>
 
     <script src="../Modal/Modal.js"></script>
     <script src="../SCRIPTS/Constants.js"></script>
@@ -100,33 +103,33 @@
         import MyAjax from "../SCRIPTS/MyAjax.js";
         import JsFunctions from "../SCRIPTS/JsFunctions.js";
 
-        const DOC_PRPS_ADD = document.getElementById("FORM_DOC_PRPS_ADD");
-        const DOC_PRPS_EDIT = document.getElementById("FORM_DOC_PRPS_EDIT");
-        const DOC_PRPS_DELETE_BTTN = DOC_PRPS_EDIT.querySelector("input[type=button]");
-        const DOC_PRPS_TBL = document.getElementById("TABLE_DOC_PRPS");
-        const DOC_PRPS_SB = document.getElementById("searchBar");
+        const DOC_TYPE_ADD = document.getElementById("FORM_DOC_TYPE_ADD");
+        const DOC_TYPE_EDIT = document.getElementById("FORM_DOC_TYPE_EDIT");
+        const DOC_TYPE_DELETE_BTTN = DOC_TYPE_EDIT.querySelector("input[type=button]");
+        const DOC_TYPE_TBL = document.getElementById("TABLE_DOC_TYPE");
+        const DOC_TYPE_SB = document.getElementById("searchBar");
 
         updateTable("");
         setInterval(function () {
-            updateTable(DOC_PRPS_SB.value.toUpperCase());
+            updateTable(DOC_TYPE_SB.value.toUpperCase());
         }, _RESET_TIME);
 
-        DOC_PRPS_ADD.addEventListener('submit', function (e) {
+        DOC_TYPE_ADD.addEventListener('submit', function (e) {
 
-            const DOC_PRPS_ADD_NAME = DOC_PRPS_ADD.querySelector('#DOC_PRPS_ADD_NAME');
-            const DOC_PRPS_ADD_CODE = DOC_PRPS_ADD.querySelector('#DOC_PRPS_ADD_CODE');
-            const DOC_PRPS_ADD_BTTN = DOC_PRPS_ADD.querySelector("input[type=submit]");
+            const DOC_TYPE_ADD_NAME = DOC_TYPE_ADD.querySelector('#DOC_TYPE_ADD_NAME');
+            const DOC_TYPE_ADD_CODE = DOC_TYPE_ADD.querySelector('#DOC_TYPE_ADD_CODE');
+            const DOC_TYPE_ADD_BTTN = DOC_TYPE_ADD.querySelector("input[type=submit]");
 
             JsFunctions.disableFormDefault(e);
-            JsFunctions.disableFormButton(DOC_PRPS_ADD_BTTN);
+            JsFunctions.disableFormButton(DOC_TYPE_ADD_BTTN);
 
             const data = {
-                TABLE_NAME: _TABLE.DOTS_DOC_PRPS.NAME,
+                TABLE_NAME: _TABLE.DOTS_DOC_TYPE.NAME,
                 REQUEST: _REQUEST.INSERT
             };
 
-            data[_TABLE.DOTS_DOC_PRPS.DOC_PRPS_NAME] = DOC_PRPS_ADD_NAME.value;
-            data[_TABLE.DOTS_DOC_PRPS.DOC_PRPS_CODE] = DOC_PRPS_ADD_CODE.value;
+            data[_TABLE.DOTS_DOC_TYPE.DOC_TYPE_NAME] = DOC_TYPE_ADD_NAME.value;
+            data[_TABLE.DOTS_DOC_TYPE.DOC_TYPE_CODE] = DOC_TYPE_ADD_CODE.value;
 
             MyAjax.createJSON((error, response) => {
                 if (error) {
@@ -136,9 +139,9 @@
                     if (response.VALID) {
                         //console.log(response);
                         //success message
-                        JsFunctions.clearInputText(DOC_PRPS_ADD_NAME);
-                        JsFunctions.clearInputText(DOC_PRPS_ADD_CODE);
-                        JsFunctions.enableFormButton(DOC_PRPS_ADD_BTTN);
+                        JsFunctions.clearInputText(DOC_TYPE_ADD_NAME);
+                        JsFunctions.clearInputText(DOC_TYPE_ADD_CODE);
+                        JsFunctions.enableFormButton(DOC_TYPE_ADD_BTTN);
                     } else {
                         // console.log(response);
                         //error message
@@ -148,23 +151,23 @@
 
         });
 
-        DOC_PRPS_EDIT.addEventListener('submit', function (e) {
+        DOC_TYPE_EDIT.addEventListener('submit', function (e) {
 
-            const DOC_PRPS_EDIT_NAME = DOC_PRPS_EDIT.querySelector('#DOC_PRPS_EDIT_NAME');
-            const DOC_PRPS_EDIT_CODE = DOC_PRPS_EDIT.querySelector('#DOC_PRPS_EDIT_CODE');
-            const DOC_PRPS_EDIT_BTTN = DOC_PRPS_EDIT.querySelector("input[type=submit]");
+            const DOC_TYPE_EDIT_NAME = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_NAME');
+            const DOC_TYPE_EDIT_CODE = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_CODE');
+            const DOC_TYPE_EDIT_BTTN = DOC_TYPE_EDIT.querySelector("input[type=submit]");
 
             JsFunctions.disableFormDefault(e);
-            JsFunctions.disableFormButton(DOC_PRPS_EDIT_BTTN);
+            JsFunctions.disableFormButton(DOC_TYPE_EDIT_BTTN);
 
             const data = {
-                TABLE_NAME: _TABLE.DOTS_DOC_PRPS.NAME,
+                TABLE_NAME: _TABLE.DOTS_DOC_TYPE.NAME,
                 REQUEST: _REQUEST.UPDATE,
-                CONDITION: DOC_PRPS_EDIT_BTTN.dataset.condition
+                CONDITION: DOC_TYPE_EDIT_BTTN.dataset.condition
             };
 
-            data[_TABLE.DOTS_DOC_PRPS.DOC_PRPS_NAME] = DOC_PRPS_EDIT_NAME.value;
-            data[_TABLE.DOTS_DOC_PRPS.DOC_PRPS_CODE] = DOC_PRPS_EDIT_CODE.value;
+            data[_TABLE.DOTS_DOC_TYPE.DOC_TYPE_NAME] = DOC_TYPE_EDIT_NAME.value;
+            data[_TABLE.DOTS_DOC_TYPE.DOC_TYPE_CODE] = DOC_TYPE_EDIT_CODE.value;
 
             MyAjax.createJSON((error, response) => {
                 if (error) {
@@ -174,9 +177,9 @@
                     if (response.VALID) {
                         //console.log(response);
                         //success message
-                        JsFunctions.clearInputText(DOC_PRPS_EDIT_NAME);
-                        JsFunctions.clearInputText(DOC_PRPS_EDIT_CODE);
-                        JsFunctions.enableFormButton(DOC_PRPS_EDIT_BTTN);
+                        JsFunctions.clearInputText(DOC_TYPE_EDIT_NAME);
+                        JsFunctions.clearInputText(DOC_TYPE_EDIT_CODE);
+                        JsFunctions.enableFormButton(DOC_TYPE_EDIT_BTTN);
                     } else {
                         // console.log(response);
                         //error message
@@ -186,12 +189,13 @@
 
         });
 
-        DOC_PRPS_DELETE_BTTN.addEventListener('click', function (e) {
+        DOC_TYPE_DELETE_BTTN.addEventListener('click', function (e) {
             const data = {
-                TABLE_NAME: _TABLE.DOTS_DOC_PRPS.NAME,
+                TABLE_NAME: _TABLE.DOTS_DOC_TYPE.NAME,
                 REQUEST: _REQUEST.DELETE,
-                CONDITION: DOC_PRPS_DELETE_BTTN.dataset.condition
+                CONDITION: DOC_TYPE_DELETE_BTTN.dataset.condition
             };
+
 
             MyAjax.createJSON((error, response) => {
                 if (error) {
@@ -199,7 +203,7 @@
                     //message popup
                 } else {
                     if (response.VALID) {
-                        console.log(response);
+                        // console.log(response);
                         //success message
                     } else {
                         // console.log(response);
@@ -210,16 +214,16 @@
 
         });
 
-        DOC_PRPS_SB.addEventListener('input', function (e) {
-            updateTable(DOC_PRPS_SB.value.toUpperCase());
+        DOC_TYPE_SB.addEventListener('input', function (e) {
+            updateTable(DOC_TYPE_SB.value.toUpperCase());
         });
 
         function updateTable(filter) {
-            const TBL_BODY = DOC_PRPS_TBL.querySelector("tbody");
-            const TBL_HEAD = DOC_PRPS_TBL.querySelector("thead");
+            const TBL_BODY = DOC_TYPE_TBL.querySelector("tbody");
+            const TBL_HEAD = DOC_TYPE_TBL.querySelector("thead");
 
             const data = {
-                TABLE_NAME: _TABLE.DOTS_DOC_PRPS.NAME,
+                TABLE_NAME: _TABLE.DOTS_DOC_TYPE.NAME,
                 REQUEST: _REQUEST.SELECT,
                 COLUMNS: ""
             };
@@ -243,9 +247,9 @@
 
         function addEventOnTR(thead, tbody) {
             const TrList = tbody.getElementsByTagName('tr');
-            const DOC_PRPS_EDIT_NAME = DOC_PRPS_EDIT.querySelector('#DOC_PRPS_EDIT_NAME');
-            const DOC_PRPS_EDIT_CODE = DOC_PRPS_EDIT.querySelector('#DOC_PRPS_EDIT_CODE');
-            const DOC_PRPS_EDIT_BTTN = DOC_PRPS_EDIT.querySelector("input[type=submit]");
+            const DOC_TYPE_EDIT_NAME = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_NAME');
+            const DOC_TYPE_EDIT_CODE = DOC_TYPE_EDIT.querySelector('#DOC_TYPE_EDIT_CODE');
+            const DOC_TYPE_EDIT_BTTN = DOC_TYPE_EDIT.querySelector("input[type=submit]");
 
             for (let index = 0; index < TrList.length; index++) {
                 TrList[index].addEventListener('click', function (e) {
@@ -261,16 +265,16 @@
                         TdKeys.push(Td[i].dataset.keys);
                         TdKeysAndValues[TdKeys[i]] = TdValues[i];
 
-                        if (DOC_PRPS_EDIT_NAME.dataset.keys == TdKeys[i]) {
-                            DOC_PRPS_EDIT_NAME.value = TdValues[i];
+                        if (DOC_TYPE_EDIT_NAME.dataset.keys == TdKeys[i]) {
+                            DOC_TYPE_EDIT_NAME.value = TdValues[i];
                         }
-                        if (DOC_PRPS_EDIT_CODE.dataset.keys == TdKeys[i]) {
-                            DOC_PRPS_EDIT_CODE.value = TdValues[i];
+                        if (DOC_TYPE_EDIT_CODE.dataset.keys == TdKeys[i]) {
+                            DOC_TYPE_EDIT_CODE.value = TdValues[i];
                         }
                     }
 
-                    DOC_PRPS_EDIT_BTTN.dataset.condition = JSON.stringify(TdKeysAndValues);
-                    DOC_PRPS_DELETE_BTTN.dataset.condition = JSON.stringify(TdKeysAndValues);
+                    DOC_TYPE_EDIT_BTTN.dataset.condition = JSON.stringify(TdKeysAndValues);
+                    DOC_TYPE_DELETE_BTTN.dataset.condition = JSON.stringify(TdKeysAndValues);
                 });
             }
         }

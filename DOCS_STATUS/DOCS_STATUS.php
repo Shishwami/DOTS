@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../Modal/Modal.css">
     <link rel="stylesheet" href="../DOTS_NAVBAR/DOTS_NAV.css">
-    <link rel="stylesheet" href="DOTS_DOCS_STATUS.css">
+    <link rel="stylesheet" href="DOCS_STATUS.css">
     <title></title>
 </head>
 <style>
