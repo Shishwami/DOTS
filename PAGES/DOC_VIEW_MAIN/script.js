@@ -152,6 +152,13 @@ function setADDRESSEE(DIVISION_ID) {
 
 function setButtonEvents() {
     DOC_SEND.addEventListener('click', function (e) {
+        clearValues();
         DOC_NUM.value = sessionStorage.getItem("TEMP_DATA");
     });
+}
+
+function clearValues(){
+    DOC_PRPS.value = "";
+    DOC_DIVISION.value = "";
+    DOC_NOTES.value = "";
 }
