@@ -26,7 +26,7 @@
         <button name="DOC_DELETE" id="DOC_DELETE">DELETE</button>
     </div>
 
-    <form action="submit" name="FORM_DOC_SEND">
+    <form action="submit" name="FORM_DOC_SEND" id="FORM_DOC_SEND">
         <div>
             <label for="DOC_NUMBER">Document Number:</label>
             <input type="text" name="DOC_NUMBER" id="DOC_NUMBER" disabled>
