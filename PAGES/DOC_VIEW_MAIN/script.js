@@ -4,6 +4,8 @@ import MyAjax from "../../SCRIPTS/MyAjax.js";
 setDOC_PURPOSE();
 setDOC_DIVISION();
 
+setButtonEvents();
+
 setTable("");
 searchBar.addEventListener('input', function (e) {
     setTable(searchBar.value.toUpperCase());
@@ -146,4 +148,10 @@ function setADDRESSEE(DIVISION_ID) {
         }
     }, data);
 
+}
+
+function setButtonEvents() {
+    DOC_SEND.addEventListener('click', function (e) {
+        DOC_NUM.value = sessionStorage.getItem("TEMP_DATA");
+    });
 }
