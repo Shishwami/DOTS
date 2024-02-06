@@ -125,9 +125,12 @@ function UPDATE_($inputs, $conn)
 
     $TABLE_NAME = $inputs['TABLE_NAME'];
     unset($inputs['TABLE_NAME']);
-    $CONDITION = $inputs['CONDITION'];
-    $CONDITION = json_decode($CONDITION, true);
-    unset($inputs['CONDITION']);
+    
+    $CONDITION = "";
+    if (isset($inputs['CONDITION'])) {
+        $CONDITION = $inputs['CONDITION'];
+        unset($inputs['CONDITION']);
+    }
 
     $sql = $querries->updateQuery($TABLE_NAME, $inputs, $CONDITION);
 

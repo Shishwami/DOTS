@@ -31,7 +31,7 @@ class Queries
             }
         }
         $sql .= ";";
-        
+
         return $sql;
     }
 

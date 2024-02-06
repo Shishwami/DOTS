@@ -35,10 +35,6 @@ class JsFunctions {
                 cell.dataset.value = value;
                 row.appendChild(cell);
 
-                if (value != null) {
-                    value = "NULL";
-                }
-
                 if (value.toUpperCase().indexOf(filter) > -1) {
                     found++;
                 }
@@ -78,7 +74,7 @@ class JsFunctions {
     static checkIfEmpty(values) {
         var empty = false;
         for (let i = 0; i < values.length; i++) {
-            if (values[i] == "") {
+            if (values[i] == "" || values[i] == null) {
                 empty = true;
             }
         }

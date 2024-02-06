@@ -11,6 +11,10 @@ searchBar.addEventListener('input', function (e) {
     setTable(searchBar.value.toUpperCase());
 });
 
+setInterval(function () {
+    setTable(searchBar.value.toUpperCase());
+}, _RESET_TIME);
+
 const TBODY = DOC_VIEW_MAIN.querySelector("tbody");
 JsFunctions.tbodyEventListener(TBODY);
 
@@ -23,20 +27,48 @@ FORM_DOC_SEND.addEventListener('submit', function (e) {
     data['TABLE_NAME'] = DOTS_OUTBOUND.NAME;
     data['REQUEST'] = _REQUEST.INSERT;
 
-    console.log(data);
+    delete data.DOC_NOTES;
+    const dataValues = Object.values(data);
+    var empty = JsFunctions.checkIfEmpty(dataValues);
+    data['DOC_NOTES'] = DOC_NOTES.value
 
-    MyAjax.createJSON((error, response) => {
-        if (error) {
-            alert(error);
-        } else {
-            if (response.VALID) {
-                delete response.VALID;
-                console.log(response);
+    var updateCondition = {
+        DOC_NUM: data[DOTS_DOCUMENT.DOC_NUM],
+        DOC_NUM: data[DOTS_DOCUMENT.DOC_NUM],
+    }
+    var updateData = {
+        TABLE_NAME: DOTS_DOCUMENT.NAME,
+        REQUEST: _REQUEST.UPDATE,
+        DOC_STATUS: 2,//pending
+        CONDITION: updateCondition,
+    }
+
+    console.log(updateCondition);
+    console.log(updateData);
+    if (!empty) {
+        MyAjax.createJSON((error, response) => {
+            if (error) {
+                alert(error);
             } else {
-
+                if (response.VALID) {
+                    delete response.VALID;
+                    alert("SENT");
+                    //update status from received to pending
+                    MyAjax.createJSON((error, response) => {
+                        if (error) {
+                            alert(error);
+                        } else {
+                            if (response.VALID) {
+                                delete response.VALID;
+                            }
+                        }
+                    }, updateData);
+                }
             }
-        }
-    }, data);
+        }, data);
+    } else {
+        alert("CHECKINPUTS");
+    }
 
 });
 
@@ -69,7 +101,8 @@ function setTable(filter) {
         TABLE_NAME: DOTS_DOCUMENT.NAME,
         REQUEST: _REQUEST.SELECT,
         COLUMNS: columns,
-        JOIN_CONDITION: joinCondition
+        JOIN_CONDITION: joinCondition,
+        DOC_STATUS: 0,
     }
 
     MyAjax.createJSON((error, response) => {

@@ -42,6 +42,8 @@
             <input type="text" name="DOC_SUBJECT" id="DOC_SUBJECT">
         </div>
 
+        <input type="text" name="DOC_STATUS" id="DOC_STATUS" value="0">
+
         <input type="submit" value="Submit">
 
     </form>
