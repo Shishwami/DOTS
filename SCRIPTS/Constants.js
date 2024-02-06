@@ -77,6 +77,17 @@ const _REQUEST = {
     GET_SESSION_INITIAL: 'GET_SESSION_INITIAL',
     GET_SESSION_ID: 'GET_SESSION_ID',
 }
+const DOTS_OUTBOUND = {
+    NAME: 'DOTS_OUTBOUND',
+    DOC_NUM: 'DOC_NUM',
+    ID: 'ID',
+    DOC_PRPS: 'DOC_PRPS',
+    DOC_ADDRESSEE: 'DOC_ADDRESSEE',
+    DOC_NOTES: 'DOC_NOTES',
+    DOC_ACTION: 'DOC_ACTION',
+    DOC_LOCATION: 'DOC_LOCATION',
+    DOC_DIVISION: 'DOC_DIVISION',
+}
 
 const _SUB_NAME = {
 
@@ -100,7 +111,7 @@ const _SUB_NAME = {
     DOC_NUM: 'No.',
     DOC_SUBJECT: 'Subject',
     DOC_TYPE: 'Document Type',
-    DOC_OFFICE:'Document Office',
+    DOC_OFFICE: 'Document Office',
     LETTER_DATE: 'Letter Date',
     OFFICE_AGENCY: 'Office/Agency',
     RECEIVED_BY: 'Received By',

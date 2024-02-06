@@ -3,7 +3,7 @@ import MyAjax from "../../SCRIPTS/MyAjax.js";
 
 setDOC_PURPOSE();
 setDOC_DIVISION();
-
+setDOC_LOCATION();
 setButtonEvents();
 
 setTable("");
@@ -14,7 +14,31 @@ searchBar.addEventListener('input', function (e) {
 const TBODY = DOC_VIEW_MAIN.querySelector("tbody");
 JsFunctions.tbodyEventListener(TBODY);
 
+FORM_DOC_SEND.addEventListener('submit', function (e) {
+    e.preventDefault();
 
+    var data = JsFunctions.FormToJson(this);
+    data['DOC_DIVISION'] = DOC_DIVISION.value;
+    data['DOC_ADDRESSEE'] = DOC_ADDRESSEE.value;
+    data['TABLE_NAME'] = DOTS_OUTBOUND.NAME;
+    data['REQUEST'] = _REQUEST.INSERT;
+
+    console.log(data);
+
+    MyAjax.createJSON((error, response) => {
+        if (error) {
+            alert(error);
+        } else {
+            if (response.VALID) {
+                delete response.VALID;
+                console.log(response);
+            } else {
+
+            }
+        }
+    }, data);
+
+});
 
 function setTable(filter) {
 
@@ -61,7 +85,6 @@ function setTable(filter) {
         }
     }, data);
 }
-
 function setDOC_PURPOSE() {
 
     var columns = [
@@ -88,7 +111,6 @@ function setDOC_PURPOSE() {
         }
     }, data);
 }
-
 function setDOC_DIVISION() {
 
     DOC_DIVISION.addEventListener('change', function (e) {
@@ -120,10 +142,9 @@ function setDOC_DIVISION() {
         }
     }, data);
 }
-
 function setADDRESSEE(DIVISION_ID) {
     var columns = [
-        DOTS_ACCOUNT_INFO.DIVISION,
+        DOTS_ACCOUNT_INFO.HRIS_ID,
         DOTS_ACCOUNT_INFO.FULL_NAME,
     ]
 
@@ -132,9 +153,8 @@ function setADDRESSEE(DIVISION_ID) {
         REQUEST: _REQUEST.SELECT,
         COLUMNS: columns,
         DIVISION: DIVISION_ID,
-
     }
-    DOC_ADDRESSEE.innerHTML = "";
+
     MyAjax.createJSON((error, response) => {
         if (!error) {
             if (response.VALID) {
@@ -149,16 +169,55 @@ function setADDRESSEE(DIVISION_ID) {
     }, data);
 
 }
-
+function setDOC_LOCATION() {
+    const data = {
+        REQUEST: _REQUEST.GET_SESSION_ID,
+    }
+    MyAjax.createJSON((error, response) => {
+        if (!error) {
+            if (response.VALID) {
+                delete response.VALID;
+                DOC_LOCATION.value = Object.values(response)[0];
+            }
+        } else {
+            alert(error)
+        }
+    }, data);
+}
 function setButtonEvents() {
     DOC_SEND.addEventListener('click', function (e) {
+
         clearValues();
-        DOC_NUM.value = sessionStorage.getItem("TEMP_DATA");
+        resetAddressee();
+
+        const doc_num = sessionStorage.getItem("TEMP_DATA");
+        sessionStorage.clear("TEMP_DATA");
+
+        if (doc_num != null) {
+            DOC_NUM.value = doc_num;
+        } else {
+            alert("Please Select A Document");
+        }
     });
+
+    function clearValues() {
+        DOC_PRPS.value = "";
+        DOC_DIVISION.value = "";
+        DOC_NOTES.value = "";
+        DOC_ADDRESSEE.value = "";
+
+
+    }
+
+    function resetAddressee() {
+        const blankOption = document.createElement('option');
+        blankOption.innerText = "Please Select Addressee";
+        blankOption.disabled = true;
+        blankOption.selected = true;
+        blankOption.value = "";
+
+        DOC_ADDRESSEE.innerHTML = "";
+        DOC_ADDRESSEE.append(blankOption);
+    }
 }
 
-function clearValues(){
-    DOC_PRPS.value = "";
-    DOC_DIVISION.value = "";
-    DOC_NOTES.value = "";
-}

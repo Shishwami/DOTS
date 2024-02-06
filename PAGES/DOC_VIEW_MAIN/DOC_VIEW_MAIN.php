@@ -20,10 +20,7 @@
 
     <div>
         <button name="DOC_SEND" id="DOC_SEND">SEND</button>
-        <button name="DOC_EDIT" id="DOC_EDIT">EDIT</button>
-        <button name="DOC_TRACK" id="DOC_TRACK">TRACK</button>
         <button name="DOC_ATTACHMENTS" id="DOC_ATTACHMENTS">ATTACHMENTS</button>
-        <button name="DOC_DELETE" id="DOC_DELETE">DELETE</button>
     </div>
 
     <div>
@@ -31,7 +28,7 @@
         <form action="submit" name="FORM_DOC_SEND" id="FORM_DOC_SEND">
             <div>
                 <label for="DOC_NUM">Document Number:</label>
-                <input type="text" name="DOC_NUM" id="DOC_NUM" disabled>
+                <input type="text" name="DOC_NUM" id="DOC_NUM" readonly>
             </div>
             <div>
                 <label for="DOC_PRPS">Documnet Purpose:</label>
@@ -50,6 +47,7 @@
             <div>
                 <label for="DOC_ADDRESSEE">Addressee:</label>
                 <select name="DOC_ADDRESSEE" id="DOC_ADDRESSEE">
+                    <option value="" disabled selected>Please Select Addressee</option>
                     <!-- to be filled using database -->
                 </select>
             </div>
@@ -59,10 +57,15 @@
             </div>
 
             <hidden style="display:block">
-                <input type="text" value="Sending">
+                <input type="text" name="DOC_ACTION" id="DOC_ACTION" value="3">
+                <input type="text" name="DOC_LOCATION" id="DOC_LOCATION" value="">
             </hidden>
             <input type="submit" value="Send">
         </form>
+    </div>
+
+    <div>
+        <h2>ATTACHMENTS MODAL</h2>
     </div>
 </body>
 
