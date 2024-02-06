@@ -109,12 +109,14 @@ function setTable(filter) {
         if (error) {
             alert(error);
         } else {
+            var results = ""
             if (response.VALID) {
                 delete response.VALID;
-                const results = Object.values(response)[0];
-                JsFunctions.updateTable(results, DOC_VIEW_MAIN, filter);
+                results = Object.values(response)[0];
             } else {
+                //response valid=false
             }
+            JsFunctions.updateTable(results, DOC_VIEW_MAIN, filter);
         }
     }, data);
 }
