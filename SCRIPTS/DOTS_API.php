@@ -40,9 +40,6 @@ switch ($REQUEST) {
     case 'GET_SESSION_ID':
         getSessionID();
         break;
-    case 'INSERT_DOCLOG':
-        insertDocLog($inputs, $conn);
-        break;
 }
 $conn->close();
 
@@ -154,6 +151,7 @@ function DELETE_($inputs, $conn)
 
     $TABLE_NAME = $inputs['TABLE_NAME'];
     unset($inputs['TABLE_NAME']);
+    
     $CONDITION = $inputs['CONDITION'];
     $CONDITION = json_decode($CONDITION, true);
     unset($inputs['CONDITION']);
@@ -288,16 +286,6 @@ function getSessionID()
             )
         );
     }
-}
-
-function insertDocLog($inputs, $conn)
-{
-    $TABLE_1 = $inputs["TABLE_1"];
-    unset($inputs["TABLE_1"]);
-
-    $TABLE_2 = $inputs["TABLE_2"];
-    unset($inputs["TABLE_1"]);
-
 }
 
 function sanitizeInputs($input)
