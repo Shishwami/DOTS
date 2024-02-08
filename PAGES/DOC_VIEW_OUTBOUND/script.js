@@ -13,10 +13,29 @@ setInterval(function () {
 
 function setTable(filter) {
 
+
+    var columns = [
+       DOTS_OUTBOUND.DOC_NUM,
+       DOTS_OUTBOUND.ID,
+       DOTS_OUTBOUND.DOC_PRPS,
+       DOTS_OUTBOUND.DOC_ADDRESSEE,
+       DOTS_OUTBOUND.DOC_NOTES,
+       DOTS_OUTBOUND.DOC_ACTION,
+       DOTS_OUTBOUND.DOC_LOCATION,
+       DOTS_OUTBOUND.DOC_DIVISION,
+    ];
+
+    var join = {
+
+    };
+
     var data = {
-        TABLE: DOTS_DOCUMENT.NAME,
+        TABLE: DOTS_OUTBOUND.NAME,
         REQUEST: _REQUEST.SELECT,
-    }
+        COLUMNS: columns,
+        // JOIN: join,
+
+    };
 
     MyAjax.createJSON((error, response) => {
         if (error) {
