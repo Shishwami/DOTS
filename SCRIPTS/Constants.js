@@ -121,4 +121,11 @@ const _SUB_NAME = {
     HRIS_ID: 'HRIS ID',
     FULL_NAME: 'Fullname',
     INITIAL: 'Initial',
+
+    // DOC_PRPS: 'Purpose',
+    // DOC_ADDRESSEE: 'Addressee',
+    // DOC_NOTES: 'Notes',
+    // DOC_ACTION: 'Action',
+    // DOC_LOCATION: 'Location',
+    // DOC_DIVISION: 'Division',
 }
