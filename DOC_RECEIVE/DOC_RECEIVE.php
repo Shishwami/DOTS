@@ -21,52 +21,56 @@
         <div class="main">
 
             <form class="page_form" action="submit" id="FORM_RECEIVE">
-                <div class="header info1">
-                    <div class="docnum">
-                        <label for="DOC_NUM">Document Number:</label>
-                        <input type="text" name="DOC_NUM" id="DOC_NUM" disabled>
+                <div class="box header">
+                    <div class="header1">
+                        <div class="subheader1">
+                            <label for="DOC_NUM">Document Number:</label>
+                            <input type="text" name="DOC_NUM" id="DOC_NUM" disabled>
+                        </div>
+                        <div class="subheader2">
+                            <label for="FULLNAME">Received By:</label>
+                            <input type="text" name="FULLNAME" id="FULLNAME" disabled>
+                        </div>
                     </div>
-                    <div class="receive">
-                        <label for="FULLNAME">Received By:</label>
-                        <input type="text" name="FULLNAME" id="FULLNAME" disabled>
-                    </div>
-                </div>
-                    
-                <div class="header info2">
-                    <div>
-                        <label for="DATE_TIME_RECEIVED">Date Received:</label>
-                        <input type="datetime-local" name="DATE_TIME_RECEIVED" id="DATE_TIME_RECEIVED">
-                    </div>
-                    <div>
-                        <label for="LETTER_DATE">Letter Date:</label>
-                        <input type="date" name="LETTER_DATE" id="LETTER_DATE">
+                        
+                    <div class="header2">
+                        <div class="subheader3">
+                            <label for="DATE_TIME_RECEIVED">Date Received:</label>
+                            <input type="datetime-local" name="DATE_TIME_RECEIVED" id="DATE_TIME_RECEIVED">
+                        </div>
+                        <div class="subheader4">
+                            <label for="LETTER_DATE">Letter Date:</label>
+                            <input type="date" name="LETTER_DATE" id="LETTER_DATE">
+                        </div>
                     </div>
                 </div>
 
-                <div class="form_content">
-                    <div class="content">
+                <div class="box form_content">
+                    <div class="content1">
                         <label for="DOC_TYPE">Document Type:</label>
-                        <select name="DOC_TYPE" id="DOC_TYPE">
+                        <?php include "../Dropdown Function/Dropdown.php"; ?>
+                        <!-- <select name="DOC_TYPE" id="DOC_TYPE">
                             <option value="" disabled selected>Please Select Type</option>
-                        </select>
+                        </select> -->
                     </div>
-                    <div class="content">
+                    <div class="content2">
                         <label for="DOC_OFFICE">Office/Agency</label>
-                        <select name="DOC_OFFICE" id="DOC_OFFICE">
+                        <?php include "../Dropdown Function/Dropdown.php"; ?>
+                        <!-- <select name="DOC_OFFICE" id="DOC_OFFICE">
                             <option value="" disabled selected>Please Select Office</option>
-                        </select>
+                        </select> -->
                     </div>
-                    <div class="content">
+                    <div class="content3">
                         <label for="DOC_SUBJECT">Subject:</label>
                         <textarea name="DOC_SUBJECT" id="DOC_SUBJECT" cols="20" rows="5"></textarea>
                     </div>
                 </div>
 
-                <div class="submit">
-                    <input type="submit" value="Submit">
+                <div class="box footer">
+                    <input class="submit" type="submit" value="Submit">
                 </div>
 
-                <?php include "../Dropdown Function/Dropdown.php"; ?>
+                
 
             </form>
             

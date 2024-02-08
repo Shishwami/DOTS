@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
+
+/* Regulation */
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: "Orbitron", sans-serif;
+    
+}
+
+body
+{
+    height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+/* Page Background */
+body:before 
+{
+    content:"";
+    background-image: url(..//Resources/1120291.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position:fixed;
+    z-index:-1;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+}
+
+/* Scroll Bar Styles */
+::-webkit-scrollbar
+{ 
+   
+    width: 15px; 
+} 
+
+::-webkit-scrollbar-track
+{ 
+    background: var(--scrollbar_track); 
+} 
+
+::-webkit-scrollbar-thumb
+{ 
+    background: var(--scrollbar_thumb); 
+} 
+
+::-webkit-scrollbar-thumb:hover
+{ 
+    background: var(--scrollbar_thumb-hover); 
+} 
+
+::-webkit-scrollbar-button
+{ 
+    display: none; 
+}
+
+.sidebar
+{
+    grid-area: sidebar;
+}
+
+.sidebar2
+{
+    grid-area: sidebar2;
+}
+
+.content
+{
+    grid-area: content;
+}
+
+.header
+{
+    grid-area: header;
+}
+.footer
+{
+    grid-area: footer;
+}
+
+.wrapper
+{
+    background-color: #eeeeee;
+    color: #444;
+    display: grid;
+    grid-gap: 1em;
+    grid-template-areas: "header" "sidebar" "content" "sidebar2" "footer"
+}
+
+@media only screen and (min-width: 500px)
+{
+    .wrapper
+    {
+        grid-template-columns: 20% auto;
+        grid-template-areas: "header   header" "sidebar  content" "sidebar2 sidebar2" "footer   footer";
+    }
+}
+
+@media only screen and (min-width: 600px)
+{
+    .wrapper
+    {
+        grid-gap: 20px;
+        grid-template-columns: 200px auto 120px;
+        grid-template-areas: "header  header  header" "sidebar content sidebar2" "footer  footer  footer";
+        
+    }
+}
+
+.box
+{
+    background-color: #444;
+    color: #ffffff;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 150%;
+}
+
+.header,
+.footer
+{
+    background-color: #8ebf42;
+}
+
+.sidebar2
+{
+    background-color: #ccc;
+    color: #444;
+}

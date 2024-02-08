@@ -90,6 +90,31 @@ body:before
     padding: 1.5rem;
 }
 
+/* Grid Styles */
+.header
+{
+    grid-area: header;
+}
+
+.content
+{
+    grid-area: content;
+}
+
+.footer
+{
+    grid-area: footer;
+}
+
+.page_form
+{
+    border-radius: 0.5rem;
+    color: var(--font_black);
+    display: grid;
+    grid-gap: 1em;
+    grid-template-areas: "header" "content" "footer"
+}
+
 .page_form label
 {
     font-size: 1.2rem;
@@ -101,10 +126,16 @@ body:before
     border-radius: 0.5rem;
 }
 
+.box
+{
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
 .header
 {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
 }
 
 .header label
@@ -112,22 +143,30 @@ body:before
     margin-right: 0.5rem;
 }
 
-.header .docnum input
+.header1 .subheader1 input,
+.header1 .subheader2 input,
+.header2 .subheader3 input,
+.header2 .subheader4 input
 {
-    width: 12rem;
+    width: 15rem;
+    
 }
 
-.header .receive input
+.header1,
+.header2
 {
-    width: 23rem;
+    display: flex;
+    justify-content: space-between;
+
 }
 
-.header.info1 input
+.header2
 {
-    background-color: var(--white);
+    margin-top: 1rem;
 }
 
-.header.info2
+/* Dropdown Remote Styles */
+.dropdown_opt
 {
     margin-top: 1rem;
 }
@@ -136,14 +175,24 @@ body:before
 {
     margin-top: 4rem;
     text-align: center;
+    display: flex;
+    justify-content: space-between;
 }
 
-.form_content .content
+.form_content select,
+.form_content textarea
 {
-    margin-top: 1rem;
     display: flex;
     flex-direction: column;
+    margin-top: 1rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
 }
+
+
+/*
+
+
 
 .form_content .content textarea
 {
@@ -163,15 +212,19 @@ body:before
     margin: 0.5rem auto;
     padding: 0.5rem;
     border-radius: 0.5rem;
-}
+} */
 
-.submit
+
+
+
+
+.footer
 {
     margin: 3rem auto 2rem auto;
     text-align: center;
 }
 
-.submit input
+.submit
 {
     width: 7rem;
     background-image: var(--submit_btn);
@@ -185,7 +238,7 @@ body:before
     cursor: pointer;
 }
 
-.submit input:hover
+.submit:hover
 {
     background-image: var(--submit_btn-hover);
     color: var(--font_black);
