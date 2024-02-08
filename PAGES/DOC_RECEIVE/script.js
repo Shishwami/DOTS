@@ -18,15 +18,15 @@ FORM_RECEIVE.addEventListener('submit', function (e) {
     const data2 = {
         REQUEST: _REQUEST.GET_SESSION_ID,
     }
-    var data = JsFunctions.FormToJson(FORM_RECEIVE);
-    data = {
-        TABLE_NAME: DOTS_DOCUMENT.NAME,
+    var vals = JsFunctions.FormToJson(FORM_RECEIVE);
+    var data = {
+        TABLE: DOTS_DOCUMENT.NAME,
         REQUEST: _REQUEST.INSERT,
-        ...data,
+        DATA: vals,
     }
 
-    const dataValues = Object.values(data);
-    var empty = JsFunctions.checkIfEmpty(dataValues);
+    // const dataValues = Object.values(data);
+    // var empty = JsFunctions.checkIfEmpty(dataValues);
 
     if (!empty) {
         MyAjax.createJSON((error, response) => {
@@ -65,7 +65,7 @@ function setDOC_NUM() {
     ]
 
     var data = {
-        TABLE_NAME: DOTS_DOCUMENT.NAME,
+        TABLE: DOTS_DOCUMENT.NAME,
         REQUEST: _REQUEST.SELECT,
         COLUMNS: columns,
     }
@@ -97,7 +97,7 @@ function setDOC_TYPE() {
     ]
 
     var data = {
-        TABLE_NAME: DOTS_DOC_TYPE.NAME,
+        TABLE: DOTS_DOC_TYPE.NAME,
         REQUEST: _REQUEST.SELECT,
         COLUMNS: columns
     }
@@ -123,7 +123,7 @@ function setDOC_OFFICE() {
     ]
 
     var data = {
-        TABLE_NAME: DOTS_DOC_OFFICE.NAME,
+        TABLE: DOTS_DOC_OFFICE.NAME,
         REQUEST: _REQUEST.SELECT,
         COLUMNS: columns
     }
