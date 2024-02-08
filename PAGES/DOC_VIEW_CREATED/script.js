@@ -102,7 +102,6 @@ function setTable(filter) {
         REQUEST: _REQUEST.SELECT,
         COLUMNS: columns,
         JOIN_CONDITION: joinCondition,
-        DOC_STATUS: 0,
     }
 
     MyAjax.createJSON((error, response) => {

@@ -10,12 +10,8 @@
 <body>
 
     <input type="text" name="searchBar" id="searchBar">
-    <select name="SELECT_DOC_STATUS" id="SELECT_DOC_STATUS">
-        <!--TO BE FILLED BY DATA BASE -->
-        <option value="">WALA PA</option>
-    </select>
 
-    <table name="DOC_VIEW_OUTBOUND">
+    <table name="DOC_VIEW_OUTBOUND" id="DOC_VIEW_OUTBOUND">
         <thead>
             <tr></tr>
         </thead>
@@ -25,8 +21,9 @@
     </table>
 
 
-
-
 </body>
+
+<script src="../../SCRIPTS/Constants.js"></script>
+<script src="./script.js" type="module"></script>
 
 </html>

@@ -31,8 +31,11 @@ class Queries
             }
         }
         $sql .= ";";
+        function createJoinStatement($joinCondition){
 
+        }
         return $sql;
+        
     }
 
     function insertQuery($tableName, $tableKeysAndValues)
