@@ -8,7 +8,13 @@
 </head>
 
 <body>
+
     <input type="text" name="searchBar" id="searchBar">
+    <select name="SELECT_DOC_STATUS" id="SELECT_DOC_STATUS">
+        <!--TO BE FILLED BY DATA BASE -->
+        <option value="">WALA PA</option>
+    </select>
+    
     <table id="DOC_VIEW_MAIN" name="DOC_VIEW_MAIN">
         <thead>
             <tr></tr>
