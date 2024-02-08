@@ -1,78 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="Notifications.css">
     <title></title>
 </head>
+
 <body>
 
     <div class="alert danger">
-    <span class="closebtn">&times;</span>  
-    <strong>Danger!</strong> OH NOOO!!! HIHI
+        <span class="closebtn">&times;</span>
+        <strong>Danger!</strong> OH NOOO!!! HIHI
     </div>
 
     <div class="alert success">
-    <span class="closebtn">&times;</span>  
-    <strong>Success!</strong> YEY! KUHA MO PAAAREHH...
+        <span class="closebtn">&times;</span>
+        <strong>Success!</strong> YEY! KUHA MO PAAAREHH...
     </div>
 
     <div class="alert info">
-    <span class="closebtn">&times;</span>  
-    <strong>Info!</strong> SOMETHING SOMETHING PAAREEEHH...
+        <span class="closebtn">&times;</span>
+        <strong>Info!</strong> SOMETHING SOMETHING PAAREEEHH...
     </div>
 
     <div class="alert warning">
-    <span class="closebtn">&times;</span>  
-    <strong>Warning!</strong> OOPPS!!! MAY SOMETHING MALI PAREEEHHH...
-</div>
+        <span class="closebtn">&times;</span>
+        <strong>Warning!</strong> OOPPS!!! MAY SOMETHING MALI PAREEEHHH...
+    </div>
 
-<script>
-    var close = document.getElementsByClassName("closebtn");
-    var i;
+    <script>
+        var close = document.getElementsByClassName("closebtn");
+        var i;
 
         for (i = 0; i < close.length; i++) {
-        close[i].onclick = function(){
-            var div = this.parentElement;
-            div.style.opacity = "0";
-            setTimeout(function(){ div.style.display = "none"; }, 600);
+            close[i].onclick = function () {
+                var div = this.parentElement;
+                div.style.opacity = "0";
+                setTimeout(function () { div.style.display = "none"; }, 600);
+            }
         }
-    }
-</script>
+    </script>
 
 </body>
+
 </html>
 
 
-   
-      <link rel="stylesheet" href="style.css">
-   
-      <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-   </head>
-   <body>
-      <button>Show Alert</button>
-      <div class="alert hide">
-         <span class="fas fa-exclamation-circle"></span>
-         <span class="msg">Warning: This is a warning alert!</span>
-         <div class="close-btn">
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+</head>
+
+<body>
+    <button>Show Alert</button>
+    <div class="alert hide">
+        <span class="fas fa-exclamation-circle"></span>
+        <span class="msg">Warning: This is a warning alert!</span>
+        <div class="close-btn">
             <span class="fas fa-times"></span>
-         </div>
-      </div>
-      <script>
-         $('button').click(function(){
-           $('.alert').addClass("show");
-           $('.alert').removeClass("hide");
-           $('.alert').addClass("showAlert");
-           setTimeout(function(){
-             $('.alert').removeClass("show");
-             $('.alert').addClass("hide");
-           },5000);
-         });
-         $('.close-btn').click(function(){
-           $('.alert').removeClass("show");
-           $('.alert').addClass("hide");
-         });
-      </script>
-   </body>
+        </div>
+    </div>
+    <script>
+        $('button').click(function () {
+            $('.alert').addClass("show");
+            $('.alert').removeClass("hide");
+            $('.alert').addClass("showAlert");
+            setTimeout(function () {
+                $('.alert').removeClass("show");
+                $('.alert').addClass("hide");
+            }, 5000);
+        });
+        $('.close-btn').click(function () {
+            $('.alert').removeClass("show");
+            $('.alert').addClass("hide");
+        });
+
+
+        document.querySelectorAll('button').forEach(function (button) {
+            button.addEventListener('click', function () {
+                // Add classes
+                document.querySelector('.alert').classList.add("show");
+                document.querySelector('.alert').classList.remove("hide");
+                document.querySelector('.alert').classList.add("showAlert");
+
+                // Set timeout to remove classes after 5000 milliseconds (5 seconds)
+                setTimeout(function () {
+                    document.querySelector('.alert').classList.remove("show");
+                    document.querySelector('.alert').classList.add("hide");
+                }, 5000);
+            });
+        });
+
+        // Click event for close button
+        document.querySelectorAll('.close-btn').forEach(function (closeBtn) {
+            closeBtn.addEventListener('click', function () {
+                // Remove classes
+                document.querySelector('.alert').classList.remove("show");
+                document.querySelector('.alert').classList.add("hide");
+            });
+        });
+    </script>
+</body>
+
 </html>
