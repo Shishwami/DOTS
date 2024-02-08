@@ -40,7 +40,7 @@ FORM_DOC_SEND.addEventListener('submit', function (e) {
         TABLE: DOTS_DOCUMENT.NAME,
         REQUEST: _REQUEST.UPDATE,
         DATA: {
-            DOC_STATUS: 2,//pending
+            DOC_STATUS: 1,//sent    
         },
         WHERE: {
             DOC_NUM: data[DOTS_DOCUMENT.DOC_NUM],
