@@ -25,8 +25,8 @@ FORM_RECEIVE.addEventListener('submit', function (e) {
         DATA: vals,
     }
 
-    // const dataValues = Object.values(data);
-    // var empty = JsFunctions.checkIfEmpty(dataValues);
+    const dataValues = Object.values(data);
+    var empty = JsFunctions.checkIfEmpty(dataValues);
 
     if (!empty) {
         MyAjax.createJSON((error, response) => {

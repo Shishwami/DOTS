@@ -34,7 +34,9 @@ class JsFunctions {
                 cell.dataset.keys = key;
                 cell.dataset.value = value;
                 row.appendChild(cell);
-
+                if (value == null) {
+                    value = "";
+                }
                 if (value.toUpperCase().indexOf(filter) > -1) {
                     found++;
                 }
@@ -54,8 +56,6 @@ class JsFunctions {
         formData.forEach(function (value, key) {
             formDataObject[key] = value;
         });
-
-        // console.log(formDataObject); 
         return formDataObject;
     }
 

@@ -116,7 +116,7 @@ class Queries
         $sql .= implode(' AND ', $wherePairs);
 
         $sql .= ";";
-        echo $sql;
+        // echo $sql;
         return $sql;
     }
     
