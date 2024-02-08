@@ -134,6 +134,7 @@ class Queries
         $sql = "DELETE FROM $tableName";
 
         $sql .= ' WHERE ';
+
         $wherePairs = [];
         foreach ($condition as $column => $value) {
             $wherePairs[] = "$column = '$value'";
@@ -145,7 +146,4 @@ class Queries
         return $sql;
     }
 }
-
-
-
 ?>
