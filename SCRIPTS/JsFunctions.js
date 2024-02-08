@@ -1,35 +1,30 @@
 class JsFunctions {
-    static disableFormDefault(e) {
-        e.preventDefault();
-    }
 
-    static disableFormButton(element) {
-        element.disabled = true;
-    }
-    static enableFormButton(element) {
-        element.disabled = false;
-    }
+    static updateTable(tableJSON, table, filter) {
 
-    static clearInputText(element) {
-        element.value = "";
-    }
-    static updateTable(tableJSON, thead, tbody, filter) {
+        const thead = table.querySelector('thead');
+        const tbody = table.querySelector('tbody');
+
         thead.innerHTML = '';
         tbody.innerHTML = '';
 
-        if(tableJSON[0]==null){
+        if (tableJSON[0] == null) {
             return
         }
-        
-        const keys = Object.keys(tableJSON[0]);
 
+        const keys = Object.keys(tableJSON[0]);
         keys.forEach(key => {
             const th = document.createElement('th');
-            th.textContent = _SUB_NAME[key];
+            if (_SUB_NAME[key] == null) {
+                th.textContent = key;
+            } else {
+                th.textContent = _SUB_NAME[key];
+            }
+
             thead.appendChild(th);
         });
-        tableJSON.forEach(item => {
 
+        tableJSON.forEach(item => {
             const row = document.createElement('tr');
             let found = 0;
 
@@ -39,7 +34,9 @@ class JsFunctions {
                 cell.dataset.keys = key;
                 cell.dataset.value = value;
                 row.appendChild(cell);
-
+                if (value == null) {
+                    value = "";
+                }
                 if (value.toUpperCase().indexOf(filter) > -1) {
                     found++;
                 }
@@ -50,6 +47,49 @@ class JsFunctions {
             }
 
             tbody.appendChild(row);
+        });
+    }
+
+    static FormToJson(form) {
+        var formData = new FormData(form);
+        var formDataObject = {};
+        formData.forEach(function (value, key) {
+            formDataObject[key] = value;
+        });
+        return formDataObject;
+    }
+
+    static setSelect(element, options) {
+
+        for (let i = 0; i < options.length; i++) {
+            var option = document.createElement('option');
+            var somedata = Object.values(options[i]);
+
+            option.value = somedata[0];
+            option.innerText = somedata[1];
+
+            element.appendChild(option);
+        }
+    }
+    static checkIfEmpty(values) {
+        var empty = false;
+        for (let i = 0; i < values.length; i++) {
+            if (values[i] == "" || values[i] == null) {
+                empty = true;
+            }
+        }
+        return empty;
+    }
+
+    static tbodyEventListener(tbody) {
+        tbody.addEventListener('click', function (e) {
+            var target = e.target.closest('tr');
+
+            if (target != null) {
+                var firstTdValue = target.querySelector('td:first-child').dataset.value;
+                sessionStorage.setItem("TEMP_DATA", firstTdValue);
+            }
+
         });
     }
 }
