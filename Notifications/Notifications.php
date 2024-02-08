@@ -50,6 +50,8 @@
         </div>
     </div>
 
+    <!-- <script src="Notifications.js"></script> -->
+
     <script>
 
         document.getElementById("danger").addEventListener('click',function(event)

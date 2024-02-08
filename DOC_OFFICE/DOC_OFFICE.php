@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="../Modal/Modal.css">
     <link rel="stylesheet" href="../DOTS_NAVBAR/DOTS_NAV.css">
     <link rel="stylesheet" href="DOC_OFFICE.css">
+
+    <link rel="stylesheet" href="../Notifications/Notifications.css">
     <title></title>
 </head>
 <style>
@@ -45,6 +47,8 @@
             
             <button class="opt_btn" id="add">Add</button>
             <button class="opt_btn" id="dlt">Delete</button>
+
+            <?php include "../Notifications/Notifications.php" ?>
 
             <div class="modal" id="add_modal">
                 <div class="modal_content add">

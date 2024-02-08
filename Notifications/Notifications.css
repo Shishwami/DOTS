@@ -29,13 +29,14 @@ button
     background: #efd8ff;
     padding: 20px 40px;
     min-width: 420px;
-    position: absolute;
+    position: fixed;
     right: 0;
-    top: 10px;
+    bottom: 10px;
     border-radius: 4px;
     overflow: hidden;
     opacity: 0;
     pointer-events: none;
+    z-index: 5;
 }
 
 .alert.danger
@@ -58,43 +59,66 @@ button
     border-left: 1rem solid #ff8800;
 }
 
-.alert.showAlert{
-  opacity: 1;
-  pointer-events: auto;
+.alert.showAlert
+{
+    opacity: 1;
+    pointer-events: auto;
 }
-.alert.show{
-  animation: show_slide 0.5s ease forwards;
+
+.alert.show
+{
+    animation: show_slide 0.5s ease forwards;
 }
-@keyframes show_slide {
-  0%{
-    transform: translateX(100%);
-  }
-  40%{
-    transform: translateX(-10%);
-  }
-  80%{
-    transform: translateX(0%);
-  }
-  100%{
-    transform: translateX(-10px);
-  }
+
+@keyframes show_slide
+{
+    0% 
+    {
+        transform: translateX(100%);
+    }
+
+    40%
+    {
+        transform: translateX(-10%);
+    }
+
+    80%
+    {
+        transform: translateX(0%);
+    }
+
+    100%
+    {
+        transform: translateX(-10px);
+    }
 }
-.alert.hide{
-  animation: hide_slide 0.5s ease forwards;
+
+.alert.hide
+{
+    animation: hide_slide 0.5s ease forwards;
 }
-@keyframes hide_slide {
-  0%{
-    transform: translateX(-10px);
-  }
-  40%{
-    transform: translateX(0%);
-  }
-  80%{
-    transform: translateX(-10%);
-  }
-  100%{
-    transform: translateX(100%);
-  }
+
+@keyframes hide_slide
+{
+    0%
+    {
+        transform: translateX(-10px);
+    }
+
+    40%
+    {
+        transform: translateX(0%);
+    }
+
+    80%
+    {
+        transform: translateX(-10%);
+    }
+
+    100%
+    {
+        transform: translateX(100%);
+    }
 }
 
 .danger .fa-circle-exclamation
@@ -141,6 +165,7 @@ button
 {
     padding: 0 20px;
     font-size: 18px;
+    letter-spacing: 0.1rem;
     color: #ff0000;
 }
 
@@ -148,6 +173,7 @@ button
 {
     padding: 0 20px;
     font-size: 18px;
+    letter-spacing: 0.1rem;
     color: #18cf00;
 }
 
@@ -155,6 +181,7 @@ button
 {
     padding: 0 20px;
     font-size: 18px;
+    letter-spacing: 0.1rem;
     color: #0066ff;
 }
 
@@ -162,6 +189,7 @@ button
 {
     padding: 0 20px;
     font-size: 18px;
+    letter-spacing: 0.1rem;
     color: #ff8800;
 }
 
