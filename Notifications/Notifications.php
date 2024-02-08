@@ -10,99 +10,131 @@
 
 <body>
 
-    <div class="alert danger">
-        <span class="closebtn">&times;</span>
-        <strong>Danger!</strong> OH NOOO!!! HIHI
-    </div>
+<button id="danger">Show Danger</button>
+<button id="success">Show Success</button>
+<button id="info">Show Info</button>
+<button id="warning">Show Warning</button>
 
-    <div class="alert success">
-        <span class="closebtn">&times;</span>
-        <strong>Success!</strong> YEY! KUHA MO PAAAREHH...
-    </div>
-
-    <div class="alert info">
-        <span class="closebtn">&times;</span>
-        <strong>Info!</strong> SOMETHING SOMETHING PAAREEEHH...
-    </div>
-
-    <div class="alert warning">
-        <span class="closebtn">&times;</span>
-        <strong>Warning!</strong> OOPPS!!! MAY SOMETHING MALI PAREEEHHH...
-    </div>
-
-    <script>
-        var close = document.getElementsByClassName("closebtn");
-        var i;
-
-        for (i = 0; i < close.length; i++) {
-            close[i].onclick = function () {
-                var div = this.parentElement;
-                div.style.opacity = "0";
-                setTimeout(function () { div.style.display = "none"; }, 600);
-            }
-        }
-    </script>
-
-</body>
-
-</html>
-
-
-
-<link rel="stylesheet" href="style.css">
-
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-</head>
-
-<body>
-    <button>Show Alert</button>
-    <div class="alert hide">
+    <div class="alert danger hide">
         <span class="fas fa-exclamation-circle"></span>
-        <span class="msg">Warning: This is a warning alert!</span>
+        <span class="msg"><strong>Danger!</strong> OH NOOO!!! HIHI</span>
         <div class="close-btn">
             <span class="fas fa-times"></span>
         </div>
     </div>
+
+    <div class="alert success hide">
+        <span class="fas fa-exclamation-circle"></span>
+        <span class="msg"><strong>Success!</strong> YEY! KUHA MO PAAAREHH...</span>
+        <div class="close-btn">
+            <span class="fas fa-times"></span>
+        </div>
+    </div>
+
+    <div class="alert info hide">
+        <span class="fas fa-exclamation-circle"></span>
+        <span class="msg"><strong>Info!</strong> SOMETHING SOMETHING PAAREEEHH...</span>
+        <div class="close-btn">
+            <span class="fas fa-times"></span>
+        </div>
+    </div>
+
+    <div class="alert warning hide">
+        <span class="fas fa-exclamation-circle"></span>
+        <span class="msg"><strong>Warning!</strong> OOPPS!!! MAY SOMETHING MALI PAREEEHHH...</span>
+        <div class="close-btn">
+            <span class="fas fa-times"></span>
+        </div>
+    </div>
+
     <script>
-        $('button').click(function () {
-            $('.alert').addClass("show");
-            $('.alert').removeClass("hide");
-            $('.alert').addClass("showAlert");
-            setTimeout(function () {
-                $('.alert').removeClass("show");
-                $('.alert').addClass("hide");
-            }, 5000);
-        });
-        $('.close-btn').click(function () {
-            $('.alert').removeClass("show");
-            $('.alert').addClass("hide");
-        });
 
+        document.getElementById("danger").addEventListener('click',function(event)
+            {
+                document.querySelector(".danger").classList.add("show");
+                document.querySelector(".danger").classList.remove("hide");
+                document.querySelector(".danger").classList.add("showAlert");
 
-        document.querySelectorAll('button').forEach(function (button) {
-            button.addEventListener('click', function () {
-                // Add classes
-                document.querySelector('.alert').classList.add("show");
-                document.querySelector('.alert').classList.remove("hide");
-                document.querySelector('.alert').classList.add("showAlert");
+                setTimeout(function() 
+                {
+                    document.querySelector(".danger").classList.remove("show");
+                    document.querySelector(".danger").classList.add("hide");
+                }, 3000);
+            }
+        );
 
-                // Set timeout to remove classes after 5000 milliseconds (5 seconds)
-                setTimeout(function () {
-                    document.querySelector('.alert').classList.remove("show");
-                    document.querySelector('.alert').classList.add("hide");
-                }, 5000);
-            });
-        });
-
-        // Click event for close button
         document.querySelectorAll('.close-btn').forEach(function (closeBtn) {
             closeBtn.addEventListener('click', function () {
                 // Remove classes
-                document.querySelector('.alert').classList.remove("show");
-                document.querySelector('.alert').classList.add("hide");
+                document.querySelector('.danger').classList.remove("show");
+                document.querySelector('.danger').classList.add("hide");
             });
         });
-    </script>
-</body>
+        
+        document.getElementById("success").addEventListener('click',function(event)
+            {
+                document.querySelector(".success").classList.add("show");
+                document.querySelector(".success").classList.remove("hide");
+                document.querySelector(".success").classList.add("showAlert");
 
-</html>
+                setTimeout(function() 
+                {
+                    document.querySelector(".success").classList.remove("show");
+                    document.querySelector(".success").classList.add("hide");
+                }, 3000);
+            }
+        );
+
+        document.querySelectorAll('.close-btn').forEach(function (closeBtn) {
+            closeBtn.addEventListener('click', function () {
+                // Remove classes
+                document.querySelector('.success').classList.remove("show");
+                document.querySelector('.success').classList.add("hide");
+            });
+        });
+
+        document.getElementById("info").addEventListener('click',function(event)
+            {
+                document.querySelector(".info").classList.add("show");
+                document.querySelector(".info").classList.remove("hide");
+                document.querySelector(".info").classList.add("showAlert");
+
+                setTimeout(function() 
+                {
+                    document.querySelector(".info").classList.remove("show");
+                    document.querySelector(".info").classList.add("hide");
+                }, 3000);
+            }
+        );
+
+        document.querySelectorAll('.close-btn').forEach(function (closeBtn) {
+            closeBtn.addEventListener('click', function () {
+                // Remove classes
+                document.querySelector('.info').classList.remove("show");
+                document.querySelector('.info').classList.add("hide");
+            });
+        });
+
+        document.getElementById("warning").addEventListener('click',function(event)
+            {
+                document.querySelector(".warning").classList.add("show");
+                document.querySelector(".warning").classList.remove("hide");
+                document.querySelector(".warning").classList.add("showAlert");
+
+                setTimeout(function() 
+                {
+                    document.querySelector(".warning").classList.remove("show");
+                    document.querySelector(".warning").classList.add("hide");
+                }, 3000);
+            }
+        );
+
+        document.querySelectorAll('.close-btn').forEach(function (closeBtn) {
+            closeBtn.addEventListener('click', function () {
+                // Remove classes
+                document.querySelector('.warning').classList.remove("show");
+                document.querySelector('.warning').classList.add("hide");
+            });
+        });
+
+    </script>
