@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="Notifications.css">
+    <link rel="stylesheet" href="..//FontAwesome/css/all.css">
+    <link rel="stylesheet" href="..//FontAwesome/css/fontawesome.css">
+    <link rel="stylesheet" href="..//FontAwesome/css/fontawesome.min.css">
     <title></title>
 </head>
 
@@ -16,7 +19,7 @@
 <button id="warning">Show Warning</button>
 
     <div class="alert danger hide">
-        <span class="fas fa-exclamation-circle"></span>
+        <span class="fa-solid fa-circle-exclamation"></span>
         <span class="msg"><strong>Danger!</strong> OH NOOO!!! HIHI</span>
         <div class="close-btn">
             <span class="fas fa-times"></span>
@@ -24,7 +27,7 @@
     </div>
 
     <div class="alert success hide">
-        <span class="fas fa-exclamation-circle"></span>
+        <span class="fa-solid fa-circle-check"></span>
         <span class="msg"><strong>Success!</strong> YEY! KUHA MO PAAAREHH...</span>
         <div class="close-btn">
             <span class="fas fa-times"></span>
@@ -32,7 +35,7 @@
     </div>
 
     <div class="alert info hide">
-        <span class="fas fa-exclamation-circle"></span>
+        <span class="fa-solid fa-circle-info"></span>
         <span class="msg"><strong>Info!</strong> SOMETHING SOMETHING PAAREEEHH...</span>
         <div class="close-btn">
             <span class="fas fa-times"></span>
@@ -40,7 +43,7 @@
     </div>
 
     <div class="alert warning hide">
-        <span class="fas fa-exclamation-circle"></span>
+        <span class="fa-solid fa-triangle-exclamation"></span>
         <span class="msg"><strong>Warning!</strong> OOPPS!!! MAY SOMETHING MALI PAREEEHHH...</span>
         <div class="close-btn">
             <span class="fas fa-times"></span>
