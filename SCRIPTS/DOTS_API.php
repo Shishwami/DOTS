@@ -11,7 +11,7 @@ $inputs = sanitizeInputs($inputs);
 // var_dump($inputs);
 
 $REQUEST = $inputs['REQUEST'];
-unset($inputs['REQUEST']);
+
 switch ($REQUEST) {
     case 'INSERT':
         INSERT_($inputs, $conn);
@@ -49,10 +49,7 @@ function INSERT_($inputs, $conn)
     $querries = new Queries();
     $valid = false;
 
-    $TABLE_NAME = $inputs['TABLE_NAME'];
-    unset($inputs['TABLE_NAME']);
-
-    $sql = $querries->insertQuery($TABLE_NAME, $inputs);
+    $sql = $querries->insertQuery($inputs);
     // echo $sql;
 
     if (mysqli_query($conn, $sql)) {
@@ -74,9 +71,6 @@ function SELECT_($inputs, $conn)
     $querries = new Queries();
     $valid = false;
 
-
-
-  
     $sql = $querries->selectQuery($inputs);
     // echo $sql;
 
@@ -92,7 +86,6 @@ function SELECT_($inputs, $conn)
         echo json_encode(
             array(
                 'VALID' => $valid,
-                // 'SQL' => $sql,
                 'RESULT' => $rows
             )
         );
@@ -100,7 +93,6 @@ function SELECT_($inputs, $conn)
         echo json_encode(
             array(
                 'VALID' => $valid,
-                'SQL' => $sql,
             )
         );
     }
@@ -112,16 +104,8 @@ function UPDATE_($inputs, $conn)
     $querries = new Queries();
     $valid = false;
 
-    $TABLE_NAME = $inputs['TABLE_NAME'];
-    unset($inputs['TABLE_NAME']);
-    
-    $CONDITION = "";
-    if (isset($inputs['CONDITION'])) {
-        $CONDITION = $inputs['CONDITION'];
-        unset($inputs['CONDITION']);
-    }
 
-    $sql = $querries->updateQuery($TABLE_NAME, $inputs, $CONDITION);
+    $sql = $querries->updateQuery($inputs);
 
     if (mysqli_query($conn, $sql)) {
         $valid = true;
@@ -141,14 +125,7 @@ function DELETE_($inputs, $conn)
     $querries = new Queries();
     $valid = false;
 
-    $TABLE_NAME = $inputs['TABLE_NAME'];
-    unset($inputs['TABLE_NAME']);
-    
-    $CONDITION = $inputs['CONDITION'];
-    $CONDITION = json_decode($CONDITION, true);
-    unset($inputs['CONDITION']);
-
-    $sql = $querries->deleteQuery($TABLE_NAME, $CONDITION);
+    $sql = $querries->deleteQuery($inputs);
     //echo $sql
 
     if (mysqli_query($conn, $sql)) {

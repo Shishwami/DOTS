@@ -1,122 +1,145 @@
 <?php
 class Queries
 {
-
+    // jsonformat== '{
+    //     "COLUMNS": ["t1.column1", "t2.column2", "t3.column3"],
+    //     "TABLE": "table1",
+    //     "JOIN": [
+    //         {
+    //             "table": "table2",
+    //             "ON": ["t1.id = t2.table1_id"],
+    //             "TYPE": "INNER"
+    //         },
+    //         {
+    //             "table": "table3",
+    //             "ON": ["t1.id = t3.table1_id"],
+    //             "TYPE": "LEFT"
+    //         }
+    //     ],
+    //     "WHERE": {"t1.column4": "value1"},
+    //     "ORDER BY": "t1.column1",
+    //     "LIMIT": 10
+    // }';
     function selectQuery($inputs)
     {
 
-        $TABLE_NAME = $inputs['TABLE_NAME'];
-        unset($inputs['TABLE_NAME']);
-
-        $COLUMNS = "";
-        if (isset($inputs['COLUMNS'])) {
-            $COLUMNS = $inputs['COLUMNS'];
-            unset($inputs['COLUMNS']);
-        }
-
-        $joinCondition = "";
-        if (isset($inputs['JOIN_CONDITION'])) {
-            $joinCondition = $inputs['JOIN_CONDITION'];
-            unset($inputs['JOIN_CONDITION']);
-        }
-
-        $CONDITIONS = "";
-        if (isset($inputs['CONDITIONS'])) {
-            $joinCondition = $inputs['CONDITIONS'];
-            unset($inputs['CONDITIONS']);
-        }
-
         $sql = "SELECT ";
-        if ($COLUMNS == "") {
-            $sql .= "* ";
+
+        if (isset($inputs['COLUMNS'])) {
+            $sql .= implode(', ', $inputs['COLUMNS']);
         } else {
-            $sql .= "`" . implode("` , `", $COLUMNS) . "`";
-        }
-        $sql .= " FROM `" . $TABLE_NAME . "`";
-
-        if (!empty($joinCondition)) {
-            $sql .= " " . $joinCondition;
+            $sql .= '*';
         }
 
-        if ($CONDITIONS) {
-
-            $sql .= " WHERE ";
-
-            $tableKeys = array_keys($CONDITIONS);
-            $tableValues = array_values($CONDITIONS);
-
-            for ($i = 0; $i < count($CONDITIONS); $i++) {
-                $sql .= "" . $tableKeys[$i] . " = '" . $tableValues[$i] . "' ";
-                if ($i < (count($tableKeys) - 1)) {
-                    $sql .= " AND ";
-                }
-            }
+        if (isset($inputs['TABLE'])) {
+            $sql .= ' FROM ' . $inputs['TABLE'];
+        } else {
+            //no table name
         }
-        $sql .= ";";
-        function createJoinStatement($joinCondition)
-        {
 
-        }
-        return $sql;
-
-    }
-
-    function insertQuery($tableName, $tableKeysAndValues)
-    {
-        $tableKeys = array_keys($tableKeysAndValues);
-        $tableValues = array_values($tableKeysAndValues);
-
-        $sql = "INSERT INTO `" . $tableName . "` (`" . implode('` , `', $tableKeys) . "`) VALUES ('" . implode("' , '", $tableValues) . "')";
-
-        $sql .= ";";
-        return $sql;
-    }
-
-    function updateQuery($tableName, $tableKeysAndValues, $condition)
-    {
-        $tableKeys = array_keys($tableKeysAndValues);
-        $tableValues = array_values($tableKeysAndValues);
-
-
-        $sql = "UPDATE `" . $tableName . "` SET ";
-
-        for ($i = 0; $i < count($tableKeysAndValues); $i++) {
-            $sql .= "`" . $tableKeys[$i] . "` = '" . $tableValues[$i] . "' ";
-            if ($i < (count($tableKeysAndValues) - 1)) {
-                $sql .= ", ";
+        if (isset($inputs['JOIN'])) {
+            foreach ($inputs['JOIN'] as $join) {
+                $sql .= " {$join['TYPE']} JOIN {$join['table']} ON " . implode(' AND ', $join['ON']);
             }
         }
 
-        $conditionKeys = array_keys($condition);
-        $conditionValues = array_values($condition);
-
-        $sql .= " WHERE ";
-
-        for ($i = 0; $i < count($condition); $i++) {
-            $sql .= "`" . $conditionKeys[$i] . "` = '" . $conditionValues[$i] . "'";
-            if ($i < (count($condition) - 1)) {
-                $sql .= " AND ";
+        if (isset($inputs['WHERE'])) {
+            $sql .= ' WHERE ';
+            foreach ($inputs['WHERE'] as $column => $value) {
+                $sql .= "$column = '$value'";
             }
         }
 
         $sql .= ";";
+        // echo $sql;
+
         return $sql;
     }
 
-    function deleteQuery($tableName, $condition)
+    // jsonFormat= = '{
+    //     "TABLE": "table_name",
+    //     "DATA": {
+    //         "column1": "value1",
+    //         "column2": "value2",
+    //         "column3": "value3"
+    //     }
+    // }';
+    function insertQuery($inputs)
     {
-        $sql = "DELETE FROM $tableName ";
-        $conditionKeys = array_keys($condition);
-        $conditionValues = array_values($condition);
+        $tableName = $inputs['TABLE'];
+        $data = $inputs['DATA'];
 
-        $sql .= " WHERE ";
+        $sql = "INSERT INTO $tableName (";
 
-        for ($i = 0; $i < count($condition); $i++) {
-            $sql .= "`" . $conditionKeys[$i] . "` = '" . $conditionValues[$i] . "'";
-            if ($i < (count($condition) - 1)) {
-                $sql .= " AND ";
-            }
+        $sql .= implode(', ', array_keys($data));
+
+        $sql .= ') VALUES (';
+
+        $sql .= "'" . implode("', '", array_values($data)) . "')";
+
+        $sql .= ";";
+        // echo $sql;
+
+        return $sql;
+    }
+
+    // jsonFormat = '{
+    //     "TABLE": "table_name",
+    //     "DATA": {
+    //         "column1": "value1",
+    //         "column2": "value2",
+    //         "column3": "value3"
+    //     },
+    //     "WHERE": {
+    //         "condition_column": "condition_value"
+    //     }
+    // }';
+    function updateQuery($inputs)
+    {
+        $tableName = $inputs['TABLE'];
+        $data = $inputs['DATA'];
+        $condition = $inputs['WHERE'];
+
+        $sql = "UPDATE $tableName SET ";
+
+        $setPairs = [];
+        foreach ($data as $column => $value) {
+            $setPairs[] = "$column = '$value'";
         }
+        $sql .= implode(', ', $setPairs);
+
+        $sql .= ' WHERE ';
+        $wherePairs = [];
+        foreach ($condition as $column => $value) {
+            $wherePairs[] = "$column = '$value'";
+        }
+        $sql .= implode(' AND ', $wherePairs);
+
+        $sql .= ";";
+        echo $sql;
+        return $sql;
+    }
+    
+    // jsonFormat= '{
+    //     "TABLE": "table_name",
+    //     "WHERE": {
+    //         "condition_column": "condition_value"
+    //     }
+    // }';
+    function deleteQuery($inputs)
+    {
+        $tableName = $inputs['TABLE'];
+        $condition = $inputs['WHERE'];
+
+        $sql = "DELETE FROM $tableName";
+
+        $sql .= ' WHERE ';
+        $wherePairs = [];
+        foreach ($condition as $column => $value) {
+            $wherePairs[] = "$column = '$value'";
+        }
+
+        $sql .= implode(' AND ', $wherePairs);
 
         $sql .= ";";
         return $sql;

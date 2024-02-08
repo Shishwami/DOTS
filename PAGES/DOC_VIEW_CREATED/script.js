@@ -24,26 +24,29 @@ FORM_DOC_SEND.addEventListener('submit', function (e) {
     var data = JsFunctions.FormToJson(this);
     data['DOC_DIVISION'] = DOC_DIVISION.value;
     data['DOC_ADDRESSEE'] = DOC_ADDRESSEE.value;
-    data['TABLE_NAME'] = DOTS_OUTBOUND.NAME;
-    data['REQUEST'] = _REQUEST.INSERT;
+
+    var insertData = {
+        TABLE: DOTS_OUTBOUND.NAME,
+        REQUEST: _REQUEST.INSERT,
+        DATA: data,
+    }
 
     delete data.DOC_NOTES;
     const dataValues = Object.values(data);
     var empty = JsFunctions.checkIfEmpty(dataValues);
     data['DOC_NOTES'] = DOC_NOTES.value
 
-    var updateCondition = {
-        DOC_NUM: data[DOTS_DOCUMENT.DOC_NUM],
-        DOC_NUM: data[DOTS_DOCUMENT.DOC_NUM],
-    }
     var updateData = {
-        TABLE_NAME: DOTS_DOCUMENT.NAME,
+        TABLE: DOTS_DOCUMENT.NAME,
         REQUEST: _REQUEST.UPDATE,
-        DOC_STATUS: 2,//pending
-        CONDITION: updateCondition,
+        DATA: {
+            DOC_STATUS: 2,//pending
+        },
+        WHERE: {
+            DOC_NUM: data[DOTS_DOCUMENT.DOC_NUM],
+        }
     }
 
-    console.log(updateCondition);
     console.log(updateData);
     if (!empty) {
         MyAjax.createJSON((error, response) => {
@@ -59,13 +62,13 @@ FORM_DOC_SEND.addEventListener('submit', function (e) {
                             alert(error);
                         } else {
                             if (response.VALID) {
-                                delete response.VALID;
+                                console.log(response);
                             }
                         }
                     }, updateData);
                 }
             }
-        }, data);
+        }, insertData);
     } else {
         alert("CHECKINPUTS");
     }
@@ -74,34 +77,47 @@ FORM_DOC_SEND.addEventListener('submit', function (e) {
 
 function setTable(filter) {
 
-    const joinCondition =
-        "LEFT JOIN `" + DOTS_DOC_STATUS.NAME + "` ON `" +
-        DOTS_DOCUMENT.NAME + "`.`" + DOTS_DOCUMENT.DOC_STATUS + "` = `" +
-        DOTS_DOC_STATUS.NAME + "`.`" + DOTS_DOC_STATUS.ID + "` " +
-
-        " LEFT JOIN `" + DOTS_DOC_TYPE.NAME + "` ON `" +
-        DOTS_DOCUMENT.NAME + "`.`" + DOTS_DOCUMENT.DOC_TYPE + "` = `" +
-        DOTS_DOC_TYPE.NAME + '`.`' + DOTS_DOC_TYPE.ID + "` " +
-
-        " LEFT JOIN `" + DOTS_ACCOUNT_INFO.NAME + "` ON `" +
-        DOTS_DOCUMENT.NAME + "`.`" + DOTS_DOCUMENT.RECEIVED_BY + "` = `" +
-        DOTS_ACCOUNT_INFO.NAME + '`.`' + DOTS_ACCOUNT_INFO.HRIS_ID + "` ";
-
     const columns = [
         'DOC_NUM',
         'DOC_SUBJECT',
         'LETTER_DATE',
-        DOTS_DOC_TYPE.NAME + '`.`' + DOTS_DOC_TYPE.DOC_TYPE_NAME,
-        DOTS_ACCOUNT_INFO.NAME + '`.`' + DOTS_ACCOUNT_INFO.FULL_NAME,
+        DOTS_DOC_TYPE.NAME + '.' + DOTS_DOC_TYPE.DOC_TYPE_NAME,
+        DOTS_ACCOUNT_INFO.NAME + '.' + DOTS_ACCOUNT_INFO.FULL_NAME,
         'DATE_TIME_RECEIVED',
-        DOTS_DOC_STATUS.NAME + '`.`' + DOTS_DOC_STATUS.DOC_STATUS_NAME,
+        DOTS_DOC_STATUS.NAME + '.' + DOTS_DOC_STATUS.DOC_STATUS_NAME,
     ]
 
     var data = {
-        TABLE_NAME: DOTS_DOCUMENT.NAME,
+        TABLE: DOTS_DOCUMENT.NAME,
         REQUEST: _REQUEST.SELECT,
         COLUMNS: columns,
-        JOIN_CONDITION: joinCondition,
+        JOIN: [
+            {
+                table: DOTS_DOC_TYPE.NAME,
+                ON: [
+                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_TYPE
+                    + " = " +
+                    DOTS_DOC_TYPE.NAME + "." + DOTS_DOC_TYPE.ID
+                ],
+                TYPE: 'LEFT',
+            }, {
+                table: DOTS_ACCOUNT_INFO.NAME,
+                ON: [
+                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.RECEIVED_BY
+                    + " = " +
+                    DOTS_ACCOUNT_INFO.NAME + "." + DOTS_ACCOUNT_INFO.HRIS_ID
+                ],
+                TYPE: 'LEFT',
+            }, {
+                table: DOTS_DOC_STATUS.NAME,
+                ON: [
+                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_STATUS
+                    + " = " +
+                    DOTS_DOC_STATUS.NAME + "." + DOTS_DOC_STATUS.ID
+                ],
+                TYPE: 'LEFT',
+            }
+        ],
     }
 
     MyAjax.createJSON((error, response) => {
@@ -127,7 +143,7 @@ function setDOC_PURPOSE() {
     ]
 
     var data = {
-        TABLE_NAME: DOTS_DOC_PRPS.NAME,
+        TABLE: DOTS_DOC_PRPS.NAME,
         REQUEST: _REQUEST.SELECT,
         COLUMNS: columns,
     }
@@ -157,7 +173,7 @@ function setDOC_DIVISION() {
     ]
 
     var data = {
-        TABLE_NAME: DOTS_DOC_DIVISION.NAME,
+        TABLE: DOTS_DOC_DIVISION.NAME,
         REQUEST: _REQUEST.SELECT,
         COLUMNS: columns,
     }
@@ -177,16 +193,21 @@ function setDOC_DIVISION() {
     }, data);
 }
 function setADDRESSEE(DIVISION_ID) {
+
+    resetAddressee();
+
     var columns = [
         DOTS_ACCOUNT_INFO.HRIS_ID,
         DOTS_ACCOUNT_INFO.FULL_NAME,
     ]
 
     var data = {
-        TABLE_NAME: DOTS_ACCOUNT_INFO.NAME,
+        TABLE: DOTS_ACCOUNT_INFO.NAME,
         REQUEST: _REQUEST.SELECT,
         COLUMNS: columns,
-        DIVISION: DIVISION_ID,
+        WHERE: {
+            DIVISION: DIVISION_ID,
+        },
     }
 
     MyAjax.createJSON((error, response) => {
@@ -242,16 +263,15 @@ function setButtonEvents() {
 
 
     }
+}
+function resetAddressee() {
+    const blankOption = document.createElement('option');
+    blankOption.innerText = "Please Select Addressee";
+    blankOption.disabled = true;
+    blankOption.selected = true;
+    blankOption.value = "";
 
-    function resetAddressee() {
-        const blankOption = document.createElement('option');
-        blankOption.innerText = "Please Select Addressee";
-        blankOption.disabled = true;
-        blankOption.selected = true;
-        blankOption.value = "";
-
-        DOC_ADDRESSEE.innerHTML = "";
-        DOC_ADDRESSEE.append(blankOption);
-    }
+    DOC_ADDRESSEE.innerHTML = "";
+    DOC_ADDRESSEE.append(blankOption);
 }
 
