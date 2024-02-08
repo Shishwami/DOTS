@@ -81,6 +81,7 @@ function setTable(filter) {
         'DOC_NUM',
         'DOC_SUBJECT',
         'LETTER_DATE',
+        'DOC_OFFICE',
         DOTS_DOC_TYPE.NAME + '.' + DOTS_DOC_TYPE.DOC_TYPE_NAME,
         DOTS_ACCOUNT_INFO.NAME + '.' + DOTS_ACCOUNT_INFO.FULL_NAME,
         'DATE_TIME_RECEIVED',
@@ -118,6 +119,9 @@ function setTable(filter) {
                 TYPE: 'LEFT',
             }
         ],
+        // WHERE:{
+        //     DOC_STATUS: 1
+        // }
     }
 
     MyAjax.createJSON((error, response) => {
