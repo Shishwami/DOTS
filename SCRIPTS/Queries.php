@@ -2,28 +2,50 @@
 class Queries
 {
 
-    function selectQuery($tableName, $tableColumns, $condition, $joinCondition)
+    function selectQuery($inputs)
     {
+
+        $TABLE_NAME = $inputs['TABLE_NAME'];
+        unset($inputs['TABLE_NAME']);
+
+        $COLUMNS = "";
+        if (isset($inputs['COLUMNS'])) {
+            $COLUMNS = $inputs['COLUMNS'];
+            unset($inputs['COLUMNS']);
+        }
+
+        $joinCondition = "";
+        if (isset($inputs['JOIN_CONDITION'])) {
+            $joinCondition = $inputs['JOIN_CONDITION'];
+            unset($inputs['JOIN_CONDITION']);
+        }
+
+        $CONDITIONS = "";
+        if (isset($inputs['CONDITIONS'])) {
+            $joinCondition = $inputs['CONDITIONS'];
+            unset($inputs['CONDITIONS']);
+        }
+
         $sql = "SELECT ";
-        if ($tableColumns == "") {
+        if ($COLUMNS == "") {
             $sql .= "* ";
         } else {
-            $sql .= "`" . implode("` , `", $tableColumns) . "`";
+            $sql .= "`" . implode("` , `", $COLUMNS) . "`";
         }
-        $sql .= " FROM `" . $tableName . "`";
+        $sql .= " FROM `" . $TABLE_NAME . "`";
 
         if (!empty($joinCondition)) {
             $sql .= " " . $joinCondition;
         }
 
-        if ($condition) {
+        if ($CONDITIONS) {
 
             $sql .= " WHERE ";
 
-            $tableKeys = array_keys($condition);
-            $tableValues = array_values($condition);
+            $tableKeys = array_keys($CONDITIONS);
+            $tableValues = array_values($CONDITIONS);
 
-            for ($i = 0; $i < count($condition); $i++) {
+            for ($i = 0; $i < count($CONDITIONS); $i++) {
                 $sql .= "" . $tableKeys[$i] . " = '" . $tableValues[$i] . "' ";
                 if ($i < (count($tableKeys) - 1)) {
                     $sql .= " AND ";
@@ -31,11 +53,12 @@ class Queries
             }
         }
         $sql .= ";";
-        function createJoinStatement($joinCondition){
+        function createJoinStatement($joinCondition)
+        {
 
         }
         return $sql;
-        
+
     }
 
     function insertQuery($tableName, $tableKeysAndValues)

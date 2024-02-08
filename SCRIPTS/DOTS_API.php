@@ -74,21 +74,10 @@ function SELECT_($inputs, $conn)
     $querries = new Queries();
     $valid = false;
 
-    $TABLE_NAME = $inputs['TABLE_NAME'];
-    unset($inputs['TABLE_NAME']);
 
-    $COLUMNS = "";
-    if (isset($inputs['COLUMNS'])) {
-        $COLUMNS = $inputs['COLUMNS'];
-        unset($inputs['COLUMNS']);
-    }
 
-    $joinCondition = "";
-    if (isset($inputs['JOIN_CONDITION'])) {
-        $joinCondition = $inputs['JOIN_CONDITION'];
-        unset($inputs['JOIN_CONDITION']);
-    }
-    $sql = $querries->selectQuery($TABLE_NAME, $COLUMNS, $inputs, $joinCondition);
+  
+    $sql = $querries->selectQuery($inputs);
     // echo $sql;
 
     $result = mysqli_query($conn, $sql);
