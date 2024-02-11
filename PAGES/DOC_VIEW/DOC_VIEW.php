@@ -77,33 +77,38 @@
                 <input type="text" name="DOC_NUM" id="SEND_DOC_NUM" readonly>
             </div>
             <div>
+                <label for="SEND_DATE_TIME_RECEIVED">Date Received:</label>
+                <input type="datetime-local" name="DATE_TIME_RECEIVED" id="SEND_DATE_TIME_RECEIVED">
+            </div>
+            <div>
                 <label for="SEND_DOC_PRPS">Documnet Purpose:</label>
-                <select name="DOC_PRPS" id="SEND_DOC_PRPS">
+                <select name="PRPS_ID" id="SEND_DOC_PRPS">
                     <option value="" disabled selected>Please Select Purpose</option>
                     <!-- to be filled using database -->
                 </select>
             </div>
             <div>
                 <label for="SEND_DOC_DEPT">Department:</label>
-                <select name="DOC_DIVISION" id="SEND_DOC_DEPT">
+                <select name="R_DEPT_ID" id="SEND_DOC_DEPT">
                     <option value="" disabled selected>Please Select Department</option>
                     <!-- to be filled using database -->
                 </select>
             </div>
             <div>
                 <label for="SEND_DOC_ADDRESSEE">Addressee:</label>
-                <select name="DOC_ADDRESSEE" id="SEND_DOC_ADDRESSEE">
+                <select name="R_USER_ID" id="SEND_DOC_ADDRESSEE">
                     <option value="" disabled selected>Please Select Addressee</option>
                     <!-- to be filled using database -->
                 </select>
             </div>
+
             <div>
                 <label for="SEND_DOC_NOTES">Notes:</label>
                 <input type="text" name="DOC_NOTES" id="SEND_DOC_NOTES">
             </div>
 
-            <input type="text" name="DOC_ACTION" id="SEND_DOC_ACTION" value="3">
-            <input type="text" name="DOC_LOCATION" id="SEND_DOC_LOCATION" value="">
+            <input type="text" name="ACTION_ID" id="SEND_DOC_ACTION" value="3">
+            <input type="text" name="S_USER_ID" id="SEND_DOC_LOCATION" value="">
 
             <input type="submit" value="Send">
         </form>

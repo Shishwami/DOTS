@@ -17,7 +17,7 @@ const CREATE_FULLNAME = FORM_DOC_RECEIVE.querySelector("#CREATE_FULLNAME");
 const CREATE_DATE_TIME_RECEIVED = FORM_DOC_RECEIVE.querySelector("#CREATE_DATE_TIME_RECEIVED");
 const CREATE_LETTER_DATE = FORM_DOC_RECEIVE.querySelector("#CREATE_LETTER_DATE");
 const CREATE_DOC_TYPE = FORM_DOC_RECEIVE.querySelector("#CREATE_DOC_TYPE");
-const CREATE_DOC_DEPT = FORM_DOC_RECEIVE.querySelector("#CREATE_DOC_DEPT");
+const CREATE_DOC_OFFICE = FORM_DOC_RECEIVE.querySelector("#CREATE_DOC_OFFICE");
 const CREATE_DOC_SUBJECT = FORM_DOC_RECEIVE.querySelector("#CREATE_DOC_SUBJECT");
 const CREATE_DOC_STATUS = FORM_DOC_RECEIVE.querySelector("#CREATE_DOC_STATUS");
 //SEND FORM
@@ -27,7 +27,8 @@ const SEND_DOC_PRPS = FORM_DOC_SEND.querySelector("#SEND_DOC_PRPS");
 const SEND_DOC_DEPT = FORM_DOC_SEND.querySelector("#SEND_DOC_DEPT");
 const SEND_DOC_ADDRESSEE = FORM_DOC_SEND.querySelector("#SEND_DOC_ADDRESSEE");
 const SEND_DOC_NOTES = FORM_DOC_SEND.querySelector("#SEND_DOC_NOTES");
-const SEND_DOC_ACTION = FORM_DOC_SEND.querySelector("#SEND_DOC_ACTION");
+const SEND_DATE_TIME_RECEIVED = FORM_DOC_SEND.querySelector("#SEND_DATE_TIME_RECEIVED");
+const ACTION_ID = FORM_DOC_SEND.querySelector("#ACTION_ID");
 const SEND_DOC_LOCATION = FORM_DOC_SEND.querySelector("#SEND_DOC_LOCATION");
 
 console.log(SEND_DOC_NUM);
@@ -35,6 +36,8 @@ console.log(SEND_DOC_NUM);
 InitializePAGE();
 
 function InitializePAGE() {
+    
+    //TODO too add in btn event listeners
     initializeSEND_FORM();
     initializeRECEIVE_FORM();
 
@@ -59,13 +62,15 @@ function initializeSEND_FORM() {
     setDOC_PURPOSE();
     setDOC_LOCATION();
     setButtonEvents();
+    setRECEIVED_TIME(SEND_DATE_TIME_RECEIVED);
+
 }
 function initializeRECEIVE_FORM() {
     setInterval(setDOC_NUM, _RESET_TIME);
     setDOC_NUM();
     setDOC_TYPE();
     setDOC_OFFICE();
-    setRECEIVED_TIME();
+    setRECEIVED_TIME(CREATE_DATE_TIME_RECEIVED);
     setLETTER_DATE();
     getSessionName();
 }
@@ -117,7 +122,7 @@ function setDOC_OFFICE() {
         } else {
             if (response.VALID) {
                 delete response.VALID;
-                JsFunctions.setSelect(DOC_OFFICE, Object.values(response)[0]);
+                JsFunctions.setSelect(CREATE_DOC_OFFICE, Object.values(response)[0]);
             } else {
                 console.log(response);
             }
@@ -170,7 +175,7 @@ function setDOC_TYPE() {
         }
     }, data);
 }
-function setRECEIVED_TIME() {
+function setRECEIVED_TIME(element) {
     var data = {
         REQUEST: _REQUEST.GET_DATE,
         DATE: "DATE_TIME"
@@ -182,7 +187,7 @@ function setRECEIVED_TIME() {
         } else {
             if (response.VALID) {
                 delete response.VALID;
-                CREATE_DATE_TIME_RECEIVED.value = Object.values(response)[0];
+                element.value = Object.values(response)[0];
             } else {
                 console.log(response);
             }
@@ -402,19 +407,17 @@ function setForms() {
         e.preventDefault();
 
         var data = JsFunctions.FormToJson(this);
-        data['DOC_DIVISION'] = document.getElementById('SEND_DOC_DIVISION').value;
-        data['DOC_ADDRESSEE'] = document.getElementById('SEND_DOC_ADDRESSEE').value;
 
         var insertData = {
-            TABLE: DOTS_OUTBOUND.NAME,
+            TABLE: DOTS_DOCUMENT_SUB.NAME,
             REQUEST: _REQUEST.INSERT,
             DATA: data,
         }
 
-        delete data.DOC_NOTES;
+        delete data.SEND_DOC_NOTES;
         const dataValues = Object.values(data);
         var empty = JsFunctions.checkIfEmpty(dataValues);
-        data['DOC_NOTES'] = DOC_NOTES.value
+        data['DOC_NOTES'] = SEND_DOC_NOTES.value
 
         var updateData = {
             TABLE: DOTS_DOCUMENT.NAME,
@@ -470,13 +473,14 @@ function setForms() {
 
         const dataValues = Object.values(data);
         var empty = JsFunctions.checkIfEmpty(dataValues);
-
+        console.log(data);
         if (!empty) {
             MyAjax.createJSON((error, response) => {
                 if (error) {
                     alert(error);
                 } else {
                     if (response.VALID) {
+                        console.log(response);
                         delete response.VALID;
                         data["RECEIVED_BY"] = Object.values(response)[0];
                         MyAjax.createJSON((error, response) => {
