@@ -15,11 +15,11 @@ FORM_LOGIN.addEventListener('submit', function (e) {
         DOTS_ACCOUNT_INFO.INITIAL,
     ]
 
-    data = {
-        ...data,
-        TABLE_NAME: DOTS_ACCOUNT_INFO.NAME,
+    var data2 = {
+        TABLE: DOTS_ACCOUNT_INFO.NAME,
         REQUEST: _REQUEST.SELECT,
-        COLUMNS: columns
+        COLUMNS: columns,
+        WHERE: data,
     };
 
     MyAjax.createJSON((error, response) => {
@@ -31,7 +31,7 @@ FORM_LOGIN.addEventListener('submit', function (e) {
         } else {
             alert(error);
         }
-    }, data);
+    }, data2);
 });
 
 function createSession(response) {

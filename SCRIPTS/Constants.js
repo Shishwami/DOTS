@@ -3,10 +3,14 @@ const _RESET_TIME = 1000;
 const DOTS_DOCUMENT = {
     NAME: 'DOTS_DOCUMENT',
     DOC_NUM: 'DOC_NUM',
-    LETTER_DATE: 'LETTER_DATE',
-    DOC_OFFICE: 'DOC_OFFICE',
-    DOC_TYPE: 'DOC_TYPE',
     DOC_SUBJECT: 'DOC_SUBJECT',
+    DOC_TYPE: 'DOC_TYPE',
+    LETTER_DATE: 'LETTER_DATE',
+    S_USER_ID: 'S_USER_ID',
+    S_DEPT_ID: 'S_DEPT_ID', 
+    R_USER_ID: 'R_USER_ID',
+    R_DEPT_ID: 'R_DEPT_ID',
+    DOC_OFFICE: 'DOC_OFFICE',
     RECEIVED_BY: 'RECEIVED_BY',
     DATE_TIME_RECEIVED: 'DATE_TIME_RECEIVED',
     DOC_STATUS: 'DOC_STATUS',
@@ -25,35 +29,30 @@ const DOTS_DOC_LOGS = {
 const DOTS_DOC_OFFICE = {
     NAME: 'DOTS_DOC_OFFICE',
     ID: 'ID',
-    DOC_OFFICE_NAME: 'DOC_OFFICE_NAME',
-    DOC_OFFICE_CODE: 'DOC_OFFICE_CODE'
+    DOC_OFFICE: 'DOC_OFFICE',
 };
 
 const DOTS_DOC_DIVISION = {
     NAME: 'DOTS_DOC_DIVISION',
     ID: 'ID',
-    DOC_DIVISION_NAME: 'DOC_DIVISION_NAME',
-    DOC_DIVISION_CODE: 'DOC_DIVISION_CODE'
+    DOC_DIVISION: 'DOC_DIVISION',
 };
 const DOTS_DOC_TYPE = {
     NAME: 'DOTS_DOC_TYPE',
     ID: 'ID',
-    DOC_TYPE_NAME: 'DOC_TYPE_NAME',
-    DOC_TYPE_CODE: 'DOC_TYPE_CODE'
+    DOC_TYPE: 'DOC_TYPE',
 };
 
 const DOTS_DOC_PRPS = {
     NAME: 'DOTS_DOC_PRPS',
     ID: 'ID',
-    DOC_PRPS_NAME: 'DOC_PRPS_NAME',
-    DOC_PRPS_CODE: 'DOC_PRPS_CODE'
+    DOC_PRPS: 'DOC_PRPS',
 };
 const DOTS_DOC_STATUS = {
 
     NAME: 'DOTS_DOC_STATUS',
     ID: 'ID',
-    DOC_STATUS_NAME: 'DOC_STATUS_NAME',
-    DOC_STATUS_CODE: 'DOC_STATUS_CODE'
+    DOC_STATUS: 'DOC_STATUS',
 };
 const DOTS_ACCOUNT_INFO = {
     NAME: 'DOTS_ACCOUNT_INFO',
@@ -62,7 +61,7 @@ const DOTS_ACCOUNT_INFO = {
     INITIAL: 'INITIAL',
     USERNAME: 'USERNAME',
     PASSWORD: 'PASSWORD',
-    DIVISION: 'DIVISION',
+    DEPT_ID: 'DEPT_ID',
 }
 
 const _REQUEST = {
@@ -78,8 +77,8 @@ const _REQUEST = {
     GET_SESSION_INITIAL: 'GET_SESSION_INITIAL',
     GET_SESSION_ID: 'GET_SESSION_ID',
 }
-const DOTS_OUTBOUND = {
-    NAME: 'DOTS_OUTBOUND',
+const DOTS_DOCUMENT_SUB = {
+    NAME: 'DOTS_DOCUMENT_SUB',
     DOC_NUM: 'DOC_NUM',
     ID: 'ID',
     DOC_PRPS: 'DOC_PRPS',
@@ -94,20 +93,15 @@ const _SUB_NAME = {
 
     ID: "ID",
 
-    DOC_TYPE_NAME: 'Document Name',
-    DOC_TYPE_CODE: 'Document Code',
+    DOC_TYPE: 'Document Name',
 
-    DOC_PRPS_NAME: 'Purpose Name',
-    DOC_PRPS_CODE: 'Purpose Code',
+    DOC_PRPS: 'Purpose Name',
 
-    DOC_OFFICE_NAME: 'Office Name',
-    DOC_OFFICE_CODE: 'Office Code',
+    DOC_OFFICE: 'Office Name',
 
-    DOC_DIVISION_NAME: 'Division Name',
-    DOC_DIVISION_CODE: 'Division Code',
+    DOC_DIVISION: 'Division Name',
 
-    DOC_STATUS_NAME: 'Status',
-    DOC_STATUS_CODE: 'Status Code',
+    DOC_STATUS: 'Status',
 
     DOC_NUM: 'No.',
     DOC_SUBJECT: 'Subject',
@@ -120,7 +114,7 @@ const _SUB_NAME = {
     DOC_STATUS: "Status",
 
     HRIS_ID: 'HRIS ID',
-    FULL_NAME: 'Fullname',
+    FULL: 'Fullname',
     INITIAL: 'Initial',
 
     // DOC_PRPS: 'Purpose',

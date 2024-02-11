@@ -45,9 +45,11 @@ class Queries
 
         if (isset($inputs['WHERE'])) {
             $sql .= ' WHERE ';
+            $whereConditions = [];
             foreach ($inputs['WHERE'] as $column => $value) {
-                $sql .= "$column = '$value'";
+                $whereConditions[] = "$column = '$value'";
             }
+            $sql .= implode(' AND ', $whereConditions);
         }
 
         $sql .= ";";
