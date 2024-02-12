@@ -26,20 +26,35 @@ class JsFunctions {
 
         tableJSON.forEach(item => {
             const row = document.createElement('tr');
-            let found = 0;
+            var found = 0;
+            var rowID = {};
 
             Object.entries(item).forEach(([key, value]) => {
                 const cell = document.createElement('td');
                 cell.textContent = value;
-                cell.dataset.keys = key;
-                cell.dataset.value = value;
+                
+                // cell.dataset.keys = key;
+                // cell.dataset.value = value;
+               
                 row.appendChild(cell);
-                if (value == null) {
+
+                if (key == 'DOC_NUM')
+                    rowID[key] = value;
+
+                if (key == 'ID')
+                    rowID[key] = value;
+
+                if (value == null)
                     value = "";
-                }
-                if (value.toUpperCase().indexOf(filter) > -1) {
+
+                if (value.toUpperCase().indexOf(filter) > -1)
                     found++;
-                }
+
+            });
+
+            row.addEventListener('click', function () {
+                const STRINGrowID = JSON.stringify(rowID);
+                sessionStorage.setItem('TEMP_DATA',STRINGrowID);
             });
 
             if (found == 0) {

@@ -46,7 +46,7 @@
             </div>
             <div>
                 <label for="CREATE_DOC_TYPE">Document Type:</label> <br>
-                <select name="DOC_TYPE" id="CREATE_DOC_TYPE">
+                <select name="DOC_TYPE_ID" id="CREATE_DOC_TYPE">
                     <option value="" disabled selected>Please Select Type</option>
                     <!-- to be filled using database -->
                 </select>
@@ -88,8 +88,8 @@
                 </select>
             </div>
             <div>
-                <label for="SEND_DOC_DEPT">Department:</label>
-                <select name="R_DEPT_ID" id="SEND_DOC_DEPT">
+                <label for="SEND_R_DEPT_ID">Department:</label>
+                <select name="R_DEPT_ID" id="SEND_R_DEPT_ID">
                     <option value="" disabled selected>Please Select Department</option>
                     <!-- to be filled using database -->
                 </select>

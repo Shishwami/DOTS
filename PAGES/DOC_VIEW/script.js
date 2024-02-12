@@ -24,7 +24,7 @@ const CREATE_DOC_STATUS = FORM_DOC_RECEIVE.querySelector("#CREATE_DOC_STATUS");
 const FORM_DOC_SEND = document.getElementById("FORM_DOC_SEND");
 const SEND_DOC_NUM = FORM_DOC_SEND.querySelector("#SEND_DOC_NUM");
 const SEND_DOC_PRPS = FORM_DOC_SEND.querySelector("#SEND_DOC_PRPS");
-const SEND_DOC_DEPT = FORM_DOC_SEND.querySelector("#SEND_DOC_DEPT");
+const SEND_R_DEPT_ID = FORM_DOC_SEND.querySelector("#SEND_R_DEPT_ID");
 const SEND_DOC_ADDRESSEE = FORM_DOC_SEND.querySelector("#SEND_DOC_ADDRESSEE");
 const SEND_DOC_NOTES = FORM_DOC_SEND.querySelector("#SEND_DOC_NOTES");
 const SEND_DATE_TIME_RECEIVED = FORM_DOC_SEND.querySelector("#SEND_DATE_TIME_RECEIVED");
@@ -36,15 +36,15 @@ console.log(SEND_DOC_NUM);
 InitializePAGE();
 
 function InitializePAGE() {
-    
+
     //TODO too add in btn event listeners
     initializeSEND_FORM();
     initializeRECEIVE_FORM();
 
     setTable("");
 
-    const TBODY = DOC_VIEW_MAIN.querySelector("tbody");
-    JsFunctions.tbodyEventListener(TBODY);
+    // const TBODY = DOC_VIEW_MAIN.querySelector("tbody");
+    // JsFunctions.tbodyEventListener(TBODY);
 
     searchBar.addEventListener('input', function () {
         setTable(searchBar.value.toUpperCase());
@@ -58,7 +58,7 @@ function InitializePAGE() {
     setForms();
 }
 function initializeSEND_FORM() {
-    setDOC_DEPT();
+    setR_DEPT_ID();
     setDOC_PURPOSE();
     setDOC_LOCATION();
     setButtonEvents();
@@ -74,8 +74,8 @@ function initializeRECEIVE_FORM() {
     setLETTER_DATE();
     getSessionName();
 }
-function setDOC_DEPT() {
-    SEND_DOC_DEPT.addEventListener('change', function (e) {
+function setR_DEPT_ID() {
+    SEND_R_DEPT_ID.addEventListener('change', function (e) {
         setADDRESSEE(this.value);
     });
 
@@ -95,7 +95,7 @@ function setDOC_DEPT() {
             if (response.VALID) {
                 delete response.VALID;
                 var object = Object.values(response)[0];
-                JsFunctions.setSelect(SEND_DOC_DEPT, object);
+                JsFunctions.setSelect(SEND_R_DEPT_ID, object);
             } else {
                 alert(error);
             }
@@ -280,11 +280,22 @@ function setButtonEvents() {
 
         clearValues();
         resetAddressee();
+        var doc_num = 0;
+        var id = 0;
 
-        const doc_num = sessionStorage.getItem("TEMP_DATA");
+        const TEMP_DATA = JSON.parse(sessionStorage.getItem("TEMP_DATA"));
+        if (TEMP_DATA) {
+            if (TEMP_DATA.DOC_NUM) {
+                doc_num = TEMP_DATA.DOC_NUM;
+            }
+
+            if (TEMP_DATA.ID) {
+                id = TEMP_DATA.ID;
+            }
+        }
         sessionStorage.clear("TEMP_DATA");
 
-        if (doc_num != null) {
+        if (doc_num != 0) {
             SEND_DOC_NUM.value = doc_num;
         } else {
             alert("Please Select A Document");
@@ -293,7 +304,7 @@ function setButtonEvents() {
 }
 function clearValues() {
     SEND_DOC_PRPS.value = "";
-    SEND_DOC_DEPT.value = "";
+    SEND_R_DEPT_ID.value = "";
     SEND_DOC_NOTES.value = "";
     SEND_DOC_ADDRESSEE.value = "";
 }
@@ -359,7 +370,7 @@ function setTable(filter) {
             {
                 table: DOTS_DOC_TYPE.NAME,
                 ON: [
-                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_TYPE
+                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_TYPE_ID
                     + " = " +
                     DOTS_DOC_TYPE.NAME + "." + DOTS_DOC_TYPE.ID
                 ],
@@ -419,6 +430,7 @@ function setForms() {
         var empty = JsFunctions.checkIfEmpty(dataValues);
         data['DOC_NOTES'] = SEND_DOC_NOTES.value
 
+        console.log(insertData);
         var updateData = {
             TABLE: DOTS_DOCUMENT.NAME,
             REQUEST: _REQUEST.UPDATE,
@@ -440,15 +452,15 @@ function setForms() {
                         delete response.VALID;
                         alert("SENT");
                         //update status from received to pending
-                        MyAjax.createJSON((error, response) => {
-                            if (error) {
-                                alert(error);
-                            } else {
-                                if (response.VALID) {
-                                    console.log(response);
-                                }
-                            }
-                        }, updateData);
+                        // MyAjax.createJSON((error, response) => {
+                        //     if (error) {
+                        //         alert(error);
+                        //     } else {
+                        //         if (response.VALID) {
+                        //             console.log(response);
+                        //         }
+                        //     }
+                        // }, updateData);
                     }
                 }
             }, insertData);
