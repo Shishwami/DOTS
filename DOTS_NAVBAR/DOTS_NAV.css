@@ -330,7 +330,7 @@ nav .content .links
 {
     .content .logo a
     {
-        font-size: 19px;
+        font-size: 25px;
     }
 }
 
@@ -379,10 +379,10 @@ nav .content .links
         content: "\f00d";
     }
 
-    .content .logo a
+    /* .content .logo a
         {
             font-size: 30px;
-        }
+        } */
 
     nav .content .links
         {
@@ -465,6 +465,11 @@ nav .content .links
         width: 30px;
         height: 30px;
     }
+
+    .content .logo a
+    {
+        font-size: 20px;
+    }
 }
 
 @media screen and (max-width: 400px)
@@ -474,10 +479,10 @@ nav .content .links
             padding: 0 10px;
         }
 
-    .content .logo a
+    /* .content .logo a
         {
             font-size: 25px;
-        }
+        } */
 
     .wrapper .search-box
         {
