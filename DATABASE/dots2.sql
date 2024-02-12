@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 12/02/2024 16:53:29
+ Date: 12/02/2024 15:29:33
 */
 
 SET NAMES utf8mb4;
@@ -62,23 +62,6 @@ CREATE TABLE `dots_doc_action`  (
 INSERT INTO `dots_doc_action` VALUES (1, 'SENT');
 INSERT INTO `dots_doc_action` VALUES (2, 'RECEIVE');
 INSERT INTO `dots_doc_action` VALUES (3, 'CREATE');
-
--- ----------------------------
--- Table structure for dots_doc_dept
--- ----------------------------
-DROP TABLE IF EXISTS `dots_doc_dept`;
-CREATE TABLE `dots_doc_dept`  (
-  `ID` int NOT NULL AUTO_INCREMENT,
-  `DOC_DEPT` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of dots_doc_dept
--- ----------------------------
-INSERT INTO `dots_doc_dept` VALUES (1, 'ARD');
-INSERT INTO `dots_doc_dept` VALUES (2, 'L&D');
-INSERT INTO `dots_doc_dept` VALUES (3, 'PIAD');
 
 -- ----------------------------
 -- Table structure for dots_doc_division
@@ -138,7 +121,7 @@ CREATE TABLE `dots_doc_status`  (
   `ID` int NOT NULL AUTO_INCREMENT,
   `DOC_STATUS` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of dots_doc_status
