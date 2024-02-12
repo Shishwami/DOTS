@@ -20,31 +20,33 @@ const CREATE_DOC_TYPE = FORM_DOC_RECEIVE.querySelector("#CREATE_DOC_TYPE");
 const CREATE_DOC_OFFICE = FORM_DOC_RECEIVE.querySelector("#CREATE_DOC_OFFICE");
 const CREATE_DOC_SUBJECT = FORM_DOC_RECEIVE.querySelector("#CREATE_DOC_SUBJECT");
 const CREATE_DOC_STATUS = FORM_DOC_RECEIVE.querySelector("#CREATE_DOC_STATUS");
+const CREATE_R_USER_ID = FORM_DOC_RECEIVE.querySelector("#CREATE_R_USER_ID");
+const CREATE_R_DEPT_ID = FORM_DOC_RECEIVE.querySelector("#CREATE_R_DEPT_ID");
 //SEND FORM
 const FORM_DOC_SEND = document.getElementById("FORM_DOC_SEND");
 const SEND_DOC_NUM = FORM_DOC_SEND.querySelector("#SEND_DOC_NUM");
 const SEND_DOC_PRPS = FORM_DOC_SEND.querySelector("#SEND_DOC_PRPS");
-const SEND_DOC_DEPT = FORM_DOC_SEND.querySelector("#SEND_DOC_DEPT");
+const SEND_R_DEPT_ID = FORM_DOC_SEND.querySelector("#SEND_R_DEPT_ID");
 const SEND_DOC_ADDRESSEE = FORM_DOC_SEND.querySelector("#SEND_DOC_ADDRESSEE");
 const SEND_DOC_NOTES = FORM_DOC_SEND.querySelector("#SEND_DOC_NOTES");
 const SEND_DATE_TIME_RECEIVED = FORM_DOC_SEND.querySelector("#SEND_DATE_TIME_RECEIVED");
-const ACTION_ID = FORM_DOC_SEND.querySelector("#ACTION_ID");
-const SEND_DOC_LOCATION = FORM_DOC_SEND.querySelector("#SEND_DOC_LOCATION");
+const SEND_ACTION_ID = FORM_DOC_SEND.querySelector("#SEND_ACTION_ID");
+const SEND_S_USER_ID = FORM_DOC_SEND.querySelector("#SEND_S_USER_ID");
 
 console.log(SEND_DOC_NUM);
 
 InitializePAGE();
 
 function InitializePAGE() {
-    
+
     //TODO too add in btn event listeners
     initializeSEND_FORM();
     initializeRECEIVE_FORM();
 
     setTable("");
 
-    const TBODY = DOC_VIEW_MAIN.querySelector("tbody");
-    JsFunctions.tbodyEventListener(TBODY);
+    // const TBODY = DOC_VIEW_MAIN.querySelector("tbody");
+    // JsFunctions.tbodyEventListener(TBODY);
 
     searchBar.addEventListener('input', function () {
         setTable(searchBar.value.toUpperCase());
@@ -58,7 +60,7 @@ function InitializePAGE() {
     setForms();
 }
 function initializeSEND_FORM() {
-    setDOC_DEPT();
+    setR_DEPT_ID();
     setDOC_PURPOSE();
     setDOC_LOCATION();
     setButtonEvents();
@@ -73,19 +75,21 @@ function initializeRECEIVE_FORM() {
     setRECEIVED_TIME(CREATE_DATE_TIME_RECEIVED);
     setLETTER_DATE();
     getSessionName();
+    getSessionDeptId();
+    getSessionHrisId();
 }
-function setDOC_DEPT() {
-    SEND_DOC_DEPT.addEventListener('change', function (e) {
+function setR_DEPT_ID() {
+    SEND_R_DEPT_ID.addEventListener('change', function (e) {
         setADDRESSEE(this.value);
     });
 
     var columns = [
-        DOTS_DOC_DIVISION.ID,
-        DOTS_DOC_DIVISION.DOC_DIVISION,
+        DOTS_DOC_DEPT.ID,
+        DOTS_DOC_DEPT.DOC_DEPT,
     ]
 
     var data = {
-        TABLE: DOTS_DOC_DIVISION.NAME,
+        TABLE: DOTS_DOC_DEPT.NAME,
         REQUEST: _REQUEST.SELECT,
         COLUMNS: columns,
     }
@@ -95,7 +99,7 @@ function setDOC_DEPT() {
             if (response.VALID) {
                 delete response.VALID;
                 var object = Object.values(response)[0];
-                JsFunctions.setSelect(SEND_DOC_DEPT, object);
+                JsFunctions.setSelect(SEND_R_DEPT_ID, object);
             } else {
                 alert(error);
             }
@@ -232,6 +236,44 @@ function getSessionName() {
         }
     }, data);
 }
+function getSessionHrisId() {
+    const data = {
+        REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
+    }
+    console.log(data);
+    MyAjax.createJSON((error, response) => {
+        if (error) {
+            alert(error);
+        } else {
+            if (response.VALID) {
+                delete response.VALID;
+                CREATE_R_USER_ID.value = Object.values(response)[0];
+            } else {
+                console.log(response);
+                //error message
+            }
+        }
+    }, data);
+}
+function getSessionDeptId() {
+    const data = {
+        REQUEST: _REQUEST.GET_SESSION_DEPT_ID,
+    }
+    console.log(data);
+    MyAjax.createJSON((error, response) => {
+        if (error) {
+            alert(error);
+        } else {
+            if (response.VALID) {
+                delete response.VALID;
+                CREATE_R_DEPT_ID.value = Object.values(response)[0];
+            } else {
+                console.log(response);
+                //error message
+            }
+        }
+    }, data);
+}
 function setDOC_PURPOSE() {
     const SEND_DOC_PRPS = document.getElementById("SEND_DOC_PRPS")
     var columns = [
@@ -261,13 +303,13 @@ function setDOC_PURPOSE() {
 function setDOC_LOCATION() {
 
     const data = {
-        REQUEST: _REQUEST.GET_SESSION_ID,
+        REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
     }
     MyAjax.createJSON((error, response) => {
         if (!error) {
             if (response.VALID) {
                 delete response.VALID;
-                SEND_DOC_LOCATION.value = Object.values(response)[0];
+                SEND_S_USER_ID.value = Object.values(response)[0];
             }
         } else {
             alert(error)
@@ -280,11 +322,23 @@ function setButtonEvents() {
 
         clearValues();
         resetAddressee();
+        setRECEIVED_TIME(SEND_DATE_TIME_RECEIVED);
+        var doc_num = 0;
+        var id = 0;
 
-        const doc_num = sessionStorage.getItem("TEMP_DATA");
+        const TEMP_DATA = JSON.parse(sessionStorage.getItem("TEMP_DATA"));
+        if (TEMP_DATA) {
+            if (TEMP_DATA.DOC_NUM) {
+                doc_num = TEMP_DATA.DOC_NUM;
+            }
+
+            if (TEMP_DATA.ID) {
+                id = TEMP_DATA.ID;
+            }
+        }
         sessionStorage.clear("TEMP_DATA");
 
-        if (doc_num != null) {
+        if (doc_num != 0) {
             SEND_DOC_NUM.value = doc_num;
         } else {
             alert("Please Select A Document");
@@ -293,7 +347,7 @@ function setButtonEvents() {
 }
 function clearValues() {
     SEND_DOC_PRPS.value = "";
-    SEND_DOC_DEPT.value = "";
+    SEND_R_DEPT_ID.value = "";
     SEND_DOC_NOTES.value = "";
     SEND_DOC_ADDRESSEE.value = "";
 }
@@ -344,13 +398,16 @@ function setTable(filter) {
     const columns = [
         'DOC_NUM',
         'DOC_SUBJECT',
+        'DOC_NOTES',
+        DOTS_DOC_TYPE.DOC_TYPE + ' AS Type',
         'LETTER_DATE',
-        'S_DEPT_ID',
-        DOTS_DOC_TYPE.NAME + '.' + DOTS_DOC_TYPE.DOC_TYPE,
-        DOTS_ACCOUNT_INFO.NAME + '.' + DOTS_ACCOUNT_INFO.FULL_NAME,
-        'DATE_TIME_RECEIVED',
-        DOTS_DOC_STATUS.NAME + '.' + DOTS_DOC_STATUS.DOC_STATUS,
-    ]
+        DOTS_DOC_OFFICE.DOC_OFFICE + ' AS Office',
+        DOTS_DOC_DEPT.DOC_DEPT + ' AS Department',
+        DOTS_ACCOUNT_INFO.FULL_NAME + ' AS Name',
+
+        DOTS_DOC_DEPT.DOC_DEPT + ' AS Department',
+        'R_USER_ID',
+        'DATE_TIME_RECEIVED',]
     var data = {
         TABLE: DOTS_DOCUMENT.NAME,
         REQUEST: _REQUEST.SELECT,
@@ -359,20 +416,46 @@ function setTable(filter) {
             {
                 table: DOTS_DOC_TYPE.NAME,
                 ON: [
-                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_TYPE
+                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_TYPE_ID
                     + " = " +
                     DOTS_DOC_TYPE.NAME + "." + DOTS_DOC_TYPE.ID
                 ],
                 TYPE: 'LEFT',
-            }, {
+            },
+            {
+                table: DOTS_DOC_OFFICE.NAME,
+                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.S_OFFICE_ID +
+                    " = " + DOTS_DOC_OFFICE.NAME + "." + DOTS_DOC_OFFICE.ID],
+                TYPE: 'LEFT'
+            },
+            {
+                table: DOTS_DOC_DEPT.NAME,
+                ON: [
+                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.S_DEPT_ID
+                    + " = " +
+                    DOTS_DOC_DEPT.NAME + "." + DOTS_DOC_DEPT.ID
+                ],
+                TYPE: 'LEFT'
+            },
+            {
                 table: DOTS_ACCOUNT_INFO.NAME,
                 ON: [
-                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.R_USER_ID
+                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.S_USER_ID
                     + " = " +
                     DOTS_ACCOUNT_INFO.NAME + "." + DOTS_ACCOUNT_INFO.HRIS_ID
                 ],
                 TYPE: 'LEFT',
-            }, {
+            },
+            {
+                table: DOTS_ACCOUNT_INFO.NAME,
+                ON: [
+                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.R_DEPT_ID
+                    + " = " +
+                    DOTS_ACCOUNT_INFO.NAME + "." + DOTS_ACCOUNT_INFO.DEPT_ID
+                ],
+                TYPE: 'LEFT',
+            },
+            {
                 table: DOTS_DOC_STATUS.NAME,
                 ON: [
                     DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_STATUS
@@ -419,6 +502,7 @@ function setForms() {
         var empty = JsFunctions.checkIfEmpty(dataValues);
         data['DOC_NOTES'] = SEND_DOC_NOTES.value
 
+        console.log(insertData);
         var updateData = {
             TABLE: DOTS_DOCUMENT.NAME,
             REQUEST: _REQUEST.UPDATE,
@@ -440,15 +524,15 @@ function setForms() {
                         delete response.VALID;
                         alert("SENT");
                         //update status from received to pending
-                        MyAjax.createJSON((error, response) => {
-                            if (error) {
-                                alert(error);
-                            } else {
-                                if (response.VALID) {
-                                    console.log(response);
-                                }
-                            }
-                        }, updateData);
+                        // MyAjax.createJSON((error, response) => {
+                        //     if (error) {
+                        //         alert(error);
+                        //     } else {
+                        //         if (response.VALID) {
+                        //             console.log(response);
+                        //         }
+                        //     }
+                        // }, updateData);
                     }
                 }
             }, insertData);
@@ -462,7 +546,7 @@ function setForms() {
         e.preventDefault();
 
         const data2 = {
-            REQUEST: _REQUEST.GET_SESSION_ID,
+            REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
         }
         var vals = JsFunctions.FormToJson(FORM_DOC_RECEIVE);
         var data = {
@@ -505,3 +589,4 @@ function setForms() {
 
     });
 }
+

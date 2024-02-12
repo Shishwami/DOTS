@@ -15,31 +15,44 @@ class JsFunctions {
         const keys = Object.keys(tableJSON[0]);
         keys.forEach(key => {
             const th = document.createElement('th');
-            if (_SUB_NAME[key] == null) {
-                th.textContent = key;
-            } else {
-                th.textContent = _SUB_NAME[key];
-            }
-
+            th.textContent = key;
             thead.appendChild(th);
         });
 
         tableJSON.forEach(item => {
             const row = document.createElement('tr');
-            let found = 0;
+            var found = 0;
+            var rowID = {};
 
             Object.entries(item).forEach(([key, value]) => {
                 const cell = document.createElement('td');
                 cell.textContent = value;
-                cell.dataset.keys = key;
-                cell.dataset.value = value;
+
+                // cell.dataset.keys = key;
+                // cell.dataset.value = value;
+
                 row.appendChild(cell);
+                if (key == 'DATE_TIME_RECEIVED') {
+                    const date = new Date(value);
+                    cell.textContent = this.formatDate(date);
+                }
+                if (key == 'DOC_NUM') {
+                    rowID[key] = value;
+                }
+                if (key == 'ID') {
+                    rowID[key] = value;
+                }
                 if (value == null) {
                     value = "";
                 }
                 if (value.toUpperCase().indexOf(filter) > -1) {
                     found++;
                 }
+            });
+
+            row.addEventListener('click', function () {
+                const STRINGrowID = JSON.stringify(rowID);
+                sessionStorage.setItem('TEMP_DATA', STRINGrowID);
             });
 
             if (found == 0) {
@@ -79,6 +92,17 @@ class JsFunctions {
             }
         }
         return empty;
+    }
+
+    static formatDate(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
     }
 
     static tbodyEventListener(tbody) {

@@ -37,8 +37,11 @@ switch ($REQUEST) {
     case 'GET_SESSION_INITIAL':
         getSessionInitial();
         break;
-    case 'GET_SESSION_ID':
-        getSessionID();
+    case 'GET_SESSION_HRIS_ID':
+        getSessionHrisID();
+        break;
+    case 'GET_SESSION_DEPT_ID':
+        getSessionDeptID();
         break;
 }
 $conn->close();
@@ -236,7 +239,7 @@ function getSessionInitial()
     }
 }
 
-function getSessionID()
+function getSessionHrisID()
 {
     $valid = false;
 
@@ -246,6 +249,27 @@ function getSessionID()
             array(
                 'VALID' => $valid,
                 'HRIS_ID' => $_SESSION["HRIS_ID"],
+            )
+        );
+    } else {
+        echo json_encode(
+            array(
+                'VALID' => $valid
+            )
+        );
+    }
+}
+
+function getSessionDeptID()
+{
+    $valid = false;
+
+    if (isset($_SESSION["DEPT_ID"])) {
+        $valid = true;
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'DEPT_ID' => $_SESSION["DEPT_ID"],
             )
         );
     } else {

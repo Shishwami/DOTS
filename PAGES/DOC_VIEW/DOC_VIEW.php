@@ -6,6 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    table,
+    th,
+    td {
+        border: 1px solid;
+    }
+    table {
+        border-collapse: collapse;
+    }
+    table tr {
+        margin: 0;
+        padding: 0;
+    }
+
+    tr:hover {
+        background-color: coral;
+    }
+</style>
 
 <body>
 
@@ -29,6 +47,13 @@
         <h1>CREATE MODAL</h1>
         <form action="submit" id="FORM_DOC_RECEIVE">
             <div>
+
+                <label for="ACTION_ID_3">CREATE</label>
+                <input type="radio" name=ACTION_ID value='3' id="ACTION_ID_3">
+                <label for="ACTION_ID_2">RECEIVE</label>
+                <input type="radio" name=ACTION_ID value='2' id="ACTION_ID_2" checked>
+            </div>
+            <div>
                 <label for="CREATE_DOC_NUM">Document Number:</label> <br>
                 <input type="text" name="DOC_NUM" id="CREATE_DOC_NUM" disabled>
             </div>
@@ -46,7 +71,7 @@
             </div>
             <div>
                 <label for="CREATE_DOC_TYPE">Document Type:</label> <br>
-                <select name="DOC_TYPE" id="CREATE_DOC_TYPE">
+                <select name="DOC_TYPE_ID" id="CREATE_DOC_TYPE">
                     <option value="" disabled selected>Please Select Type</option>
                     <!-- to be filled using database -->
                 </select>
@@ -63,7 +88,9 @@
                 <input type="text" name="DOC_SUBJECT" id="CREATE_DOC_SUBJECT">
             </div>
 
-            <input type="text" name="DOC_STATUS" id="CREATE_DOC_STATUS" value="0">
+            <input type="text" name="DOC_STATUS" id="CREATE_DOC_STATUS" value="1">
+            <input type="text" name="R_USER_ID" id="CREATE_R_USER_ID">
+            <input type="text" name="R_DEPT_ID" id="CREATE_R_DEPT_ID">
 
             <input type="submit" value="Submit">
 
@@ -88,8 +115,8 @@
                 </select>
             </div>
             <div>
-                <label for="SEND_DOC_DEPT">Department:</label>
-                <select name="R_DEPT_ID" id="SEND_DOC_DEPT">
+                <label for="SEND_R_DEPT_ID">Department:</label>
+                <select name="R_DEPT_ID" id="SEND_R_DEPT_ID">
                     <option value="" disabled selected>Please Select Department</option>
                     <!-- to be filled using database -->
                 </select>
@@ -108,7 +135,7 @@
             </div>
 
             <input type="text" name="ACTION_ID" id="SEND_DOC_ACTION" value="3">
-            <input type="text" name="S_USER_ID" id="SEND_DOC_LOCATION" value="">
+            <input type="text" name="S_USER_ID" id="SEND_S_USER_ID" value="">
 
             <input type="submit" value="Send">
         </form>
