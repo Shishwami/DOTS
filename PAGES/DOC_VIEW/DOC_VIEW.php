@@ -12,7 +12,9 @@
     td {
         border: 1px solid;
     }
-
+    table {
+        border-collapse: collapse;
+    }
     table tr {
         margin: 0;
         padding: 0;
