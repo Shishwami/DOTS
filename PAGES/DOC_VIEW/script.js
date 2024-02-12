@@ -396,14 +396,14 @@ function resetAddressee() {
 function setTable(filter) {
 
     const columns = [
-        'DOC_NUM',
-        'DOC_SUBJECT',
-        'LETTER_DATE',
+        'DOC_NUM as `No.`',
+        'DOC_SUBJECT as `Subject`',
+        'LETTER_DATE as `Letter Date`',
         'S_DEPT_ID',
-        DOTS_DOC_TYPE.NAME + '.' + DOTS_DOC_TYPE.DOC_TYPE,
-        DOTS_ACCOUNT_INFO.NAME + '.' + DOTS_ACCOUNT_INFO.FULL_NAME,
+        // DOTS_DOC_TYPE.NAME + '.' + DOTS_DOC_TYPE.DOC_TYPE,
+        // DOTS_ACCOUNT_INFO.NAME + '.' + DOTS_ACCOUNT_INFO.FULL_NAME,
         'DATE_TIME_RECEIVED',
-        DOTS_DOC_STATUS.NAME + '.' + DOTS_DOC_STATUS.DOC_STATUS,
+        // DOTS_DOC_STATUS.NAME + '.' + DOTS_DOC_STATUS.DOC_STATUS,
     ]
     var data = {
         TABLE: DOTS_DOCUMENT.NAME,
