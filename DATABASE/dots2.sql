@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 12/02/2024 14:35:22
+ Date: 12/02/2024 15:29:33
 */
 
 SET NAMES utf8mb4;
@@ -129,6 +129,7 @@ CREATE TABLE `dots_doc_status`  (
 INSERT INTO `dots_doc_status` VALUES (1, 'Pending');
 INSERT INTO `dots_doc_status` VALUES (2, 'Filed');
 INSERT INTO `dots_doc_status` VALUES (3, 'Returned');
+INSERT INTO `dots_doc_status` VALUES (4, 'Approved');
 
 -- ----------------------------
 -- Table structure for dots_doc_type
@@ -166,7 +167,7 @@ CREATE TABLE `dots_document`  (
   `DOC_STATUS` int NOT NULL,
   `ACTION_ID` int NULL DEFAULT NULL,
   PRIMARY KEY (`DOC_NUM`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of dots_document
@@ -190,6 +191,9 @@ INSERT INTO `dots_document` VALUES (16, 'sad', 1, '2024-02-12', '', 1, 0, 0, 0, 
 INSERT INTO `dots_document` VALUES (17, 'sad', 1, '2024-02-12', '', 1, 0, 0, 0, 0, '2024-02-12 13:23:00.000000', 1, 3);
 INSERT INTO `dots_document` VALUES (18, 'asdsadasasdad', 2, '2024-02-12', '', 1, 0, 0, 2, 27003, '2024-02-12 14:00:00.000000', 1, 2);
 INSERT INTO `dots_document` VALUES (19, 'test 1', 1, '2024-02-12', '', 1, 0, 0, 2, 27003, '2024-02-12 14:02:00.000000', 1, 3);
+INSERT INTO `dots_document` VALUES (20, 'gssffg', 1, '2024-02-12', '', 1, 0, 0, 2, 27003, '2024-02-12 14:29:00.000000', 1, 3);
+INSERT INTO `dots_document` VALUES (21, 'yhhht', 1, '2024-02-12', '', 1, 0, 0, 2, 27003, '2024-02-12 15:10:00.000000', 1, 2);
+INSERT INTO `dots_document` VALUES (22, '', NULL, '2024-02-12', '', NULL, 0, 0, 2, 27003, '2024-02-12 15:15:00.000000', 1, 2);
 
 -- ----------------------------
 -- Table structure for dots_document_sub
