@@ -20,8 +20,8 @@ const CREATE_DOC_TYPE = FORM_DOC_RECEIVE.querySelector("#CREATE_DOC_TYPE");
 const CREATE_DOC_OFFICE = FORM_DOC_RECEIVE.querySelector("#CREATE_DOC_OFFICE");
 const CREATE_DOC_SUBJECT = FORM_DOC_RECEIVE.querySelector("#CREATE_DOC_SUBJECT");
 const CREATE_DOC_STATUS = FORM_DOC_RECEIVE.querySelector("#CREATE_DOC_STATUS");
-const CREATE_R_USER_ID =FORM_DOC_RECEIVE.querySelector("#CREATE_R_USER_ID");
-const CREATE_R_DEPT_ID =FORM_DOC_RECEIVE.querySelector("#CREATE_R_DEPT_ID");
+const CREATE_R_USER_ID = FORM_DOC_RECEIVE.querySelector("#CREATE_R_USER_ID");
+const CREATE_R_DEPT_ID = FORM_DOC_RECEIVE.querySelector("#CREATE_R_DEPT_ID");
 //SEND FORM
 const FORM_DOC_SEND = document.getElementById("FORM_DOC_SEND");
 const SEND_DOC_NUM = FORM_DOC_SEND.querySelector("#SEND_DOC_NUM");
@@ -84,12 +84,12 @@ function setR_DEPT_ID() {
     });
 
     var columns = [
-        DOTS_DOC_DIVISION.ID,
-        DOTS_DOC_DIVISION.DOC_DIVISION,
+        DOTS_DOC_DEPT.ID,
+        DOTS_DOC_DEPT.DOC_DEPT,
     ]
 
     var data = {
-        TABLE: DOTS_DOC_DIVISION.NAME,
+        TABLE: DOTS_DOC_DEPT.NAME,
         REQUEST: _REQUEST.SELECT,
         COLUMNS: columns,
     }
@@ -396,46 +396,75 @@ function resetAddressee() {
 function setTable(filter) {
 
     const columns = [
-        'DOC_NUM as `No.`',
-        'DOC_SUBJECT as `Subject`',
-        'LETTER_DATE as `Letter Date`',
-        'S_DEPT_ID',
-        // DOTS_DOC_TYPE.NAME + '.' + DOTS_DOC_TYPE.DOC_TYPE,
-        // DOTS_ACCOUNT_INFO.NAME + '.' + DOTS_ACCOUNT_INFO.FULL_NAME,
-        'DATE_TIME_RECEIVED',
-        // DOTS_DOC_STATUS.NAME + '.' + DOTS_DOC_STATUS.DOC_STATUS,
-    ]
+        'DOC_NUM',
+        'DOC_SUBJECT',
+        'DOC_NOTES',
+        DOTS_DOC_TYPE.DOC_TYPE + ' AS Type',
+        'LETTER_DATE',
+        DOTS_DOC_OFFICE.DOC_OFFICE + ' AS Office',
+        DOTS_DOC_DEPT.DOC_DEPT + ' AS Department',
+        DOTS_ACCOUNT_INFO.FULL_NAME + ' AS Name',
+
+        DOTS_DOC_DEPT.DOC_DEPT + ' AS Department',
+        'R_USER_ID',
+        'DATE_TIME_RECEIVED',]
     var data = {
         TABLE: DOTS_DOCUMENT.NAME,
         REQUEST: _REQUEST.SELECT,
-        // COLUMNS: columns,
-        // JOIN: [
-        //     {
-        //         table: DOTS_DOC_TYPE.NAME,
-        //         ON: [
-        //             DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_TYPE_ID
-        //             + " = " +
-        //             DOTS_DOC_TYPE.NAME + "." + DOTS_DOC_TYPE.ID
-        //         ],
-        //         TYPE: 'LEFT',
-        //     }, {
-        //         table: DOTS_ACCOUNT_INFO.NAME,
-        //         ON: [
-        //             DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.R_USER_ID
-        //             + " = " +
-        //             DOTS_ACCOUNT_INFO.NAME + "." + DOTS_ACCOUNT_INFO.HRIS_ID
-        //         ],
-        //         TYPE: 'LEFT',
-        //     }, {
-        //         table: DOTS_DOC_STATUS.NAME,
-        //         ON: [
-        //             DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_STATUS
-        //             + " = " +
-        //             DOTS_DOC_STATUS.NAME + "." + DOTS_DOC_STATUS.ID
-        //         ],
-        //         TYPE: 'LEFT',
-        //     }
-        // ],
+        COLUMNS: columns,
+        JOIN: [
+            {
+                table: DOTS_DOC_TYPE.NAME,
+                ON: [
+                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_TYPE_ID
+                    + " = " +
+                    DOTS_DOC_TYPE.NAME + "." + DOTS_DOC_TYPE.ID
+                ],
+                TYPE: 'LEFT',
+            },
+            {
+                table: DOTS_DOC_OFFICE.NAME,
+                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.S_OFFICE_ID +
+                    " = " + DOTS_DOC_OFFICE.NAME + "." + DOTS_DOC_OFFICE.ID],
+                TYPE: 'LEFT'
+            },
+            {
+                table: DOTS_DOC_DEPT.NAME,
+                ON: [
+                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.S_DEPT_ID
+                    + " = " +
+                    DOTS_DOC_DEPT.NAME + "." + DOTS_DOC_DEPT.ID
+                ],
+                TYPE: 'LEFT'
+            },
+            {
+                table: DOTS_ACCOUNT_INFO.NAME,
+                ON: [
+                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.S_USER_ID
+                    + " = " +
+                    DOTS_ACCOUNT_INFO.NAME + "." + DOTS_ACCOUNT_INFO.HRIS_ID
+                ],
+                TYPE: 'LEFT',
+            },
+            {
+                table: DOTS_ACCOUNT_INFO.NAME,
+                ON: [
+                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.R_DEPT_ID
+                    + " = " +
+                    DOTS_ACCOUNT_INFO.NAME + "." + DOTS_ACCOUNT_INFO.DEPT_ID
+                ],
+                TYPE: 'LEFT',
+            },
+            {
+                table: DOTS_DOC_STATUS.NAME,
+                ON: [
+                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_STATUS
+                    + " = " +
+                    DOTS_DOC_STATUS.NAME + "." + DOTS_DOC_STATUS.ID
+                ],
+                TYPE: 'LEFT',
+            }
+        ],
         // WHERE:{
         //     DOC_STATUS: 1
         // }
