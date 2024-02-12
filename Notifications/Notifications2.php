@@ -45,9 +45,13 @@
             
             msg.innerText = message;
 
-            let strong =document.createElement("strong");
-            
-            
+            let strong = document.createElement("strong");
+
+            let x_btn = document.createElement("div");
+            x_btn.classList.add("close_btn");
+            let x_btn_icon =document.createElement("span");
+            x_btn_icon.classList.add("fa-brands", "fa-x-twitter");            
+        
             
             let icon = document.createElement("span");
             if (type=="success"){
@@ -64,9 +68,18 @@
                 strong.innerText = "WARNING";
             }
 
+
+            x_btn.addEventListener('click', function () {
+                    notif.remove();
+                });
+
+
             notif.append(icon);
+            notif.append(x_btn);
+            x_btn.append(x_btn_icon);
             notif.append(strong);
             notif.append(msg);
+            
         
 
             document.getElementById("notification-area").appendChild(notif);
@@ -78,7 +91,7 @@
                 break;
                 }
             }
-            },20000);
+            },50000);
         })();
     }
 

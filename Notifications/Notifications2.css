@@ -13,20 +13,21 @@
 #notification-area
 {
     position:fixed;
-    top:0px;
+    top: 70px;
     right:15px;
     width:250px;
-    height:99vh;
+    height: 89vh;
     display:flex;
     flex-direction:column;
     justify-content:flex-end;
+    overflow: hidden;
 }
 
 #notification-area .notification
 {
     position:relative;
     padding:15px 10px;
-    background:#e2b9ff;
+    color: #ffffff;
     font-size: 0.8rem;
     letter-spacing: 0.1rem;
     text-align: justify;
@@ -34,40 +35,46 @@
     margin:5px 0px;
     opacity:0;
     left:20px;
-    animation:showNotification 500ms ease-in-out forwards;
+    animation:showNotification 150ms ease-in-out forwards;
 }
 
 @keyframes showNotification
 {
-    to {
-      opacity:1;
-      left:0px;
+    to
+    {
+        opacity:1;
+        left:0px;
     }
+}
+
+#notification-area .notification .close_btn
+{
+    float: right;
+}
+
+#notification-area .notification .close_btn:hover
+{
+    color: #000000;
 }
 
 #notification-area .notification.success
 {
-    color:#18cf00;
-}
-
-span .fa-circle-check
-{
-    
+    background-color:#18cf00;
 }
 
 #notification-area .notification.error
 {
-    color:#ff0000;
+    background-color:#ff0000;
 }
 
 #notification-area .notification.info
 {
-    color:#0066ff;
+    background-color:#0066ff;
 }
 
 #notification-area .notification.warning
 {
-    color:#ff8800;
+    background-color:#ff8800;
 }
 
 #notification-area .notification span
