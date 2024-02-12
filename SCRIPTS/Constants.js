@@ -4,6 +4,7 @@ const DOTS_DOCUMENT = {
     NAME: 'DOTS_DOCUMENT',
     DOC_NUM: 'DOC_NUM',
     DOC_SUBJECT: 'DOC_SUBJECT',
+    DOC_NOTES: 'DOC_NOTES',
     DOC_TYPE_ID: 'DOC_TYPE_ID',
     LETTER_DATE: 'LETTER_DATE',
     S_USER_ID: 'S_USER_ID',
@@ -15,7 +16,6 @@ const DOTS_DOCUMENT = {
     DATE_TIME_RECEIVED: 'DATE_TIME_RECEIVED',
     DOC_STATUS: 'DOC_STATUS',
 };
-
 const DOTS_DOC_LOGS = {
     NAME: 'DOTS_DOC_LOGS',
     DOC_NUM: 'DOC_NUM',
@@ -25,19 +25,16 @@ const DOTS_DOC_LOGS = {
     DOC_ADDRESSEE: 'DOC_ADDRESSEE',
     DOC_STATUS: 'DOC_STATUS',
 };
-
 const DOTS_DOC_OFFICE = {
     NAME: 'DOTS_DOC_OFFICE',
     ID: 'ID',
     DOC_OFFICE: 'DOC_OFFICE',
 };
-
 const DOTS_DOC_ACTION = {
     NAME: 'DOTS_DOC_ACTION',
     ID: 'ID',
-    DOC_OFFICE: 'DOC_ACTION',
+    DOC_ACTION: 'DOC_ACTION',
 };
-
 const DOTS_DOC_DIVISION = {
     NAME: 'DOTS_DOC_DIVISION',
     ID: 'ID',
@@ -48,14 +45,12 @@ const DOTS_DOC_TYPE = {
     ID: 'ID',
     DOC_TYPE: 'DOC_TYPE',
 };
-
 const DOTS_DOC_PRPS = {
     NAME: 'DOTS_DOC_PRPS',
     ID: 'ID',
     DOC_PRPS: 'DOC_PRPS',
 };
 const DOTS_DOC_STATUS = {
-
     NAME: 'DOTS_DOC_STATUS',
     ID: 'ID',
     DOC_STATUS: 'DOC_STATUS',
@@ -65,11 +60,11 @@ const DOTS_ACCOUNT_INFO = {
     HRIS_ID: 'HRIS_ID',
     FULL_NAME: 'FULL_NAME',
     INITIAL: 'INITIAL',
+    DEPT_ID: 'DEPT_ID',
     USERNAME: 'USERNAME',
     PASSWORD: 'PASSWORD',
-    DEPT_ID: 'DEPT_ID',
+    DIVISION: 'DIVISION',
 }
-
 const _REQUEST = {
     INSERT: 'INSERT',
     SELECT: 'SELECT',
@@ -97,7 +92,6 @@ const DOTS_DOCUMENT_SUB = {
     ACTION_ID: 'ACTION_ID',
     DATE_TIME_RECEIVED: 'DATE_TIME_RECEIVED',
 }
-
 const _SUB_NAME = {
 
     // ID: "ID",
