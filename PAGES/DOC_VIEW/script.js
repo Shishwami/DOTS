@@ -403,10 +403,10 @@ function setTable(filter) {
         'LETTER_DATE',
         DOTS_DOC_OFFICE.DOC_OFFICE + ' AS Office',
         DOTS_DOC_DEPT.DOC_DEPT + ' AS Department',
-        DOTS_ACCOUNT_INFO.FULL_NAME + ' AS Name',
+        'S_FULL_NAME.FULL_NAME as sname',
 
-        DOTS_DOC_DEPT.DOC_DEPT + ' AS Department',
-        'R_USER_ID',
+        DOTS_DOC_DEPT.DOC_DEPT + ' AS Department2',
+        'R_FULL_NAME.FULL_NAME',
         'DATE_TIME_RECEIVED',]
     var data = {
         TABLE: DOTS_DOCUMENT.NAME,
@@ -438,20 +438,20 @@ function setTable(filter) {
                 TYPE: 'LEFT'
             },
             {
-                table: DOTS_ACCOUNT_INFO.NAME,
+                table: DOTS_ACCOUNT_INFO.NAME + " S_FULL_NAME",
                 ON: [
                     DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.S_USER_ID
                     + " = " +
-                    DOTS_ACCOUNT_INFO.NAME + "." + DOTS_ACCOUNT_INFO.HRIS_ID
+                    "S_FULL_NAME." + DOTS_ACCOUNT_INFO.HRIS_ID
                 ],
                 TYPE: 'LEFT',
             },
             {
-                table: DOTS_ACCOUNT_INFO.NAME,
+                table: DOTS_ACCOUNT_INFO.NAME + " R_FULL_NAME",
                 ON: [
-                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.R_DEPT_ID
+                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.R_USER_ID
                     + " = " +
-                    DOTS_ACCOUNT_INFO.NAME + "." + DOTS_ACCOUNT_INFO.DEPT_ID
+                    "R_FULL_NAME." + DOTS_ACCOUNT_INFO.HRIS_ID
                 ],
                 TYPE: 'LEFT',
             },
