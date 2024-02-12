@@ -13,6 +13,7 @@ FORM_LOGIN.addEventListener('submit', function (e) {
         DOTS_ACCOUNT_INFO.HRIS_ID,
         DOTS_ACCOUNT_INFO.FULL_NAME,
         DOTS_ACCOUNT_INFO.INITIAL,
+        DOTS_ACCOUNT_INFO.DEPT_ID,
     ]
 
     var data2 = {

@@ -20,6 +20,8 @@ const CREATE_DOC_TYPE = FORM_DOC_RECEIVE.querySelector("#CREATE_DOC_TYPE");
 const CREATE_DOC_OFFICE = FORM_DOC_RECEIVE.querySelector("#CREATE_DOC_OFFICE");
 const CREATE_DOC_SUBJECT = FORM_DOC_RECEIVE.querySelector("#CREATE_DOC_SUBJECT");
 const CREATE_DOC_STATUS = FORM_DOC_RECEIVE.querySelector("#CREATE_DOC_STATUS");
+const CREATE_R_USER_ID =FORM_DOC_RECEIVE.querySelector("#CREATE_R_USER_ID");
+const CREATE_R_DEPT_ID =FORM_DOC_RECEIVE.querySelector("#CREATE_R_DEPT_ID");
 //SEND FORM
 const FORM_DOC_SEND = document.getElementById("FORM_DOC_SEND");
 const SEND_DOC_NUM = FORM_DOC_SEND.querySelector("#SEND_DOC_NUM");
@@ -28,8 +30,8 @@ const SEND_R_DEPT_ID = FORM_DOC_SEND.querySelector("#SEND_R_DEPT_ID");
 const SEND_DOC_ADDRESSEE = FORM_DOC_SEND.querySelector("#SEND_DOC_ADDRESSEE");
 const SEND_DOC_NOTES = FORM_DOC_SEND.querySelector("#SEND_DOC_NOTES");
 const SEND_DATE_TIME_RECEIVED = FORM_DOC_SEND.querySelector("#SEND_DATE_TIME_RECEIVED");
-const ACTION_ID = FORM_DOC_SEND.querySelector("#ACTION_ID");
-const SEND_DOC_LOCATION = FORM_DOC_SEND.querySelector("#SEND_DOC_LOCATION");
+const SEND_ACTION_ID = FORM_DOC_SEND.querySelector("#SEND_ACTION_ID");
+const SEND_S_USER_ID = FORM_DOC_SEND.querySelector("#SEND_S_USER_ID");
 
 console.log(SEND_DOC_NUM);
 
@@ -73,6 +75,8 @@ function initializeRECEIVE_FORM() {
     setRECEIVED_TIME(CREATE_DATE_TIME_RECEIVED);
     setLETTER_DATE();
     getSessionName();
+    getSessionDeptId();
+    getSessionHrisId();
 }
 function setR_DEPT_ID() {
     SEND_R_DEPT_ID.addEventListener('change', function (e) {
@@ -232,6 +236,44 @@ function getSessionName() {
         }
     }, data);
 }
+function getSessionHrisId() {
+    const data = {
+        REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
+    }
+    console.log(data);
+    MyAjax.createJSON((error, response) => {
+        if (error) {
+            alert(error);
+        } else {
+            if (response.VALID) {
+                delete response.VALID;
+                CREATE_R_USER_ID.value = Object.values(response)[0];
+            } else {
+                console.log(response);
+                //error message
+            }
+        }
+    }, data);
+}
+function getSessionDeptId() {
+    const data = {
+        REQUEST: _REQUEST.GET_SESSION_DEPT_ID,
+    }
+    console.log(data);
+    MyAjax.createJSON((error, response) => {
+        if (error) {
+            alert(error);
+        } else {
+            if (response.VALID) {
+                delete response.VALID;
+                CREATE_R_DEPT_ID.value = Object.values(response)[0];
+            } else {
+                console.log(response);
+                //error message
+            }
+        }
+    }, data);
+}
 function setDOC_PURPOSE() {
     const SEND_DOC_PRPS = document.getElementById("SEND_DOC_PRPS")
     var columns = [
@@ -261,13 +303,13 @@ function setDOC_PURPOSE() {
 function setDOC_LOCATION() {
 
     const data = {
-        REQUEST: _REQUEST.GET_SESSION_ID,
+        REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
     }
     MyAjax.createJSON((error, response) => {
         if (!error) {
             if (response.VALID) {
                 delete response.VALID;
-                SEND_DOC_LOCATION.value = Object.values(response)[0];
+                SEND_S_USER_ID.value = Object.values(response)[0];
             }
         } else {
             alert(error)
@@ -280,6 +322,7 @@ function setButtonEvents() {
 
         clearValues();
         resetAddressee();
+        setRECEIVED_TIME(SEND_DATE_TIME_RECEIVED);
         var doc_num = 0;
         var id = 0;
 
@@ -365,34 +408,34 @@ function setTable(filter) {
     var data = {
         TABLE: DOTS_DOCUMENT.NAME,
         REQUEST: _REQUEST.SELECT,
-        COLUMNS: columns,
-        JOIN: [
-            {
-                table: DOTS_DOC_TYPE.NAME,
-                ON: [
-                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_TYPE_ID
-                    + " = " +
-                    DOTS_DOC_TYPE.NAME + "." + DOTS_DOC_TYPE.ID
-                ],
-                TYPE: 'LEFT',
-            }, {
-                table: DOTS_ACCOUNT_INFO.NAME,
-                ON: [
-                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.R_USER_ID
-                    + " = " +
-                    DOTS_ACCOUNT_INFO.NAME + "." + DOTS_ACCOUNT_INFO.HRIS_ID
-                ],
-                TYPE: 'LEFT',
-            }, {
-                table: DOTS_DOC_STATUS.NAME,
-                ON: [
-                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_STATUS
-                    + " = " +
-                    DOTS_DOC_STATUS.NAME + "." + DOTS_DOC_STATUS.ID
-                ],
-                TYPE: 'LEFT',
-            }
-        ],
+        // COLUMNS: columns,
+        // JOIN: [
+        //     {
+        //         table: DOTS_DOC_TYPE.NAME,
+        //         ON: [
+        //             DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_TYPE_ID
+        //             + " = " +
+        //             DOTS_DOC_TYPE.NAME + "." + DOTS_DOC_TYPE.ID
+        //         ],
+        //         TYPE: 'LEFT',
+        //     }, {
+        //         table: DOTS_ACCOUNT_INFO.NAME,
+        //         ON: [
+        //             DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.R_USER_ID
+        //             + " = " +
+        //             DOTS_ACCOUNT_INFO.NAME + "." + DOTS_ACCOUNT_INFO.HRIS_ID
+        //         ],
+        //         TYPE: 'LEFT',
+        //     }, {
+        //         table: DOTS_DOC_STATUS.NAME,
+        //         ON: [
+        //             DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_STATUS
+        //             + " = " +
+        //             DOTS_DOC_STATUS.NAME + "." + DOTS_DOC_STATUS.ID
+        //         ],
+        //         TYPE: 'LEFT',
+        //     }
+        // ],
         // WHERE:{
         //     DOC_STATUS: 1
         // }
@@ -474,7 +517,7 @@ function setForms() {
         e.preventDefault();
 
         const data2 = {
-            REQUEST: _REQUEST.GET_SESSION_ID,
+            REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
         }
         var vals = JsFunctions.FormToJson(FORM_DOC_RECEIVE);
         var data = {
@@ -517,3 +560,4 @@ function setForms() {
 
     });
 }
+
