@@ -119,8 +119,8 @@ nav .content .links
 
 .content img
 {
-    height: 35px;
-    width: 35px;
+    height: 45px;
+    width: 45px;
     margin: auto 1rem auto 0;
 }
 
@@ -439,7 +439,8 @@ nav .content .links
 
     .content .links #show-routing:checked ~ ul,
     .content .links #show-filing:checked ~ ul,
-    .content .links #show-items:checked ~ ul
+    .content .links #show-items:checked ~ ul,
+    .content .links #show-setting:checked ~ ul
         {
             max-height: 100vh;
         }
@@ -457,18 +458,21 @@ nav .content .links
         }
 }
 
+@media screen and (max-width: 560px)
+{
+    .content img
+    {
+        width: 30px;
+        height: 30px;
+    }
+}
+
 @media screen and (max-width: 400px)
 {
     .wrapper nav
         {
             padding: 0 10px;
         }
-
-    .content img
-    {
-        width: 25px;
-        height: 25px;
-    }
 
     .content .logo a
         {
