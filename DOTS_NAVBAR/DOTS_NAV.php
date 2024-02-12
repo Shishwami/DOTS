@@ -19,6 +19,7 @@
         <input type="checkbox" id="show-menu">
         <label for="show-menu" class="menu-icon"><i class="fa-solid fa-bars"></i></label>
         <div class="content">
+        <img src="../Resources/City-of-Baguio-Logo Fill.png" alt="">
         <div class="logo"><a href="#">CHRMO - DOTS</a></div> 
             <ul class="links">
             <li><a href="#">Dashboard</a></li> <!--  specific to sir joseph -->

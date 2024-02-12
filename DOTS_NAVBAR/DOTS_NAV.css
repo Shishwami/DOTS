@@ -117,6 +117,13 @@ nav .content .links
     display: flex;
 }
 
+.content img
+{
+    height: 35px;
+    width: 35px;
+    margin: auto 1rem auto 0;
+}
+
 .content .logo a
 {
     color: var(--white);
@@ -457,9 +464,15 @@ nav .content .links
             padding: 0 10px;
         }
 
+    .content img
+    {
+        width: 25px;
+        height: 25px;
+    }
+
     .content .logo a
         {
-            font-size: 27px;
+            font-size: 25px;
         }
 
     .wrapper .search-box
