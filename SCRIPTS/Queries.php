@@ -16,7 +16,8 @@ class Queries
     //             "TYPE": "LEFT"
     //         }
     //     ],
-    //     "WHERE": {"t1.column4": "value1"},
+    //     "WHERE": {"t1.column4": "value1"},//AND
+    //              ["t1.column4": "value1"]//OR
     //     "ORDER BY": "t1.column1",
     //     "LIMIT": 10
     // }';
@@ -44,12 +45,15 @@ class Queries
         }
 
         if (isset($inputs['WHERE'])) {
-            $sql .= ' WHERE ';
             $whereConditions = [];
-            foreach ($inputs['WHERE'] as $column => $value) {
-                $whereConditions[] = "$column = '$value'";
+            foreach ($inputs['WHERE'] as $logicalOperator => $conditions) {
+                $innerConditions = [];
+                foreach ($conditions as $column => $value) {
+                    $innerConditions[] = "$column = '$value'";
+                }
+                $whereConditions[] = '(' . implode(" $logicalOperator ", $innerConditions) . ')';
             }
-            $sql .= implode(' AND ', $whereConditions);
+            $sql .= ' WHERE ' . implode(' AND ', $whereConditions);
         }
 
         if (isset($inputs['ORDER_BY'])) {
