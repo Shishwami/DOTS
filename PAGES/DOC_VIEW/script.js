@@ -475,6 +475,7 @@ function setTable(filter) {
                 TYPE: 'LEFT',
             }
         ],
+        ORDER_BY: DOTS_DOCUMENT.DOC_NUM + ' DESC',
         // WHERE:{
         //     DOC_STATUS: 1
         // }
