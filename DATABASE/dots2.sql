@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 13/02/2024 09:58:54
+ Date: 13/02/2024 14:52:18
 */
 
 SET NAMES utf8mb4;
@@ -225,24 +225,34 @@ CREATE TABLE `dots_document_sub`  (
   `ID` int NOT NULL AUTO_INCREMENT,
   `DOC_NOTES` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `PRPS_ID` int NOT NULL,
+  `S_OFFICE_ID` int NULL DEFAULT NULL,
   `S_USER_ID` int NOT NULL,
   `S_DEPT_ID` int NOT NULL,
+  `R_OFFICE_ID` int NULL DEFAULT NULL,
   `R_USER_ID` int NOT NULL,
   `R_DEPT_ID` int NOT NULL,
-  `RECEIVED_BY` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `DATE_TIME_RECEIVED` datetime(6) NOT NULL,
   `ACTION_ID` int NOT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of dots_document_sub
 -- ----------------------------
-INSERT INTO `dots_document_sub` VALUES (10, 14, 'asdasdasd', 2, 25009, 0, 27003, 2, '', '2024-02-12 09:45:00.000000', 3);
-INSERT INTO `dots_document_sub` VALUES (11, 15, 'kkkk', 1, 25009, 0, 25009, 1, '', '2024-02-12 09:49:00.000000', 3);
-INSERT INTO `dots_document_sub` VALUES (12, 16, 'adsdassad', 1, 25009, 0, 25009, 1, '', '2024-02-12 09:45:00.000000', 3);
-INSERT INTO `dots_document_sub` VALUES (13, 17, 'dssadsadsad', 1, 25009, 0, 38004, 1, '', '2024-02-12 09:44:00.000000', 3);
-INSERT INTO `dots_document_sub` VALUES (13, 19, 'asdasdasdasdasdasdas', 1, 25009, 0, 25009, 1, '', '2024-02-12 13:10:00.000000', 3);
-INSERT INTO `dots_document_sub` VALUES (20, 20, 'thsi is a test', 1, 34010, 0, 32001, 2, '', '2024-02-13 09:18:00.000000', 3);
+INSERT INTO `dots_document_sub` VALUES (10, 14, 'asdasdasd', 2, NULL, 25009, 0, NULL, 27003, 2, '2024-02-12 09:45:00.000000', 3);
+INSERT INTO `dots_document_sub` VALUES (11, 15, 'kkkk', 1, NULL, 25009, 0, NULL, 25009, 1, '2024-02-12 09:49:00.000000', 3);
+INSERT INTO `dots_document_sub` VALUES (12, 16, 'adsdassad', 1, NULL, 25009, 0, NULL, 25009, 1, '2024-02-12 09:45:00.000000', 3);
+INSERT INTO `dots_document_sub` VALUES (13, 17, 'dssadsadsad', 1, NULL, 25009, 0, NULL, 38004, 1, '2024-02-12 09:44:00.000000', 3);
+INSERT INTO `dots_document_sub` VALUES (13, 19, 'asdasdasdasdasdasdas', 1, NULL, 25009, 0, NULL, 25009, 1, '2024-02-12 13:10:00.000000', 3);
+INSERT INTO `dots_document_sub` VALUES (20, 20, 'thsi is a test', 1, NULL, 34010, 0, NULL, 32001, 2, '2024-02-13 09:18:00.000000', 3);
+INSERT INTO `dots_document_sub` VALUES (2, 21, 'asdasd', 1, NULL, 34010, 0, NULL, 34010, 3, '2024-02-13 10:58:00.000000', 3);
+INSERT INTO `dots_document_sub` VALUES (1, 22, 'da', 4, NULL, 34010, 0, NULL, 34010, 3, '2024-02-13 10:59:00.000000', 3);
+INSERT INTO `dots_document_sub` VALUES (1, 23, 'da', 4, NULL, 34010, 0, NULL, 45002, 3, '2024-02-13 10:59:00.000000', 3);
+INSERT INTO `dots_document_sub` VALUES (23, 24, 'adsasdasdasd', 3, NULL, 0, 0, NULL, 32001, 2, '2024-02-13 14:14:00.000000', 1);
+INSERT INTO `dots_document_sub` VALUES (7, 25, 'adsasdasdasdsad', 1, NULL, 0, 0, NULL, 31007, 1, '2024-02-13 14:16:00.000000', 1);
+INSERT INTO `dots_document_sub` VALUES (2, 26, 'asdasdasdasdasdasd', 2, NULL, 40008, 0, NULL, 34010, 3, '2024-02-13 14:18:00.000000', 1);
+INSERT INTO `dots_document_sub` VALUES (1, 27, 'sdasdasd', 1, NULL, 40008, 0, NULL, 25009, 1, '2024-02-13 14:19:00.000000', 1);
+INSERT INTO `dots_document_sub` VALUES (1, 28, 'SDASDAS', 0, NULL, 40008, 0, NULL, 32001, 2, '2024-02-13 14:26:00.000000', 1);
+INSERT INTO `dots_document_sub` VALUES (22, 29, 'TEASTSST', 2, NULL, 40008, 2, NULL, 25009, 1, '2024-02-13 14:29:00.000000', 1);
 
 SET FOREIGN_KEY_CHECKS = 1;
