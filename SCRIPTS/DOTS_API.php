@@ -88,7 +88,7 @@ function SELECT_($inputs, $conn)
 
         echo json_encode(
             array(
-                'VALID' => $sql,
+                'VALID' => $valid,
                 'RESULT' => $rows
             )
         );
