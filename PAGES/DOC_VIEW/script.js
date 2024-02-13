@@ -401,12 +401,25 @@ function setTable(filter) {
         'DOC_NOTES',
         DOTS_DOC_TYPE.DOC_TYPE + ' AS Type',
         'LETTER_DATE',
-        DOTS_DOC_OFFICE.DOC_OFFICE + ' AS Office',
-        DOTS_DOC_DEPT.DOC_DEPT + ' AS Department',
-        'S_FULL_NAME.FULL_NAME as sname',
 
-        DOTS_DOC_DEPT.DOC_DEPT + ' AS Department2',
-        'R_FULL_NAME.FULL_NAME',
+        // 'S_OFFICE.DOC_OFFICE AS Office1',
+        // 'S_DEPT.DOC_DEPT AS Department',
+        // 'S_FULL_NAME.FULL_NAME as sname',
+
+        "CONCAT(" +
+        "IF(S_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(S_OFFICE.DOC_OFFICE,'-'), ' '),' ', " +
+        "IF(S_DEPT.DOC_DEPT IS NOT NULL,CONCAT(S_DEPT.DOC_DEPT,'-'), ' '), " +
+        "IFNULL(S_FULL_NAME.FULL_NAME, ' ')) as 'Sent By'",
+
+        // 'R_OFFICE.DOC_OFFICE AS Office2',
+        // 'R_DEPT.DOC_DEPT AS Department2',
+        // 'R_FULL_NAME.FULL_NAME',
+
+        "CONCAT(" +
+        "IF(R_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(R_OFFICE.DOC_OFFICE,'-'), ' '),' ', " +
+        "IF(R_DEPT.DOC_DEPT IS NOT NULL,CONCAT(R_DEPT.DOC_DEPT,'-'), ' '), " +
+        "IFNULL(R_FULL_NAME.FULL_NAME, ' ')) as 'Received By'",
+
         'DATE_TIME_RECEIVED',]
     var data = {
         TABLE: DOTS_DOCUMENT.NAME,
@@ -415,53 +428,50 @@ function setTable(filter) {
         JOIN: [
             {
                 table: DOTS_DOC_TYPE.NAME,
-                ON: [
-                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_TYPE_ID
-                    + " = " +
-                    DOTS_DOC_TYPE.NAME + "." + DOTS_DOC_TYPE.ID
-                ],
+                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_TYPE_ID
+                    + " = " + DOTS_DOC_TYPE.NAME + "." + DOTS_DOC_TYPE.ID],
                 TYPE: 'LEFT',
             },
             {
-                table: DOTS_DOC_OFFICE.NAME,
+                table: DOTS_DOC_OFFICE.NAME + " S_OFFICE",
                 ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.S_OFFICE_ID +
-                    " = " + DOTS_DOC_OFFICE.NAME + "." + DOTS_DOC_OFFICE.ID],
+                    " = " + "S_OFFICE." + DOTS_DOC_OFFICE.ID],
                 TYPE: 'LEFT'
             },
             {
-                table: DOTS_DOC_DEPT.NAME,
-                ON: [
-                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.S_DEPT_ID
-                    + " = " +
-                    DOTS_DOC_DEPT.NAME + "." + DOTS_DOC_DEPT.ID
-                ],
+                table: DOTS_DOC_DEPT.NAME + " S_DEPT",
+                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.S_DEPT_ID
+                    + " = " + "S_DEPT." + DOTS_DOC_DEPT.ID],
                 TYPE: 'LEFT'
             },
             {
                 table: DOTS_ACCOUNT_INFO.NAME + " S_FULL_NAME",
-                ON: [
-                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.S_USER_ID
-                    + " = " +
-                    "S_FULL_NAME." + DOTS_ACCOUNT_INFO.HRIS_ID
-                ],
+                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.S_USER_ID
+                    + " = " + "S_FULL_NAME." + DOTS_ACCOUNT_INFO.HRIS_ID],
                 TYPE: 'LEFT',
             },
             {
+                table: DOTS_DOC_OFFICE.NAME + " R_OFFICE",
+                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.R_OFFICE_ID
+                    + " = " + "R_OFFICE." + DOTS_DOC_OFFICE.ID],
+                TYPE: 'LEFT'
+            },
+            {
+                table: DOTS_DOC_DEPT.NAME + " R_DEPT",
+                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.R_DEPT_ID
+                    + " = " + "R_DEPT." + DOTS_DOC_DEPT.ID],
+                TYPE: 'LEFT'
+            },
+            {
                 table: DOTS_ACCOUNT_INFO.NAME + " R_FULL_NAME",
-                ON: [
-                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.R_USER_ID
-                    + " = " +
-                    "R_FULL_NAME." + DOTS_ACCOUNT_INFO.HRIS_ID
-                ],
+                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.R_USER_ID
+                    + " = " + "R_FULL_NAME." + DOTS_ACCOUNT_INFO.HRIS_ID],
                 TYPE: 'LEFT',
             },
             {
                 table: DOTS_DOC_STATUS.NAME,
-                ON: [
-                    DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_STATUS
-                    + " = " +
-                    DOTS_DOC_STATUS.NAME + "." + DOTS_DOC_STATUS.ID
-                ],
+                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_STATUS
+                    + " = " + DOTS_DOC_STATUS.NAME + "." + DOTS_DOC_STATUS.ID],
                 TYPE: 'LEFT',
             }
         ],
