@@ -136,8 +136,8 @@
                 <input type="text" name="DOC_NOTES" id="SEND_DOC_NOTES">
             </div>
 
-            <input type="text" name="ACTION_ID" id="SEND_DOC_ACTION" value="3">
-            <input type="text" name="S_USER_ID" id="SEND_S_USER_ID" value="">
+            <input type="text" name="ACTION_ID" id="SEND_DOC_ACTION" value="3" hidden>
+            <input type="text" name="S_USER_ID" id="SEND_S_USER_ID" value="" hidden>
 
             <input type="submit" value="Send">
         </form>
