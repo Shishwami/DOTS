@@ -15,7 +15,12 @@ class JsFunctions {
         const keys = Object.keys(tableJSON[0]);
         keys.forEach(key => {
             const th = document.createElement('th');
-            th.textContent = key;
+            if (_SUB_NAME[key] == null) {
+                th.textContent = key;
+            } else {
+                th.textContent = _SUB_NAME[key];
+            }
+
             thead.appendChild(th);
         });
 
