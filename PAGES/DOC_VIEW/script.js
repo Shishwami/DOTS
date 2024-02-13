@@ -228,7 +228,9 @@ function getSessionName() {
         } else {
             if (response.VALID) {
                 delete response.VALID;
-                CREATE_FULLNAME.value = Object.values(response)[0];
+                var name = Object.values(response)[0];
+                CREATE_FULLNAME.value = name;
+                sessionStorage.setItem(DOTS_ACCOUNT_INFO.FULL_NAME, name);
             } else {
                 console.log(response);
                 //error message
@@ -247,7 +249,9 @@ function getSessionHrisId() {
         } else {
             if (response.VALID) {
                 delete response.VALID;
-                CREATE_R_USER_ID.value = Object.values(response)[0];
+                var id = Object.values(response)[0];
+                CREATE_R_USER_ID.value = id;
+                sessionStorage.setItem(DOTS_ACCOUNT_INFO.HRIS_ID, id);
             } else {
                 console.log(response);
                 //error message
@@ -266,7 +270,9 @@ function getSessionDeptId() {
         } else {
             if (response.VALID) {
                 delete response.VALID;
-                CREATE_R_DEPT_ID.value = Object.values(response)[0];
+                var dept_id = Object.values(response)[0];
+                CREATE_R_DEPT_ID.value = dept_id;
+                sessionStorage.setItem(DOTS_ACCOUNT_INFO.DEPT_ID, dept_id);
             } else {
                 console.log(response);
                 //error message
@@ -399,7 +405,7 @@ function setTable(filter) {
         'DOC_NUM',
         'DOC_SUBJECT',
         'DOC_NOTES',
-        DOTS_DOC_TYPE.DOC_TYPE + ' AS Type',
+        DOTS_DOC_TYPE.DOC_TYPE ,
         'LETTER_DATE',
 
         // 'S_OFFICE.DOC_OFFICE AS Office1',
@@ -420,7 +426,8 @@ function setTable(filter) {
         "IF(R_DEPT.DOC_DEPT IS NOT NULL,CONCAT(R_DEPT.DOC_DEPT,'-'), ' '), " +
         "IFNULL(R_FULL_NAME.FULL_NAME, ' ')) as 'Received By'",
 
-        'DATE_TIME_RECEIVED',]
+        'DATE_TIME_RECEIVED',
+        DOTS_DOC_STATUS.NAME + "." + DOTS_DOC_STATUS.DOC_STATUS];
     var data = {
         TABLE: DOTS_DOCUMENT.NAME,
         REQUEST: _REQUEST.SELECT,
@@ -475,6 +482,7 @@ function setTable(filter) {
                 TYPE: 'LEFT',
             }
         ],
+        ORDER_BY: DOTS_DOCUMENT.DOC_NUM + ' DESC',
         // WHERE:{
         //     DOC_STATUS: 1
         // }
@@ -494,7 +502,7 @@ function setTable(filter) {
             JsFunctions.updateTable(results, DOC_VIEW_MAIN, filter);
         }
     }, data);
-}
+} ``
 function setForms() {
     FORM_DOC_SEND.addEventListener('submit', function (e) {
         e.preventDefault();
