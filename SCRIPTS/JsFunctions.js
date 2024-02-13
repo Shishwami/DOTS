@@ -52,6 +52,7 @@ class JsFunctions {
 
             row.addEventListener('click', function () {
                 const STRINGrowID = JSON.stringify(rowID);
+                console.log(rowID);
                 sessionStorage.setItem('TEMP_DATA', STRINGrowID);
             });
 
