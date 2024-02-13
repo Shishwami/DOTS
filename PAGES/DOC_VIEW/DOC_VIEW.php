@@ -31,9 +31,9 @@
                 </div>
 
                 <div class="opt">
-                    <button class="opt_btn" id="crt" name="BTN_DOC_CREATE" id="BTN_DOC_CREATE">CREATE</button>
-                    <button class="opt_btn" id="snd" name="BTN_DOC_SEND" id="BTN_DOC_SEND">SEND</button>
-                    <button class="opt_btn" id="atc" name="BTN_DOC_ATTACHMENTS" id="BTN_DOC_ATTACHMENTS">ATTACHMENTS</button>
+                    <button class="opt_btn" id="crt" name="BTN_DOC_CREATE" id="BTN_DOC_CREATE">Create</button>
+                    <button class="opt_btn" id="snd" name="BTN_DOC_SEND" id="BTN_DOC_SEND">Send</button>
+                    <button class="opt_btn" id="atc" name="BTN_DOC_ATTACHMENTS" id="BTN_DOC_ATTACHMENTS">Attachment</button>
                 </div>
             </div>
 
