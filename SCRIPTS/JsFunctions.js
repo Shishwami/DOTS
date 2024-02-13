@@ -20,6 +20,9 @@ class JsFunctions {
             } else {
                 th.textContent = _SUB_NAME[key];
             }
+            if (key == 'ID') {
+                th.style.display = "none";
+            }
 
             thead.appendChild(th);
         });
@@ -39,6 +42,10 @@ class JsFunctions {
                 row.appendChild(cell);
                 if (key == 'DATE_TIME_RECEIVED') {
                     const date = new Date(value);
+                    cell.textContent = this.formatDateTime(date);
+                } 
+                if (key == 'LETTER_DATE') {
+                    const date = new Date(value);
                     cell.textContent = this.formatDate(date);
                 }
                 if (key == 'DOC_NUM') {
@@ -46,6 +53,7 @@ class JsFunctions {
                 }
                 if (key == 'ID') {
                     rowID[key] = value;
+                    cell.style.display = "none";
                 }
                 if (value == null) {
                     value = "";
@@ -100,7 +108,7 @@ class JsFunctions {
         return empty;
     }
 
-    static formatDate(date) {
+    static formatDateTime(date) {
         var hours = date.getHours();
         var minutes = date.getMinutes();
         var ampm = hours >= 12 ? 'pm' : 'am';
@@ -109,6 +117,10 @@ class JsFunctions {
         minutes = minutes < 10 ? '0' + minutes : minutes;
         var strTime = hours + ':' + minutes + ' ' + ampm;
         return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
+    }
+
+    static formatDate(date) {
+        return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
     }
 
     static tbodyEventListener(tbody) {
