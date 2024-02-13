@@ -75,7 +75,7 @@ function SELECT_($inputs, $conn)
     $valid = false;
 
     $sql = $querries->selectQuery($inputs);
-    // echo $sql;
+    // echo $sql;  
 
     $result = mysqli_query($conn, $sql);
     if ($result) {
