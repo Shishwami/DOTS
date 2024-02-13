@@ -228,7 +228,9 @@ function getSessionName() {
         } else {
             if (response.VALID) {
                 delete response.VALID;
-                CREATE_FULLNAME.value = Object.values(response)[0];
+                var name = Object.values(response)[0];
+                CREATE_FULLNAME.value = name;
+                sessionStorage.setItem(DOTS_ACCOUNT_INFO.FULL_NAME, name);
             } else {
                 console.log(response);
                 //error message
@@ -247,7 +249,9 @@ function getSessionHrisId() {
         } else {
             if (response.VALID) {
                 delete response.VALID;
-                CREATE_R_USER_ID.value = Object.values(response)[0];
+                var id = Object.values(response)[0];
+                CREATE_R_USER_ID.value = id;
+                sessionStorage.setItem(DOTS_ACCOUNT_INFO.HRIS_ID, id);
             } else {
                 console.log(response);
                 //error message
@@ -266,7 +270,9 @@ function getSessionDeptId() {
         } else {
             if (response.VALID) {
                 delete response.VALID;
-                CREATE_R_DEPT_ID.value = Object.values(response)[0];
+                var dept_id = Object.values(response)[0];
+                CREATE_R_DEPT_ID.value = dept_id;
+                sessionStorage.setItem(DOTS_ACCOUNT_INFO.DEPT_ID, dept_id);
             } else {
                 console.log(response);
                 //error message
