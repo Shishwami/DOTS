@@ -428,7 +428,10 @@ function setTable(filter) {
         "IFNULL(R_FULL_NAME.FULL_NAME, ' ')) as 'Received By'",
 
         'DATE_TIME_RECEIVED',
-        DOTS_DOC_STATUS.NAME + "." + DOTS_DOC_STATUS.DOC_STATUS];
+        DOTS_DOC_STATUS.NAME + "." + DOTS_DOC_STATUS.DOC_STATUS,
+        DOTS_DOC_ACTION.NAME + "." + DOTS_DOC_ACTION.DOC_ACTION,
+
+    ];
     var data = {
         TABLE: DOTS_DOCUMENT.NAME,
         REQUEST: _REQUEST.SELECT,
@@ -480,6 +483,12 @@ function setTable(filter) {
                 table: DOTS_DOC_STATUS.NAME,
                 ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_STATUS
                     + " = " + DOTS_DOC_STATUS.NAME + "." + DOTS_DOC_STATUS.ID],
+                TYPE: 'LEFT',
+            },
+            {
+                table: DOTS_DOC_ACTION.NAME,
+                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.ACTION_ID
+                    + " = " + DOTS_DOC_ACTION.NAME + "." + DOTS_DOC_ACTION.ID],
                 TYPE: 'LEFT',
             }
         ],
