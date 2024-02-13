@@ -12,9 +12,11 @@
     td {
         border: 1px solid;
     }
+
     table {
         border-collapse: collapse;
     }
+
     table tr {
         margin: 0;
         padding: 0;
@@ -88,9 +90,9 @@
                 <input type="text" name="DOC_SUBJECT" id="CREATE_DOC_SUBJECT">
             </div>
 
-            <input type="text" name="DOC_STATUS" id="CREATE_DOC_STATUS" value="1">
-            <input type="text" name="R_USER_ID" id="CREATE_R_USER_ID">
-            <input type="text" name="R_DEPT_ID" id="CREATE_R_DEPT_ID">
+            <input type="text" name="DOC_STATUS" id="CREATE_DOC_STATUS" value="1" hidden>
+            <input type="text" name="R_USER_ID" id="CREATE_R_USER_ID" hidden>
+            <input type="text" name="R_DEPT_ID" id="CREATE_R_DEPT_ID" hidden>
 
             <input type="submit" value="Submit">
 
