@@ -135,7 +135,6 @@ body:before
 {
     background-image: var(--opt_btn);
     padding: 0.5rem 0.7rem;
-    width: 7rem;
     border: none;
     border-radius: 0.5rem;
     font-size: 1rem;
@@ -150,7 +149,6 @@ body:before
 {
     background-image: var(--dlt_btn);
     padding: 0.5rem 0.7rem;
-    width: 7rem;
     border: none;
     border-radius: 0.5rem;
     font-size: 1rem;

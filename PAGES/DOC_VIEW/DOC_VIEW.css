@@ -94,28 +94,61 @@ body:before
 .search
 {
     grid-area: search;
+    font-size: 15px;
     width: 30%;
     padding: 0.5rem;
     margin-bottom: 1rem;
+    border-radius: 0.5rem;
+}
+
+.search:focus
+{
+    background: var(--input_focus);
 }
 
 .db_table
 {
+    width: 100%;
     grid-area: table;
     font-size: 15px;
     text-align: center;
+    border: 1px solid #000000;
+    border-collapse: collapse;
 }
 
-.db_table tr td
+.tbl_cont
+{
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+.db_table th
+{
+    border: 1px solid #000000;
+}
+
+.db_table td
+{
+    border: 1px solid #000000;
+    padding: 0.5rem;
+    width: 500px;
+    margin: 0;
+}
+
+.db_table tr
 {
     background-color: aqua;
-    padding: 10px;
-    margin: 0;
+}
+
+.db_table tbody tr:hover
+{
+    background-color: #00bd19
 }
 
 .opt
 {
     grid-area: buttons;
+    margin-top: 1rem;
 }
 
 .grid
@@ -125,4 +158,23 @@ body:before
     display: grid;
     grid-gap: 1em;
     grid-template-areas: "search" "table" "buttons"
+}
+
+.opt_btn
+{
+    background-image: var(--opt_btn);
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--font_white);
+    cursor: pointer;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+}
+
+.opt_btn:hover
+{
+    background-image: var(--opt_btn-hover); 
 }

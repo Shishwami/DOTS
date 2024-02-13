@@ -212,7 +212,7 @@ body:before
 
 .submit input
 {
-    width: 7rem;
+    
     background-image: var(--submit_btn);
     border: none;
     border-radius: 0.5rem;
