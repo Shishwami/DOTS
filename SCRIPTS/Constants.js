@@ -95,36 +95,36 @@ const DOTS_DOCUMENT_SUB = {
 }
 const _SUB_NAME = {
 
-    // ID: "ID",
+    ID: "ID",
 
-    // DOC_TYPE: 'Document Name',
+    DOC_TYPE: 'Document Name',
 
-    // DOC_PRPS: 'Purpose Name',
+    DOC_PRPS: 'Purpose Name',
 
-    // DOC_OFFICE: 'Office Name',
+    DOC_OFFICE: 'Office Name',
 
-    // DOC_DIVISION: 'Division Name',
+    DOC_DIVISION: 'Division Name',
 
-    // DOC_STATUS: 'Status',
+    DOC_STATUS: 'Status',
 
-    // DOC_NUM: 'No.',
-    // DOC_SUBJECT: 'Subject',
-    // DOC_TYPE: 'Document Type',
-    // DOC_OFFICE: 'Document Office',
-    // LETTER_DATE: 'Letter Date',
-    // OFFICE_AGENCY: 'Office/Agency',
-    // RECEIVED_BY: 'Received By',
-    // DATE_TIME_RECEIVED: 'Date Received',
-    // DOC_STATUS: "Status",
+    DOC_NUM: 'No.',
+    DOC_SUBJECT: 'Subject',
+    DOC_TYPE: 'Document Type',
+    DOC_OFFICE: 'Document Office',
+    LETTER_DATE: 'Letter Date',
+    OFFICE_AGENCY: 'Office/Agency',
+    RECEIVED_BY: 'Received By',
+    DATE_TIME_RECEIVED: 'Date Received',
+    DOC_STATUS: "Status",
 
-    // HRIS_ID: 'HRIS ID',
-    // FULL: 'Fullname',
-    // INITIAL: 'Initial',
+    HRIS_ID: 'HRIS ID',
+    FULL: 'Fullname',
+    INITIAL: 'Initial',
 
-    // DOC_PRPS: 'Purpose',
-    // DOC_ADDRESSEE: 'Addressee',
-    // DOC_NOTES: 'Notes',
-    // DOC_ACTION: 'Action',
-    // DOC_LOCATION: 'Location',
-    // DOC_DIVISION: 'Division',
+    DOC_PRPS: 'Purpose',
+    DOC_ADDRESSEE: 'Addressee',
+    DOC_NOTES: 'Notes',
+    DOC_ACTION: 'Action',
+    DOC_LOCATION: 'Location',
+    DOC_DIVISION: 'Division',
 }
