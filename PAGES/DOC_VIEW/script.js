@@ -405,7 +405,7 @@ function setTable(filter) {
         'DOC_NUM',
         'DOC_SUBJECT',
         'DOC_NOTES',
-        DOTS_DOC_TYPE.DOC_TYPE + ' AS Type',
+        DOTS_DOC_TYPE.DOC_TYPE ,
         'LETTER_DATE',
 
         // 'S_OFFICE.DOC_OFFICE AS Office1',
@@ -426,7 +426,8 @@ function setTable(filter) {
         "IF(R_DEPT.DOC_DEPT IS NOT NULL,CONCAT(R_DEPT.DOC_DEPT,'-'), ' '), " +
         "IFNULL(R_FULL_NAME.FULL_NAME, ' ')) as 'Received By'",
 
-        'DATE_TIME_RECEIVED',]
+        'DATE_TIME_RECEIVED',
+        DOTS_DOC_STATUS.NAME + "." + DOTS_DOC_STATUS.DOC_STATUS];
     var data = {
         TABLE: DOTS_DOCUMENT.NAME,
         REQUEST: _REQUEST.SELECT,
@@ -501,7 +502,7 @@ function setTable(filter) {
             JsFunctions.updateTable(results, DOC_VIEW_MAIN, filter);
         }
     }, data);
-}
+} ``
 function setForms() {
     FORM_DOC_SEND.addEventListener('submit', function (e) {
         e.preventDefault();
