@@ -8,6 +8,10 @@ const DOC_VIEW_BASIC = document.getElementById("DOC_VIEW_BASIC");
 setSession();
 
 setTable("");
+setInterval(function () {
+    setTable(searchBar.value.toUpperCase());
+}, _RESET_TIME);
+
 
 
 function setTable(filter) {
@@ -15,10 +19,13 @@ function setTable(filter) {
         TABLE: DOTS_DOCUMENT_SUB.NAME,
         REQUEST: _REQUEST.SELECT,
         WHERE: {
-        },
+            OR: {}
+        }
     }
 
-    data['WHERE'][DOTS_DOCUMENT_SUB.R_USER_ID] = sessionStorage.getItem(DOTS_ACCOUNT_INFO.HRIS_ID)
+    var hrisId = sessionStorage.getItem(DOTS_ACCOUNT_INFO.HRIS_ID);
+    data['WHERE']['OR']['DOTS_DOCUMENT_SUB.R_USER_ID'] = hrisId;
+    data['WHERE']['OR']['DOTS_DOCUMENT_SUB.S_USER_ID'] = hrisId;
 
     MyAjax.createJSON((error, response) => {
         if (error) {
