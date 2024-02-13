@@ -24,7 +24,7 @@
 
     tr:hover {
         background-color: coral;
-    }
+    }   
 </style>
 
 <body>
