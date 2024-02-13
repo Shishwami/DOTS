@@ -6,9 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title></title>
     <link rel="stylesheet" href="DOTS_NAV.css">
-    <link rel="stylesheet" href="..//FontAwesome/css/all.css">
-    <link rel="stylesheet" href="..//FontAwesome/css/fontawesome.css">
-    <link rel="stylesheet" href="..//FontAwesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="../FontAwesome/css/all.css">
+    <link rel="stylesheet" href="../FontAwesome/css/fontawesome.css">
+    <link rel="stylesheet" href="../FontAwesome/css/fontawesome.min.css">
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/> -->
 </head>
 <body>
@@ -71,7 +71,7 @@
                 </li>
             </ul>
         </div>
-        <label for="show-search" class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></label>
+        <label for="show-search" class="search-icon"><i class="fa-solid fa-magnifying-glass" title="Search"></i></label>
         <form action="#" class="search-box">
             <input type="text" placeholder="Type Something to Search..." required>
             <button type="submit" class="go-icon"><i class="fa-solid fa-right-long"></i></button>

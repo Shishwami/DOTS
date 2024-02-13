@@ -4,9 +4,9 @@ var snd_modal = document.getElementById("snd_modal");
 var atc_modal = document.getElementById("atc_modal");
 
 // Get Modal Button Variable
-var crt_btn = document.getElementById("crt");
-var snd_btn = document.getElementById("snd");
-var atc_btn = document.getElementById("atc");
+var crt_btn = document.getElementById("BTN_DOC_CREATE");
+var snd_btn = document.getElementById("BTN_DOC_SEND");
+var atc_btn = document.getElementById("BTN_DOC_ATTACHMENTS");
 
 // Get Span Close Variable
 var crt_span = document.getElementsByClassName("crt_close")[0];

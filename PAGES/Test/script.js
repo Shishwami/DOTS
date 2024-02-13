@@ -1,5 +1,5 @@
-import JsFunctions from "../SCRIPTS/JsFunctions.js";
-import MyAjax from "../SCRIPTS/MyAjax.js";
+import JsFunctions from "../../SCRIPTS/JsFunctions.js";
+import MyAjax from "../../SCRIPTS/MyAjax.js";
 
 
 //Search Bar
@@ -101,10 +101,8 @@ function setR_DEPT_ID() {
                 var object = Object.values(response)[0];
                 JsFunctions.setSelect(SEND_R_DEPT_ID, object);
             } else {
-                alert(error);
             }
         } else {
-            alert(error);
         }
     }, data);
 }
@@ -122,7 +120,6 @@ function setDOC_OFFICE() {
     }
     MyAjax.createJSON((error, response) => {
         if (error) {
-            alert(error);
         } else {
             if (response.VALID) {
                 delete response.VALID;
@@ -152,7 +149,6 @@ function setDOC_NUM() {
             const lastNumber = Object.values(lastObj)[0];
             CREATE_DOC_NUM.value = Number(lastNumber) + 1;
         } else {
-            alert(error || "Error occurred while retrieving document number.");
         }
     }, data);
 }
@@ -168,7 +164,6 @@ function setDOC_TYPE() {
     }
     MyAjax.createJSON((error, response) => {
         if (error) {
-            alert(error);
         } else {
             if (response.VALID) {
                 delete response.VALID;
@@ -187,7 +182,6 @@ function setRECEIVED_TIME(element) {
 
     MyAjax.createJSON((error, response) => {
         if (error) {
-            alert(error);
         } else {
             if (response.VALID) {
                 delete response.VALID;
@@ -206,7 +200,6 @@ function setLETTER_DATE() {
 
     MyAjax.createJSON((error, response) => {
         if (error) {
-            alert(error);
         } else {
             if (response.VALID) {
                 delete response.VALID;
@@ -224,7 +217,6 @@ function getSessionName() {
     console.log(data);
     MyAjax.createJSON((error, response) => {
         if (error) {
-            alert(error);
         } else {
             if (response.VALID) {
                 delete response.VALID;
@@ -245,7 +237,6 @@ function getSessionHrisId() {
     console.log(data);
     MyAjax.createJSON((error, response) => {
         if (error) {
-            alert(error);
         } else {
             if (response.VALID) {
                 delete response.VALID;
@@ -266,7 +257,6 @@ function getSessionDeptId() {
     console.log(data);
     MyAjax.createJSON((error, response) => {
         if (error) {
-            alert(error);
         } else {
             if (response.VALID) {
                 delete response.VALID;
@@ -318,7 +308,6 @@ function setDOC_LOCATION() {
                 SEND_S_USER_ID.value = Object.values(response)[0];
             }
         } else {
-            alert(error)
         }
     }, data);
 }
@@ -347,7 +336,6 @@ function setButtonEvents() {
         if (doc_num != 0) {
             SEND_DOC_NUM.value = doc_num;
         } else {
-            alert("Please Select A Document");
         }
     });
 }
@@ -384,7 +372,6 @@ function setADDRESSEE(DEPT_ID) {
             } else {
             }
         } else {
-            alert(error);
         }
     }, data);
 
@@ -490,7 +477,6 @@ function setTable(filter) {
 
     MyAjax.createJSON((error, response) => {
         if (error) {
-            alert(error);
         } else {
             var results = ""
             if (response.VALID) {
@@ -536,15 +522,12 @@ function setForms() {
         if (!empty) {
             MyAjax.createJSON((error, response) => {
                 if (error) {
-                    alert(error);
                 } else {
                     if (response.VALID) {
                         delete response.VALID;
-                        alert("SENT");
                         //update status from received to pending
                         // MyAjax.createJSON((error, response) => {
                         //     if (error) {
-                        //         alert(error);
                         //     } else {
                         //         if (response.VALID) {
                         //             console.log(response);
@@ -555,7 +538,6 @@ function setForms() {
                 }
             }, insertData);
         } else {
-            alert("CHECKINPUTS");
         }
 
     });
@@ -579,7 +561,6 @@ function setForms() {
         if (!empty) {
             MyAjax.createJSON((error, response) => {
                 if (error) {
-                    alert(error);
                 } else {
                     if (response.VALID) {
                         console.log(response);
@@ -589,10 +570,8 @@ function setForms() {
                             if (!error) {
                                 if (response.VALID) {
                                     console.log(response);
-                                    alert("DOC CREsddssddsATED");
                                 }
                             } else {
-                                alert(error);
                             }
                         }, data);
                     } else {

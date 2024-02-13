@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="DOC_VIEW.css">
     <link rel="stylesheet" href="../../Modal/Modal.css">
     <link rel="stylesheet" href="../../DOTS_NAVBAR/DOTS_NAV.css">
+    <link rel="stylesheet" href="../../FontAwesome/css/all.css">
+    <link rel="stylesheet" href="../../FontAwesome/css/fontawesome.css">
+    <link rel="stylesheet" href="../../FontAwesome/css/fontawesome.min.css">
     <title></title>
 </head>
 <body>
@@ -31,9 +34,9 @@
                 </div>
 
                 <div class="opt">
-                    <button class="opt_btn" id="crt" name="BTN_DOC_CREATE" id="BTN_DOC_CREATE">Create</button>
-                    <button class="opt_btn" id="snd" name="BTN_DOC_SEND" id="BTN_DOC_SEND">Send</button>
-                    <button class="opt_btn" id="atc" name="BTN_DOC_ATTACHMENTS" id="BTN_DOC_ATTACHMENTS">Attachment</button>
+                    <button class="opt_btn crt"  name="BTN_DOC_CREATE" id="BTN_DOC_CREATE">Create</button>
+                    <button class="opt_btn snd"  name="BTN_DOC_SEND" id="BTN_DOC_SEND">Send</button>
+                    <button class="opt_btn atc"  name="BTN_DOC_ATTACHMENTS" id="BTN_DOC_ATTACHMENTS">Attachment</button>
                 </div>
             </div>
 
@@ -161,6 +164,7 @@
 
         </div>
     </div>
+    <br>
 </body>
 
 <script src="../../Modal/GenModal.js"></script>

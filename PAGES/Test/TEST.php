@@ -149,7 +149,7 @@
     </div>
 </body>
 
-<script src="../SCRIPTS/Constants.js"></script>
+<script src="../../SCRIPTS/Constants.js"></script>
 <script src="./script.js" type="module"></script>
 
 </html>
