@@ -110,7 +110,7 @@ function setTable(filter) {
 
     var hrisId = sessionStorage.getItem(DOTS_ACCOUNT_INFO.HRIS_ID);
     data['WHERE']['OR']['DOTS_DOCUMENT_SUB.R_USER_ID'] = hrisId;
-    data['WHERE']['OR']['DOTS_DOCUMENT_SUB.S_USER_ID'] = hrisId;
+    // data['WHERE']['OR']['DOTS_DOCUMENT_SUB.S_USER_ID'] = hrisId;
 
     MyAjax.createJSON((error, response) => {
         if (error) {
