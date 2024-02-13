@@ -53,6 +53,7 @@ class Queries
         }
 
         $sql .= ";";
+        $sql = str_replace('&#39;', "'", $sql);
         // echo $sql;
 
         return $sql;
