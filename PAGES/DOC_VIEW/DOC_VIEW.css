@@ -91,6 +91,15 @@ body:before
 }
 
 /* Grid Styles */
+.grid
+{
+    margin: 1rem auto;
+    color: var(--font_black);
+    display: grid;
+    grid-gap: 1em;
+    grid-template-areas: "search" "table" "buttons"
+}
+
 .search
 {
     grid-area: search;
@@ -151,15 +160,6 @@ body:before
     margin-top: 1rem;
 }
 
-.grid
-{
-    margin: 1rem auto;
-    color: var(--font_black);
-    display: grid;
-    grid-gap: 1em;
-    grid-template-areas: "search" "table" "buttons"
-}
-
 .opt_btn
 {
     background-image: var(--opt_btn);
@@ -172,6 +172,7 @@ body:before
     cursor: pointer;
     letter-spacing: 0.1rem;
     text-transform: uppercase;
+    margin-right: 1rem;
 }
 
 .opt_btn:hover

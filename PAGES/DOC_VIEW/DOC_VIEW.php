@@ -33,7 +33,7 @@
                 <div class="opt">
                     <button class="opt_btn" id="crt" name="BTN_DOC_CREATE" id="BTN_DOC_CREATE">CREATE</button>
                     <button class="opt_btn" id="snd" name="BTN_DOC_SEND" id="BTN_DOC_SEND">SEND</button>
-                    <button class="opt_btn" id="att" name="BTN_DOC_ATTACHMENTS" id="BTN_DOC_ATTACHMENTS">ATTACHMENTS</button>
+                    <button class="opt_btn" id="atc" name="BTN_DOC_ATTACHMENTS" id="BTN_DOC_ATTACHMENTS">ATTACHMENTS</button>
                 </div>
             </div>
 
@@ -44,7 +44,7 @@
                         <h1>Create</h1>
                     </div>
 
-                    <form action="submit" id="FORM_DOC_RECEIVE">
+                    <form class="form" action="submit" id="FORM_DOC_RECEIVE">
                         <div>
 
                             <label for="ACTION_ID_3">CREATE</label>
@@ -105,7 +105,7 @@
                         <h1>Send</h1>
                     </div>
 
-                    <form action="submit" name="FORM_DOC_SEND" id="FORM_DOC_SEND">
+                    <form class="form" action="submit" name="FORM_DOC_SEND" id="FORM_DOC_SEND">
                         <div>
                             <label for="SEND_DOC_NUM">Document Number:</label>
                             <input type="text" name="DOC_NUM" id="SEND_DOC_NUM" readonly>
@@ -149,15 +149,21 @@
                 </div>
             </div>
 
-            <div>
-                <h2>ATTACHMENTS MODAL</h2>
+            <div class="modal" id="atc_modal">
+                <div class="modal_content">
+                    <div class="modal_banner">
+                        <span class="atc_close">&times;</span>
+                        <h1>Attach</h1>
+                    </div>
+
+                </div>
             </div>
 
         </div>
     </div>
 </body>
 
-<script src="../../Modal/Modal.js"></script>
+<script src="../../Modal/GenModal.js"></script>
 <script src="../../SCRIPTS/Constants.js"></script>
 <script src="./script.js" type="module"></script>
 

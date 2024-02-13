@@ -93,7 +93,7 @@
         </div>
     </div>
 
-    <script src="../Modal/Modal.js"></script>
+    <script src="../Modal/DevModal.js"></script>
     <script src="../SCRIPTS/Constants.js"></script>
     <script type="module">
 

@@ -69,7 +69,7 @@
 }
 
 /* Close Button Styles */
-.crt_close,.snd_close , .add_close, .dlt_close
+.crt_close, .snd_close, .atc_close, .add_close, .dlt_close
 {
     color: var(--white);
     float: right;
@@ -78,8 +78,8 @@
     margin: 0.5rem 2rem 0 1rem;
 }
   
-.crt_close:hover, .snd_close:hover, .add_close:hover, .dlt_close:hover,
-.crt_close:focus, .snd_close:focus, .add_close:focus, .dlt_close:focus
+.crt_close:hover, .snd_close:hover, .atc_close:hover, .add_close:hover, .dlt_close:hover,
+.crt_close:focus, .snd_close:focus, .atc_close:focus, .add_close:focus, .dlt_close:focus
 {
     color: var(--modal_close);
     text-decoration: none;
