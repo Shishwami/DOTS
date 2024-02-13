@@ -32,6 +32,7 @@ const SEND_DOC_NOTES = FORM_DOC_SEND.querySelector("#SEND_DOC_NOTES");
 const SEND_DATE_TIME_RECEIVED = FORM_DOC_SEND.querySelector("#SEND_DATE_TIME_RECEIVED");
 const SEND_ACTION_ID = FORM_DOC_SEND.querySelector("#SEND_ACTION_ID");
 const SEND_S_USER_ID = FORM_DOC_SEND.querySelector("#SEND_S_USER_ID");
+const SEND_S_DEPT_ID = FORM_DOC_SEND.querySelector("#SEND_S_DEPT_ID");
 
 console.log(SEND_DOC_NUM);
 
@@ -42,7 +43,7 @@ function InitializePAGE() {
     //TODO too add in btn event listeners
     initializeSEND_FORM();
     initializeRECEIVE_FORM();
-
+    getSessionDeptId();
     setTable("");
 
     // const TBODY = DOC_VIEW_MAIN.querySelector("tbody");
@@ -75,7 +76,6 @@ function initializeRECEIVE_FORM() {
     setRECEIVED_TIME(CREATE_DATE_TIME_RECEIVED);
     setLETTER_DATE();
     getSessionName();
-    getSessionDeptId();
     getSessionHrisId();
 }
 function setR_DEPT_ID() {
@@ -272,6 +272,7 @@ function getSessionDeptId() {
                 delete response.VALID;
                 var dept_id = Object.values(response)[0];
                 CREATE_R_DEPT_ID.value = dept_id;
+                SEND_S_DEPT_ID.value = dept_id;
                 sessionStorage.setItem(DOTS_ACCOUNT_INFO.DEPT_ID, dept_id);
             } else {
                 console.log(response);
@@ -371,7 +372,7 @@ function setADDRESSEE(DEPT_ID) {
         REQUEST: _REQUEST.SELECT,
         COLUMNS: columns,
         WHERE: {
-            DEPT_ID: DEPT_ID,
+            AND: { DEPT_ID: DEPT_ID, }
         },
     }
 
@@ -405,7 +406,7 @@ function setTable(filter) {
         'DOC_NUM',
         'DOC_SUBJECT',
         'DOC_NOTES',
-        DOTS_DOC_TYPE.DOC_TYPE ,
+        DOTS_DOC_TYPE.DOC_TYPE,
         'LETTER_DATE',
 
         // 'S_OFFICE.DOC_OFFICE AS Office1',
