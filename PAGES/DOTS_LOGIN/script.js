@@ -20,7 +20,7 @@ FORM_LOGIN.addEventListener('submit', function (e) {
         TABLE: DOTS_ACCOUNT_INFO.NAME,
         REQUEST: _REQUEST.SELECT,
         COLUMNS: columns,
-        WHERE: data,
+        WHERE: { AND: data },
     };
 
     MyAjax.createJSON((error, response) => {
