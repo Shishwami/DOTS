@@ -126,7 +126,7 @@ class Queries
         // echo $sql;
         return $sql;
     }
-    
+
     // jsonFormat= '{
     //     "TABLE": "table_name",
     //     "WHERE": {
