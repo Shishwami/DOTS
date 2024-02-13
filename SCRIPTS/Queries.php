@@ -52,6 +52,10 @@ class Queries
             $sql .= implode(' AND ', $whereConditions);
         }
 
+        if (isset($inputs['ORDER_BY'])) {
+            $sql .= ' ORDER BY ' . $inputs['ORDER_BY'];
+        }
+
         $sql .= ";";
         $sql = str_replace('&#39;', "'", $sql);
         // echo $sql;
