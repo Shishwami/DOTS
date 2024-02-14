@@ -1,6 +1,9 @@
 /* Global Variables */
 :root
 {
+    /* Page Background */
+    --page_bg: url(./Resources/1120291.png);
+
     /* Pure Colors */
     --white: #ffffff;
     --black: #000000;

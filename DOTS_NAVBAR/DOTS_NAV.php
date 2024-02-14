@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title></title>
-    <link rel="stylesheet" href="DOTS_NAV.css">
-    <link rel="stylesheet" href="../FontAwesome/css/all.css">
-    <link rel="stylesheet" href="../FontAwesome/css/fontawesome.css">
-    <link rel="stylesheet" href="../FontAwesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="../CSS/DOTS_NAV.css">
+    <link rel="stylesheet" href="../CSS/FontAwesome/css/all.css">
+    <link rel="stylesheet" href="../CSS/FontAwesome/css/fontawesome.css">
+    <link rel="stylesheet" href="../CSS/FontAwesome/css/fontawesome.min.css">
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/> -->
 </head>
 <body>
@@ -19,7 +19,7 @@
         <input type="checkbox" id="show-menu">
         <label for="show-menu" class="menu-icon"><i class="fa-solid fa-bars"></i></label>
         <div class="content">
-        <img src="../Resources/City-of-Baguio-Logo Fill.png" alt="">
+        <img src="../CSS/Resources/City-of-Baguio-Logo Fill.png" alt="../../CSS/Resources/City-of-Baguio-Logo Fill.png">
         <div class="logo"><a href="#">CHRMO - DOTS</a></div> 
             <ul class="links">
             <li><a href="#">Dashboard</a></li> <!--  specific to sir joseph -->
