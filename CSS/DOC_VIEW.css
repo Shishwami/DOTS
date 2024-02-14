@@ -121,7 +121,7 @@ body:before
     min-height: 100px;
     width: 100%;
     grid-area: table;
-    font-size: 15px;
+    font-size: 12px;
     text-align: center;
     border: 1px solid #000000;
     border-collapse: collapse;
@@ -136,19 +136,25 @@ body:before
 .db_table th
 {
     border: 1px solid #000000;
+    padding: 5px;
 }
 
 .db_table td
 {
     border: 1px solid #000000;
-    padding: 0.5rem;
+    padding: 5px;
     width: 500px;
     margin: 0;
 }
 
 .db_table tr
 {
-    background-color: aqua;
+    background-color: var(--tr_light);
+}
+
+.db_table tr:nth-child(even)
+{
+    background-color: var(--tr_dark);
 }
 
 .db_table tbody tr:hover

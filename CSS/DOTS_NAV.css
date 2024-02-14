@@ -69,6 +69,10 @@
     --opt_bg_light: #ecc2f1;
     --opt_bg_dark: #be7eca;
     --opt_bg_hover: #421477;
+
+    /* Table */
+    --tr_light: #ffffff;
+    --tr_dark: #a3a3a3;
 }
 
 /* Font Embed Import */
