@@ -34,7 +34,7 @@ class JsFunctions {
 
             Object.entries(item).forEach(([key, value]) => {
                 const cell = document.createElement('td');
-                cell.textContent = value;
+                var final_value = value;
 
                 // cell.dataset.keys = key;
                 // cell.dataset.value = value;
@@ -42,11 +42,11 @@ class JsFunctions {
                 row.appendChild(cell);
                 if (key == 'DATE_TIME_RECEIVED') {
                     const date = new Date(value);
-                    cell.textContent = this.formatDateTime(date);
-                } 
+                    final_value = this.formatDateTime(date);
+                }
                 if (key == 'LETTER_DATE') {
                     const date = new Date(value);
-                    cell.textContent = this.formatDate(date);
+                    final_value = this.formatDate(date);
                 }
                 if (key == 'DOC_NUM') {
                     rowID[key] = value;
@@ -58,9 +58,12 @@ class JsFunctions {
                 if (value == null) {
                     value = "";
                 }
-                if (value.toUpperCase().indexOf(filter) > -1) {
+                if (final_value.toUpperCase().indexOf(filter) > -1) {
                     found++;
                 }
+
+                cell.textContent = final_value;
+
             });
 
             row.addEventListener('click', function () {
