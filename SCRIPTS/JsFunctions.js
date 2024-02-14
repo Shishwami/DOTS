@@ -55,8 +55,8 @@ class JsFunctions {
                     rowID[key] = value;
                     cell.style.display = "none";
                 }
-                if (value == null) {
-                    value = "";
+                if (final_value == null) {
+                    final_value = "";
                 }
                 if (final_value.toUpperCase().indexOf(filter) > -1) {
                     found++;
