@@ -5,6 +5,10 @@ const searchBar = document.getElementById("searchBar");
 
 const DOC_VIEW_BASIC = document.getElementById("DOC_VIEW_BASIC");
 
+const FORM_DOC_SEND = document.getElementById('FORM_DOC_SEND');
+const SEND_DATE_TIME_RECEIVED = FORM_DOC_SEND.querySelector("#SEND_DATE_TIME_RECEIVED");
+const SEND_DOC_PRPS = FORM_DOC_SEND.querySelector("#SEND_DOC_PRPS");
+
 const RADIO_SEND = document.getElementById("RADIO_SEND");
 const RADIO_RECEIVE = document.getElementById("RADIO_RECEIVE");
 
@@ -13,7 +17,12 @@ const S_BTN = document.getElementById('S_BTN');
 
 const hrisId = sessionStorage.getItem(DOTS_ACCOUNT_INFO.HRIS_ID);
 let action_type = "receive";
+
 setSession();
+setDOC_PURPOSE();
+setRECEIVED_TIME(SEND_DATE_TIME_RECEIVED);
+
+
 
 setTable("", action_type);
 searchBar.addEventListener('input', function () {
@@ -68,6 +77,10 @@ R_BTN.addEventListener('click', function () {
     }, data);
 
 });
+S_BTN.addEventListener('click', function () {
+
+    console.log('send');
+});
 
 function setACTION_TYPE(element) {
     action_type = element.value;
@@ -80,18 +93,11 @@ function setTable(filter, action_type) {
         DOTS_DOCUMENT_SUB.NAME + "." + DOTS_DOCUMENT_SUB.ID,
         'DOC_NOTES',
         DOTS_DOC_PRPS.DOC_PRPS,
-        // 'S_OFFICE.DOC_OFFICE AS Office1',
-        // 'S_DEPT.DOC_DEPT AS Department',
-        // 'S_FULL_NAME.FULL_NAME as sname',
 
         "CONCAT(" +
         "IF(S_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(S_OFFICE.DOC_OFFICE,'-'), ' '),' ', " +
         "IF(S_DEPT.DOC_DEPT IS NOT NULL,CONCAT(S_DEPT.DOC_DEPT,'-'), ' '), " +
         "IFNULL(S_FULL_NAME.FULL_NAME, ' ')) as 'Sender'",
-
-        // 'R_OFFICE.DOC_OFFICE AS Office2',
-        // 'R_DEPT.DOC_DEPT AS Department2',
-        // 'R_FULL_NAME.FULL_NAME',
 
         "CONCAT(" +
         "IF(R_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(R_OFFICE.DOC_OFFICE,'-'), ' '),' ', " +
@@ -186,13 +192,56 @@ function setTable(filter, action_type) {
     }, data);
 }
 
+function setRECEIVED_TIME(element) {
+    var data = {
+        REQUEST: _REQUEST.GET_DATE,
+        DATE: "DATE_TIME"
+    }
+
+    MyAjax.createJSON((error, response) => {
+        if (error) {
+            alert(error);
+        } else {
+            if (response.VALID) {
+                delete response.VALID;
+                element.value = Object.values(response)[0];
+            } else {
+                console.log(response);
+            }
+        }
+    }, data);
+}
+function setDOC_PURPOSE() {
+    const SEND_DOC_PRPS = document.getElementById("SEND_DOC_PRPS")
+    var columns = [
+        DOTS_DOC_PRPS.ID,
+        DOTS_DOC_PRPS.DOC_PRPS,
+    ]
+
+    var data = {
+        TABLE: DOTS_DOC_PRPS.NAME,
+        REQUEST: _REQUEST.SELECT,
+        COLUMNS: columns,
+    }
+
+    MyAjax.createJSON((error, response) => {
+        if (!error) {
+            if (response.VALID) {
+                delete response.VALID;
+                var object = Object.values(response)[0];
+                JsFunctions.setSelect(SEND_DOC_PRPS, object);
+            } else {
+            }
+        } else {
+
+        }
+    }, data);
+}
 function setSession() {
     getSessionDeptId();
     getSessionHrisId();
     getSessionName();
 }
-
-
 function getSessionName() {
     const data = {
         REQUEST: _REQUEST.GET_SESSION_NAME,
