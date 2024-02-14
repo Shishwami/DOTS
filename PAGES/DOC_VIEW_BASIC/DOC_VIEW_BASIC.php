@@ -49,6 +49,49 @@
     <button type="button" id="R_BTN">Receive</button>
     <button type="button" id="S_BTN">SEND</button>
 
+    <form action="submit" name="FORM_DOC_SEND" id="FORM_DOC_SEND">
+            <div>
+                <label for="SEND_DOC_NUM">Document Number:</label>
+                <input type="text" name="DOC_NUM" id="SEND_DOC_NUM" readonly>
+            </div>
+            <div>
+                <label for="SEND_DATE_TIME_RECEIVED">Date Received:</label>
+                <input type="datetime-local" name="DATE_TIME_RECEIVED" id="SEND_DATE_TIME_RECEIVED">
+            </div>
+            <div>
+                <label for="SEND_DOC_PRPS">Documnet Purpose:</label>
+                <select name="PRPS_ID" id="SEND_DOC_PRPS">
+                    <option value="" disabled selected>Please Select Purpose</option>
+                    <!-- to be filled using database -->
+                </select>
+            </div>
+            <div>
+                <label for="SEND_R_DEPT_ID">Department:</label>
+                <select name="R_DEPT_ID" id="SEND_R_DEPT_ID">
+                    <option value="" disabled selected>Please Select Department</option>
+                    <!-- to be filled using database -->
+                </select>
+            </div>
+            <div>
+                <label for="SEND_DOC_ADDRESSEE">Addressee:</label>
+                <select name="R_USER_ID" id="SEND_DOC_ADDRESSEE">
+                    <option value="" disabled selected>Please Select Addressee</option>
+                    <!-- to be filled using database -->
+                </select>
+            </div>
+
+            <div>
+                <label for="SEND_DOC_NOTES">Notes:</label>
+                <input type="text" name="DOC_NOTES" id="SEND_DOC_NOTES">
+            </div>
+
+            <input type="text" name="ACTION_ID" id="SEND_DOC_ACTION" value="1" hidden>
+            <input type="text" name="S_DEPT_ID" id="SEND_S_DEPT_ID" value="" hidden>
+            <input type="text" name="S_USER_ID" id="SEND_S_USER_ID" value="" hidden>
+
+            <input type="submit" value="Send">
+        </form>
+
 </body>
 
 <script src="../../SCRIPTS/Constants.js"></script>
