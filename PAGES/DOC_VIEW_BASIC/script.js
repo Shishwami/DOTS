@@ -5,22 +5,43 @@ const searchBar = document.getElementById("searchBar");
 
 const DOC_VIEW_BASIC = document.getElementById("DOC_VIEW_BASIC");
 
+const RADIO_SEND = document.getElementById("RADIO_SEND");
+const RADIO_RECEIVE = document.getElementById("RADIO_RECEIVE");
+
+const R_BTN = document.getElementById('R_BTN');
+const S_BTN = document.getElementById('S_BTN');
+
+const hrisId = sessionStorage.getItem(DOTS_ACCOUNT_INFO.HRIS_ID);
+let action_type = "receive";
 setSession();
 
-setTable("");
+setTable("", action_type);
 searchBar.addEventListener('input', function () {
-    setTable(searchBar.value.toUpperCase());
+    setTable(searchBar.value.toUpperCase(), action_type);
 });
 setInterval(function () {
-    setTable(searchBar.value.toUpperCase());
+    setTable(searchBar.value.toUpperCase(), action_type);
 }, _RESET_TIME);
+S_BTN.disabled = true;
 
+RADIO_SEND.addEventListener('change', function () {
+    setACTION_TYPE(this);
+    S_BTN.disabled = false;
+    R_BTN.disabled = true;
+});
 
+RADIO_RECEIVE.addEventListener('change', function () {
+    setACTION_TYPE(this);
+    S_BTN.disabled = true;
+    R_BTN.disabled = false;
+});
 
-function setTable(filter) {
+function setACTION_TYPE(element) {
+    action_type = element.value;
+    setTable(searchBar.value.toUpperCase(), action_type);
+}
 
-
-
+function setTable(filter, action_type) {
     const columns = [
         'DOC_NUM',
         DOTS_DOCUMENT_SUB.NAME + "." + DOTS_DOCUMENT_SUB.ID,
@@ -104,13 +125,17 @@ function setTable(filter) {
         ],
         ORDER_BY: DOTS_DOCUMENT_SUB.NAME + "." + DOTS_DOCUMENT_SUB.ID + ' DESC',
         WHERE: {
-            OR: {}
+            AND: {}
         }
     }
-
-    var hrisId = sessionStorage.getItem(DOTS_ACCOUNT_INFO.HRIS_ID);
-    data['WHERE']['OR']['DOTS_DOCUMENT_SUB.R_USER_ID'] = hrisId;
-    // data['WHERE']['OR']['DOTS_DOCUMENT_SUB.S_USER_ID'] = hrisId;
+    if (action_type == 'receive') {
+        data['WHERE']['AND']['DOTS_DOCUMENT_SUB.R_USER_ID'] = hrisId;
+        data['WHERE']['AND']['DOTS_DOCUMENT_SUB.ACTION_ID'] = 1;
+    }
+    if (action_type == 'send') {
+        data['WHERE']['AND']['DOTS_DOCUMENT_SUB.S_USER_ID'] = hrisId;
+        data['WHERE']['AND']['DOTS_DOCUMENT_SUB.ACTION_ID'] = 2;
+    }
 
     MyAjax.createJSON((error, response) => {
         if (error) {
