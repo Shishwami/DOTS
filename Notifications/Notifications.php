@@ -1,145 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Notifications.css">
+    <link rel="stylesheet" href="Notifications2.css">
     <link rel="stylesheet" href="..//FontAwesome/css/all.css">
     <link rel="stylesheet" href="..//FontAwesome/css/fontawesome.css">
     <link rel="stylesheet" href="..//FontAwesome/css/fontawesome.min.css">
     <title></title>
 </head>
-
 <body>
 
-<button id="danger">Show Danger</button>
-<button id="success">Show Success</button>
-<button id="info">Show Info</button>
-<button id="warning">Show Warning</button>
-
-    <div class="alert danger hide">
-        <span class="fa-solid fa-circle-exclamation"></span>
-        <span class="msg"><strong>Danger!</strong> OH NOOO!!! HIHI</span>
-        <div class="close-btn">
-            <span class="fas fa-times"></span>
-        </div>
+    <div class="buttons">
+    <h1>Notifications</h1>
+    <button onclick="notifySuccess()">
+        Success
+    </button>
+    <button onclick="notifyError()">
+        Error
+    </button>
+    <button onclick="notifyInfo()">
+        Info
+    </button>
+    <button onclick="notifyWarning()">
+        Warning
+    </button>
+    <button onclick="something('success','hahsidfhadshfsduifhs')">Something</button>
+    <button onclick="something('success','haha mimi')">Something 3</button>
     </div>
 
-    <div class="alert success hide">
-        <span class="fa-solid fa-circle-check"></span>
-        <span class="msg"><strong>Success!</strong> YEY! KUHA MO PAAAREHH...</span>
-        <div class="close-btn">
-            <span class="fas fa-times"></span>
-        </div>
-    </div>
+    <div id="notification-area">
+</div>
 
-    <div class="alert info hide">
-        <span class="fa-solid fa-circle-info"></span>
-        <span class="msg"><strong>Info!</strong> SOMETHING SOMETHING PAAREEEHH...</span>
-        <div class="close-btn">
-            <span class="fas fa-times"></span>
-        </div>
-    </div>
+<script>
+    function notify(type,message){
+        (()=>{
+            let notif = document.createElement("div");
+            let id = Math.random().toString(36).substr(2,10);
+            notif.setAttribute("id",id);
+            notif.classList.add("notification",type);
 
-    <div class="alert warning hide">
-        <span class="fa-solid fa-triangle-exclamation"></span>
-        <span class="msg"><strong>Warning!</strong> OOPPS!!! MAY SOMETHING MALI PAREEEHHH...</span>
-        <div class="close-btn">
-            <span class="fas fa-times"></span>
-        </div>
-    </div>
+            let msg = document.createElement("div");
+            msg.classList.add("msg");
+            
+            msg.innerText = message;
 
-    <!-- <script src="Notifications.js"></script> -->
+            let strong = document.createElement("strong");
 
-    <script>
-
-        document.getElementById("danger").addEventListener('click',function(event)
-            {
-                document.querySelector(".danger").classList.add("show");
-                document.querySelector(".danger").classList.remove("hide");
-                document.querySelector(".danger").classList.add("showAlert");
-
-                setTimeout(function() 
-                {
-                    document.querySelector(".danger").classList.remove("show");
-                    document.querySelector(".danger").classList.add("hide");
-                }, 3000);
-            }
-        );
-
-        document.querySelectorAll('.close-btn').forEach(function (closeBtn) {
-            closeBtn.addEventListener('click', function () {
-                // Remove classes
-                document.querySelector('.danger').classList.remove("show");
-                document.querySelector('.danger').classList.add("hide");
-            });
-        });
+            let x_btn = document.createElement("div");
+            x_btn.classList.add("close_btn");
+            let x_btn_icon =document.createElement("span");
+            x_btn_icon.classList.add("fa-brands", "fa-x-twitter");            
         
-        document.getElementById("success").addEventListener('click',function(event)
-            {
-                document.querySelector(".success").classList.add("show");
-                document.querySelector(".success").classList.remove("hide");
-                document.querySelector(".success").classList.add("showAlert");
-
-                setTimeout(function() 
-                {
-                    document.querySelector(".success").classList.remove("show");
-                    document.querySelector(".success").classList.add("hide");
-                }, 3000);
+            
+            let icon = document.createElement("span");
+            if (type=="success"){
+                icon.classList.add("fa-solid","fa-circle-check");
+                strong.innerText = "SUCCESS";
+            }else if(type=="error"){
+                icon.classList.add("fa-solid","fa-circle-exclamation");
+                strong.innerText = "ERROR";
+            } else if(type=="info"){
+                icon.classList.add("fa-solid","fa-circle-info");
+                strong.innerText = "INFO";
+            } else if(type=="warning"){
+                icon.classList.add("fa-solid","fa-triangle-exclamation");
+                strong.innerText = "WARNING";
             }
-        );
 
-        document.querySelectorAll('.close-btn').forEach(function (closeBtn) {
-            closeBtn.addEventListener('click', function () {
-                // Remove classes
-                document.querySelector('.success').classList.remove("show");
-                document.querySelector('.success').classList.add("hide");
-            });
-        });
 
-        document.getElementById("info").addEventListener('click',function(event)
-            {
-                document.querySelector(".info").classList.add("show");
-                document.querySelector(".info").classList.remove("hide");
-                document.querySelector(".info").classList.add("showAlert");
+            x_btn.addEventListener('click', function () {
+                    notif.remove();
+                });
 
-                setTimeout(function() 
-                {
-                    document.querySelector(".info").classList.remove("show");
-                    document.querySelector(".info").classList.add("hide");
-                }, 3000);
+
+            notif.append(icon);
+            notif.append(x_btn);
+            x_btn.append(x_btn_icon);
+            notif.append(strong);
+            notif.append(msg);
+            
+        
+
+            document.getElementById("notification-area").appendChild(notif);
+            setTimeout(()=>{
+            var notifications = document.getElementById("notification-area").getElementsByClassName("notification");
+            for(let i=0;i<notifications.length;i++){
+                if(notifications[i].getAttribute("id") == id){
+                notifications[i].remove();
+                break;
+                }
             }
-        );
+            },5000);
+        })();
+    }
 
-        document.querySelectorAll('.close-btn').forEach(function (closeBtn) {
-            closeBtn.addEventListener('click', function () {
-                // Remove classes
-                document.querySelector('.info').classList.remove("show");
-                document.querySelector('.info').classList.add("hide");
-            });
-        });
+    function notifySuccess(){
+        notify("success","This is demo success notification message");
+    }
+        
+    function notifyError(){
+        notify("error","This is demo error notification message");
+    }
 
-        document.getElementById("warning").addEventListener('click',function(event)
-            {
-                document.querySelector(".warning").classList.add("show");
-                document.querySelector(".warning").classList.remove("hide");
-                document.querySelector(".warning").classList.add("showAlert");
+    function notifyInfo(){
+        notify("info","This is demo info notification message");
+    }
 
-                setTimeout(function() 
-                {
-                    document.querySelector(".warning").classList.remove("show");
-                    document.querySelector(".warning").classList.add("hide");
-                }, 3000);
-            }
-        );
+    function notifyWarning(){
+        notify("warning","Sheseeeseese")
+    }
 
-        document.querySelectorAll('.close-btn').forEach(function (closeBtn) {
-            closeBtn.addEventListener('click', function () {
-                // Remove classes
-                document.querySelector('.warning').classList.remove("show");
-                document.querySelector('.warning').classList.add("hide");
-            });
-        });
+    function something(type,message){
+        notify(type,message);
+    }
+</script>
 
-    </script>
+</body>
+</html>
