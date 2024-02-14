@@ -226,7 +226,8 @@ function getSessionName() {
         if (error) {
             alert(error);
         } else {
-            if (response.VALID) {
+            if (response.VALID
+                ) {
                 delete response.VALID;
                 var name = Object.values(response)[0];
                 CREATE_FULLNAME.value = name;
