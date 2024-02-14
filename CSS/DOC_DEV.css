@@ -18,10 +18,10 @@ body
 }
 
 /* Page Background */
-body:before
+body:before 
 {
     content:"";
-    background-image: url(..//Resources/1120291.png);
+    background-image: var(--page_bg);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -36,7 +36,7 @@ body:before
 /* Scroll Bar Styles */
 ::-webkit-scrollbar
 { 
-    width: 15px;
+    width: 15px; 
 } 
 
 ::-webkit-scrollbar-track
@@ -127,7 +127,7 @@ body:before
 
 .search input:focus
 {
-    background-image: var(--input_focus);
+    background: var(--input_focus);
 }
 
 .opt_btn#add
