@@ -36,6 +36,39 @@ RADIO_RECEIVE.addEventListener('change', function () {
     R_BTN.disabled = false;
 });
 
+R_BTN.addEventListener('click', function () {
+    const json = JSON.parse(sessionStorage.getItem('TEMP_DATA'));
+    let id = 0;
+
+    if (!json) {
+        alert('no_id');
+        return;
+    }
+
+    id = json.ID;
+    console.log(id);
+    sessionStorage.removeItem('TEMP_DATA');
+
+    //confirm
+
+    var data = {
+        TABLE: DOTS_DOCUMENT_SUB.NAME,
+        REQUEST: _REQUEST.UPDATE,
+        DATA: {
+            ACTION_ID: 2,
+            R_USER_ID: hrisId,
+        },
+        WHERE: {
+            ID: id,
+        }
+    }
+
+    MyAjax.createJSON((error, response) => {
+        console.log(response);
+    }, data);
+
+});
+
 function setACTION_TYPE(element) {
     action_type = element.value;
     setTable(searchBar.value.toUpperCase(), action_type);
@@ -133,7 +166,7 @@ function setTable(filter, action_type) {
         data['WHERE']['AND']['DOTS_DOCUMENT_SUB.ACTION_ID'] = 1;
     }
     if (action_type == 'send') {
-        data['WHERE']['AND']['DOTS_DOCUMENT_SUB.S_USER_ID'] = hrisId;
+        data['WHERE']['AND']['DOTS_DOCUMENT_SUB.R_USER_ID'] = hrisId;
         data['WHERE']['AND']['DOTS_DOCUMENT_SUB.ACTION_ID'] = 2;
     }
 
