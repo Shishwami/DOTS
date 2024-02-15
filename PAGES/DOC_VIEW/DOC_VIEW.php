@@ -136,9 +136,9 @@
                 <input type="text" name="DOC_NOTES" id="SEND_DOC_NOTES">
             </div>
 
-            <input type="text" name="ACTION_ID" id="SEND_DOC_ACTION" value="1" hidden>
-            <input type="text" name="S_DEPT_ID" id="SEND_S_DEPT_ID" value="" hidden>
-            <input type="text" name="S_USER_ID" id="SEND_S_USER_ID" value="" hidden>
+            <input type="text" name="ACTION_ID" id="SEND_DOC_ACTION" value="1" readonly>
+            <input type="text" name="S_DEPT_ID" id="SEND_S_DEPT_ID" value="" readonly>
+            <input type="text" name="S_USER_ID" id="SEND_S_USER_ID" value="" readonly>
 
             <input type="submit" value="Send">
         </form>
