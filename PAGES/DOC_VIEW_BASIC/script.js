@@ -22,8 +22,6 @@ setSession();
 setDOC_PURPOSE();
 setRECEIVED_TIME(SEND_DATE_TIME_RECEIVED);
 
-
-
 setTable("", action_type);
 searchBar.addEventListener('input', function () {
     setTable(searchBar.value.toUpperCase(), action_type);
@@ -32,19 +30,16 @@ setInterval(function () {
     setTable(searchBar.value.toUpperCase(), action_type);
 }, _RESET_TIME);
 S_BTN.disabled = true;
-
 RADIO_SEND.addEventListener('change', function () {
     setACTION_TYPE(this);
     S_BTN.disabled = false;
     R_BTN.disabled = true;
 });
-
 RADIO_RECEIVE.addEventListener('change', function () {
     setACTION_TYPE(this);
     S_BTN.disabled = true;
     R_BTN.disabled = false;
 });
-
 R_BTN.addEventListener('click', function () {
     const json = JSON.parse(sessionStorage.getItem('TEMP_DATA'));
     let id = 0;
@@ -57,7 +52,6 @@ R_BTN.addEventListener('click', function () {
     id = json.ID;
     console.log(id);
     sessionStorage.removeItem('TEMP_DATA');
-
     //confirm
 
     var data = {
@@ -81,12 +75,10 @@ S_BTN.addEventListener('click', function () {
 
     console.log('send');
 });
-
 function setACTION_TYPE(element) {
     action_type = element.value;
     setTable(searchBar.value.toUpperCase(), action_type);
 }
-
 function setTable(filter, action_type) {
     const columns = [
         'DOC_NUM',
@@ -191,7 +183,6 @@ function setTable(filter, action_type) {
         }
     }, data);
 }
-
 function setRECEIVED_TIME(element) {
     var data = {
         REQUEST: _REQUEST.GET_DATE,
