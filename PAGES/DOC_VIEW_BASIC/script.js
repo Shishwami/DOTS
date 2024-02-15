@@ -74,6 +74,37 @@ R_BTN.addEventListener('click', function () {
 S_BTN.addEventListener('click', function () {
 
     console.log('send');
+
+    const json = JSON.parse(sessionStorage.getItem('TEMP_DATA'));
+    var formData = JsFunctions.createJSON(FORM_DOC_SEND);
+    let id = 0;
+
+    if (!json) {
+        alert('no_id');
+        return;
+    }
+
+    id = json.ID;
+    console.log(id);
+    sessionStorage.removeItem('TEMP_DATA');
+    //confirm
+
+    var data = {
+        TABLE: DOTS_DOCUMENT_SUB.NAME,
+        REQUEST: _REQUEST.UPDATE,
+        DATA: {
+            // ACTION_ID: 2,
+            // R_USER_ID: hrisId,
+            formData,
+        },
+        WHERE: {
+            ID: id,
+        }
+    }
+
+    // MyAjax.createJSON((error, response) => {
+    //     console.log(response);
+    // }, data);
 });
 function setACTION_TYPE(element) {
     action_type = element.value;
