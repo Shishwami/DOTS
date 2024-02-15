@@ -21,7 +21,7 @@ body
 body:before 
 {
     content:"";
-    background-image: url(..//Resources/1120291.png);
+    background-image: url(../CSS/Resources/1120291.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
