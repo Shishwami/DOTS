@@ -384,6 +384,11 @@ body:before
     margin-right: 0.5rem;
 }
 
+#snd_modal .content_one .doc_num input
+{
+    width: 150px;
+}
+
 #snd_modal .content_one input
 {
     padding: 0.5rem;

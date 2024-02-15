@@ -132,7 +132,7 @@
                     <form class="form" action="submit" name="FORM_DOC_SEND" id="FORM_DOC_SEND">
                         <div class="form_content">
                             <div class="box content_one">
-                                <div>
+                                <div class="doc_num">
                                     <label for="SEND_DOC_NUM">Document Number:</label>
                                     <input type="text" name="DOC_NUM" id="SEND_DOC_NUM" readonly>
                                 </div>
@@ -189,7 +189,7 @@
                 </div>
             </div>
 
-            <div class="modall" id="atc_modal">
+            <div class="modal" id="atc_modal">
                 <div class="modal_content">
                     <div class="modal_banner">
                         <span class="atc_close">&times;</span>
