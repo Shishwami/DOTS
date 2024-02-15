@@ -112,7 +112,7 @@ body:before
     color: var(--font_black);
     display: grid;
     grid-gap: 1em;
-    grid-template-areas: "header" "content" "footer"
+    grid-template-areas: "header" "content" "footer";
 }
 
 .page_form label
