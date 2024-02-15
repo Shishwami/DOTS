@@ -19,7 +19,7 @@ const hrisId = sessionStorage.getItem(DOTS_ACCOUNT_INFO.HRIS_ID);
 let action_type = "receive";
 
 setSession();
-setDOC_PURPOSE();
+setDOC_PURPOSEselect();
 setRECEIVED_TIME(SEND_DATE_TIME_RECEIVED);
 
 setTable("", action_type);
@@ -30,6 +30,8 @@ setInterval(function () {
     setTable(searchBar.value.toUpperCase(), action_type);
 }, _RESET_TIME);
 S_BTN.disabled = true;
+
+
 RADIO_SEND.addEventListener('change', function () {
     setACTION_TYPE(this);
     S_BTN.disabled = false;
@@ -76,7 +78,7 @@ S_BTN.addEventListener('click', function () {
     console.log('send');
 
     const json = JSON.parse(sessionStorage.getItem('TEMP_DATA'));
-    var formData = JsFunctions.createJSON(FORM_DOC_SEND);
+    var formData = JsFunctions.FormToJson(FORM_DOC_SEND);
     let id = 0;
 
     if (!json) {
@@ -233,7 +235,7 @@ function setRECEIVED_TIME(element) {
         }
     }, data);
 }
-function setDOC_PURPOSE() {
+function setDOC_PURPOSEselect() {
     const SEND_DOC_PRPS = document.getElementById("SEND_DOC_PRPS")
     var columns = [
         DOTS_DOC_PRPS.ID,
