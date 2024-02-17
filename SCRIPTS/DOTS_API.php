@@ -5,47 +5,53 @@ include "Queries.php";
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+$sql = "";
+try {
+    $inputs = json_decode(file_get_contents("php://input"), true);
+    $inputs = sanitizeInputs($inputs);
+    // var_dump($inputs);
 
-$inputs = json_decode(file_get_contents("php://input"), true);
-$inputs = sanitizeInputs($inputs);
-// var_dump($inputs);
+    $REQUEST = $inputs['REQUEST'];
 
-$REQUEST = $inputs['REQUEST'];
+    switch ($REQUEST) {
+        case 'INSERT':
+            INSERT_($inputs, $conn);
+            break;
+        case 'SELECT':
+            SELECT_($inputs, $conn);
+            break;
+        case 'UPDATE':
+            UPDATE_($inputs, $conn);
+            break;
+        case 'DELETE':
+            DELETE_($inputs, $conn);
+            break;
+        case 'GET_DATE':
+            get_Date($inputs);
+            break;
+        case 'CREATE_SESSION':
+            createSession($inputs, $conn);
+            break;
+        case 'GET_SESSION_NAME':
+            getSessionName();
+            break;
+        case 'GET_SESSION_INITIAL':
+            getSessionInitial();
+            break;
+        case 'GET_SESSION_HRIS_ID':
+            getSessionHrisID();
+            break;
+        case 'GET_SESSION_DEPT_ID':
+            getSessionDeptID();
+            break;
+    }
+    $conn->close();
 
-switch ($REQUEST) {
-    case 'INSERT':
-        INSERT_($inputs, $conn);
-        break;
-    case 'SELECT':
-        SELECT_($inputs, $conn);
-        break;
-    case 'UPDATE':
-        UPDATE_($inputs, $conn);
-        break;
-    case 'DELETE':
-        DELETE_($inputs, $conn);
-        break;
-    case 'GET_DATE':
-        get_Date($inputs);
-        break;
-    case 'CREATE_SESSION':
-        createSession($inputs, $conn);
-        break;
-    case 'GET_SESSION_NAME':
-        getSessionName();
-        break;
-    case 'GET_SESSION_INITIAL':
-        getSessionInitial();
-        break;
-    case 'GET_SESSION_HRIS_ID':
-        getSessionHrisID();
-        break;
-    case 'GET_SESSION_DEPT_ID':
-        getSessionDeptID();
-        break;
+
+} catch (mysqli_sql_exception $th) {
+    // throw $th;
+    echo '' . $th->getMessage() . '\r\n asd' . $sql;
 }
-$conn->close();
-
 
 function INSERT_($inputs, $conn)
 {
@@ -109,7 +115,7 @@ function UPDATE_($inputs, $conn)
 
 
     $sql = $querries->updateQuery($inputs);
-
+    // echo $sql;
     if (mysqli_query($conn, $sql)) {
         $valid = true;
     } else {
