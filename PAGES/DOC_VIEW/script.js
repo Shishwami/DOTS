@@ -35,8 +35,6 @@ const SEND_ACTION_ID = FORM_DOC_SEND.querySelector("#SEND_ACTION_ID");
 const SEND_S_USER_ID = FORM_DOC_SEND.querySelector("#SEND_S_USER_ID");
 const SEND_S_DEPT_ID = FORM_DOC_SEND.querySelector("#SEND_S_DEPT_ID");
 
-console.log(SEND_DOC_NUM);
-
 InitializePAGE();
 
 function InitializePAGE() {
@@ -70,7 +68,7 @@ function initializeSEND_FORM() {
 
 }
 function initializeRECEIVE_FORM() {
-    setInterval(setDOC_NUM, _RESET_TIME);
+    setInterval(setDOC_NUM, 500);
     setDOC_NUM();
     setDOC_TYPE();
     setDOC_OFFICE();
@@ -123,16 +121,15 @@ function setDOC_OFFICE() {
     }
     MyAjax.createJSON((error, response) => {
         if (error) {
-            alert(error);
-        } else {
-            if (response.VALID) {
-                delete response.VALID;
-                JsFunctions.setSelect(CREATE_DOC_OFFICE, Object.values(response)[0]);
-            } else {
-                console.log(response);
-            }
+            return alert(error);
+        }
+
+        if (response.VALID) {
+            delete response.VALID;
+            JsFunctions.setSelect(CREATE_DOC_OFFICE, Object.values(response)[0]);
         }
     }, data);
+
 
 
 }
@@ -144,21 +141,23 @@ function setDOC_NUM() {
         TABLE: DOTS_DOCUMENT.NAME,
         REQUEST: _REQUEST.SELECT,
         COLUMNS: columns,
+        ORDER_BY: DOTS_DOCUMENT.DOC_NUM + " ASC"
     };
     MyAjax.createJSON((error, response) => {
         if (!error && response.VALID) {
             delete response.VALID;
             const docNumbers = Object.values(response)[0];
             const lastObj = docNumbers[docNumbers.length - 1];
-            var lastNumber = 0;
+            let lastNumber = 0;
             if (lastObj) {
-                lastNumber = Object.values(lastObj)[0];
+                lastNumber = parseInt(Object.values(lastObj)[0]);
             }
-            CREATE_DOC_NUM.value = Number(lastNumber) + 1;
+            CREATE_DOC_NUM.value = lastNumber + 1;
         } else {
             alert(error || "Error occurred while retrieving document number.");
         }
     }, data);
+
 }
 function setDOC_TYPE() {
     const columns = [
@@ -173,15 +172,12 @@ function setDOC_TYPE() {
     MyAjax.createJSON((error, response) => {
         if (error) {
             alert(error);
-        } else {
-            if (response.VALID) {
-                delete response.VALID;
-                JsFunctions.setSelect(CREATE_DOC_TYPE, Object.values(response)[0]);
-            } else {
-                console.log(response);
-            }
+        } else if (response.VALID) {
+            delete response.VALID;
+            JsFunctions.setSelect(CREATE_DOC_TYPE, Object.values(response)[0]);
         }
     }, data);
+
 }
 function setRECEIVED_TIME(element) {
     var data = {
@@ -192,15 +188,12 @@ function setRECEIVED_TIME(element) {
     MyAjax.createJSON((error, response) => {
         if (error) {
             alert(error);
-        } else {
-            if (response.VALID) {
-                delete response.VALID;
-                element.value = Object.values(response)[0];
-            } else {
-                console.log(response);
-            }
+        } else if (response.VALID) {
+            delete response.VALID;
+            element.value = Object.values(response)[0];
         }
     }, data);
+
 }
 function setLETTER_DATE() {
     var data = {
@@ -216,7 +209,6 @@ function setLETTER_DATE() {
                 delete response.VALID;
                 CREATE_LETTER_DATE.value = Object.values(response)[0];
             } else {
-                console.log(response);
             }
         }
     }, data);
@@ -225,7 +217,6 @@ function getSessionName() {
     const data = {
         REQUEST: _REQUEST.GET_SESSION_NAME,
     }
-    console.log(data);
     MyAjax.createJSON((error, response) => {
         if (error) {
             alert(error);
@@ -237,7 +228,6 @@ function getSessionName() {
                 CREATE_FULLNAME.value = name;
                 sessionStorage.setItem(DOTS_ACCOUNT_INFO.FULL_NAME, name);
             } else {
-                console.log(response);
                 //error message
             }
         }
@@ -247,7 +237,6 @@ function getSessionHrisId() {
     const data = {
         REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
     }
-    console.log(data);
     MyAjax.createJSON((error, response) => {
         if (error) {
             alert(error);
@@ -258,7 +247,6 @@ function getSessionHrisId() {
                 CREATE_R_USER_ID.value = id;
                 sessionStorage.setItem(DOTS_ACCOUNT_INFO.HRIS_ID, id);
             } else {
-                console.log(response);
                 //error message
             }
         }
@@ -268,21 +256,17 @@ function getSessionDeptId() {
     const data = {
         REQUEST: _REQUEST.GET_SESSION_DEPT_ID,
     }
-    console.log(data);
     MyAjax.createJSON((error, response) => {
         if (error) {
-            alert(error);
-        } else {
-            if (response.VALID) {
-                delete response.VALID;
-                var dept_id = Object.values(response)[0];
-                CREATE_R_DEPT_ID.value = dept_id;
-                SEND_S_DEPT_ID.value = dept_id;
-                sessionStorage.setItem(DOTS_ACCOUNT_INFO.DEPT_ID, dept_id);
-            } else {
-                console.log(response);
-                //error message
-            }
+            return alert(error);
+        }
+
+        if (response.VALID) {
+            delete response.VALID;
+            var dept_id = Object.values(response)[0];
+            CREATE_R_DEPT_ID.value = dept_id;
+            SEND_S_DEPT_ID.value = dept_id;
+            sessionStorage.setItem(DOTS_ACCOUNT_INFO.DEPT_ID, dept_id);
         }
     }, data);
 }
@@ -531,160 +515,179 @@ function setTable(filter) {
 function setForms() {
     FORM_DOC_SEND.addEventListener('submit', function (e) {
         e.preventDefault();
-
-        var data = JsFunctions.FormToJson(this);
-
-        var insertData = {
-            TABLE: DOTS_DOCUMENT_SUB.NAME,
-            REQUEST: _REQUEST.INSERT,
-            DATA: data,
-        }
-
-        //validation
-        // delete data.SEND_DOC_NOTES;
-
-        // const dataValues = Object.values(data);
-        // var empty = JsFunctions.checkIfEmpty(dataValues);
-
-        // data['DOC_NOTES'] = SEND_DOC_NOTES.value;
-
-        var updateData = {
-            TABLE: DOTS_DOCUMENT.NAME,
-            REQUEST: _REQUEST.UPDATE,
-            DATA: {
-                DOC_STATUS: 1,//sent
-                ROUTED: 1,//routed
-            },
-            WHERE: {
-                [DOTS_DOCUMENT.DOC_NUM]: data.DOC_NUM,
-                [DOTS_DOCUMENT.ROUTE_NUM]: data.ROUTE_NUM
-            }
-        }
-
-        var routedCheck = {
-            TABLE: DOTS_DOCUMENT.NAME,
-            REQUEST: _REQUEST.SELECT,
-            COLUMNS: [
-                DOTS_DOCUMENT.ID,
-                DOTS_DOCUMENT.DOC_NUM,
-                DOTS_DOCUMENT.ROUTE_NUM,
-                DOTS_DOCUMENT.ROUTED,
-            ],
-            WHERE: {
-                AND: {
-                    [DOTS_DOCUMENT.DOC_NUM]: data.DOC_NUM,
-                    [DOTS_DOCUMENT.ROUTE_NUM]: data.ROUTE_NUM
-                }
-            }
-            // ORDER_BY: DOTS_DOCUMENT.DOC_NUM + ' DESC
-        }
-        MyAjax.createJSON((error, response) => {
-            delete response.VALID;
-            var result = Object.values(response)[0][0];
-            if (result.ROUTED == 0) {
-                //just send
-                MyAjax.createJSON((error, response) => {
-                    if (error) {
-                        alert(error);
-                    } else {
-                        if (response.VALID) {
-                            delete response.VALID;
-                            alert("SENT");
-                            //update status from received to pending and routed to 1
-                            MyAjax.createJSON((error, response) => {
-                                if (error) {
-                                    alert(error);
-                                } else {
-                                    if (response.VALID) {
-                                        console.log(response);
-                                    }
-                                }
-                            }, updateData);
-                        }
-                    }
-                }, insertData);
-            } else {
-                //resend
-                console.log("NOOOT YET SENDING");
-            }
-            console.log(response.ROUTED);
-        }, routedCheck);
-
-        // if (empty) {
-        // alert("CHECKINPUTS");
-        // } else {
-        //    
-        // MyAjax.createJSON((error, response) => {
-        //     if (error) {
-        //         alert(error);
-        //     } else {
-        //         if (response.VALID) {
-        //             delete response.VALID;
-        //             alert("SENT");
-        //             //update status from received to pending and routed to 1
-        //             MyAjax.createJSON((error, response) => {
-        //                 if (error) {
-        //                     alert(error);
-        //                 } else {
-        //                     if (response.VALID) {
-        //                         console.log(response);
-        //                     }
-        //                 }
-        //             }, updateData);
-        //         }
-        //     }
-        // }, insertData);
-        // }
-
+        setSendFormSubmit();
     });
 
     FORM_DOC_RECEIVE.addEventListener('submit', function (e) {
         e.preventDefault();
 
-        const data2 = {
-            REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
-        }
-        var vals = JsFunctions.FormToJson(FORM_DOC_RECEIVE);
         var data = {
             TABLE: DOTS_DOCUMENT.NAME,
             REQUEST: _REQUEST.INSERT,
-            DATA: vals,
+            DATA: JsFunctions.FormToJson(FORM_DOC_RECEIVE),
         }
 
-        const dataValues = Object.values(data);
-        var empty = JsFunctions.checkIfEmpty(dataValues);
-        console.log(data);
-        if (!empty) {
-            MyAjax.createJSON((error, response) => {
-                if (error) {
-                    alert(error);
-                } else {
-                    if (response.VALID) {
-                        console.log(response);
-                        delete response.VALID;
-                        data["RECEIVED_BY"] = Object.values(response)[0];
-                        MyAjax.createJSON((error, response) => {
-                            if (!error) {
-                                if (response.VALID) {
-                                    console.log(response);
-                                    alert("DOC CREsddssddsATED");
-                                }
-                            } else {
-                                alert(error);
-                            }
-                        }, data);
-                    } else {
-                        console.log(response);
-                        //error message
-                    }
-                }
-            }, data2);
-        } else {
-            //validation
-        }
-
+        // const dataValues = Object.values(data);
+        // var empty = JsFunctions.checkIfEmpty(dataValues);
+        createDoc(data);
     });
-
 
 }
 
+function setSendFormSubmit() {
+    var data = JsFunctions.FormToJson(FORM_DOC_SEND);
+    var insertData = {
+        TABLE: DOTS_DOCUMENT_SUB.NAME,
+        REQUEST: _REQUEST.INSERT,
+        DATA: data,
+    }
+
+
+
+    var routedCheck = {
+        TABLE: DOTS_DOCUMENT.NAME,
+        REQUEST: _REQUEST.SELECT,
+        COLUMNS: [
+            DOTS_DOCUMENT.ID,
+            DOTS_DOCUMENT.DOC_NUM,
+            DOTS_DOCUMENT.ROUTE_NUM,
+            DOTS_DOCUMENT.ROUTED,
+        ],
+        WHERE: {
+            AND: {
+                [DOTS_DOCUMENT.DOC_NUM]: data.DOC_NUM,
+                [DOTS_DOCUMENT.ROUTE_NUM]: data.ROUTE_NUM
+            }
+        }
+        // ORDER_BY: DOTS_DOCUMENT.DOC_NUM + ' DESC
+    }
+    MyAjax.createJSON((error, response) => {
+
+        if (error) {
+            return alert(error);
+        }
+
+        delete response.VALID;
+        var result = Object.values(response)[0][0];
+
+        if (result.ROUTED == 0) {
+            sendDoc(insertData);
+        } else {
+            resendDoc(insertData);
+        }
+    }, routedCheck);
+}
+
+function sendDoc(data) {
+
+    var updateData = {
+        TABLE: DOTS_DOCUMENT.NAME,
+        REQUEST: _REQUEST.UPDATE,
+        DATA: {
+            DOC_STATUS: 4,//  pending to on hand
+            ROUTED: 1,//routed
+        },
+        WHERE: {
+            [DOTS_DOCUMENT.DOC_NUM]: data["DATA"]["DOC_NUM"],
+            [DOTS_DOCUMENT.ROUTE_NUM]: data["DATA"]["ROUTE_NUM"],
+        }
+
+    }
+    console.log("SEND DOC", data);
+    MyAjax.createJSON((error, response) => {
+
+        if (error) {
+            return alert(error);
+        }
+
+        if (!response.VALID) {
+            return;
+        }
+        console.log("UdpATE DATA", updateData);
+        updateDoc(updateData);
+
+        delete response.VALID;
+    }, data);
+
+}
+
+function updateDoc(data) {
+    MyAjax.createJSON((error, response) => {
+
+        if (error) {
+            return alert(error);
+        }
+
+        if (!response.VALID) {
+            return;
+        }
+        console.log('UPDATE DOC', response);
+
+        delete response.VALID;
+    }, data);
+
+}
+
+function resendDoc(data) {
+
+    var doc_num = data['DATA']['DOC_NUM'];
+
+    const jsonSelect = {
+        TABLE: DOTS_DOCUMENT.NAME,
+        REQUEST: _REQUEST.SELECT,
+        WHERE: {
+            AND: {
+                [DOTS_DOCUMENT.DOC_NUM]: doc_num,
+            },
+        },
+        ORDER_BY: [DOTS_DOCUMENT.ROUTE_NUM] + " DESC"
+    }
+
+    MyAjax.createJSON((error, response) => {
+
+        if (error) {
+            return alert(error);
+        }
+
+        if (!response.VALID) {
+            return;
+        }
+
+        delete response.VALID;
+        var result = Object.values(response)[0][0];
+        result.ROUTE_NUM = Number(result.ROUTE_NUM) + 1;
+        delete result.ID;
+
+        const data = {
+            TABLE: DOTS_DOCUMENT.NAME,
+            REQUEST: _REQUEST.INSERT,
+            DATA: result,
+
+        }
+        createDoc(data);
+
+        var sendForm = JsFunctions.FormToJson(FORM_DOC_SEND);
+        sendForm.ROUTE_NUM = result.ROUTE_NUM;
+
+        var insertData = {
+            TABLE: DOTS_DOCUMENT_SUB.NAME,
+            REQUEST: _REQUEST.INSERT,
+            DATA: sendForm,
+        }
+        sendDoc(insertData);
+
+    }, jsonSelect);
+}
+
+function createDoc(data) {
+
+    MyAjax.createJSON((error, response) => {
+        if (error) {
+            return alert(error);
+        }
+
+        if (response.VALID) {
+            alert("DOC CREATED");
+        }
+    }, data);
+}
