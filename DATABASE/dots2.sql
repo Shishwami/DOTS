@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 13/02/2024 16:32:35
+ Date: 17/02/2024 08:13:17
 */
 
 SET NAMES utf8mb4;
@@ -31,7 +31,7 @@ CREATE TABLE `dots_account_info`  (
   `PASSWORD` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `DIVISION` int NOT NULL,
   PRIMARY KEY (`HRIS_ID`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_account_info
@@ -55,7 +55,7 @@ CREATE TABLE `dots_doc_action`  (
   `ID` int NOT NULL AUTO_INCREMENT,
   `DOC_ACTION` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_doc_action
@@ -72,7 +72,7 @@ CREATE TABLE `dots_doc_dept`  (
   `ID` int NOT NULL AUTO_INCREMENT,
   `DOC_DEPT` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_doc_dept
@@ -91,7 +91,7 @@ CREATE TABLE `dots_doc_division`  (
   `ID` int NOT NULL AUTO_INCREMENT,
   `DOC_DIVISION` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_doc_division
@@ -108,7 +108,7 @@ CREATE TABLE `dots_doc_office`  (
   `ID` int NOT NULL AUTO_INCREMENT,
   `DOC_OFFICE` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_doc_office
@@ -128,7 +128,7 @@ CREATE TABLE `dots_doc_prps`  (
   `ID` int NOT NULL AUTO_INCREMENT,
   `DOC_PRPS` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_doc_prps
@@ -146,7 +146,7 @@ CREATE TABLE `dots_doc_status`  (
   `ID` int NOT NULL AUTO_INCREMENT,
   `DOC_STATUS` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_doc_status
@@ -164,7 +164,7 @@ CREATE TABLE `dots_doc_type`  (
   `ID` int NOT NULL AUTO_INCREMENT,
   `DOC_TYPE` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_doc_type
@@ -178,7 +178,8 @@ INSERT INTO `dots_doc_type` VALUES (3, 'Letter/Invitation');
 -- ----------------------------
 DROP TABLE IF EXISTS `dots_document`;
 CREATE TABLE `dots_document`  (
-  `DOC_NUM` int NOT NULL AUTO_INCREMENT,
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `DOC_NUM` int NOT NULL,
   `DOC_SUBJECT` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `DOC_TYPE_ID` int NULL DEFAULT NULL,
   `LETTER_DATE` date NULL DEFAULT NULL,
@@ -192,18 +193,19 @@ CREATE TABLE `dots_document`  (
   `DATE_TIME_RECEIVED` datetime(6) NOT NULL,
   `DOC_STATUS` int NOT NULL,
   `ACTION_ID` int NULL DEFAULT NULL,
-  PRIMARY KEY (`DOC_NUM`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`ID`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_document
 -- ----------------------------
-INSERT INTO `dots_document` VALUES (1, 'a', 1, '2024-02-13', '', 1, 0, 0, NULL, 2, 40008, '2024-02-13 15:04:00.000000', 1, 2);
-INSERT INTO `dots_document` VALUES (2, 'asd', 1, '2024-02-13', '', 5, 0, 0, NULL, 2, 40008, '2024-02-13 15:57:00.000000', 1, 2);
-INSERT INTO `dots_document` VALUES (3, ';;lllkopkop', 2, '2024-02-13', '', 6, 0, 0, NULL, 2, 40008, '2024-02-13 16:01:00.000000', 1, 2);
-INSERT INTO `dots_document` VALUES (4, 'kain', 3, '2024-02-13', '', 6, 0, 0, NULL, 2, 40008, '2024-02-13 16:10:00.000000', 1, 3);
-INSERT INTO `dots_document` VALUES (5, '', 2, '2024-02-13', '', 2, 0, 0, NULL, 4, 36006, '2024-02-13 16:19:00.000000', 1, 2);
-INSERT INTO `dots_document` VALUES (6, '', 3, '2024-02-13', '', 1, 0, 0, NULL, 2, 40008, '2024-02-13 16:20:00.000000', 1, 2);
+INSERT INTO `dots_document` VALUES (7, 1, 'a', 1, '2024-02-13', '', 1, 0, 0, NULL, 2, 40008, '2024-02-13 15:04:00.000000', 1, 2);
+INSERT INTO `dots_document` VALUES (8, 2, 'asd', 1, '2024-02-13', '', 5, 0, 0, NULL, 2, 40008, '2024-02-13 15:57:00.000000', 1, 2);
+INSERT INTO `dots_document` VALUES (9, 3, ';;lllkopkop', 2, '2024-02-13', '', 6, 0, 0, NULL, 2, 40008, '2024-02-13 16:01:00.000000', 1, 2);
+INSERT INTO `dots_document` VALUES (10, 4, 'kain', 3, '2024-02-13', '', 6, 0, 0, NULL, 2, 40008, '2024-02-13 16:10:00.000000', 1, 3);
+INSERT INTO `dots_document` VALUES (11, 5, '', 2, '2024-02-13', '', 2, 0, 0, NULL, 4, 36006, '2024-02-13 16:19:00.000000', 1, 2);
+INSERT INTO `dots_document` VALUES (12, 6, '', 3, '2024-02-13', '', 1, 0, 0, NULL, 2, 40008, '2024-02-13 16:20:00.000000', 1, 2);
+INSERT INTO `dots_document` VALUES (13, 7, '', 1, '2024-02-17', '', 2, 0, 0, NULL, 2, 27003, '2024-02-17 08:12:00.000000', 1, 2);
 
 -- ----------------------------
 -- Table structure for dots_document_sub
@@ -223,7 +225,7 @@ CREATE TABLE `dots_document_sub`  (
   `DATE_TIME_RECEIVED` datetime(6) NOT NULL,
   `ACTION_ID` int NOT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_document_sub

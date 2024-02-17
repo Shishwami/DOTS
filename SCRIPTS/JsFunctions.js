@@ -15,16 +15,29 @@ class JsFunctions {
         const keys = Object.keys(tableJSON[0]);
         keys.forEach(key => {
             const th = document.createElement('th');
+            var remove = false;
+
             if (_SUB_NAME[key] == null) {
                 th.textContent = key;
             } else {
                 th.textContent = _SUB_NAME[key];
             }
+
             if (key == 'ID') {
-                th.style.display = "none";
+                remove = true;
+            } 
+            if (key == 'ROUTE_NUM') {
+                remove = true;
+            }
+            if (key == 'DOC_NUM') {
+                remove = true;
             }
 
             thead.appendChild(th);
+
+            if (remove) {
+                th.remove();
+            }
         });
 
         tableJSON.forEach(item => {
@@ -32,14 +45,14 @@ class JsFunctions {
             var found = 0;
             var rowID = {};
 
+
             Object.entries(item).forEach(([key, value]) => {
                 const cell = document.createElement('td');
                 var final_value = value;
-
+                var remove = false;
                 // cell.dataset.keys = key;
                 // cell.dataset.value = value;
 
-                row.appendChild(cell);
                 if (key == 'DATE_TIME_RECEIVED') {
                     const date = new Date(value);
                     final_value = this.formatDateTime(date);
@@ -50,10 +63,15 @@ class JsFunctions {
                 }
                 if (key == 'DOC_NUM') {
                     rowID[key] = value;
+                    remove = true;
+                }
+                if (key == 'ROUTE_NUM') {
+                    rowID[key] = value;
+                    remove = true;
                 }
                 if (key == 'ID') {
                     rowID[key] = value;
-                    cell.style.display = "none";
+                    remove = true;
                 }
                 if (final_value == null) {
                     final_value = "";
@@ -63,7 +81,11 @@ class JsFunctions {
                 }
 
                 cell.textContent = final_value;
+                row.appendChild(cell);
 
+                if (remove) {
+                    cell.remove();
+                }
             });
 
             row.addEventListener('click', function () {
@@ -75,7 +97,6 @@ class JsFunctions {
             if (found == 0) {
                 row.style.display = "none";
             }
-
             tbody.appendChild(row);
         });
     }
@@ -106,6 +127,7 @@ class JsFunctions {
         for (let i = 0; i < values.length; i++) {
             if (values[i] == "" || values[i] == null) {
                 empty = true;
+                console.log(values[i]);
             }
         }
         return empty;

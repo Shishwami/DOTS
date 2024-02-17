@@ -25,6 +25,7 @@ const CREATE_R_DEPT_ID = FORM_DOC_RECEIVE.querySelector("#CREATE_R_DEPT_ID");
 //SEND FORM
 const FORM_DOC_SEND = document.getElementById("FORM_DOC_SEND");
 const SEND_DOC_NUM = FORM_DOC_SEND.querySelector("#SEND_DOC_NUM");
+const SEND_ROUTE_NUM = FORM_DOC_SEND.querySelector("#SEND_ROUTE_NUM");
 const SEND_DOC_PRPS = FORM_DOC_SEND.querySelector("#SEND_DOC_PRPS");
 const SEND_R_DEPT_ID = FORM_DOC_SEND.querySelector("#SEND_R_DEPT_ID");
 const SEND_DOC_ADDRESSEE = FORM_DOC_SEND.querySelector("#SEND_DOC_ADDRESSEE");
@@ -149,7 +150,10 @@ function setDOC_NUM() {
             delete response.VALID;
             const docNumbers = Object.values(response)[0];
             const lastObj = docNumbers[docNumbers.length - 1];
-            const lastNumber = Object.values(lastObj)[0];
+            var lastNumber = 0;
+            if (lastObj) {
+                lastNumber = Object.values(lastObj)[0];
+            }
             CREATE_DOC_NUM.value = Number(lastNumber) + 1;
         } else {
             alert(error || "Error occurred while retrieving document number.");
@@ -227,7 +231,7 @@ function getSessionName() {
             alert(error);
         } else {
             if (response.VALID
-                ) {
+            ) {
                 delete response.VALID;
                 var name = Object.values(response)[0];
                 CREATE_FULLNAME.value = name;
@@ -331,23 +335,27 @@ function setButtonEvents() {
         clearValues();
         resetAddressee();
         setRECEIVED_TIME(SEND_DATE_TIME_RECEIVED);
-        var doc_num = 0;
         var id = 0;
+        var doc_num = 0;
+        var route_num = 0;
 
         const TEMP_DATA = JSON.parse(sessionStorage.getItem("TEMP_DATA"));
         if (TEMP_DATA) {
             if (TEMP_DATA.DOC_NUM) {
                 doc_num = TEMP_DATA.DOC_NUM;
             }
-
             if (TEMP_DATA.ID) {
                 id = TEMP_DATA.ID;
+            }
+            if (TEMP_DATA.ROUTE_NUM) {
+                route_num = TEMP_DATA.ROUTE_NUM;
             }
         }
         sessionStorage.clear("TEMP_DATA");
 
-        if (doc_num != 0) {
+        if (id != 0) {
             SEND_DOC_NUM.value = doc_num;
+            SEND_ROUTE_NUM.value = route_num;
         } else {
             alert("Please Select A Document");
         }
@@ -404,7 +412,13 @@ function resetAddressee() {
 function setTable(filter) {
 
     const columns = [
+        DOTS_DOCUMENT.NAME + '.' + DOTS_DOCUMENT.ID,
+        " CASE " +
+        "WHEN ROUTE_NUM = 0 THEN DOTS_DOCUMENT.DOC_NUM " +
+        "ELSE CONCAT(DOTS_DOCUMENT.DOC_NUM,'-',ROUTE_NUM) " +
+        "END AS `No.`",
         'DOC_NUM',
+        'ROUTE_NUM',
         'DOC_SUBJECT',
         'DOC_NOTES',
         DOTS_DOC_TYPE.DOC_TYPE,
@@ -526,48 +540,101 @@ function setForms() {
             DATA: data,
         }
 
-        delete data.SEND_DOC_NOTES;
-        const dataValues = Object.values(data);
-        var empty = JsFunctions.checkIfEmpty(dataValues);
-        data['DOC_NOTES'] = SEND_DOC_NOTES.value
+        //validation
+        // delete data.SEND_DOC_NOTES;
 
-        console.log(insertData);
+        // const dataValues = Object.values(data);
+        // var empty = JsFunctions.checkIfEmpty(dataValues);
+
+        // data['DOC_NOTES'] = SEND_DOC_NOTES.value;
+
         var updateData = {
             TABLE: DOTS_DOCUMENT.NAME,
             REQUEST: _REQUEST.UPDATE,
             DATA: {
                 DOC_STATUS: 1,//sent
+                ROUTED: 1,//routed
             },
             WHERE: {
-                DOC_NUM: data[DOTS_DOCUMENT.DOC_NUM],
+                [DOTS_DOCUMENT.DOC_NUM]: data.DOC_NUM,
+                [DOTS_DOCUMENT.ROUTE_NUM]: data.ROUTE_NUM
             }
         }
 
-        console.log(updateData);
-        if (!empty) {
-            MyAjax.createJSON((error, response) => {
-                if (error) {
-                    alert(error);
-                } else {
-                    if (response.VALID) {
-                        delete response.VALID;
-                        alert("SENT");
-                        //update status from received to pending
-                        // MyAjax.createJSON((error, response) => {
-                        //     if (error) {
-                        //         alert(error);
-                        //     } else {
-                        //         if (response.VALID) {
-                        //             console.log(response);
-                        //         }
-                        //     }
-                        // }, updateData);
-                    }
+        var routedCheck = {
+            TABLE: DOTS_DOCUMENT.NAME,
+            REQUEST: _REQUEST.SELECT,
+            COLUMNS: [
+                DOTS_DOCUMENT.ID,
+                DOTS_DOCUMENT.DOC_NUM,
+                DOTS_DOCUMENT.ROUTE_NUM,
+                DOTS_DOCUMENT.ROUTED,
+            ],
+            WHERE: {
+                AND: {
+                    [DOTS_DOCUMENT.DOC_NUM]: data.DOC_NUM,
+                    [DOTS_DOCUMENT.ROUTE_NUM]: data.ROUTE_NUM
                 }
-            }, insertData);
-        } else {
-            alert("CHECKINPUTS");
+            }
+            // ORDER_BY: DOTS_DOCUMENT.DOC_NUM + ' DESC
         }
+        MyAjax.createJSON((error, response) => {
+            delete response.VALID;
+            var result = Object.values(response)[0][0];
+            if (result.ROUTED == 0) {
+                //just send
+                MyAjax.createJSON((error, response) => {
+                    if (error) {
+                        alert(error);
+                    } else {
+                        if (response.VALID) {
+                            delete response.VALID;
+                            alert("SENT");
+                            //update status from received to pending and routed to 1
+                            MyAjax.createJSON((error, response) => {
+                                if (error) {
+                                    alert(error);
+                                } else {
+                                    if (response.VALID) {
+                                        console.log(response);
+                                    }
+                                }
+                            }, updateData);
+                        }
+                    }
+                }, insertData);
+            } else {
+                //resend
+                console.log("NOOOT YET SENDING");
+            }
+            console.log(response.ROUTED);
+        }, routedCheck);
+
+        // if (empty) {
+        // alert("CHECKINPUTS");
+        // } else {
+        //    
+        // MyAjax.createJSON((error, response) => {
+        //     if (error) {
+        //         alert(error);
+        //     } else {
+        //         if (response.VALID) {
+        //             delete response.VALID;
+        //             alert("SENT");
+        //             //update status from received to pending and routed to 1
+        //             MyAjax.createJSON((error, response) => {
+        //                 if (error) {
+        //                     alert(error);
+        //                 } else {
+        //                     if (response.VALID) {
+        //                         console.log(response);
+        //                     }
+        //                 }
+        //             }, updateData);
+        //         }
+        //     }
+        // }, insertData);
+        // }
 
     });
 
@@ -617,5 +684,7 @@ function setForms() {
         }
 
     });
+
+
 }
 
