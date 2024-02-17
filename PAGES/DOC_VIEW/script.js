@@ -511,7 +511,7 @@ function setTable(filter) {
             JsFunctions.updateTable(results, DOC_VIEW_MAIN, filter);
         }
     }, data);
-} ``
+} 
 function setForms() {
     FORM_DOC_SEND.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -533,7 +533,6 @@ function setForms() {
     });
 
 }
-
 function setSendFormSubmit() {
     var data = JsFunctions.FormToJson(FORM_DOC_SEND);
     var insertData = {
@@ -577,14 +576,13 @@ function setSendFormSubmit() {
         }
     }, routedCheck);
 }
-
 function sendDoc(data) {
 
     var updateData = {
         TABLE: DOTS_DOCUMENT.NAME,
         REQUEST: _REQUEST.UPDATE,
         DATA: {
-            DOC_STATUS: 4,//  pending to on hand
+            DOC_STATUS: 1,//  pending to on hand
             ROUTED: 1,//routed
         },
         WHERE: {
@@ -610,7 +608,6 @@ function sendDoc(data) {
     }, data);
 
 }
-
 function updateDoc(data) {
     MyAjax.createJSON((error, response) => {
 
@@ -627,7 +624,6 @@ function updateDoc(data) {
     }, data);
 
 }
-
 function resendDoc(data) {
 
     var doc_num = data['DATA']['DOC_NUM'];
@@ -678,7 +674,6 @@ function resendDoc(data) {
 
     }, jsonSelect);
 }
-
 function createDoc(data) {
 
     MyAjax.createJSON((error, response) => {

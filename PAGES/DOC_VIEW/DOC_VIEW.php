@@ -57,7 +57,7 @@
             </div>
             <div>
                 <label for="CREATE_DOC_NUM">Document Number:</label> <br>
-                <input type="text" name="DOC_NUM" id="CREATE_DOC_NUM" readonly>
+                <input type="text" name="DOC_NUM" id="CREATE_DOC_NUM" disabled>
             </div>
             <div>
                 <label for="CREATE_FULLNAME">Received By:</label> <br>
