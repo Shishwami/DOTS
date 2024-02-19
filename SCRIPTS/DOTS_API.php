@@ -44,6 +44,12 @@ try {
         case 'GET_SESSION_DEPT_ID':
             getSessionDeptID();
             break;
+
+        //REMAKE
+
+        case 'GET_DOC_NUM':
+            getDocNum();
+            break;
     }
     $conn->close();
 
@@ -297,5 +303,10 @@ function sanitizeInputs($input)
         $input = filter_var($input, FILTER_SANITIZE_STRING);
     }
     return $input;
+}
+
+function getDocNum()
+{
+    
 }
 ?>
