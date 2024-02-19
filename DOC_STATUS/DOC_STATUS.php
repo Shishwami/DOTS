@@ -41,8 +41,8 @@
                 </tbody>
             </table>
 
-            <button class="opt_btn" id="add">Add</button>
-            <button class="opt_btn" id="dlt">Delete</button>
+            <button class="opt_btn" id="add"><span>Add</span></button>
+            <button class="opt_btn" id="dlt"><span>Delete</span></button>
 
             <div class="modal" id="add_modal">
                 <div class="modal_content add">

@@ -184,7 +184,7 @@ body:before
 {
     display: flex;
     flex-direction: column;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     padding: 0.5rem;
     border-radius: 0.5rem;
 }
@@ -242,4 +242,39 @@ body:before
     background-image: var(--submit_btn-hover);
     color: var(--font_black);
     font-weight: 600;
+}
+
+/* Responsive CSS */
+
+@media screen and (max-width: 900px)
+{
+    .subheader1,
+    .subheader2,
+    .subheader3,
+    .subheader4
+    {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .header label
+    {
+        margin-bottom: 0.5rem;
+    }
+
+    .header2
+    {
+        margin-top: 1.5rem;
+    }
+
+    .form_content
+    {
+        flex-direction: column;
+    }
+
+    .form_content textarea
+    {
+       width: 100%;
+    }
+
 }

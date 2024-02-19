@@ -231,3 +231,30 @@ body:before
 {
     background-image: var(--dlt_btn-hover);
 }
+
+/* Responsive CSS */
+@media screen and (max-width: 900px)
+{
+    .main
+    {
+        text-align: center;
+    }
+
+    .search input
+    {
+        width: 70%;
+    }    
+
+    .opt_btn
+    {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    .opt_btn span
+    {
+        margin: 0 auto;
+    }
+}

@@ -18,7 +18,7 @@
 .dropdown_opt
 {
     max-width: 600px;
-    margin: 0 auto;
+    margin: 0.5rem auto 0 auto;
     padding-bottom: 50px;
 }
   
@@ -88,14 +88,13 @@
     border: 1px solid var(--border_dark_purple);
     border-top: 0;
     background-color: var(--white);
-    z-index: 5;
+    z-index: 0;
     display: none;
   }
   
   .dropdown__menu_items {
     max-height: 210px;
     overflow-y: auto;
-    
   }
   
   .dropdown__menu_search {
@@ -139,4 +138,12 @@
   .dropdown__menu_item.selected:hover {
     background-color: var(--dark_purple);
     color: var(--font_white);
+  }
+
+  @media screen and (max-width: 900px)
+  {
+    .dropdown__menu
+    {
+      position: relative;
+    }
   }
