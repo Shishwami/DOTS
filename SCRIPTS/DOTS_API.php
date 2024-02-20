@@ -67,8 +67,15 @@ try {
             getOptions('DOTS_DOC_PRPS', 'DOC_PRPS', $conn);
             break;
 
+        case 'RECEIVE_DOC':
+            receiveDoc($inputs, $conn);
+            break;
         case 'SEND_DOC_FORM':
             sendDocForm($inputs, $conn);
+            break;
+
+        case 'GET_TABLE_MAIN':
+            getTableMain($inputs, $conn);
             break;
     }
     $conn->close();
@@ -527,7 +534,6 @@ function resendDoc($insertData, $conn)
     );
 
     $getRouteNumSql = $queries->selectQuery($getRouteNum);
-    echo $getRouteNumSql;
     $result = mysqli_query($conn, $getRouteNumSql);
     if ($result) {
         $row = mysqli_fetch_assoc($result);
@@ -546,7 +552,7 @@ function resendDoc($insertData, $conn)
             'TABLE' => 'DOTS_DOCUMENT',
             'DATA' => $associativeRow,
         );
-        createDoc($createData, $conn);
+        $valid = createDoc($createData, $conn);
 
         //send the new doc
         $insertData['DATA']['ROUTE_NUM'] = $routeNum + 1;
@@ -554,18 +560,124 @@ function resendDoc($insertData, $conn)
             'TABLE' => 'DOTS_DOCUMENT_SUB',
             'DATA' => $insertData['DATA']
         );
-        sendDoc($insertData2, $conn);
+        $valid = sendDoc($insertData2, $conn);
     }
+
+    return $valid;
+}
+function receiveDoc($inputs, $conn)
+{
+    $valid = false;
+    $data = $inputs['DATA'];
+    $createData = array(
+        'TABLE' => 'DOTS_DOCUMENT',
+        'DATA' => $data,
+    );
+    $valid = createDoc($createData, $conn);
+
+    echo json_encode(
+        array(
+            'VALID' => $valid
+        )
+    );
 }
 function createDoc($createData, $conn)
 {
     $queries = new Queries();
     $sql = $queries->insertQuery($createData);
-    echo $sql;
+    // echo $sql;
 
     // var_dump($createData);
     if (mysqli_query($conn, $sql)) {
         return true;
     }
+
+
 }
+function getTableMain($inputs, $conn)
+{   
+    $queries = new Queries();
+    $data = array(
+        'TABLE' => 'DOTS_DOCUMENT',
+        'COLUMNS' => [
+            'DOTS_DOCUMENT.ID',
+
+            'WHEN ROUTE_NUM = 0 THEN DOTS_DOCUMENT.DOC_NUM 
+             ELSE CONCAT(DOTS_DOCUMENT.DOC_NUM,' - ',ROUTE_NUM) 
+             END AS `No.`',
+
+            'DOC_NUM',
+            'ROUTE_NUM',
+            'DOC_SUBJECT',
+            'DOC_NOTES',
+            'DOC_TYPE',
+            'LETTER_DATE',
+
+            "CONCAT(
+             IF(S_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(S_OFFICE.DOC_OFFICE,'-'), ' '),' ', 
+             IF(S_DEPT.DOC_DEPT IS NOT NULL,CONCAT(S_DEPT.DOC_DEPT,'-'), ' '), 
+             IFNULL(S_FULL_NAME.FULL_NAME, ' ')) as 'Sent By'",
+
+            "CONCAT(
+            IF(R_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(R_OFFICE.DOC_OFFICE,'-'), ' '),' ',
+            IF(R_DEPT.DOC_DEPT IS NOT NULL,CONCAT(R_DEPT.DOC_DEPT,'-'), ' '), 
+            IFNULL(R_FULL_NAME.FULL_NAME, ' ')) as 'Received By'",
+
+            'DATE_TIME_RECEIVED',
+            'DOTS_DOC_STATUS.DOC_STATUS',
+            'DOTS_DOC_ACTION.DOC_ACTION'
+        ],
+        'JOIN' => array(
+            array(
+                'table' => 'DOTS_DOC_TYPE',
+                'ON' => 'DOTS_DOCUMENT.DOC_TYPE_ID = DOTS_DOC_TYPE.ID',
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_DOC_OFFICE S_OFFICE',
+                'ON' => 'DOTS_DOC_OFFICE.S_OFFICE_ID = S_OFFICE.ID',
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_DOC_DEPT S_DEPT',
+                'ON' => 'DOTS_DOC_DEPT.S_DEPT_ID = S_DEPT.ID',
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_ACCOUNT_INFO S_FULL_NAME',
+                'ON' => 'DOTS_DOC_DEPT.S_USER_ID = S_FULL_NAME.ID',
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_DOC_OFFICE R_OFFICE',
+                'ON' => 'DOTS_DOC_OFFICE.R_OFFICE_ID = R_OFFICE.ID',
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_DOC_DEPT R_DEPT',
+                'ON' => 'DOTS_DOCUMENT.R_DEPT_ID = R_DEPT.ID',
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_ACCOUNT_INFO R_FULL_NAME',
+                'ON' => 'DOTS_DOCUMENT.R_USER_ID = R_FULL_NAME.HRIS_ID',
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_DOC_STATUS',
+                'ON' => 'DOTS_DOCUMENT.DOC_STATUS = DOTS_DOC_STATUS.ID',
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_DOC_ACTION',
+                'ON' => 'DOTS_DOCUMENT.ACTION_ID = DOTS_DOC_ACTION.ID',
+                'TYPE' => 'LEFT'
+            ),
+        ),
+        'ORDER_BY'=> 'DOTS_DOCUMENT.DOC_NUM DESC'
+    );
+
+    $selectTableSql = $queries->selectQuery($data);
+}
+
 ?>
