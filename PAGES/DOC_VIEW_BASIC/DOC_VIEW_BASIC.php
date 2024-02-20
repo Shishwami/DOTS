@@ -11,27 +11,6 @@
     <link rel="stylesheet" href="../../CSS/FontAwesome/css/fontawesome.min.css">
     <title></title>
 </head>
-<style>
-    table,
-    th,
-    td {
-        border: 1px solid;
-    }
-
-    table {
-        border-collapse: collapse;
-    }
-
-    table tr {
-        margin: 0;
-        padding: 0;
-    }
-
-    tr:hover {
-        background-color: coral;
-    }
-</style>
-
 <body>
 
     <?php include "../../DOTS_NAVBAR/DOTS_NAV.php"?>
@@ -62,7 +41,7 @@
                 </div>
 
                 <div class="tbl_content">
-                    <table id="DOC_VIEW_BASIC" name="DOC_VIEW_BASIC">
+                    <table class="db_table" id="DOC_VIEW_BASIC" name="DOC_VIEW_BASIC">
                         <thead>
                             <tr></tr>
                         </thead>
@@ -135,5 +114,15 @@
 
 <script src="../../SCRIPTS/Constants.js"></script>
 <script src="./script.js" type="module"></script>
+
+<!-- <script>
+    var form_head = document.getElementsByClassName("form_head");
+    var form_body = document.getElementsByClassName("form_body");
+    var form_footer = document.getElementsByClassName("form_footer");
+
+    var open_btn = document.getElementById("RADIO_SEND");
+
+    open_btn.add
+</script> -->
 
 </html>

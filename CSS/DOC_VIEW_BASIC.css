@@ -216,7 +216,52 @@ body:before
 
 
 /* table form */
+.db_table
+{
+    min-width: 100px;
+    min-height: 100px;
+    width: 100%;
+    grid-area: tbl_content;
+    font-size: 12px;
+    text-align: center;
+    border: 1px solid #000000;
+    border-collapse: collapse;
+}
 
+.db_table th
+{
+    border: 1px solid #000000;
+    padding: 5px;
+}
+
+.db_table td
+{
+    border: 1px solid #000000;
+    padding: 5px;
+    width: 500px;
+    margin: 0;
+}
+
+.db_table tr
+{
+    background-color: var(--tr_light);
+}
+
+.db_table tr:nth-child(even)
+{
+    background-color: var(--tr_dark);
+}
+
+.db_table tbody:hover
+{
+    background-color: #00bd19
+}
+
+.tbl_content
+{
+    max-height: 450px;
+    overflow-y: auto;
+}
 
 .tbl_btn button
 {
@@ -236,6 +281,13 @@ body:before
 .tbl_btn button:hover
 {
     background-image: var(--opt_btn-hover);
+}
+
+.tbl_btn button:disabled
+{
+    color: var(--font_dbl);
+    background: var(--dbl_btn) !important;
+    cursor: default;
 }
 
 .tbl_form
@@ -307,5 +359,11 @@ body:before
 .form_sub input:hover
 {
     background-image: var(--opt_btn-hover); 
+}
 
+.form_head,
+.form_body,
+.form_footer
+{
+    
 }

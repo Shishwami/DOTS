@@ -38,6 +38,7 @@
     --font_white: #ffffff;
     --font_black: #000000;
     --font_grey: #575757;
+    --font_dbl: #292929;
 
     /* Buttons */
     --login_btn: linear-gradient(to bottom, #010042, #0003c2);
@@ -51,6 +52,7 @@
     --dlt_btn: linear-gradient(to bottom, #a10202, #ff0000);
     --dlt_btn-hover: linear-gradient(to top, #000b69, #0011ff);
     --modal_close: #ff0000;
+    --dbl_btn: #cfcfcf;
 
     /* Borders */
     --border_black: #000000;
@@ -71,7 +73,7 @@
     --opt_bg_hover: #421477;
 
     /* Table */
-    --tr_light: #ffffff;
+    --tr_light: #f7e5ff;
     --tr_dark: #a3a3a3;
 }
 
