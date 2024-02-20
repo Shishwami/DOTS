@@ -67,8 +67,8 @@ try {
             getOptions('DOTS_DOC_PRPS', 'DOC_PRPS', $conn);
             break;
 
-        case 'SEND_DOCUMENT_MAIN':
-            sendDocMain($inputs, $conn);
+        case 'SEND_DOC_FORM':
+            sendDocForm($inputs, $conn);
             break;
     }
     $conn->close();
@@ -138,7 +138,6 @@ function UPDATE_($inputs, $conn)
 {
     $querries = new Queries();
     $valid = false;
-
 
     $sql = $querries->updateQuery($inputs);
     // echo $sql;
@@ -425,11 +424,38 @@ function getAddressee($inputs, $conn)
     );
 }
 
-function sendDocMain($inputs, $conn)
+function sendDocForm($inputs, $conn)
 {
     $querries = new Queries();
     $valid = false;
 
+    $doc_num = $inputs['DOC_NUM'];
+    $route_num = $inputs['ROUTE_NUM'];
 
+    //chheck if routed
+
+    $checkRouted = array(
+        'TABLE' => 'DOTS_DOCUMENT',
+        'COLUMNS' => [
+            'ID',
+            'DOC_NUM',
+            'ROUTE_NUM',
+            'ROUTED',
+        ],
+    );
+
+    $sqlCheckRouted = $querries->selectQuery($checkRouted);
+    $result = mysqli_query($conn, $sqlCheckRouted);
+    if ($result) {
+        $valid = true;
+        $row = $result->fetch_assoc();
+        var_dump($row);
+
+        if ($row['ROUTED'] == 0) {
+            //send
+        } else if ($row['ROUTED'] == 1) {
+            //resend
+        }
+    }
 }
 ?>
