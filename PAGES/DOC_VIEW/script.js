@@ -52,9 +52,9 @@ function InitializePAGE() {
         setTable(searchBar.value.toUpperCase());
     });
 
-    setInterval(function () {
-        setTable(searchBar.value.toUpperCase());
-    }, _RESET_TIME);
+    // setInterval(function () {
+    //     setTable(searchBar.value.toUpperCase());
+    // }, _RESET_TIME);
 
 
     setForms();
@@ -270,35 +270,43 @@ function setDOC_LOCATION() {
 function setButtonEvents() {
 
     BTN_DOC_SEND.addEventListener('click', function () {
-
-        clearValues();
-        resetAddressee();
-        setRECEIVED_TIME(SEND_DATE_TIME_RECEIVED);
-        var id = 0;
-        var doc_num = 0;
-        var route_num = 0;
-
-        const TEMP_DATA = JSON.parse(sessionStorage.getItem("TEMP_DATA"));
-        if (TEMP_DATA) {
-            if (TEMP_DATA.DOC_NUM) {
-                doc_num = TEMP_DATA.DOC_NUM;
-            }
-            if (TEMP_DATA.ID) {
-                id = TEMP_DATA.ID;
-            }
-            if (TEMP_DATA.ROUTE_NUM) {
-                route_num = TEMP_DATA.ROUTE_NUM;
-            }
-        }
-        sessionStorage.clear("TEMP_DATA");
-
-        if (id != 0) {
-            SEND_DOC_NUM.value = doc_num;
-            SEND_ROUTE_NUM.value = route_num;
-        } else {
-            alert("Please Select A Document");
-        }
+        sendBtnEvent();
     });
+}
+
+function A(A) {
+        console.log("ASDDSADASDS");
+}
+
+function sendBtnEvent(id,doc_num,route_num) {
+
+    clearValues();
+    resetAddressee();
+    setRECEIVED_TIME(SEND_DATE_TIME_RECEIVED);
+    var id = 0;
+    var doc_num = 0;
+    var route_num = 0;
+
+    const TEMP_DATA = JSON.parse(sessionStorage.getItem("TEMP_DATA"));
+    if (TEMP_DATA) {
+        if (TEMP_DATA.DOC_NUM) {
+            doc_num = TEMP_DATA.DOC_NUM;
+        }
+        if (TEMP_DATA.ID) {
+            id = TEMP_DATA.ID;
+        }
+        if (TEMP_DATA.ROUTE_NUM) {
+            route_num = TEMP_DATA.ROUTE_NUM;
+        }
+    }
+    sessionStorage.clear("TEMP_DATA");
+
+    if (id != 0) {
+        SEND_DOC_NUM.value = doc_num;
+        SEND_ROUTE_NUM.value = route_num;
+    } else {
+        alert("Please Select A Document");
+    }
 }
 function clearValues() {
     SEND_DOC_PRPS.value = "";
@@ -341,107 +349,6 @@ function resetAddressee() {
 }
 function setTable(filter) {
 
-    const columns = [
-        DOTS_DOCUMENT.NAME + '.' + DOTS_DOCUMENT.ID,
-        " CASE " +
-        "WHEN ROUTE_NUM = 0 THEN DOTS_DOCUMENT.DOC_NUM " +
-        "ELSE CONCAT(DOTS_DOCUMENT.DOC_NUM,'-',ROUTE_NUM) " +
-        "END AS `No.`",
-        'DOC_NUM',
-        'ROUTE_NUM',
-        'DOC_SUBJECT',
-        'DOC_NOTES',
-        DOTS_DOC_TYPE.DOC_TYPE,
-        'LETTER_DATE',
-
-        // 'S_OFFICE.DOC_OFFICE AS Office1',
-        // 'S_DEPT.DOC_DEPT AS Department',
-        // 'S_FULL_NAME.FULL_NAME as sname',
-
-        "CONCAT(" +
-        "IF(S_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(S_OFFICE.DOC_OFFICE,'-'), ' '),' ', " +
-        "IF(S_DEPT.DOC_DEPT IS NOT NULL,CONCAT(S_DEPT.DOC_DEPT,'-'), ' '), " +
-        "IFNULL(S_FULL_NAME.FULL_NAME, ' ')) as 'Sent By'",
-
-        // 'R_OFFICE.DOC_OFFICE AS Office2',
-        // 'R_DEPT.DOC_DEPT AS Department2',
-        // 'R_FULL_NAME.FULL_NAME',
-
-        "CONCAT(" +
-        "IF(R_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(R_OFFICE.DOC_OFFICE,'-'), ' '),' ', " +
-        "IF(R_DEPT.DOC_DEPT IS NOT NULL,CONCAT(R_DEPT.DOC_DEPT,'-'), ' '), " +
-        "IFNULL(R_FULL_NAME.FULL_NAME, ' ')) as 'Received By'",
-
-        'DATE_TIME_RECEIVED',
-        DOTS_DOC_STATUS.NAME + "." + DOTS_DOC_STATUS.DOC_STATUS,
-        DOTS_DOC_ACTION.NAME + "." + DOTS_DOC_ACTION.DOC_ACTION,
-
-    ];
-    var data = {
-        TABLE: DOTS_DOCUMENT.NAME,
-        REQUEST: _REQUEST.SELECT,
-        COLUMNS: columns,
-        JOIN: [
-            {
-                table: DOTS_DOC_TYPE.NAME,
-                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_TYPE_ID
-                    + " = " + DOTS_DOC_TYPE.NAME + "." + DOTS_DOC_TYPE.ID],
-                TYPE: 'LEFT',
-            },
-            {
-                table: DOTS_DOC_OFFICE.NAME + " S_OFFICE",
-                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.S_OFFICE_ID +
-                    " = " + "S_OFFICE." + DOTS_DOC_OFFICE.ID],
-                TYPE: 'LEFT'
-            },
-            {
-                table: DOTS_DOC_DEPT.NAME + " S_DEPT",
-                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.S_DEPT_ID
-                    + " = " + "S_DEPT." + DOTS_DOC_DEPT.ID],
-                TYPE: 'LEFT'
-            },
-            {
-                table: DOTS_ACCOUNT_INFO.NAME + " S_FULL_NAME",
-                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.S_USER_ID
-                    + " = " + "S_FULL_NAME." + DOTS_ACCOUNT_INFO.HRIS_ID],
-                TYPE: 'LEFT',
-            },
-            {
-                table: DOTS_DOC_OFFICE.NAME + " R_OFFICE",
-                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.R_OFFICE_ID
-                    + " = " + "R_OFFICE." + DOTS_DOC_OFFICE.ID],
-                TYPE: 'LEFT'
-            },
-            {
-                table: DOTS_DOC_DEPT.NAME + " R_DEPT",
-                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.R_DEPT_ID
-                    + " = " + "R_DEPT." + DOTS_DOC_DEPT.ID],
-                TYPE: 'LEFT'
-            },
-            {
-                table: DOTS_ACCOUNT_INFO.NAME + " R_FULL_NAME",
-                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.R_USER_ID
-                    + " = " + "R_FULL_NAME." + DOTS_ACCOUNT_INFO.HRIS_ID],
-                TYPE: 'LEFT',
-            },
-            {
-                table: DOTS_DOC_STATUS.NAME,
-                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_STATUS
-                    + " = " + DOTS_DOC_STATUS.NAME + "." + DOTS_DOC_STATUS.ID],
-                TYPE: 'LEFT',
-            },
-            {
-                table: DOTS_DOC_ACTION.NAME,
-                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.ACTION_ID
-                    + " = " + DOTS_DOC_ACTION.NAME + "." + DOTS_DOC_ACTION.ID],
-                TYPE: 'LEFT',
-            }
-        ],
-        ORDER_BY: DOTS_DOCUMENT.DOC_NUM + ' DESC',
-        // WHERE:{
-        //     DOC_STATUS: 1
-        // }
-    }
     const data2 = {
         REQUEST: _REQUEST.GET_TABLE_MAIN,
     };
@@ -457,12 +364,12 @@ function setTable(filter) {
             } else {
                 //response valid=false
             }
-            const thead = DOC_VIEW_MAIN.querySelector('.thead');
-            const tbody = DOC_VIEW_MAIN.querySelector('.tbody');
+            const thead = DOC_VIEW_MAIN.querySelector('thead');
+            const tbody = DOC_VIEW_MAIN.querySelector('tbody');
+            thead.innerHTML = response.THEAD;
+            tbody.innerHTML = response.TBODY;
 
-            thead.innerHTML = response.VALID;
-
-            JsFunctions.updateTable(results, DOC_VIEW_MAIN, filter);
+            // JsFunctions.updateTable(results, DOC_VIEW_MAIN, filter);
         }
     }, data2);
 }
@@ -499,7 +406,7 @@ function setSendFormSubmit() {
     var data = JsFunctions.FormToJson(FORM_DOC_SEND);
     var routedCheck = {
         REQUEST: _REQUEST.SEND_DOC_FORM,
-        DATA:data,
+        DATA: data,
     }
     MyAjax.createJSON((error, response) => {
         console.log(response);
