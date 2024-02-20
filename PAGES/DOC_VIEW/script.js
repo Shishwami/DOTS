@@ -466,13 +466,24 @@ function setForms() {
 
     FORM_DOC_RECEIVE.addEventListener('submit', function (e) {
         e.preventDefault();
-
         var data = {
-            TABLE: DOTS_DOCUMENT.NAME,
-            REQUEST: _REQUEST.INSERT,
+            REQUEST: _REQUEST.RECEIVE_DOC,
             DATA: JsFunctions.FormToJson(FORM_DOC_RECEIVE),
         }
-        createDoc(data);
+
+
+        MyAjax.createJSON((error, response) => {
+            if (error) {
+                alert(error);
+            } else {
+                var results = ""
+                if (response.VALID) {
+                    delete response.VALID;
+                } else {
+                    //response valid=false
+                }
+            }
+        }, data);
     });
 
 }
@@ -485,66 +496,4 @@ function setSendFormSubmit() {
     MyAjax.createJSON((error, response) => {
         console.log(response);
     }, routedCheck);
-}
-function resendDoc(data) {
-
-    var doc_num = data['DATA']['DOC_NUM'];
-
-    const jsonSelect = {
-        TABLE: DOTS_DOCUMENT.NAME,
-        REQUEST: _REQUEST.SELECT,
-        WHERE: {
-            AND: {
-                [DOTS_DOCUMENT.DOC_NUM]: doc_num,
-            },
-        },
-        ORDER_BY: [DOTS_DOCUMENT.ROUTE_NUM] + " DESC"
-    }
-
-    MyAjax.createJSON((error, response) => {
-
-        if (error) {
-            return alert(error);
-        }
-
-        if (!response.VALID) {
-            return;
-        }
-
-        delete response.VALID;
-        var result = Object.values(response)[0][0];
-        result.ROUTE_NUM = Number(result.ROUTE_NUM) + 1;
-        delete result.ID;
-
-        const data = {
-            TABLE: DOTS_DOCUMENT.NAME,
-            REQUEST: _REQUEST.INSERT,
-            DATA: result,
-
-        }
-        createDoc(data);
-
-        var sendForm = JsFunctions.FormToJson(FORM_DOC_SEND);
-        sendForm.ROUTE_NUM = result.ROUTE_NUM;
-
-        var insertData = {
-            TABLE: DOTS_DOCUMENT_SUB.NAME,
-            REQUEST: _REQUEST.INSERT,
-            DATA: sendForm,
-        }
-        sendDoc(insertData);
-
-    }, jsonSelect);
-}
-function createDoc(data) {
-
-    MyAjax.createJSON((error, response) => {
-        if (error) {
-            return alert(error);
-        }
-
-        if (response.VALID) {
-            alert("DOC CREATED");
-        }
-    }, data);
 }
