@@ -452,11 +452,16 @@ function setTable(filter) {
         } else {
             var results = ""
             if (response.VALID) {
-                delete response.VALID;
-                results = Object.values(response)[0];
+                // delete response.VALID;
+                // results = Object.values(response)[0];
             } else {
                 //response valid=false
             }
+            const thead = DOC_VIEW_MAIN.querySelector('.thead');
+            const tbody = DOC_VIEW_MAIN.querySelector('.tbody');
+
+            thead.innerHTML = response.VALID;
+
             JsFunctions.updateTable(results, DOC_VIEW_MAIN, filter);
         }
     }, data2);
