@@ -48,7 +48,27 @@ try {
         //REMAKE
 
         case 'GET_DOC_NUM':
-            getDocNum();
+            getDocNum($inputs, $conn);
+            break;
+        case 'GET_ADDRESSEE':
+            getAddressee($inputs, $conn);
+            break;
+
+        case "GET_DOC_TYPE":
+            getOptions('DOTS_DOC_TYPE', 'DOC_TYPE', $conn);
+            break;
+        case 'GET_DEPT':
+            getOptions('DOTS_DOC_DEPT', 'DOC_DEPT', $conn);
+            break;
+        case 'GET_DOC_OFFICE':
+            getOptions('DOTS_DOC_OFFICE', 'DOC_OFFICE', $conn);
+            break;
+        case 'GET_DOC_PRPS':
+            getOptions('DOTS_DOC_PRPS', 'DOC_PRPS', $conn);
+            break;
+
+        case 'SEND_DOCUMENT_MAIN':
+            sendDocMain($inputs, $conn);
             break;
     }
     $conn->close();
@@ -304,9 +324,112 @@ function sanitizeInputs($input)
     }
     return $input;
 }
-
-function getDocNum()
+function getDocNum($inputs, $conn)
 {
-    
+    $querries = new Queries();
+
+    $valid = false;
+    $data = array(
+        'TABLE' => 'DOTS_DOCUMENT',
+        'COLUMNS' => array(
+            'DOC_NUM',
+        ),
+        'ORDER_BY' => 'DOC_NUM DESC'
+    );
+
+    $sql = $querries->selectQuery($data);
+    // echo $sql;
+    $result = mysqli_query($conn, $sql);
+
+    $doc_num = 0;
+    if ($result) {
+        $valid = true;
+        $row = $result->fetch_assoc();
+        $doc_num = $row['DOC_NUM'];
+        $doc_num = intval($doc_num) + 1;
+        // var_dump($result);
+    }
+
+    echo json_encode(
+        array(
+            'VALID' => $valid,
+            'RESULT' => $doc_num
+        )
+    );
+}
+function getOptions($tableName, $columnName, $conn)
+{
+    $querries = new Queries();
+
+    $valid = false;
+    $data = array(
+        'TABLE' => $tableName,
+        'COLUMNS' => array(
+            'ID',
+            $columnName,
+        ),
+    );
+
+    $sql = $querries->selectQuery($data);
+    // echo $sql;
+    $result = mysqli_query($conn, $sql);
+
+    $options = "<option value='' selected disabled>Please Select " . ucwords(str_replace('_', ' ', $columnName)) . "</option>";
+    if ($result) {
+        $valid = true;
+        while ($row = $result->fetch_assoc()) {
+            $options .= '<option value="' . $row['ID'] . '">' . $row[$columnName] . '</option>';
+        }
+    }
+    echo json_encode(
+        array(
+            'VALID' => $valid,
+            'RESULT' => $options
+        )
+    );
+}
+function getAddressee($inputs, $conn)
+{
+    $querries = new Queries();
+
+    $valid = false;
+    $data = array(
+        'TABLE' => 'DOTS_ACCOUNT_INFO',
+        'COLUMNS' => array(
+            'HRIS_ID',
+            'FULL_NAME',
+        ),
+        'WHERE' => [
+            'AND' => ['DEPT_ID' => $inputs['DEPT_ID']],
+        ]
+    );
+
+    $sql = $querries->selectQuery($data);
+    // echo $sql;
+    $result = mysqli_query($conn, $sql);
+
+
+    $options = "<option value='' selected disabled>Please Select Department</option>";
+    if ($result) {
+        $valid = true;
+        while ($row = $result->fetch_assoc()) {
+            $options .= '<option value="' . $row['HRIS_ID'] . '">' . $row['FULL_NAME'] . '</option>';
+        }
+    }
+
+    echo json_encode(
+        array(
+            'VALID' => $valid,
+            'RESULT' => $options
+        )
+    );
+}
+
+function sendDocMain($inputs, $conn)
+{
+    $querries = new Queries();
+    $valid = false;
+
+
 }
 ?>
