@@ -595,7 +595,7 @@ function createDoc($createData, $conn)
 
 }
 function getTableMain($inputs, $conn)
-{   
+{
     $queries = new Queries();
     $data = array(
         'TABLE' => 'DOTS_DOCUMENT',
@@ -674,18 +674,32 @@ function getTableMain($inputs, $conn)
                 'TYPE' => 'LEFT'
             ),
         ],
-        'ORDER_BY'=> 'DOTS_DOCUMENT.DOC_NUM DESC'
+        'ORDER_BY' => 'DOTS_DOCUMENT.DOC_NUM DESC'
     );
     // var_dump($data);
     $selectTableSql = $queries->selectQuery($data);
     $result = mysqli_query($conn, $selectTableSql);
     // echo $selectTableSql;
 
-    echo json_encode($selectTableSql);
+    // echo json_encode($selectTableSql);
+    setupTable($result);
 }
 
-function setupTable(){
+function setupTable($result)
+{
 
+    $thead = "asddasdassad";
+    $tbody = "";
+
+    $theadKeys = "";
+
+    echo json_encode(
+        array(
+            'VALID' => true,
+            'THEAD' => $thead,
+            'TBODY' => $tbody
+        )
+    );
 }
 
 ?>
