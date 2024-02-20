@@ -472,104 +472,19 @@ function setForms() {
             REQUEST: _REQUEST.INSERT,
             DATA: JsFunctions.FormToJson(FORM_DOC_RECEIVE),
         }
-
-        // const dataValues = Object.values(data);
-        // var empty = JsFunctions.checkIfEmpty(dataValues);
         createDoc(data);
     });
 
 }
 function setSendFormSubmit() {
     var data = JsFunctions.FormToJson(FORM_DOC_SEND);
-    var insertData = {
-        TABLE: DOTS_DOCUMENT_SUB.NAME,
-        REQUEST: _REQUEST.INSERT,
-        DATA: data,
-    }
-
     var routedCheck = {
-        // TABLE: DOTS_DOCUMENT.NAME,
         REQUEST: _REQUEST.SEND_DOC_FORM,
         DATA:data,
-        DOC_NUM: data.DOC_NUM,
-        ROUTE_NUM: data.ROUTE_NUM,
-        // COLUMNS: [
-            // DOTS_DOCUMENT.ID,
-            // DOTS_DOCUMENT.DOC_NUM,
-            // DOTS_DOCUMENT.ROUTE_NUM,
-            // DOTS_DOCUMENT.ROUTED,
-        // ],
-        // WHERE: {
-            // AND: {
-                // [DOTS_DOCUMENT.DOC_NUM]: data.DOC_NUM,
-                // [DOTS_DOCUMENT.ROUTE_NUM]: data.ROUTE_NUM
-            // }
-        // }
-        // ORDER_BY: DOTS_DOCUMENT.DOC_NUM + ' DESC
     }
     MyAjax.createJSON((error, response) => {
-
-        // if (error) {
-        //     return alert(error);
-        // }
-
-        // delete response.VALID;
-        // var result = Object.values(response)[0][0];
-
-        // if (result.ROUTED == 0) {
-        //     sendDoc(insertData);
-        // } else {
-        //     resendDoc(insertData);
-        // }
+        console.log(response);
     }, routedCheck);
-}
-function sendDoc(data) {
-
-    var updateData = {
-        TABLE: DOTS_DOCUMENT.NAME,
-        REQUEST: _REQUEST.UPDATE,
-        DATA: {
-            DOC_STATUS: 1,//  pending to on hand
-            ROUTED: 1,//routed
-        },
-        WHERE: {
-            [DOTS_DOCUMENT.DOC_NUM]: data["DATA"]["DOC_NUM"],
-            [DOTS_DOCUMENT.ROUTE_NUM]: data["DATA"]["ROUTE_NUM"],
-        }
-
-    }
-    console.log("SEND DOC", data);
-    MyAjax.createJSON((error, response) => {
-
-        if (error) {
-            return alert(error);
-        }
-
-        if (!response.VALID) {
-            return;
-        }
-        console.log("UdpATE DATA", updateData);
-        updateDoc(updateData);
-
-        delete response.VALID;
-    }, data);
-
-}
-function updateDoc(data) {
-    MyAjax.createJSON((error, response) => {
-
-        if (error) {
-            return alert(error);
-        }
-
-        if (!response.VALID) {
-            return;
-        }
-        console.log('UPDATE DOC', response);
-
-        delete response.VALID;
-    }, data);
-
 }
 function resendDoc(data) {
 
