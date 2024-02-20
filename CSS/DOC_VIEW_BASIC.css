@@ -215,7 +215,7 @@ body:before
 }
 
 
-
+/* table form */
 
 
 .tbl_btn button
@@ -246,8 +246,10 @@ body:before
 }
 
 .tbl_form input,
-.tbl_form select
+.tbl_form select,
+.tbl_form textarea
 {
+    resize: none;
     padding: 0.5rem;
     border-radius: 0.5rem;
 }
@@ -260,21 +262,50 @@ body:before
 
 .form_body
 {
-   display: flex;
+    display: flex;
+    justify-content: space-between;
     /* justify-content: space-between; */
-    margin: 0;
+
 }
 
 .form_opt
 {
-    /* text-align: center; */
+    display: flex;
+    flex-direction: column;
     margin-top: 1rem;
-   
+   text-align: center;
 }
 
-.form_footer
+.form_footer 
 {
     margin-top: 1rem;
     display: flex;
     justify-content: space-between;
+}
+
+.form_sub
+{
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.form_sub input
+{
+    background-image: var(--opt_btn);
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--font_white);
+    cursor: pointer;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    margin-right: 1rem;
+}
+
+.form_sub input:hover
+{
+    background-image: var(--opt_btn-hover); 
+
 }

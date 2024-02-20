@@ -77,7 +77,7 @@
                     <button type="button" id="S_BTN">SEND</button>
                 </div>
 
-                <form class="form tbl_form" action="submit" name="FORM_DOC_SEND" id="FORM_DOC_SEND">
+                <form class="tbl_form" action="submit" name="FORM_DOC_SEND" id="FORM_DOC_SEND">
                     <div class="form_head">
                         <div>
                             <label for="SEND_DOC_NUM">Document Number:</label>
@@ -112,17 +112,20 @@
                         </div>
                         <div class="form_opt">
                             <label for="SEND_DOC_NOTES">Notes:</label>
-                            <input type="text" name="DOC_NOTES" id="SEND_DOC_NOTES">
+                            <textarea name="DOC_NOTES" id="SEND_DOC_NOTES" cols="20" rows="5"></textarea>
+                            <!-- <input type="text" name="DOC_NOTES" id="SEND_DOC_NOTES"> -->
                         </div>
                     </div>
 
                     <div class="form_footer">
-                        <input type="text" name="ACTION_ID" id="SEND_DOC_ACTION" value="1" readonly>
-                        <input type="text" name="S_DEPT_ID" id="SEND_S_DEPT_ID" value="" readonly>
-                        <input type="text" name="S_USER_ID" id="SEND_S_USER_ID" value="" readonly>
+                        <input type="text" name="ACTION_ID" id="SEND_DOC_ACTION" value="1" readonly hidden>
+                        <input type="text" name="S_DEPT_ID" id="SEND_S_DEPT_ID" value="" readonly hidden>
+                        <input type="text" name="S_USER_ID" id="SEND_S_USER_ID" value="" readonly hidden>
                     </div>
 
-                    <input type="submit" value="Send">
+                    <div class="form_sub">
+                        <input type="submit" value="Send">
+                    </div>
                 </form>
             </div>
         </div>

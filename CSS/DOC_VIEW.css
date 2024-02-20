@@ -324,6 +324,7 @@ body:before
 #crt_modal .content_three select,
 #crt_modal .content_three textarea
 {
+    resize: none;
     display: flex;
     flex-direction: column;
     margin-top: 0.5rem;
