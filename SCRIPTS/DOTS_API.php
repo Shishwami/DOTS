@@ -81,10 +81,10 @@ try {
 
 function INSERT_($inputs, $conn)
 {
-    $querries = new Queries();
+    $queries = new Queries();
     $valid = false;
 
-    $sql = $querries->insertQuery($inputs);
+    $sql = $queries->insertQuery($inputs);
     // echo $sql;
 
     if (mysqli_query($conn, $sql)) {
@@ -103,10 +103,10 @@ function INSERT_($inputs, $conn)
 
 function SELECT_($inputs, $conn)
 {
-    $querries = new Queries();
+    $queries = new Queries();
     $valid = false;
 
-    $sql = $querries->selectQuery($inputs);
+    $sql = $queries->selectQuery($inputs);
     // echo $sql;  
 
     $result = mysqli_query($conn, $sql);
@@ -136,10 +136,10 @@ function SELECT_($inputs, $conn)
 }
 function UPDATE_($inputs, $conn)
 {
-    $querries = new Queries();
+    $queries = new Queries();
     $valid = false;
 
-    $sql = $querries->updateQuery($inputs);
+    $sql = $queries->updateQuery($inputs);
     // echo $sql;
     if (mysqli_query($conn, $sql)) {
         $valid = true;
@@ -156,10 +156,10 @@ function UPDATE_($inputs, $conn)
 
 function DELETE_($inputs, $conn)
 {
-    $querries = new Queries();
+    $queries = new Queries();
     $valid = false;
 
-    $sql = $querries->deleteQuery($inputs);
+    $sql = $queries->deleteQuery($inputs);
     //echo $sql
 
     if (mysqli_query($conn, $sql)) {
@@ -325,7 +325,7 @@ function sanitizeInputs($input)
 }
 function getDocNum($inputs, $conn)
 {
-    $querries = new Queries();
+    $queries = new Queries();
 
     $valid = false;
     $data = array(
@@ -336,7 +336,7 @@ function getDocNum($inputs, $conn)
         'ORDER_BY' => 'DOC_NUM DESC'
     );
 
-    $sql = $querries->selectQuery($data);
+    $sql = $queries->selectQuery($data);
     // echo $sql;
     $result = mysqli_query($conn, $sql);
 
@@ -344,7 +344,10 @@ function getDocNum($inputs, $conn)
     if ($result) {
         $valid = true;
         $row = $result->fetch_assoc();
-        $doc_num = $row['DOC_NUM'];
+        $doc_num = 0;
+        if (isset($row['DOC_NUM'])) {
+            $doc_num = $row['DOC_NUM'];
+        }
         $doc_num = intval($doc_num) + 1;
         // var_dump($result);
     }
@@ -358,7 +361,7 @@ function getDocNum($inputs, $conn)
 }
 function getOptions($tableName, $columnName, $conn)
 {
-    $querries = new Queries();
+    $queries = new Queries();
 
     $valid = false;
     $data = array(
@@ -369,7 +372,7 @@ function getOptions($tableName, $columnName, $conn)
         ),
     );
 
-    $sql = $querries->selectQuery($data);
+    $sql = $queries->selectQuery($data);
     // echo $sql;
     $result = mysqli_query($conn, $sql);
 
@@ -389,7 +392,7 @@ function getOptions($tableName, $columnName, $conn)
 }
 function getAddressee($inputs, $conn)
 {
-    $querries = new Queries();
+    $queries = new Queries();
 
     $valid = false;
     $data = array(
@@ -403,7 +406,7 @@ function getAddressee($inputs, $conn)
         ]
     );
 
-    $sql = $querries->selectQuery($data);
+    $sql = $queries->selectQuery($data);
     // echo $sql;
     $result = mysqli_query($conn, $sql);
 
@@ -426,12 +429,16 @@ function getAddressee($inputs, $conn)
 
 function sendDocForm($inputs, $conn)
 {
-    $querries = new Queries();
+    $queries = new Queries();
     $valid = false;
 
-    $doc_num = $inputs['DOC_NUM'];
-    $route_num = $inputs['ROUTE_NUM'];
+    $doc_num = $inputs['DATA']['DOC_NUM'];
+    $route_num = $inputs['DATA']['ROUTE_NUM'];
 
+    $insertData = array(
+        'TABLE' => 'DOTS_DOCUMENT_SUB',
+        'DATA' => $inputs['DATA'],
+    );
     //chheck if routed
 
     $checkRouted = array(
@@ -442,20 +449,123 @@ function sendDocForm($inputs, $conn)
             'ROUTE_NUM',
             'ROUTED',
         ],
+        'WHERE' => array(
+            'AND' => array(
+                'DOC_NUM' => $doc_num,
+                'ROUTE_NUM' => $route_num,
+            )
+        ),
     );
 
-    $sqlCheckRouted = $querries->selectQuery($checkRouted);
+    $sqlCheckRouted = $queries->selectQuery($checkRouted);
+
     $result = mysqli_query($conn, $sqlCheckRouted);
     if ($result) {
-        $valid = true;
         $row = $result->fetch_assoc();
-        var_dump($row);
-
+        // echo"ashhdshioadhiosad";
         if ($row['ROUTED'] == 0) {
             //send
+            $valid = sendDoc($insertData, $conn);
         } else if ($row['ROUTED'] == 1) {
             //resend
+            $valid = resendDoc($insertData, $conn);
+
         }
+    }
+
+    echo json_encode(
+        array(
+            'VALID' => $valid
+        )
+    );
+}
+
+function sendDoc($insertData, $conn)
+{
+    $queries = new Queries();
+    $updateData = array(
+        'TABLE' => 'DOTS_DOCUMENT',
+        'DATA' => array(
+            'DOC_STATUS' => 1,//pending to onhand
+            'ROUTED' => 1//routed
+        ),
+        'WHERE' => array(
+            'DOC_NUM' => $insertData['DATA']['DOC_NUM'],
+            'ROUTE_NUM' => $insertData['DATA']['ROUTE_NUM'],
+        )
+    );
+    $insertDataSql = $queries->insertQuery($insertData);
+    $updateDataSql = $queries->updateQuery($updateData);
+
+    $conn->begin_transaction();
+
+    $resultInsert = $conn->query($insertDataSql);
+    $resultUpdate = $conn->query($updateDataSql);
+
+    if ($resultInsert && $resultUpdate) {
+        $conn->commit();
+        return true;
+    } else {
+        $conn->rollback();
+        return false;
+    }
+}
+function resendDoc($insertData, $conn)
+{
+    $queries = new Queries();
+    $doc_num = $insertData['DATA']['DOC_NUM'];
+    //get last route num then add one
+
+    $getRouteNum = array(
+        'TABLE' => 'DOTS_DOCUMENT',
+        'WHERE' => array(
+            'AND' => array(
+                'DOC_NUM' => $doc_num
+            )
+        ),
+        'ORDER_BY' => 'ROUTE_NUM DESC'
+    );
+
+    $getRouteNumSql = $queries->selectQuery($getRouteNum);
+    echo $getRouteNumSql;
+    $result = mysqli_query($conn, $getRouteNumSql);
+    if ($result) {
+        $row = mysqli_fetch_assoc($result);
+
+        $associativeRow = [];
+        foreach ($row as $key => $value) {
+            $associativeRow[$key] = $value;
+        }
+        unset($associativeRow['ID']);
+
+        $routeNum = $associativeRow['ROUTE_NUM'];
+        $routeNum = intval($routeNum) + 1;
+        $associativeRow['ROUTE_NUM'] = $routeNum;
+        // insert it to new doc
+        $createData = array(
+            'TABLE' => 'DOTS_DOCUMENT',
+            'DATA' => $associativeRow,
+        );
+        createDoc($createData, $conn);
+
+        //send the new doc
+        $insertData['DATA']['ROUTE_NUM'] = $routeNum + 1;
+        $insertData2 = array(
+            'TABLE' => 'DOTS_DOCUMENT_SUB',
+            'DATA' => $insertData['DATA']
+        );
+        sendDoc($insertData2, $conn);
+    }
+}
+function createDoc($createData, $conn)
+{
+    $queries = new Queries();
+    $sql = $queries->insertQuery($createData);
+    echo $sql;
+
+    // var_dump($createData);
+    if (mysqli_query($conn, $sql)) {
+        return true;
     }
 }
 ?>
