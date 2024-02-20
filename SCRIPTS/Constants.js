@@ -2,7 +2,10 @@ const _RESET_TIME = 1000;
 
 const DOTS_DOCUMENT = {
     NAME: 'DOTS_DOCUMENT',
+    ID: 'ID',
     DOC_NUM: 'DOC_NUM',
+    ROUTE_NUM: 'ROUTE_NUM',
+    ROUTED: 'ROUTED',
     DOC_SUBJECT: 'DOC_SUBJECT',
     DOC_NOTES: 'DOC_NOTES',
     DOC_TYPE_ID: 'DOC_TYPE_ID',
@@ -13,6 +16,7 @@ const DOTS_DOCUMENT = {
     R_OFFICE_ID: 'R_OFFICE_ID',
     R_USER_ID: 'R_USER_ID',
     R_DEPT_ID: 'R_DEPT_ID',
+    ACTION_ID: 'ACTION_ID',
     DATE_TIME_RECEIVED: 'DATE_TIME_RECEIVED',
     DOC_STATUS: 'DOC_STATUS',
 };
@@ -74,11 +78,22 @@ const _REQUEST = {
     GET_DATE: 'GET_DATE',
     GET_DOC_NUM: 'GET_DOC_NUM',
     CREATE_SESSION: 'CREATE_SESSION',
+
     INSERT_DOCLOG: 'INSERT_DOCLOG',
+
     GET_SESSION_NAME: 'GET_SESSION_NAME',
     GET_SESSION_INITIAL: 'GET_SESSION_INITIAL',
     GET_SESSION_HRIS_ID: 'GET_SESSION_HRIS_ID',
     GET_SESSION_DEPT_ID: 'GET_SESSION_DEPT_ID',
+
+    GET_DOC_NUM: 'GET_DOC_NUM',
+    GET_DOC_TYPE: 'GET_DOC_TYPE',
+    GET_DOC_OFFICE: 'GET_DOC_OFFICE',
+    GET_DOC_PRPS: 'GET_DOC_PRPS',
+    GET_DEPT: 'GET_DEPT',
+    GET_ADDRESSEE: 'GET_ADDRESSEE',
+
+    SEND_DOC_FORM:'SEND_DOC_FORM',
 }
 const DOTS_DOCUMENT_SUB = {
     NAME: 'DOTS_DOCUMENT_SUB',
@@ -86,8 +101,10 @@ const DOTS_DOCUMENT_SUB = {
     ID: 'ID',
     PRPS_ID: 'PRPS_ID',
     DOC_NOTES: 'DOC_NOTES',
+    S_OFFICE_ID: 'S_OFFICE_ID',
     S_USER_ID: 'S_USER_ID',
     S_DEPT_ID: 'S_DEPT_ID',
+    R_OFFICE_ID: 'R_OFFICE_ID',
     R_USER_ID: 'R_USER_ID',
     R_DEPT_ID: 'R_DEPT_ID',
     ACTION_ID: 'ACTION_ID',
@@ -95,36 +112,36 @@ const DOTS_DOCUMENT_SUB = {
 }
 const _SUB_NAME = {
 
-    // ID: "ID",
+    ID: "ID",
 
-    // DOC_TYPE: 'Document Name',
+    DOC_TYPE: 'Document Name',
 
-    // DOC_PRPS: 'Purpose Name',
+    DOC_PRPS: 'Purpose Name',
 
-    // DOC_OFFICE: 'Office Name',
+    DOC_OFFICE: 'Office Name',
 
-    // DOC_DIVISION: 'Division Name',
+    DOC_DIVISION: 'Division Name',
 
-    // DOC_STATUS: 'Status',
+    DOC_STATUS: 'Status',
 
-    // DOC_NUM: 'No.',
-    // DOC_SUBJECT: 'Subject',
-    // DOC_TYPE: 'Document Type',
-    // DOC_OFFICE: 'Document Office',
-    // LETTER_DATE: 'Letter Date',
-    // OFFICE_AGENCY: 'Office/Agency',
-    // RECEIVED_BY: 'Received By',
-    // DATE_TIME_RECEIVED: 'Date Received',
-    // DOC_STATUS: "Status",
+    DOC_NUM: 'No.',
+    DOC_SUBJECT: 'Subject',
+    DOC_TYPE: 'Document Type',
+    DOC_OFFICE: 'Document Office',
+    LETTER_DATE: 'Letter Date',
+    OFFICE_AGENCY: 'Office/Agency',
+    RECEIVED_BY: 'Received By',
+    DATE_TIME_RECEIVED: 'Date Received',
+    DOC_STATUS: "Status",
 
-    // HRIS_ID: 'HRIS ID',
-    // FULL: 'Fullname',
-    // INITIAL: 'Initial',
+    HRIS_ID: 'HRIS ID',
+    FULL: 'Fullname',
+    INITIAL: 'Initial',
 
-    // DOC_PRPS: 'Purpose',
-    // DOC_ADDRESSEE: 'Addressee',
-    // DOC_NOTES: 'Notes',
-    // DOC_ACTION: 'Action',
-    // DOC_LOCATION: 'Location',
-    // DOC_DIVISION: 'Division',
+    DOC_PRPS: 'Purpose',
+    DOC_ADDRESSEE: 'Addressee',
+    DOC_NOTES: 'Notes',
+    DOC_ACTION: 'Action',
+    DOC_LOCATION: 'Location',
+    DOC_DIVISION: 'Division',
 }

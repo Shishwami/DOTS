@@ -15,8 +15,29 @@ class JsFunctions {
         const keys = Object.keys(tableJSON[0]);
         keys.forEach(key => {
             const th = document.createElement('th');
-            th.textContent = key;
+            var remove = false;
+
+            if (_SUB_NAME[key] == null) {
+                th.textContent = key;
+            } else {
+                th.textContent = _SUB_NAME[key];
+            }
+
+            if (key == 'ID') {
+                remove = true;
+            } 
+            if (key == 'ROUTE_NUM') {
+                remove = true;
+            }
+            if (key == 'DOC_NUM') {
+                remove = true;
+            }
+
             thead.appendChild(th);
+
+            if (remove) {
+                th.remove();
+            }
         });
 
         tableJSON.forEach(item => {
@@ -24,41 +45,58 @@ class JsFunctions {
             var found = 0;
             var rowID = {};
 
+
             Object.entries(item).forEach(([key, value]) => {
                 const cell = document.createElement('td');
-                cell.textContent = value;
-
+                var final_value = value;
+                var remove = false;
                 // cell.dataset.keys = key;
                 // cell.dataset.value = value;
 
-                row.appendChild(cell);
                 if (key == 'DATE_TIME_RECEIVED') {
                     const date = new Date(value);
-                    cell.textContent = this.formatDate(date);
+                    final_value = this.formatDateTime(date);
+                }
+                if (key == 'LETTER_DATE') {
+                    const date = new Date(value);
+                    final_value = this.formatDate(date);
                 }
                 if (key == 'DOC_NUM') {
                     rowID[key] = value;
+                    remove = true;
+                }
+                if (key == 'ROUTE_NUM') {
+                    rowID[key] = value;
+                    remove = true;
                 }
                 if (key == 'ID') {
                     rowID[key] = value;
+                    remove = true;
                 }
-                if (value == null) {
-                    value = "";
+                if (final_value == null) {
+                    final_value = "";
                 }
-                if (value.toUpperCase().indexOf(filter) > -1) {
+                if (final_value.toUpperCase().indexOf(filter) > -1) {
                     found++;
+                }
+
+                cell.textContent = final_value;
+                row.appendChild(cell);
+
+                if (remove) {
+                    cell.remove();
                 }
             });
 
             row.addEventListener('click', function () {
                 const STRINGrowID = JSON.stringify(rowID);
+                console.log(rowID);
                 sessionStorage.setItem('TEMP_DATA', STRINGrowID);
             });
 
             if (found == 0) {
                 row.style.display = "none";
             }
-
             tbody.appendChild(row);
         });
     }
@@ -89,12 +127,13 @@ class JsFunctions {
         for (let i = 0; i < values.length; i++) {
             if (values[i] == "" || values[i] == null) {
                 empty = true;
+                console.log(values[i]);
             }
         }
         return empty;
     }
 
-    static formatDate(date) {
+    static formatDateTime(date) {
         var hours = date.getHours();
         var minutes = date.getMinutes();
         var ampm = hours >= 12 ? 'pm' : 'am';
@@ -103,6 +142,10 @@ class JsFunctions {
         minutes = minutes < 10 ? '0' + minutes : minutes;
         var strTime = hours + ':' + minutes + ' ' + ampm;
         return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
+    }
+
+    static formatDate(date) {
+        return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
     }
 
     static tbodyEventListener(tbody) {

@@ -17,5 +17,6 @@ class MyAjax {
         const jsonData = JSON.stringify(data);
         xhr.send(jsonData);
     }
+    
 }
 export default MyAjax;
