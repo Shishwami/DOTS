@@ -488,36 +488,39 @@ function setSendFormSubmit() {
     }
 
     var routedCheck = {
-        TABLE: DOTS_DOCUMENT.NAME,
-        REQUEST: _REQUEST.SELECT,
-        COLUMNS: [
-            DOTS_DOCUMENT.ID,
-            DOTS_DOCUMENT.DOC_NUM,
-            DOTS_DOCUMENT.ROUTE_NUM,
-            DOTS_DOCUMENT.ROUTED,
-        ],
-        WHERE: {
-            AND: {
-                [DOTS_DOCUMENT.DOC_NUM]: data.DOC_NUM,
-                [DOTS_DOCUMENT.ROUTE_NUM]: data.ROUTE_NUM
-            }
-        }
+        // TABLE: DOTS_DOCUMENT.NAME,
+        REQUEST: _REQUEST.SEND_DOC_FORM,
+        DATA:data,
+        DOC_NUM: data.DOC_NUM,
+        ROUTE_NUM: data.ROUTE_NUM,
+        // COLUMNS: [
+            // DOTS_DOCUMENT.ID,
+            // DOTS_DOCUMENT.DOC_NUM,
+            // DOTS_DOCUMENT.ROUTE_NUM,
+            // DOTS_DOCUMENT.ROUTED,
+        // ],
+        // WHERE: {
+            // AND: {
+                // [DOTS_DOCUMENT.DOC_NUM]: data.DOC_NUM,
+                // [DOTS_DOCUMENT.ROUTE_NUM]: data.ROUTE_NUM
+            // }
+        // }
         // ORDER_BY: DOTS_DOCUMENT.DOC_NUM + ' DESC
     }
     MyAjax.createJSON((error, response) => {
 
-        if (error) {
-            return alert(error);
-        }
+        // if (error) {
+        //     return alert(error);
+        // }
 
-        delete response.VALID;
-        var result = Object.values(response)[0][0];
+        // delete response.VALID;
+        // var result = Object.values(response)[0][0];
 
-        if (result.ROUTED == 0) {
-            sendDoc(insertData);
-        } else {
-            resendDoc(insertData);
-        }
+        // if (result.ROUTED == 0) {
+        //     sendDoc(insertData);
+        // } else {
+        //     resendDoc(insertData);
+        // }
     }, routedCheck);
 }
 function sendDoc(data) {
