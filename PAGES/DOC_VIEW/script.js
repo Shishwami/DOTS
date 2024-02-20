@@ -442,6 +442,9 @@ function setTable(filter) {
         //     DOC_STATUS: 1
         // }
     }
+    const data2 = {
+        REQUEST: _REQUEST.GET_TABLE_MAIN,
+    };
 
     MyAjax.createJSON((error, response) => {
         if (error) {
@@ -456,7 +459,7 @@ function setTable(filter) {
             }
             JsFunctions.updateTable(results, DOC_VIEW_MAIN, filter);
         }
-    }, data);
+    }, data2);
 }
 function setForms() {
     FORM_DOC_SEND.addEventListener('submit', function (e) {

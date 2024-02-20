@@ -602,8 +602,8 @@ function getTableMain($inputs, $conn)
         'COLUMNS' => [
             'DOTS_DOCUMENT.ID',
 
-            'WHEN ROUTE_NUM = 0 THEN DOTS_DOCUMENT.DOC_NUM 
-             ELSE CONCAT(DOTS_DOCUMENT.DOC_NUM,' - ',ROUTE_NUM) 
+            'CASE WHEN ROUTE_NUM = 0 THEN DOTS_DOCUMENT.DOC_NUM 
+             ELSE CONCAT(DOTS_DOCUMENT.DOC_NUM,\' - \',ROUTE_NUM) 
              END AS `No.`',
 
             'DOC_NUM',
@@ -627,57 +627,65 @@ function getTableMain($inputs, $conn)
             'DOTS_DOC_STATUS.DOC_STATUS',
             'DOTS_DOC_ACTION.DOC_ACTION'
         ],
-        'JOIN' => array(
+        'JOIN' => [
             array(
                 'table' => 'DOTS_DOC_TYPE',
-                'ON' => 'DOTS_DOCUMENT.DOC_TYPE_ID = DOTS_DOC_TYPE.ID',
+                'ON' => ['DOTS_DOCUMENT.DOC_TYPE_ID = DOTS_DOC_TYPE.ID'],
                 'TYPE' => 'LEFT'
             ),
             array(
                 'table' => 'DOTS_DOC_OFFICE S_OFFICE',
-                'ON' => 'DOTS_DOC_OFFICE.S_OFFICE_ID = S_OFFICE.ID',
+                'ON' => ['DOTS_DOCUMENT.S_OFFICE_ID = S_OFFICE.ID'],
                 'TYPE' => 'LEFT'
             ),
             array(
                 'table' => 'DOTS_DOC_DEPT S_DEPT',
-                'ON' => 'DOTS_DOC_DEPT.S_DEPT_ID = S_DEPT.ID',
+                'ON' => ['DOTS_DOCUMENT.S_DEPT_ID = S_DEPT.ID'],
                 'TYPE' => 'LEFT'
             ),
             array(
                 'table' => 'DOTS_ACCOUNT_INFO S_FULL_NAME',
-                'ON' => 'DOTS_DOC_DEPT.S_USER_ID = S_FULL_NAME.ID',
+                'ON' => ['DOTS_DOCUMENT.S_USER_ID = S_FULL_NAME.HRIS_ID'],
                 'TYPE' => 'LEFT'
             ),
             array(
                 'table' => 'DOTS_DOC_OFFICE R_OFFICE',
-                'ON' => 'DOTS_DOC_OFFICE.R_OFFICE_ID = R_OFFICE.ID',
+                'ON' => ['DOTS_DOCUMENT.R_OFFICE_ID = R_OFFICE.ID'],
                 'TYPE' => 'LEFT'
             ),
             array(
                 'table' => 'DOTS_DOC_DEPT R_DEPT',
-                'ON' => 'DOTS_DOCUMENT.R_DEPT_ID = R_DEPT.ID',
+                'ON' => ['DOTS_DOCUMENT.R_DEPT_ID = R_DEPT.ID'],
                 'TYPE' => 'LEFT'
             ),
             array(
                 'table' => 'DOTS_ACCOUNT_INFO R_FULL_NAME',
-                'ON' => 'DOTS_DOCUMENT.R_USER_ID = R_FULL_NAME.HRIS_ID',
+                'ON' => ['DOTS_DOCUMENT.R_USER_ID = R_FULL_NAME.HRIS_ID'],
                 'TYPE' => 'LEFT'
             ),
             array(
                 'table' => 'DOTS_DOC_STATUS',
-                'ON' => 'DOTS_DOCUMENT.DOC_STATUS = DOTS_DOC_STATUS.ID',
+                'ON' => ['DOTS_DOCUMENT.DOC_STATUS = DOTS_DOC_STATUS.ID'],
                 'TYPE' => 'LEFT'
             ),
             array(
                 'table' => 'DOTS_DOC_ACTION',
-                'ON' => 'DOTS_DOCUMENT.ACTION_ID = DOTS_DOC_ACTION.ID',
+                'ON' => ['DOTS_DOCUMENT.ACTION_ID = DOTS_DOC_ACTION.ID'],
                 'TYPE' => 'LEFT'
             ),
-        ),
+        ],
         'ORDER_BY'=> 'DOTS_DOCUMENT.DOC_NUM DESC'
     );
-
+    // var_dump($data);
     $selectTableSql = $queries->selectQuery($data);
+    $result = mysqli_query($conn, $selectTableSql);
+    // echo $selectTableSql;
+
+    echo json_encode($selectTableSql);
+}
+
+function setupTable(){
+
 }
 
 ?>
