@@ -715,7 +715,7 @@ function setupTable($result)
     foreach ($result as $rows) {
         $tbody .= "<tr>";
         $tbody .= "<td>" .
-            "<button type='button' onclick=setButtonEvents()>S</button>" .
+            "<button type='button' onclick=setButtonEvents(this)>S</button>" .
             "<button type='button' onclick=A(a)>E</button>" .
             "<button type='button'>A</button>" .
             "</td>";
