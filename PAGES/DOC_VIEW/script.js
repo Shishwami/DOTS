@@ -82,15 +82,8 @@ function setR_DEPT_ID() {
         setADDRESSEE(this.value);
     });
 
-    var columns = [
-        DOTS_DOC_DEPT.ID,
-        DOTS_DOC_DEPT.DOC_DEPT,
-    ]
-
-    var data = {
-        TABLE: DOTS_DOC_DEPT.NAME,
-        REQUEST: _REQUEST.SELECT,
-        COLUMNS: columns,
+    const data = {
+        REQUEST: _REQUEST.GET_DEPT
     }
 
     MyAjax.createJSON((error, response) => {
@@ -98,7 +91,7 @@ function setR_DEPT_ID() {
             if (response.VALID) {
                 delete response.VALID;
                 var object = Object.values(response)[0];
-                JsFunctions.setSelect(SEND_R_DEPT_ID, object);
+                SEND_R_DEPT_ID.innerHTML = object;
             } else {
                 alert(error);
             }
@@ -109,75 +102,45 @@ function setR_DEPT_ID() {
 }
 function setDOC_OFFICE() {
 
-    const columns = [
-        DOTS_DOC_OFFICE.ID,
-        DOTS_DOC_OFFICE.DOC_OFFICE,
-    ]
-
     var data = {
-        TABLE: DOTS_DOC_OFFICE.NAME,
-        REQUEST: _REQUEST.SELECT,
-        COLUMNS: columns
+        REQUEST: _REQUEST.GET_DOC_OFFICE,
     }
     MyAjax.createJSON((error, response) => {
         if (error) {
             return alert(error);
         }
-
         if (response.VALID) {
             delete response.VALID;
-            JsFunctions.setSelect(CREATE_DOC_OFFICE, Object.values(response)[0]);
+            CREATE_DOC_OFFICE.innerHTML = Object.values(response)[0];
         }
     }, data);
-
-
-
 }
 function setDOC_NUM() {
-    const columns = [
-        DOTS_DOCUMENT.DOC_NUM
-    ];
     const data = {
-        TABLE: DOTS_DOCUMENT.NAME,
-        REQUEST: _REQUEST.SELECT,
-        COLUMNS: columns,
-        ORDER_BY: DOTS_DOCUMENT.DOC_NUM + " ASC"
-    };
+        REQUEST: _REQUEST.GET_DOC_NUM
+    }
     MyAjax.createJSON((error, response) => {
         if (!error && response.VALID) {
             delete response.VALID;
-            const docNumbers = Object.values(response)[0];
-            const lastObj = docNumbers[docNumbers.length - 1];
-            let lastNumber = 0;
-            if (lastObj) {
-                lastNumber = parseInt(Object.values(lastObj)[0]);
-            }
-            CREATE_DOC_NUM.value = lastNumber + 1;
+            const docNumber = Object.values(response)[0];
+            CREATE_DOC_NUM.value = docNumber;
         } else {
             alert(error || "Error occurred while retrieving document number.");
         }
     }, data);
-
 }
 function setDOC_TYPE() {
-    const columns = [
-        DOTS_DOC_TYPE.ID,
-        DOTS_DOC_TYPE.DOC_TYPE,
-    ]
-    var data = {
-        TABLE: DOTS_DOC_TYPE.NAME,
-        REQUEST: _REQUEST.SELECT,
-        COLUMNS: columns
+    const data = {
+        REQUEST: _REQUEST.GET_DOC_TYPE,
     }
     MyAjax.createJSON((error, response) => {
         if (error) {
             alert(error);
         } else if (response.VALID) {
             delete response.VALID;
-            JsFunctions.setSelect(CREATE_DOC_TYPE, Object.values(response)[0]);
+            CREATE_DOC_TYPE.innerHTML = Object.values(response)[0];
         }
     }, data);
-
 }
 function setRECEIVED_TIME(element) {
     var data = {
@@ -271,16 +234,8 @@ function getSessionDeptId() {
     }, data);
 }
 function setDOC_PURPOSE() {
-    const SEND_DOC_PRPS = document.getElementById("SEND_DOC_PRPS")
-    var columns = [
-        DOTS_DOC_PRPS.ID,
-        DOTS_DOC_PRPS.DOC_PRPS,
-    ]
-
     var data = {
-        TABLE: DOTS_DOC_PRPS.NAME,
-        REQUEST: _REQUEST.SELECT,
-        COLUMNS: columns,
+        REQUEST: _REQUEST.GET_DOC_PRPS,
     }
 
     MyAjax.createJSON((error, response) => {
@@ -288,7 +243,7 @@ function setDOC_PURPOSE() {
             if (response.VALID) {
                 delete response.VALID;
                 var object = Object.values(response)[0];
-                JsFunctions.setSelect(SEND_DOC_PRPS, object);
+                SEND_DOC_PRPS.innerHTML = object;
             } else {
             }
         } else {
@@ -355,18 +310,9 @@ function setADDRESSEE(DEPT_ID) {
 
     resetAddressee();
 
-    var columns = [
-        DOTS_ACCOUNT_INFO.HRIS_ID,
-        DOTS_ACCOUNT_INFO.FULL_NAME,
-    ]
-
-    var data = {
-        TABLE: DOTS_ACCOUNT_INFO.NAME,
-        REQUEST: _REQUEST.SELECT,
-        COLUMNS: columns,
-        WHERE: {
-            AND: { DEPT_ID: DEPT_ID, }
-        },
+    const data = {
+        REQUEST: _REQUEST.GET_ADDRESSEE,
+        DEPT_ID: DEPT_ID
     }
 
     MyAjax.createJSON((error, response) => {
@@ -374,7 +320,7 @@ function setADDRESSEE(DEPT_ID) {
             if (response.VALID) {
                 delete response.VALID;
                 var object = Object.values(response)[0];
-                JsFunctions.setSelect(SEND_DOC_ADDRESSEE, object);
+                SEND_DOC_ADDRESSEE.innerHTML = object;
             } else {
             }
         } else {
@@ -511,7 +457,7 @@ function setTable(filter) {
             JsFunctions.updateTable(results, DOC_VIEW_MAIN, filter);
         }
     }, data);
-} 
+}
 function setForms() {
     FORM_DOC_SEND.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -540,8 +486,6 @@ function setSendFormSubmit() {
         REQUEST: _REQUEST.INSERT,
         DATA: data,
     }
-
-
 
     var routedCheck = {
         TABLE: DOTS_DOCUMENT.NAME,
