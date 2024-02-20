@@ -151,9 +151,10 @@
     <div>
         <h2>ATTACHMENTS MODAL</h2>
     </div>
-</body>
 
-<script src="../../SCRIPTS/Constants.js"></script>
-<script src="./script.js" type="module"></script>
+    <script src="../../SCRIPTS/Constants.js"></script>
+    <script src="./script.js" type="module"></script>
+
+</body>
 
 </html>
