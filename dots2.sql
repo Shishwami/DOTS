@@ -11,11 +11,26 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 13/02/2024 16:32:35
+ Date: 19/02/2024 22:03:53
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for doc_num_sequence
+-- ----------------------------
+DROP TABLE IF EXISTS `doc_num_sequence`;
+CREATE TABLE `doc_num_sequence`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `current_value` int NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of doc_num_sequence
+-- ----------------------------
+INSERT INTO `doc_num_sequence` VALUES (1, 33);
 
 -- ----------------------------
 -- Table structure for dots_account_info
@@ -31,7 +46,7 @@ CREATE TABLE `dots_account_info`  (
   `PASSWORD` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `DIVISION` int NOT NULL,
   PRIMARY KEY (`HRIS_ID`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_account_info
@@ -55,7 +70,7 @@ CREATE TABLE `dots_doc_action`  (
   `ID` int NOT NULL AUTO_INCREMENT,
   `DOC_ACTION` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_doc_action
@@ -72,7 +87,7 @@ CREATE TABLE `dots_doc_dept`  (
   `ID` int NOT NULL AUTO_INCREMENT,
   `DOC_DEPT` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_doc_dept
@@ -91,7 +106,7 @@ CREATE TABLE `dots_doc_division`  (
   `ID` int NOT NULL AUTO_INCREMENT,
   `DOC_DIVISION` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_doc_division
@@ -108,7 +123,7 @@ CREATE TABLE `dots_doc_office`  (
   `ID` int NOT NULL AUTO_INCREMENT,
   `DOC_OFFICE` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_doc_office
@@ -128,7 +143,7 @@ CREATE TABLE `dots_doc_prps`  (
   `ID` int NOT NULL AUTO_INCREMENT,
   `DOC_PRPS` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_doc_prps
@@ -146,7 +161,7 @@ CREATE TABLE `dots_doc_status`  (
   `ID` int NOT NULL AUTO_INCREMENT,
   `DOC_STATUS` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_doc_status
@@ -155,6 +170,7 @@ INSERT INTO `dots_doc_status` VALUES (1, 'Pending');
 INSERT INTO `dots_doc_status` VALUES (2, 'Filed');
 INSERT INTO `dots_doc_status` VALUES (3, 'Returned');
 INSERT INTO `dots_doc_status` VALUES (4, 'Approved');
+INSERT INTO `dots_doc_status` VALUES (5, 'On Hand');
 
 -- ----------------------------
 -- Table structure for dots_doc_type
@@ -164,7 +180,7 @@ CREATE TABLE `dots_doc_type`  (
   `ID` int NOT NULL AUTO_INCREMENT,
   `DOC_TYPE` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_doc_type
@@ -178,60 +194,160 @@ INSERT INTO `dots_doc_type` VALUES (3, 'Letter/Invitation');
 -- ----------------------------
 DROP TABLE IF EXISTS `dots_document`;
 CREATE TABLE `dots_document`  (
-  `DOC_NUM` int NOT NULL AUTO_INCREMENT,
-  `DOC_SUBJECT` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `DOC_TYPE_ID` int NULL DEFAULT NULL,
-  `LETTER_DATE` date NULL DEFAULT NULL,
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `DOC_NUM` int NOT NULL,
+  `ROUTE_NUM` int NOT NULL,
+  `DOC_SUBJECT` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `DOC_TYPE_ID` int NOT NULL,
+  `LETTER_DATE` date NOT NULL,
   `DOC_NOTES` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `S_OFFICE_ID` int NULL DEFAULT NULL,
+  `S_OFFICE_ID` int NOT NULL,
   `S_DEPT_ID` int NOT NULL,
   `S_USER_ID` int NOT NULL,
-  `R_OFFICE_ID` int NULL DEFAULT NULL,
+  `R_OFFICE_ID` int NOT NULL,
   `R_DEPT_ID` int NOT NULL,
   `R_USER_ID` int NOT NULL,
   `DATE_TIME_RECEIVED` datetime(6) NOT NULL,
   `DOC_STATUS` int NOT NULL,
-  `ACTION_ID` int NULL DEFAULT NULL,
-  PRIMARY KEY (`DOC_NUM`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+  `ACTION_ID` int NOT NULL,
+  `ROUTED` int NOT NULL,
+  PRIMARY KEY (`ID`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_document
 -- ----------------------------
-INSERT INTO `dots_document` VALUES (1, 'a', 1, '2024-02-13', '', 1, 0, 0, NULL, 2, 40008, '2024-02-13 15:04:00.000000', 1, 2);
-INSERT INTO `dots_document` VALUES (2, 'asd', 1, '2024-02-13', '', 5, 0, 0, NULL, 2, 40008, '2024-02-13 15:57:00.000000', 1, 2);
-INSERT INTO `dots_document` VALUES (3, ';;lllkopkop', 2, '2024-02-13', '', 6, 0, 0, NULL, 2, 40008, '2024-02-13 16:01:00.000000', 1, 2);
-INSERT INTO `dots_document` VALUES (4, 'kain', 3, '2024-02-13', '', 6, 0, 0, NULL, 2, 40008, '2024-02-13 16:10:00.000000', 1, 3);
-INSERT INTO `dots_document` VALUES (5, '', 2, '2024-02-13', '', 2, 0, 0, NULL, 4, 36006, '2024-02-13 16:19:00.000000', 1, 2);
-INSERT INTO `dots_document` VALUES (6, '', 3, '2024-02-13', '', 1, 0, 0, NULL, 2, 40008, '2024-02-13 16:20:00.000000', 1, 2);
+INSERT INTO `dots_document` VALUES (1, 1, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (2, 2, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (3, 3, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (4, 4, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (5, 5, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (6, 6, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (7, 7, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 4, 2, 1);
+INSERT INTO `dots_document` VALUES (8, 7, 1, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 4, 2, 1);
+INSERT INTO `dots_document` VALUES (9, 7, 2, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 4, 2, 1);
+INSERT INTO `dots_document` VALUES (10, 7, 3, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 4, 2, 1);
+INSERT INTO `dots_document` VALUES (11, 8, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (12, 9, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (13, 10, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (14, 11, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (15, 12, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (16, 13, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (17, 14, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (18, 15, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (19, 16, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (20, 17, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (21, 18, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (22, 19, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (23, 20, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (24, 21, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (25, 22, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (26, 23, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (27, 24, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (28, 25, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (29, 26, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (30, 27, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (31, 28, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 4, 2, 1);
+INSERT INTO `dots_document` VALUES (32, 29, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 18:04:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (33, 28, 1, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (34, 29, 1, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 18:04:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (35, 29, 2, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 18:04:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (36, 30, 0, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 19:37:00.000000', 1, 3, 1);
+INSERT INTO `dots_document` VALUES (37, 30, 1, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 19:37:00.000000', 1, 3, 1);
+INSERT INTO `dots_document` VALUES (38, 31, 0, '', 0, '2024-02-18', '', 0, 0, 0, 0, 2, 27003, '2024-02-18 12:16:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (39, 28, 2, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (40, 28, 3, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (41, 32, 0, 'ASDASDAS', 3, '2024-02-19', '', 4, 0, 0, 0, 2, 27003, '2024-02-19 18:25:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (42, 22, 1, '', 0, '2024-02-17', '', 0, 0, 0, 0, 2, 27003, '2024-02-17 14:22:00.000000', 1, 2, 1);
 
 -- ----------------------------
 -- Table structure for dots_document_sub
 -- ----------------------------
 DROP TABLE IF EXISTS `dots_document_sub`;
 CREATE TABLE `dots_document_sub`  (
-  `DOC_NUM` int NOT NULL,
   `ID` int NOT NULL AUTO_INCREMENT,
+  `DOC_NUM` int NOT NULL,
+  `ROUTE_NUM` int NOT NULL,
   `DOC_NOTES` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `PRPS_ID` int NOT NULL,
-  `S_OFFICE_ID` int NULL DEFAULT NULL,
+  `S_OFFICE_ID` int NOT NULL,
   `S_USER_ID` int NOT NULL,
   `S_DEPT_ID` int NOT NULL,
-  `R_OFFICE_ID` int NULL DEFAULT NULL,
+  `R_OFFICE_ID` int NOT NULL,
   `R_USER_ID` int NOT NULL,
   `R_DEPT_ID` int NOT NULL,
   `DATE_TIME_RECEIVED` datetime(6) NOT NULL,
   `ACTION_ID` int NOT NULL,
+  `ROUTED` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 49 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_document_sub
 -- ----------------------------
-INSERT INTO `dots_document_sub` VALUES (1, 1, 'a', 1, NULL, 40008, 2, NULL, 40008, 2, '2024-02-13 15:04:00.000000', 1);
-INSERT INTO `dots_document_sub` VALUES (1, 2, '1', 2, NULL, 40008, 2, NULL, 25009, 1, '2024-02-13 15:55:00.000000', 1);
-INSERT INTO `dots_document_sub` VALUES (1, 3, '1', 2, NULL, 40008, 2, NULL, 31007, 1, '2024-02-13 15:55:00.000000', 1);
-INSERT INTO `dots_document_sub` VALUES (1, 4, '1', 2, NULL, 40008, 2, NULL, 38004, 1, '2024-02-13 15:55:00.000000', 1);
-INSERT INTO `dots_document_sub` VALUES (1, 5, '4', 2, NULL, 40008, 2, NULL, 34010, 3, '2024-02-13 15:57:00.000000', 1);
+INSERT INTO `dots_document_sub` VALUES (1, 1, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 13:03:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (2, 1, 0, '', 0, 0, 27003, 2, 0, 40008, 2, '2024-02-17 13:03:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (3, 2, 0, '', 1, 0, 27003, 2, 0, 40008, 2, '2024-02-17 13:04:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (4, 2, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 13:04:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (5, 2, 2, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 13:05:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (6, 2, 3, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 13:06:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (7, 2, 4, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 13:07:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (8, 2, 5, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 13:09:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (9, 3, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 13:10:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (10, 4, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 13:11:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (11, 4, 1, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 13:12:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (12, 5, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 13:13:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (13, 5, 1, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 13:13:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (14, 6, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 13:21:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (15, 7, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 13:24:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (16, 8, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 13:24:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (17, 9, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 13:25:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (18, 10, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 13:26:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (19, 10, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 13:26:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (20, 10, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 13:26:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (21, 10, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 13:27:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (22, 5, 2, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 13:27:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (23, 5, 3, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 13:27:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (24, 10, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 13:32:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (25, 15, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 13:35:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (26, 7, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 14:22:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (27, 7, 1, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 14:22:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (28, 7, 2, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 14:22:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (29, 7, 3, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 14:22:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (30, 28, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 17:55:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (31, 27, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 17:56:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (32, 28, 1, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 18:04:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (33, 29, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 18:04:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (34, 29, 1, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 18:05:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (35, 29, 2, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 18:10:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (36, 30, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 19:47:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (37, 30, 1, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-17 19:47:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (38, 28, 2, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-19 18:26:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (39, 28, 3, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-19 18:26:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (40, 31, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-19 18:26:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (41, 5, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-19 18:26:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (42, 23, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-19 18:27:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (43, 26, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-19 18:27:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (44, 25, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-19 18:27:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (45, 24, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-19 18:28:00.000000', 2, 1);
+INSERT INTO `dots_document_sub` VALUES (46, 22, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-19 18:28:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (47, 22, 1, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-19 18:28:00.000000', 1, 1);
+INSERT INTO `dots_document_sub` VALUES (48, 32, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-02-19 18:28:00.000000', 1, 1);
+
+-- ----------------------------
+-- Triggers structure for table dots_document
+-- ----------------------------
+DROP TRIGGER IF EXISTS `trigger_auto_increment_doc_num`;
+delimiter ;;
+CREATE TRIGGER `trigger_auto_increment_doc_num` BEFORE INSERT ON `dots_document` FOR EACH ROW BEGIN
+    IF NEW.doc_num IS NULL OR NEW.doc_num = '' THEN
+        SET @new_doc_num := (SELECT current_value FROM doc_num_sequence);
+        UPDATE doc_num_sequence
+        SET current_value = current_value + 1;
+        SET NEW.doc_num = @new_doc_num;
+    END IF;
+END
+;;
+delimiter ;
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -256,7 +256,6 @@ body:before
   
 .radio_cnt .r_btn.one:after
 {
-    position: absolute;
     top: 24%;
     left: 22%;
     width: 55%;
@@ -267,7 +266,6 @@ body:before
 
 .radio_cnt .r_btn.two:after
 {
-    position: absolute;
     top: 24%;
     left: 22%;
     width: 55%;
@@ -293,6 +291,7 @@ body:before
 {
     padding: 0.5rem;
     border-radius: 0.5rem;
+    width: 150px;
 }
 
 #crt_modal .content_two
