@@ -608,10 +608,10 @@ function getTableMain($inputs, $conn)
 
             'DOC_NUM',
             'ROUTE_NUM',
-            'DOC_SUBJECT',
-            'DOC_NOTES',
-            'DOC_TYPE',
-            'LETTER_DATE',
+            'DOC_SUBJECT as `Subject`',
+            'DOC_NOTES `Notes`',
+            'DOC_TYPE `Type`',
+            'LETTER_DATE `Letter Date`',
 
             "CONCAT(
              IF(S_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(S_OFFICE.DOC_OFFICE,'-'), ' '),' ', 
@@ -623,9 +623,9 @@ function getTableMain($inputs, $conn)
             IF(R_DEPT.DOC_DEPT IS NOT NULL,CONCAT(R_DEPT.DOC_DEPT,'-'), ' '), 
             IFNULL(R_FULL_NAME.FULL_NAME, ' ')) as 'Received By'",
 
-            'DATE_TIME_RECEIVED',
-            'DOTS_DOC_STATUS.DOC_STATUS',
-            'DOTS_DOC_ACTION.DOC_ACTION'
+            'DATE_TIME_RECEIVED `Date Received`',
+            'DOTS_DOC_STATUS.DOC_STATUS `Status`',
+            'DOTS_DOC_ACTION.DOC_ACTION `Action`'
         ],
         'JOIN' => [
             array(
@@ -679,19 +679,70 @@ function getTableMain($inputs, $conn)
     // var_dump($data);
     $selectTableSql = $queries->selectQuery($data);
     $result = mysqli_query($conn, $selectTableSql);
+    $resultAsArray = array();
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $resultAsArray[] = $row;
+    }
+
     // echo $selectTableSql;
 
     // echo json_encode($selectTableSql);
-    setupTable($result);
+    setupTable($resultAsArray);
 }
 
 function setupTable($result)
 {
 
-    $thead = "asddasdassad";
+    $thead = "";
     $tbody = "";
 
-    $theadKeys = "";
+    $theadKeys = array_keys($result[0]);
+
+    foreach ($theadKeys as $key) {
+        if (
+            $key == 'ID' ||
+            $key == 'ROUTE_NUM' ||
+            $key == 'DOC_NUM'
+        ) {
+            $remove = true;
+        } else {
+            $thead .= "<th>$key</th> ";
+        }
+
+    }
+
+    foreach ($result as $rows) {
+        $tbody .= "<tr>";
+        $tbody .= "<td>" .
+            "<button type='button' onclick=setButtonEvents()>S</button>" .
+            "<button type='button' onclick=A(a)>E</button>" .
+            "<button type='button'>A</button>" .
+            "</td>";
+        foreach ($rows as $key => $value) {
+
+            if (
+                $key == 'ID' ||
+                $key == 'ROUTE_NUM' ||
+                $key == 'DOC_NUM'
+            ) {
+                $remove = true;
+            } else {
+                if ($key == "Date Received") {
+                    $tbody .= "<td>" . formatDateTime($value) . "</td>";
+                } else if ($key == "Letter Date") {
+                    $tbody .= "<td>" . formatDate($value) . "</td>";
+                } else {
+                    $tbody .= "<td>$value</td>";
+                }
+            }
+
+        }
+        $tbody .= "</tr>";
+    }
+
+
+
 
     echo json_encode(
         array(
@@ -700,6 +751,25 @@ function setupTable($result)
             'TBODY' => $tbody
         )
     );
+}
+
+function formatDateTime($dateString)
+{
+    $date = new DateTime($dateString);
+    $hours = $date->format('H');
+    $minutes = $date->format('i');
+    $ampm = $hours >= 12 ? 'pm' : 'am';
+    $hours = $hours % 12;
+    $hours = $hours ? $hours : 12; // the hour '0' should be '12'
+    $minutes = $minutes < 10 ? '0' . $minutes : $minutes;
+    $strTime = $hours . ':' . $minutes . ' ' . $ampm;
+    return ($date->format('n')) . "/" . $date->format('j') . "/" . $date->format('Y') . "  " . $strTime;
+}
+
+function formatDate($dateString)
+{
+    $date = new DateTime($dateString);
+    return ($date->format('n')) . "/" . $date->format('j') . "/" . $date->format('Y');
 }
 
 ?>
