@@ -361,9 +361,21 @@ body:before
     background-image: var(--opt_btn-hover); 
 }
 
-.form_head,
-.form_body,
-.form_footer
+/* CSS Responsiveness */
+@media screen and (max-width:900px)
 {
+    .grid
+    {
+       
+    }
+
+    .header,
+    .tbl_content,
+    .tbl_btn,
+    .tbl_form
+    {
+        
+        margin: 0 auto;
+    }
     
 }
