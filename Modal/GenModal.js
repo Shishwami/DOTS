@@ -4,6 +4,7 @@ var snd_modal = document.getElementById("snd_modal");
 var atc_modal = document.getElementById("atc_modal");
 
 // Get Modal Button Variable
+
 var crt_btn = document.getElementById("BTN_DOC_CREATE");
 var snd_btn = document.getElementById("BTN_DOC_SEND");
 var atc_btn = document.getElementById("BTN_DOC_ATTACHMENTS");
