@@ -8,8 +8,6 @@ const searchBar = document.getElementById("searchBar");
 const DOC_VIEW_MAIN = document.getElementById("DOC_VIEW_MAIN");
 //buttons
 const BTN_DOC_CREATE = document.getElementById("BTN_DOC_CREATE");
-const BTN_DOC_SEND = document.getElementById("BTN_DOC_SEND");
-const BTN_DOC_ATTACHMENTS = document.getElementById("BTN_DOC_ATTACHMENTS");
 //RECEIVE FORM
 const FORM_DOC_RECEIVE = document.getElementById("FORM_DOC_RECEIVE");
 const CREATE_DOC_NUM = FORM_DOC_RECEIVE.querySelector("#CREATE_DOC_NUM");
@@ -45,16 +43,13 @@ function InitializePAGE() {
     getSessionDeptId();
     setTable("");
 
-    // const TBODY = DOC_VIEW_MAIN.querySelector("tbody");
-    // JsFunctions.tbodyEventListener(TBODY);
-
     searchBar.addEventListener('input', function () {
         setTable(searchBar.value.toUpperCase());
     });
 
-    // setInterval(function () {
-    //     setTable(searchBar.value.toUpperCase());
-    // }, _RESET_TIME);
+    setInterval(function () {
+        setTable(searchBar.value.toUpperCase());
+    }, _RESET_TIME);
 
 
     setForms();
@@ -63,7 +58,6 @@ function initializeSEND_FORM() {
     setR_DEPT_ID();
     setDOC_PURPOSE();
     setDOC_LOCATION();
-    setButtonEvents();
     setRECEIVED_TIME(SEND_DATE_TIME_RECEIVED);
 
 }
@@ -267,39 +261,12 @@ function setDOC_LOCATION() {
         }
     }, data);
 }
-function setButtonEvents() {
 
-    BTN_DOC_SEND.addEventListener('click', function () {
-        sendBtnEvent();
-    });
-}
-
-function A(A) {
-        console.log("ASDDSADASDS");
-}
-
-function sendBtnEvent(id,doc_num,route_num) {
+function sendBtnEvent(id, doc_num, route_num) {
 
     clearValues();
     resetAddressee();
     setRECEIVED_TIME(SEND_DATE_TIME_RECEIVED);
-    var id = 0;
-    var doc_num = 0;
-    var route_num = 0;
-
-    const TEMP_DATA = JSON.parse(sessionStorage.getItem("TEMP_DATA"));
-    if (TEMP_DATA) {
-        if (TEMP_DATA.DOC_NUM) {
-            doc_num = TEMP_DATA.DOC_NUM;
-        }
-        if (TEMP_DATA.ID) {
-            id = TEMP_DATA.ID;
-        }
-        if (TEMP_DATA.ROUTE_NUM) {
-            route_num = TEMP_DATA.ROUTE_NUM;
-        }
-    }
-    sessionStorage.clear("TEMP_DATA");
 
     if (id != 0) {
         SEND_DOC_NUM.value = doc_num;
@@ -366,12 +333,37 @@ function setTable(filter) {
             }
             const thead = DOC_VIEW_MAIN.querySelector('thead');
             const tbody = DOC_VIEW_MAIN.querySelector('tbody');
-            thead.innerHTML = response.THEAD;
-            tbody.innerHTML = response.TBODY;
-
-            // JsFunctions.updateTable(results, DOC_VIEW_MAIN, filter);
+            if (response.THEAD) {
+                thead.innerHTML = response.THEAD;
+            }
+            if (response.TBODY) {
+                tbody.innerHTML = response.TBODY;
+            }
+            setButtons(DOC_VIEW_MAIN);
         }
     }, data2);
+}
+function setButtons(table) {
+    table.querySelectorAll('.btnS').forEach(function (button) {
+        button.addEventListener('mousedown', function () {
+            var itemId = this.getAttribute('data-i');
+            sendBtnEvent(this.dataset.i, this.dataset.d, this.dataset.r);
+        });
+    });
+
+    table.querySelectorAll('.btnE').forEach(function (button) {
+        button.addEventListener('click', function () {
+            var itemId = this.getAttribute('data-i');
+            alert('Edit item with ID: ' + this.dataset.i);
+        });
+    });
+
+    table.querySelectorAll('.btnA').forEach(function (button) {
+        button.addEventListener('click', function () {
+            var itemId = this.getAttribute('data-i');
+            alert('Delete item with ID: ' + itemId);
+        });
+    });
 }
 function setForms() {
     FORM_DOC_SEND.addEventListener('submit', function (e) {
