@@ -62,7 +62,7 @@ function initializeSEND_FORM() {
 
 }
 function initializeRECEIVE_FORM() {
-    setInterval(setDOC_NUM, 500);
+    setInterval(setDOC_NUM, 1000);
     setDOC_NUM();
     setDOC_TYPE();
     setDOC_OFFICE();
