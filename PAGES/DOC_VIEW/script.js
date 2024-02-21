@@ -41,6 +41,7 @@ function InitializePAGE() {
     initializeSEND_FORM();
     initializeRECEIVE_FORM();
     getSessionDeptId();
+    setCreateBtn();
     setTable("");
 
     searchBar.addEventListener('input', function () {
@@ -261,7 +262,15 @@ function setDOC_LOCATION() {
         }
     }, data);
 }
-
+function setCreateBtn() {
+    BTN_DOC_CREATE.addEventListener('click', function (event) {
+        setLETTER_DATE();
+        setRECEIVED_TIME(CREATE_DATE_TIME_RECEIVED);
+        setDOC_TYPE();
+        setDOC_OFFICE();
+        CREATE_DOC_SUBJECT.value = '';
+    });
+}
 function sendBtnEvent(id, doc_num, route_num) {
 
     clearValues();
@@ -379,7 +388,6 @@ function setForms() {
             DATA: JsFunctions.FormToJson(FORM_DOC_RECEIVE),
         }
 
-
         MyAjax.createJSON((error, response) => {
             if (error) {
                 alert(error);
@@ -391,6 +399,7 @@ function setForms() {
                     //response valid=false
                 }
             }
+            setTable(searchBar.value.toUpperCase());
         }, data);
     });
 
