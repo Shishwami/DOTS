@@ -260,7 +260,7 @@ body:before
     background-color: var(--tr_dark);
 }
 
-.db_table tbody:hover
+.db_table tbody tr:hover
 {
     background-color: #00bd19
 }
