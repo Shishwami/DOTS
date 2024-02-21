@@ -5,7 +5,9 @@ include "Queries.php";
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-$sql = "";
+
+$sql = '';
+
 try {
     $inputs = json_decode(file_get_contents("php://input"), true);
     $inputs = sanitizeInputs($inputs);
@@ -78,10 +80,10 @@ try {
             getTableMain($inputs, $conn);
             break;
         case 'GET_TABLE_INBOUND':
-            getTableInbound($inputs, $conn);
+            getTableUser($inputs, $conn, 'DOTS_DOCUMENT_INBOUND');
             break;
         case 'GET_TABLE_OUTBOUND':
-            getTableOutbound($inputs, $conn);
+            getTableUser($inputs, $conn, 'DOTS_DOCUMENT_OUTBOUND');
             break;
     }
     $conn->close();
@@ -388,7 +390,18 @@ function getOptions($tableName, $columnName, $conn)
     // echo $sql;
     $result = mysqli_query($conn, $sql);
 
-    $options = "<option value='' selected disabled>Please Select " . ucwords(str_replace('_', ' ', $columnName)) . "</option>";
+    $columnNameFormated = "value";
+    if ($columnName == 'DOC_TYPE') {
+        $columnNameFormated = "Document Type";
+    } else if ($columnName == 'DOC_OFFICE') {
+        $columnNameFormated = "Office";
+    } else if ($columnName == 'DOC_PRPS') {
+        $columnNameFormated = "Document Purpose";
+    }else if ($columnName == 'DOC_DEPT') {
+        $columnNameFormated = "Department";
+    }
+
+    $options = "<option value='' selected disabled>Please Select $columnNameFormated</option>";
     if ($result) {
         $valid = true;
         while ($row = $result->fetch_assoc()) {
@@ -423,7 +436,7 @@ function getAddressee($inputs, $conn)
     $result = mysqli_query($conn, $sql);
 
 
-    $options = "<option value='' selected disabled>Please Select Department</option>";
+    $options = "<option value='' selected disabled>Please Select Addressee</option>";
     if ($result) {
         $valid = true;
         while ($row = $result->fetch_assoc()) {
@@ -607,9 +620,9 @@ function getTableMain($inputs, $conn)
         'COLUMNS' => [
             'DOTS_DOCUMENT.ID',
 
-            'CASE WHEN ROUTE_NUM = 0 THEN DOTS_DOCUMENT.DOC_NUM 
-             ELSE CONCAT(DOTS_DOCUMENT.DOC_NUM,\'-\',ROUTE_NUM) 
-             END AS `No.`',
+            "CASE WHEN ROUTE_NUM = 0 THEN DOTS_DOCUMENT.DOC_NUM 
+             ELSE CONCAT(DOTS_DOCUMENT.DOC_NUM,\"-\",ROUTE_NUM) 
+             END AS `No.`",
 
             'DOC_NUM',
             'ROUTE_NUM',
@@ -696,23 +709,23 @@ function getTableMain($inputs, $conn)
     setupTable($resultAsArray, $buttons);
 }
 
-function getTableInbound($inputs, $conn)
+function getTableUser($inputs, $conn, $tableName)
 {
     $queries = new Queries();
 
     $data = array(
-        'TABLE' => 'DOTS_DOCUMENT_INBOUND',
+        'TABLE' => "$tableName",
         'COLUMNS' => array(
-            'DOTS_DOCUMENT_INBOUND.ID',
+            "$tableName.ID",
 
-            'CASE WHEN ROUTE_NUM = 0 THEN DOTS_DOCUMENT_INBOUND.DOC_NUM 
-             ELSE CONCAT(DOTS_DOCUMENT_INBOUND.DOC_NUM,\'-\',ROUTE_NUM) 
-             END AS `No.`',
+            "CASE WHEN ROUTE_NUM = 0 THEN $tableName.DOC_NUM 
+             ELSE CONCAT($tableName.DOC_NUM,\"-\",ROUTE_NUM) 
+             END AS `No.`",
 
-            'DOC_NUM',
-            'ROUTE_NUM',
-            'DOC_NOTES',
-            'DOTS_DOC_PRPS.DOC_PRPS',
+            "DOC_NUM",
+            "ROUTE_NUM",
+            "DOC_NOTES",
+            "DOTS_DOC_PRPS.DOC_PRPS",
 
             "CONCAT(" .
             "IF(S_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(S_OFFICE.DOC_OFFICE,'-'), ' '),' ', " .
@@ -724,50 +737,55 @@ function getTableInbound($inputs, $conn)
             "IF(R_DEPT.DOC_DEPT IS NOT NULL,CONCAT(R_DEPT.DOC_DEPT,'-'), ' '), " .
             "IFNULL(R_FULL_NAME.FULL_NAME, ' ')) as 'Receiver'",
 
-            'DATE_TIME_RECEIVED',
-            'DATE_TIME_SEND',
-            'DOTS_DOC_ACTION.DOC_ACTION',
+            "DATE_TIME_RECEIVED",
+            "DATE_TIME_SEND",
+            "DOTS_DOC_ACTION.DOC_ACTION",
         ),
-        'JOIN' => array(
+        "JOIN" => array(
             array(
-                'table' => 'DOTS_DOC_PRPS',
-                'ON' => ['DOTS_DOCUMENT_INBOUND.PRPS_ID = DOTS_DOC_PRPS.ID'],
-                'TYPE' => 'LEFT',
+                "table" => "DOTS_DOC_PRPS",
+                "ON" => ["$tableName.PRPS_ID = DOTS_DOC_PRPS.ID"],
+                "TYPE" => "LEFT",
             ),
             array(
-                'table' => 'DOTS_DOC_OFFICE S_OFFICE',
-                'ON' => ['DOTS_DOCUMENT_INBOUND.S_OFFICE_ID = S_OFFICE.ID'],
-                'TYPE' => 'LEFT',
+                "table" => "DOTS_DOC_OFFICE S_OFFICE",
+                "ON" => ["$tableName.S_OFFICE_ID = S_OFFICE.ID"],
+                "TYPE" => "LEFT",
             ),
             array(
-                'table' => 'DOTS_DOC_DEPT S_DEPT',
-                'ON' => ['DOTS_DOCUMENT_INBOUND.S_DEPT_ID = S_DEPT.ID'],
-                'TYPE' => 'LEFT',
+                "table" => "DOTS_DOC_DEPT S_DEPT",
+                "ON" => ["$tableName.S_DEPT_ID = S_DEPT.ID"],
+                "TYPE" => "LEFT",
             ),
             array(
-                'table' => 'DOTS_ACCOUNT_INFO S_FULL_NAME',
-                'ON' => ['DOTS_DOCUMENT_INBOUND.S_USER_ID = S_FULL_NAME.HRIS_ID'],
-                'TYPE' => 'LEFT',
+                "table" => "DOTS_ACCOUNT_INFO S_FULL_NAME",
+                "ON" => ["$tableName.S_USER_ID = S_FULL_NAME.HRIS_ID"],
+                "TYPE" => "LEFT",
             ),
             array(
-                'table' => 'DOTS_DOC_OFFICE R_OFFICE',
-                'ON' => ['DOTS_DOCUMENT_INBOUND.R_OFFICE_ID = R_OFFICE.ID'],
-                'TYPE' => 'LEFT',
+                "table" => "DOTS_DOC_OFFICE R_OFFICE",
+                "ON" => ["$tableName.R_OFFICE_ID = R_OFFICE.ID"],
+                "TYPE" => "LEFT",
             ),
             array(
-                'table' => 'DOTS_DOC_DEPT R_DEPT',
-                'ON' => ['DOTS_DOCUMENT_INBOUND.R_DEPT_ID = R_DEPT.ID'],
-                'TYPE' => 'LEFT',
+                "table" => "DOTS_DOC_DEPT R_DEPT",
+                "ON" => ["$tableName.R_DEPT_ID = R_DEPT.ID"],
+                "TYPE" => "LEFT",
             ),
             array(
-                'table' => 'DOTS_ACCOUNT_INFO R_FULL_NAME',
-                'ON' => ['DOTS_DOCUMENT_INBOUND.R_USER_ID = R_FULL_NAME.HRIS_ID'],
-                'TYPE' => 'LEFT',
+                "table" => "DOTS_ACCOUNT_INFO R_FULL_NAME",
+                "ON" => ["$tableName.R_USER_ID = R_FULL_NAME.HRIS_ID"],
+                "TYPE" => "LEFT",
             ),
             array(
-                'table' => 'DOTS_DOC_ACTION',
-                'ON' => ['DOTS_DOCUMENT_INBOUND.ACTION_ID = DOTS_DOC_ACTION.ID'],
-                'TYPE' => 'LEFT',
+                "table" => "DOTS_DOC_ACTION",
+                "ON" => ["$tableName.ACTION_ID = DOTS_DOC_ACTION.ID"],
+                "TYPE" => "LEFT",
+            ),
+        ),
+        "WHERE" => array(
+            "AND" => array(
+                "$tableName.R_USER_ID" => $_SESSION["HRIS_ID"],
             ),
         ),
     );
@@ -785,11 +803,6 @@ function getTableInbound($inputs, $conn)
 
     setupTable($resultAsArray, $buttons);
 }
-function getTableOutbound($inputs, $conn)
-{
-
-}
-
 function setupTable($result, $buttons)
 {
 
