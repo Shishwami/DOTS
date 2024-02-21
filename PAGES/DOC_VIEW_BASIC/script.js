@@ -34,23 +34,25 @@ setInterval(function () {
 
 RADIO_SEND.addEventListener('change', function () {
     setACTION_TYPE(this);
-   
+
 });
 RADIO_RECEIVE.addEventListener('change', function () {
     setACTION_TYPE(this);
-   
+
 });
 function setACTION_TYPE(element) {
     action_type = element.value;
+    setTable(searchBar.value.toUpperCase(), action_type);
+
 }
 
 function setTable(filter, action_type) {
     var data = {};
-    if(action_type=='receive'){
-        data['REQUEST']= _REQUEST.GET_TABLE_INBOUND;
+    if (action_type == 'receive') {
+        data['REQUEST'] = _REQUEST.GET_TABLE_INBOUND;
     }
-    if(action_type=='send'){
-        data['REQUEST']= _REQUEST.GET_TABLE_OUTBOUND;
+    if (action_type == 'send') {
+        data['REQUEST'] = _REQUEST.GET_TABLE_OUTBOUND;
     }
     MyAjax.createJSON((error, response) => {
         if (error) {
@@ -86,10 +88,10 @@ function setButtons(table) {
     });
 }
 
-function setReceiveBtn(id,doc_num,route_num){
+function setReceiveBtn(id, doc_num, route_num) {
     console.log("btnpressed");
 }
-function setSendBtn(id,doc_num,route_num){
+function setSendBtn(id, doc_num, route_num) {
 
 }
 function setRECEIVED_TIME(element) {
