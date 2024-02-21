@@ -336,11 +336,11 @@ function getDocNum($inputs, $conn)
 
     $valid = false;
     $data = array(
-        'TABLE' => 'DOTS_DOCUMENT',
+        'TABLE' => 'DOTS_NUM_SEQUENCE',
         'COLUMNS' => array(
-            'DOC_NUM',
+            'CURRENT_VALUE',
         ),
-        'ORDER_BY' => 'DOC_NUM DESC'
+        // 'ORDER_BY' => 'DOC_NUM DESC'
     );
 
     $sql = $queries->selectQuery($data);
@@ -352,10 +352,9 @@ function getDocNum($inputs, $conn)
         $valid = true;
         $row = $result->fetch_assoc();
         $doc_num = 0;
-        if (isset($row['DOC_NUM'])) {
-            $doc_num = $row['DOC_NUM'];
+        if (isset($row['CURRENT_VALUE'])) {
+            $doc_num = $row['CURRENT_VALUE'];
         }
-        $doc_num = intval($doc_num) + 1;
         // var_dump($result);
     }
 
@@ -443,7 +442,7 @@ function sendDocForm($inputs, $conn)
     $route_num = $inputs['DATA']['ROUTE_NUM'];
 
     $insertData = array(
-        'TABLE' => 'DOTS_DOCUMENT_SUB',
+        'TABLE' => 'DOTS_DOCUMENT_INBOUND',
         'DATA' => $inputs['DATA'],
     );
     //chheck if routed
@@ -557,7 +556,7 @@ function resendDoc($insertData, $conn)
         //send the new doc
         $insertData['DATA']['ROUTE_NUM'] = $routeNum + 1;
         $insertData2 = array(
-            'TABLE' => 'DOTS_DOCUMENT_SUB',
+            'TABLE' => 'DOTS_DOCUMENT_INBOUND',
             'DATA' => $insertData['DATA']
         );
         $valid = sendDoc($insertData2, $conn);
@@ -694,33 +693,14 @@ function getTableMain($inputs, $conn)
 function setupTable($result)
 {
 
-    $thead = "";
+    $thead = "<th></th>";
     $tbody = "";
 
-    $theadKeys = array_keys($result[0]);
 
-    foreach ($theadKeys as $key) {
-        if (
-            $key == 'ID' ||
-            $key == 'ROUTE_NUM' ||
-            $key == 'DOC_NUM'
-        ) {
-            $remove = true;
-        } else {
-            $thead .= "<th>$key</th> ";
-        }
+    if (isset($result[0])) {
+        $theadKeys = array_keys($result[0]);
 
-    }
-
-    foreach ($result as $rows) {
-        $tbody .= "<tr>";
-        $tbody .= "<td>" .
-            "<button type='button' onclick=setButtonEvents(this)>S</button>" .
-            "<button type='button' onclick=A(a)>E</button>" .
-            "<button type='button'>A</button>" .
-            "</td>";
-        foreach ($rows as $key => $value) {
-
+        foreach ($theadKeys as $key) {
             if (
                 $key == 'ID' ||
                 $key == 'ROUTE_NUM' ||
@@ -728,17 +708,42 @@ function setupTable($result)
             ) {
                 $remove = true;
             } else {
-                if ($key == "Date Received") {
-                    $tbody .= "<td>" . formatDateTime($value) . "</td>";
-                } else if ($key == "Letter Date") {
-                    $tbody .= "<td>" . formatDate($value) . "</td>";
-                } else {
-                    $tbody .= "<td>$value</td>";
-                }
+                $thead .= "<th>$key</th> ";
             }
 
         }
-        $tbody .= "</tr>";
+
+        foreach ($result as $rows) {
+            $tbody .= "<tr>";
+            $tbody .= "<td>" .
+                "<button class=btnS type='button' data-i=$rows[ID] data-d=$rows[DOC_NUM] data-r=$rows[ROUTE_NUM]>S</button>" .
+                // "<button class=btnE type='button' data-i=$rows[ID] data-d=$rows[DOC_NUM] data-r=$rows[ROUTE_NUM]>E</button>" .
+                // "<button class=btnA type='button' data-i=$rows[ID] data-d=$rows[DOC_NUM] data-r=$rows[ROUTE_NUM]>A</button>" .
+                "</td>";
+            foreach ($rows as $key => $value) {
+
+                if (
+                    $key == 'ID' ||
+                    $key == 'ROUTE_NUM' ||
+                    $key == 'DOC_NUM'
+                ) {
+                    $remove = true;
+                } else {
+                    if ($key == "Date Received") {
+                        $tbody .= "<td>" . formatDateTime($value) . "</td>";
+                    } else if ($key == "Letter Date") {
+                        $tbody .= "<td>" . formatDate($value) . "</td>";
+                    } else {
+                        $tbody .= "<td>$value</td>";
+                    }
+                }
+
+            }
+            $tbody .= "</tr>";
+        }
+    } else {
+        $thead = "";
+        $tbody = "";
     }
 
 
