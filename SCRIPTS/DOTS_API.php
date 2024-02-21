@@ -602,7 +602,7 @@ function getTableMain($inputs, $conn)
             'DOTS_DOCUMENT.ID',
 
             'CASE WHEN ROUTE_NUM = 0 THEN DOTS_DOCUMENT.DOC_NUM 
-             ELSE CONCAT(DOTS_DOCUMENT.DOC_NUM,\' - \',ROUTE_NUM) 
+             ELSE CONCAT(DOTS_DOCUMENT.DOC_NUM,\'-\',ROUTE_NUM) 
              END AS `No.`',
 
             'DOC_NUM',
