@@ -1,104 +1,28 @@
 class JsFunctions {
 
-    static updateTable(tableJSON, table, filter) {
+    static updateTable(table, filter) {
 
         const thead = table.querySelector('thead');
         const tbody = table.querySelector('tbody');
-
-        thead.innerHTML = '';
-        tbody.innerHTML = '';
-
-        if (tableJSON[0] == null) {
-            return
-        }
-
-        const keys = Object.keys(tableJSON[0]);
-        keys.forEach(key => {
-            const th = document.createElement('th');
-            var remove = false;
-
-            if (_SUB_NAME[key] == null) {
-                th.textContent = key;
+        const rows = tbody.querySelectorAll('tr');
+        for (var i = 0; i < rows.length; i++) {
+            var td = rows[i].querySelectorAll("td");
+            var found = false;
+            for (var j = 0; j < td.length; j++) {
+              if (td[j]) {
+                var txtValue = td[j].textContent || td[j].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                  found = true;
+                  break;
+                }
+              }
+            }
+            if (found) {
+              rows[i].style.display = "";
             } else {
-                th.textContent = _SUB_NAME[key];
+              rows[i].style.display = "none";
             }
-
-            if (key == 'ID') {
-                remove = true;
-            } 
-            if (key == 'ROUTE_NUM') {
-                remove = true;
-            }
-            if (key == 'DOC_NUM') {
-                remove = true;
-            }
-
-            thead.appendChild(th);
-
-            if (remove) {
-                th.remove();
-            }
-        });
-
-        tableJSON.forEach(item => {
-            const row = document.createElement('tr');
-            var found = 0;
-            var rowID = {};
-
-
-            Object.entries(item).forEach(([key, value]) => {
-                const cell = document.createElement('td');
-                var final_value = value;
-                var remove = false;
-                // cell.dataset.keys = key;
-                // cell.dataset.value = value;
-
-                if (key == 'DATE_TIME_RECEIVED') {
-                    const date = new Date(value);
-                    final_value = this.formatDateTime(date);
-                }
-                if (key == 'LETTER_DATE') {
-                    const date = new Date(value);
-                    final_value = this.formatDate(date);
-                }
-                if (key == 'DOC_NUM') {
-                    rowID[key] = value;
-                    remove = true;
-                }
-                if (key == 'ROUTE_NUM') {
-                    rowID[key] = value;
-                    remove = true;
-                }
-                if (key == 'ID') {
-                    rowID[key] = value;
-                    remove = true;
-                }
-                if (final_value == null) {
-                    final_value = "";
-                }
-                if (final_value.toUpperCase().indexOf(filter) > -1) {
-                    found++;
-                }
-
-                cell.textContent = final_value;
-                row.appendChild(cell);
-
-                if (remove) {
-                    cell.remove();
-                }
-            });
-
-            row.addEventListener('click', function () {
-                const STRINGrowID = JSON.stringify(rowID);
-                console.log(rowID);
-                sessionStorage.setItem('TEMP_DATA', STRINGrowID);
-            });
-
-            if (found == 0) {
-                row.style.display = "none";
-            }
-            tbody.appendChild(row);
-        });
+          }
     }
 
     static FormToJson(form) {
