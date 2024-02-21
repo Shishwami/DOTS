@@ -32,8 +32,6 @@
     <div>
         <input type="text" name="searchBar" id="searchBar">
         <button name="BTN_DOC_CREATE" id="BTN_DOC_CREATE">CREATE</button>
-        <button name="BTN_DOC_SEND" id="BTN_DOC_SEND">SEND</button>
-        <button name="BTN_DOC_ATTACHMENTS" id="BTN_DOC_ATTACHMENTS">ATTACHMENTS</button>
     </div>
 
     <table id="DOC_VIEW_MAIN" name="DOC_VIEW_MAIN">
