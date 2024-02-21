@@ -78,10 +78,10 @@ try {
             getTableMain($inputs, $conn);
             break;
         case 'GET_TABLE_INBOUND':
-            getTableInbound();
+            getTableInbound($inputs, $conn);
             break;
         case 'GET_TABLE_OUTBOUND':
-            getTableOutbound();
+            getTableOutbound($inputs, $conn);
             break;
     }
     $conn->close();
@@ -681,7 +681,6 @@ function getTableMain($inputs, $conn)
         ],
         'ORDER_BY' => 'DOTS_DOCUMENT.DOC_NUM DESC'
     );
-    // var_dump($data);
     $selectTableSql = $queries->selectQuery($data);
     $result = mysqli_query($conn, $selectTableSql);
     $resultAsArray = array();
@@ -690,10 +689,97 @@ function getTableMain($inputs, $conn)
         $resultAsArray[] = $row;
     }
 
-    // echo $selectTableSql;
-
-    // echo json_encode($selectTableSql);
     setupTable($resultAsArray);
+}
+
+function getTableInbound($inputs, $conn)
+{
+    $queries = new Queries();
+
+    $data = array(
+        'TABLE' => 'DOTS_DOCUMENT_INBOUND',
+        'COLUMNS' => array(
+            'DOTS_DOCUMENT_INBOUND.ID',
+
+            'CASE WHEN ROUTE_NUM = 0 THEN DOTS_DOCUMENT_INBOUND.DOC_NUM 
+             ELSE CONCAT(DOTS_DOCUMENT_INBOUND.DOC_NUM,\'-\',ROUTE_NUM) 
+             END AS `No.`',
+
+            'DOC_NUM',
+            'ROUTE_NUM',
+            'DOC_NOTES',
+            'DOTS_DOC_PRPS.DOC_PRPS',
+
+            "CONCAT(" .
+            "IF(S_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(S_OFFICE.DOC_OFFICE,'-'), ' '),' ', " .
+            "IF(S_DEPT.DOC_DEPT IS NOT NULL,CONCAT(S_DEPT.DOC_DEPT,'-'), ' '), " .
+            "IFNULL(S_FULL_NAME.FULL_NAME, ' ')) as 'Sender'",
+
+            "CONCAT(" .
+            "IF(R_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(R_OFFICE.DOC_OFFICE,'-'), ' '),' ', " .
+            "IF(R_DEPT.DOC_DEPT IS NOT NULL,CONCAT(R_DEPT.DOC_DEPT,'-'), ' '), " .
+            "IFNULL(R_FULL_NAME.FULL_NAME, ' ')) as 'Receiver'",
+
+            'DATE_TIME_RECEIVED',
+            'DATE_TIME_SEND',
+            'DOTS_DOC_ACTION.DOC_ACTION',
+        ),
+        'JOIN' => array(
+            array(
+                'table' => 'DOTS_DOC_PRPS',
+                'ON' => ['DOTS_DOCUMENT_INBOUND.PRPS_ID = DOTS_DOC_PRPS.ID'],
+                'TYPE' => 'LEFT',
+            ),
+            array(
+                'table' => 'DOTS_DOC_OFFICE S_OFFICE',
+                'ON' => ['DOTS_DOCUMENT_INBOUND.S_OFFICE_ID = S_OFFICE.ID'],
+                'TYPE' => 'LEFT',
+            ),
+            array(
+                'table' => 'DOTS_DOC_DEPT S_DEPT',
+                'ON' => ['DOTS_DOCUMENT_INBOUND.S_DEPT_ID = S_DEPT.ID'],
+                'TYPE' => 'LEFT',
+            ),
+            array(
+                'table' => 'DOTS_ACCOUNT_INFO S_FULL_NAME',
+                'ON' => ['DOTS_DOCUMENT_INBOUND.S_USER_ID = S_FULL_NAME.HRIS_ID'],
+                'TYPE' => 'LEFT',
+            ),
+            array(
+                'table' => 'DOTS_DOC_OFFICE R_OFFICE',
+                'ON' => ['DOTS_DOCUMENT_INBOUND.R_OFFICE_ID = R_OFFICE.ID'],
+                'TYPE' => 'LEFT',
+            ),
+            array(
+                'table' => 'DOTS_DOC_DEPT R_DEPT',
+                'ON' => ['DOTS_DOCUMENT_INBOUND.R_DEPT_ID = R_DEPT.ID'],
+                'TYPE' => 'LEFT',
+            ),
+            array(
+                'table' => 'DOTS_ACCOUNT_INFO R_FULL_NAME',
+                'ON' => ['DOTS_DOCUMENT_INBOUND.R_USER_ID = R_FULL_NAME.HRIS_ID'],
+                'TYPE' => 'LEFT',
+            ),
+            array(
+                'table' => 'DOTS_DOC_ACTION',
+                'ON' => ['DOTS_DOCUMENT_INBOUND.ACTION_ID = DOTS_DOC_ACTION.ID'],
+                'TYPE' => 'LEFT',
+            ),
+        ),
+    );
+    $selectTableSql = $queries->selectQuery($data);
+    $result = mysqli_query($conn, $selectTableSql);
+    $resultAsArray = array();
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $resultAsArray[] = $row;
+    }
+
+    setupTable($resultAsArray);
+}
+function getTableOutbound($inputs, $conn)
+{
+
 }
 
 function setupTable($result)
@@ -783,8 +869,5 @@ function formatDate($dateString)
     return ($date->format('n')) . "/" . $date->format('j') . "/" . $date->format('Y');
 }
 
-function getTableInbound($inputs,$conn){
-    
-}
 
 ?>
