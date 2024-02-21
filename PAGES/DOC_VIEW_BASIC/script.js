@@ -52,7 +52,6 @@ function setTable(filter, action_type) {
     if(action_type=='send'){
         data['REQUEST']= _REQUEST.GET_TABLE_OUTBOUND;
     }
-    console.log(data);
     MyAjax.createJSON((error, response) => {
         if (error) {
             alert(error);
@@ -76,6 +75,22 @@ function setTable(filter, action_type) {
             JsFunctions.updateTable(DOC_VIEW_BASIC, filter);
         }
     }, data);
+}
+
+function setButtons(table) {
+    table.querySelectorAll('.btnR').forEach(function (button) {
+        button.addEventListener('mousedown', function () {
+            var itemId = this.getAttribute('data-i');
+            setReceiveBtn(this.dataset.i, this.dataset.d, this.dataset.r);
+        });
+    });
+}
+
+function setReceiveBtn(id,doc_num,route_num){
+    console.log("btnpressed");
+}
+function setSendBtn(id,doc_num,route_num){
+
 }
 function setRECEIVED_TIME(element) {
     var data = {
