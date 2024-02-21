@@ -1,4 +1,4 @@
-const _RESET_TIME = 1000;
+const _RESET_TIME = 5000;
 
 const DOTS_DOCUMENT = {
     NAME: 'DOTS_DOCUMENT',
