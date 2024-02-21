@@ -292,17 +292,24 @@ body:before
     cursor: default;
 }
 
+/* Modal Grid Styles */
+
 .tbl_form
 {
-    margin-top: 1.5rem;
-    font-size: 1.1rem;
+    margin: auto;
+    font-size: 0.7rem;
     font-weight: 500;
+    padding: 1rem;
+    display: grid;
+    grid-gap: 1em;
+    grid-template-areas: "form_head" "form_body" "form_notes" "form_footer" "form_sub";
 }
 
 .tbl_form input,
 .tbl_form select,
 .tbl_form textarea
 {
+    font-size: 0.7rem;
     resize: none;
     padding: 0.5rem;
     border-radius: 0.5rem;
@@ -310,17 +317,21 @@ body:before
 
 .form_head
 {
+    margin-top: -0.5rem;
     display: flex;
     justify-content: space-between;
 }
 
-/* .form_body
+.form_head label
+{
+    margin-right: 0.5rem;
+}
+
+.form_body
 {
     display: flex;
     justify-content: space-between;
-    /* justify-content: space-between;
-
-} */
+}
 
 .form_opt
 {
@@ -330,21 +341,30 @@ body:before
    text-align: center;
 }
 
-.form_opt label
+.form_opt label,
+.form_notes label
 {
     margin-bottom: 0.5rem;
 }
 
+.form_notes
+{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin: 0.5rem auto 0 auto;
+}
+
 .form_footer 
 {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     display: flex;
     justify-content: space-between;
 }
 
 .form_sub
 {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     text-align: center;
 }
 
@@ -354,7 +374,7 @@ body:before
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 0.5rem;
-    font-size: 1rem;
+    font-size: 0.8rem;
     font-weight: 500;
     color: var(--font_white);
     cursor: pointer;
@@ -371,5 +391,53 @@ body:before
 /* CSS Responsiveness */
 @media screen and (max-width:900px)
 {
-    
+    .tbl_form
+    {
+        font-size: 0.7rem;
+    }
+
+    .tbl_form input,
+    .tbl_form select,
+    .tbl_form textarea
+    {
+        font-size: 0.6rem;
+    }
+
+    .form_sub input
+    {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    .form_head input
+    {
+        margin-top: 0.5rem;
+    }
+}
+
+@media screen and (max-width:500px)
+{
+    .form_head
+    {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .head2
+    {
+        margin-top: 0.5rem;
+    }
+
+    .form_body
+    {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .tbl_form input[type=submit]
+    {
+        padding: 0.3rem;
+        font-size: 0.5rem;
+    }
 }

@@ -65,22 +65,22 @@
 
                         <div class="form_content">
                             <div class="box content_one">
-                                <div>
+                                <div class="cnt1">
                                     <label for="CREATE_DOC_NUM">Document Number:</label>
                                     <input type="text" name="DOC_NUM" id="CREATE_DOC_NUM" disabled>
                                 </div>
-                                <div>
+                                <div class="cnt2">
                                     <label for="CREATE_FULLNAME">Received By:</label>
                                     <input type="text" name="FULLNAME" id="CREATE_FULLNAME" disabled>
                                 </div>
                             </div>
 
                             <div class=" box content_two">
-                                <div>
+                                <div class="cnt1">
                                     <label for="CREATE_DATE_TIME_RECEIVED">Date Received:</label>
                                     <input type="datetime-local" name="DATE_TIME_RECEIVED" id="CREATE_DATE_TIME_RECEIVED">
                                 </div>
-                                <div>
+                                <div class="cnt2">
                                     <label for="CREATE_LETTER_DATE">Letter Date:</label>
                                     <input type="date" name="LETTER_DATE" id="CREATE_LETTER_DATE">
                                 </div>
@@ -122,7 +122,7 @@
             </div>
 
 
-            <div class="modal" id="snd_modal">
+            <div class="moodal" id="snd_modal">
                 <div class="modal_content">
                     <div class="modal_banner">
                         <span class="snd_close">&times;</span>
@@ -189,7 +189,7 @@
                 </div>
             </div>
 
-            <div class="modal" id="atc_modal">
+            <div class="moodal" id="atc_modal">
                 <div class="modal_content">
                     <div class="modal_banner">
                         <span class="atc_close">&times;</span>

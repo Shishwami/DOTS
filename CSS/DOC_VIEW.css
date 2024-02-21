@@ -192,7 +192,8 @@ body:before
 {
     display: flex;
     justify-content: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+    margin-top: -0.5rem;
 }
 
 .radio_btn .btn2
@@ -282,16 +283,23 @@ body:before
     justify-content: space-between;
 }
 
+#crt_modal .content_one .cnt2,
+#crt_modal .content_two .cnt2
+{
+    margin-top: 0.5rem;
+}
+
 #crt_modal .content_one label
 {
     margin-right: 0.5rem;
+   
 }
 
 #crt_modal .content_one input
 {
+    margin-top: 0.5rem;
     padding: 0.5rem;
     border-radius: 0.5rem;
-    width: 150px;
 }
 
 #crt_modal .content_two
@@ -314,7 +322,7 @@ body:before
 
 #crt_modal .content_three
 {
-    margin-top: 2rem;
+    margin-top: 1rem;
     grid-area: content_three;
     display: flex;
     justify-content: space-between;
@@ -334,22 +342,30 @@ body:before
 
 #crt_modal .form_content
 {
-    display: grid;
+    /* display: grid; */
     grid-gap: 1em;
     grid-template-areas: "content_one" "content_two" "content_three";
-    width: 100%;
+    
 }
 
 #crt_modal .form_content label
 {
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 500;
+}
+
+#crt_modal .form_content input,
+#crt_modal .form_content select,
+#crt_modal .form_content textarea
+
+{
+   font-size: 15px;
 }
 
 #crt_modal .submit
 {
     text-align: center;
-    margin-top: 3rem;
+    margin-top: 1rem;
 }
 
 #crt_modal .submit input
@@ -358,7 +374,7 @@ body:before
     border: none;
     border-radius: 0.5rem;
     padding: 0.5rem;
-    font-size: 1.1rem;
+    font-size: 15px;
     font-weight: 500;
     letter-spacing: 0.1rem;
     color: var(--font_white);
@@ -474,4 +490,59 @@ body:before
     background-image: var(--submit_btn-hover);
     color: var(--font_black);
     font-weight: 600;
+}
+
+/* CSS Responsiveness */
+@media screen and (max-width:900px)
+{
+    .r_btn
+    {
+        width: 20px;
+        height: 20px;
+    }
+
+    .radio_btn label
+    {
+        font-size: 16px;
+    }
+
+    .radio_cnt .r_btn.one:after
+    {
+        top: 24%;
+        left: 23%;
+    }
+
+    .radio_cnt .r_btn.two:after
+    {
+        top: 24%;
+        left: 23%;
+    }
+
+    #crt_modal .form_content
+    {
+
+    }
+
+    #crt_modal .form_content label
+    {
+        font-size: 10px;
+    }
+
+    #crt_modal .form_content input,
+    #crt_modal .form_content select,
+    #crt_modal .form_content textarea
+    {
+        font-size: 10px;
+        padding: 0.3rem;
+    }
+
+    #crt_modal .submit input
+    {
+        font-size: 10px;
+    }
+}
+
+@media screen and (max-width:900px)
+{
+    
 }

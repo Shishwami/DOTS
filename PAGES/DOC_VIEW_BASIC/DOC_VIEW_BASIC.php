@@ -58,8 +58,6 @@
                     <button type="button" id="S_BTN">SEND</button>
                 </div>
 
-                <button id="sent_btn">here</button>
-
                 <div class="modal" id="sent_modal">
                     <div class="modal_content">
                         <div class="modal_banner">
@@ -69,11 +67,11 @@
 
                         <form class="tbl_form" action="submit" name="FORM_DOC_SEND" id="FORM_DOC_SEND">
                         <div class="form_head">
-                            <div>
+                            <div class="head1">
                                 <label for="SEND_DOC_NUM">Document Number:</label>
                                 <input type="text" name="DOC_NUM" id="SEND_DOC_NUM" readonly>
                             </div>
-                            <div>
+                            <div class="head2">
                                 <label for="SEND_DATE_TIME_RECEIVED">Date Received:</label>
                                 <input type="datetime-local" name="DATE_TIME_RECEIVED" id="SEND_DATE_TIME_RECEIVED">
                             </div>
@@ -100,11 +98,12 @@
                                     <!-- to be filled using database -->
                                 </select>
                             </div>
-                            <div class="form_opt">
-                                <label for="SEND_DOC_NOTES">Notes:</label>
-                                <textarea name="DOC_NOTES" id="SEND_DOC_NOTES" cols="20" rows="5"></textarea>
-                                <!-- <input type="text" name="DOC_NOTES" id="SEND_DOC_NOTES"> -->
-                            </div>
+                        </div>
+                        
+                        <div class="form_notes">
+                            <label for="SEND_DOC_NOTES">Notes:</label>
+                            <textarea name="DOC_NOTES" id="SEND_DOC_NOTES" cols="30" rows="5"></textarea>
+                            <!-- <input type="text" name="DOC_NOTES" id="SEND_DOC_NOTES"> -->
                         </div>
 
                         <div class="form_footer">
