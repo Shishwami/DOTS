@@ -340,6 +340,7 @@ function setTable(filter) {
                 tbody.innerHTML = response.TBODY;
             }
             setButtons(DOC_VIEW_MAIN);
+            JsFunctions.updateTable(DOC_VIEW_MAIN,filter);
         }
     }, data2);
 }
