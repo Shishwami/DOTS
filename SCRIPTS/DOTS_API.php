@@ -77,6 +77,12 @@ try {
         case 'GET_TABLE_MAIN':
             getTableMain($inputs, $conn);
             break;
+        case 'GET_TABLE_INBOUND':
+            getTableInbound();
+            break;
+        case 'GET_TABLE_OUTBOUND':
+            getTableOutbound();
+            break;
     }
     $conn->close();
 
@@ -775,6 +781,10 @@ function formatDate($dateString)
 {
     $date = new DateTime($dateString);
     return ($date->format('n')) . "/" . $date->format('j') . "/" . $date->format('Y');
+}
+
+function getTableInbound($inputs,$conn){
+    
 }
 
 ?>
