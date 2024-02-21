@@ -109,7 +109,7 @@
             </div>
             <div>
                 <label for="SEND_DATE_TIME_SENT">Date Sent:</label>
-                <input type="datetime-local" name="DATE_TIME_RECEIVED" id="SEND_DATE_TIME_SENT">
+                <input type="datetime-local" name="DATE_TIME_SEND" id="SEND_DATE_TIME_SENT">
             </div>
             <div>
                 <label for="SEND_DOC_PRPS">Documnet Purpose:</label>
