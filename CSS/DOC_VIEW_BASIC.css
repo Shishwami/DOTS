@@ -417,11 +417,25 @@ body:before
 
 @media screen and (max-width:500px)
 {
+    .tbl_form
+    {
+        font-size: 0.4rem;
+    }
+
+    .tbl_form input,
+    .tbl_form select,
+    .tbl_form textarea
+    {
+        font-size: 0.4rem;
+        padding: 0.3rem;
+    }
+
     .form_head
     {
         text-align: center;
         display: flex;
         flex-direction: column;
+        margin-top: -2rem;
     }
 
     .head2

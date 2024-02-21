@@ -436,15 +436,17 @@ body:before
 
 #snd_modal .content_three
 {
-    margin-top: 2rem;
+    margin-top: 1rem;
     grid-area: content_three;
     display: flex;
     justify-content: space-between;
     text-align: center;
 }
 
-#snd_modal .content_three input
+#snd_modal .content_three input,
+#snd_modal .content_three textarea
 {
+    resize: none;
     display: flex;
     flex-direction: column;
     margin-top: 0.5rem;
@@ -518,11 +520,6 @@ body:before
         left: 23%;
     }
 
-    #crt_modal .form_content
-    {
-
-    }
-
     #crt_modal .form_content label
     {
         font-size: 10px;
@@ -540,9 +537,134 @@ body:before
     {
         font-size: 10px;
     }
+
+    #snd_modal .form_content label
+    {
+        font-size: 10px;
+    }
+
+    #snd_modal .form_content input,
+    #snd_modal .form_content select,
+    #snd_modal .form_content textarea
+    {
+        font-size: 10px;
+        padding: 0.3rem;
+    }
+
+    #snd_modal .submit input
+    {
+        font-size: 0.8rem;
+    }
 }
 
-@media screen and (max-width:900px)
+@media screen and (max-width:500px)
 {
-    
-}
+    .form
+    {
+        padding: 1.5rem 0 0 0 !important;
+    }
+
+    .r_btn
+    {
+        width: 18px;
+        height: 18px;
+    }
+
+    .radio_btn label
+    {
+        font-size: 14px;
+    }
+
+    .radio_cnt .r_btn.one:after
+    {
+        top: 24%;
+        left: 22%;
+    }
+
+    #crt_modal .form_content label
+    {
+        font-size: 6px;
+    }
+
+    #crt_modal .form_content input,
+    #crt_modal .form_content select,
+    #crt_modal .form_content textarea
+    {
+        font-size: 6px;
+    }
+
+    #crt_modal .content_one input
+    {
+        margin-top: 0;
+    }
+
+    #crt_modal .content_two .cnt1,
+    #crt_modal .content_two .cnt2
+    {
+        margin-top: 0;
+    }
+
+    #crt_modal .content_two
+    {
+        margin-top: 0.5rem;
+    }
+
+    #crt_modal .content_one .cnt2
+    {
+        margin-top: 0;
+    }
+
+    #crt_modal .submit input
+    {
+        font-size: 8px;
+    }
+
+    #snd_modal .form
+    {
+        padding: .5rem 0 0 0 !important;
+    }
+
+    #snd_modal .form_content label
+    {
+        font-size: 6px;
+    }
+
+    #snd_modal .form_content input,
+    #snd_modal .form_content select,
+    #snd_modal .form_content textarea
+    {
+        font-size: 6px;
+    }
+
+    #snd_modal .content_two
+    {
+        margin-top: 0;
+        flex-direction: column;
+    }
+
+    #snd_modal .content_two select
+    {
+        margin-top: 0;
+        width: 100%;
+    }
+
+    #snd_modal .content_one .doc_num input
+    {
+        width: auto;
+    }
+
+    #snd_modal .content_three
+    {
+        margin-top: 0;
+    }
+
+    #snd_modal .submit
+    {
+        margin-top: 1rem;
+    }
+
+    #snd_modal .submit input
+    {
+        font-size: 8px;
+    }
+} 

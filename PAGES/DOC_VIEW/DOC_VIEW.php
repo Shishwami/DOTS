@@ -122,7 +122,7 @@
             </div>
 
 
-            <div class="moodal" id="snd_modal">
+            <div class="modal" id="snd_modal">
                 <div class="modal_content">
                     <div class="modal_banner">
                         <span class="snd_close">&times;</span>
@@ -169,7 +169,7 @@
                             <div class="box content_three">
                                 <div>
                                     <label for="SEND_DOC_NOTES">Notes:</label>
-                                    <input type="text" name="DOC_NOTES" id="SEND_DOC_NOTES">
+                                    <textarea name="DOC_NOTES" id="SEND_DOC_NOTES" cols="20" rows="5"></textarea>
                                 </div>
                                 <div>
                                     <label for="SEND_DOC_ACTION">Action ID</label>
@@ -189,7 +189,7 @@
                 </div>
             </div>
 
-            <div class="moodal" id="atc_modal">
+            <div class="modal" id="atc_modal">
                 <div class="modal_content">
                     <div class="modal_banner">
                         <span class="atc_close">&times;</span>
