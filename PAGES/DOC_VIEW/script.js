@@ -28,7 +28,7 @@ const SEND_DOC_PRPS = FORM_DOC_SEND.querySelector("#SEND_DOC_PRPS");
 const SEND_R_DEPT_ID = FORM_DOC_SEND.querySelector("#SEND_R_DEPT_ID");
 const SEND_DOC_ADDRESSEE = FORM_DOC_SEND.querySelector("#SEND_DOC_ADDRESSEE");
 const SEND_DOC_NOTES = FORM_DOC_SEND.querySelector("#SEND_DOC_NOTES");
-const SEND_DATE_TIME_RECEIVED = FORM_DOC_SEND.querySelector("#SEND_DATE_TIME_RECEIVED");
+const SEND_DATE_TIME_SENT = FORM_DOC_SEND.querySelector("#SEND_DATE_TIME_SENT");
 const SEND_ACTION_ID = FORM_DOC_SEND.querySelector("#SEND_ACTION_ID");
 const SEND_S_USER_ID = FORM_DOC_SEND.querySelector("#SEND_S_USER_ID");
 const SEND_S_DEPT_ID = FORM_DOC_SEND.querySelector("#SEND_S_DEPT_ID");
@@ -58,7 +58,7 @@ function initializeSEND_FORM() {
     setR_DEPT_ID();
     setDOC_PURPOSE();
     setDOC_LOCATION();
-    setRECEIVED_TIME(SEND_DATE_TIME_RECEIVED);
+    setRECEIVED_TIME(SEND_DATE_TIME_SENT);
 
 }
 function initializeRECEIVE_FORM() {
@@ -266,7 +266,7 @@ function sendBtnEvent(id, doc_num, route_num) {
 
     clearValues();
     resetAddressee();
-    setRECEIVED_TIME(SEND_DATE_TIME_RECEIVED);
+    setRECEIVED_TIME(SEND_DATE_TIME_SENT);
 
     if (id != 0) {
         SEND_DOC_NUM.value = doc_num;
@@ -335,12 +335,16 @@ function setTable(filter) {
             const tbody = DOC_VIEW_MAIN.querySelector('tbody');
             if (response.THEAD) {
                 thead.innerHTML = response.THEAD;
+            } else {
+                thead.innerHTML = '';
             }
             if (response.TBODY) {
                 tbody.innerHTML = response.TBODY;
+            } else {
+                tbody.innerHTML = '';
             }
             setButtons(DOC_VIEW_MAIN);
-            JsFunctions.updateTable(DOC_VIEW_MAIN,filter);
+            JsFunctions.updateTable(DOC_VIEW_MAIN, filter);
         }
     }, data2);
 }
