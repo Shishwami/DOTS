@@ -57,7 +57,7 @@
             <input type="datetime" name="DATE_TIME_RECEIVED" id="RECEIVE_DATE_TIME_RECEIVED">
         </div>
         <div>
-            
+            <label for=""></label>
         </div>
 
     </form>
