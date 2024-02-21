@@ -689,7 +689,11 @@ function getTableMain($inputs, $conn)
         $resultAsArray[] = $row;
     }
 
-    setupTable($resultAsArray);
+    $buttons = array(
+        'btnS' => 'S'
+    );
+
+    setupTable($resultAsArray, $buttons);
 }
 
 function getTableInbound($inputs, $conn)
@@ -775,20 +779,26 @@ function getTableInbound($inputs, $conn)
         $resultAsArray[] = $row;
     }
 
-    setupTable($resultAsArray);
+    $buttons = array(
+        'btnR' => 'R'
+    );
+
+    setupTable($resultAsArray, $buttons);
 }
 function getTableOutbound($inputs, $conn)
 {
 
 }
 
-function setupTable($result)
+function setupTable($result, $buttons)
 {
 
-    $thead = "<th></th>";
+    $thead = "";
     $tbody = "";
 
-
+    if ($buttons != null) {
+        $thead = "<th></th>";
+    }
     if (isset($result[0])) {
         $theadKeys = array_keys($result[0]);
 
@@ -807,11 +817,16 @@ function setupTable($result)
 
         foreach ($result as $rows) {
             $tbody .= "<tr>";
-            $tbody .= "<td>" .
-                "<button class=btnS type='button' data-i=$rows[ID] data-d=$rows[DOC_NUM] data-r=$rows[ROUTE_NUM]>S</button>" .
-                // "<button class=btnE type='button' data-i=$rows[ID] data-d=$rows[DOC_NUM] data-r=$rows[ROUTE_NUM]>E</button>" .
-                // "<button class=btnA type='button' data-i=$rows[ID] data-d=$rows[DOC_NUM] data-r=$rows[ROUTE_NUM]>A</button>" .
-                "</td>";
+
+            if ($buttons != null) {
+                $tbody .= "<td>";
+                foreach ($buttons as $key => $value) {
+                    $tbody .= "<button class=$key type='button' data-i=$rows[ID] data-d=$rows[DOC_NUM] data-r=$rows[ROUTE_NUM]>$value</button>";
+                }
+                $tbody .= "</td>";
+            }
+
+
             foreach ($rows as $key => $value) {
 
                 if (
@@ -822,6 +837,8 @@ function setupTable($result)
                     $remove = true;
                 } else {
                     if ($key == "Date Received") {
+                        $tbody .= "<td>" . formatDateTime($value) . "</td>";
+                    } else if ($key == "Date Sent") {
                         $tbody .= "<td>" . formatDateTime($value) . "</td>";
                     } else if ($key == "Letter Date") {
                         $tbody .= "<td>" . formatDate($value) . "</td>";
