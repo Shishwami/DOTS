@@ -48,7 +48,21 @@
         </tbody>
     </table>
 
+    <form action="submit" name="FORM_DOC_RECEIVE" id="FORM_DOC_RECEIVE">
+
+        <h1>RECEIVE MODAL</h1>
+
+        <div>
+            <label for="RECEIVE_DATE_TIME_RECEIVED">Date Recevied:</label>
+            <input type="datetime" name="DATE_TIME_RECEIVED" id="RECEIVE_DATE_TIME_RECEIVED">
+        </div>
+        <div>
+            
+        </div>
+
+    </form>
     <form action="submit" name="FORM_DOC_SEND" id="FORM_DOC_SEND">
+        <h1>SEND FORM</h1>
         <div>
             <label for="SEND_DOC_NUM">Document Number:</label>
             <input type="text" name="DOC_NUM" id="SEND_DOC_NUM" readonly>
