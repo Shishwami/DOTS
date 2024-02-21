@@ -36,84 +36,16 @@ S_BTN.disabled = true;
 
 RADIO_SEND.addEventListener('change', function () {
     setACTION_TYPE(this);
-    S_BTN.disabled = false;
-    R_BTN.disabled = true;
+   
 });
 RADIO_RECEIVE.addEventListener('change', function () {
     setACTION_TYPE(this);
-    S_BTN.disabled = true;
-    R_BTN.disabled = false;
-});
-R_BTN.addEventListener('click', function () {
-    const json = JSON.parse(sessionStorage.getItem('TEMP_DATA'));
-    let id = 0;
-
-    if (!json) {
-        alert('no_id');
-        return;
-    }
-
-    id = json.ID;
-    console.log(id);
-    sessionStorage.removeItem('TEMP_DATA');
-    //confirm
-
-    var data = {
-        TABLE: DOTS_DOCUMENT_SUB.NAME,
-        REQUEST: _REQUEST.UPDATE,
-        DATA: {
-            ACTION_ID: 2,
-            R_USER_ID: hrisId,
-        },
-        WHERE: {
-            ID: id,
-        }
-    }
-
-    MyAjax.createJSON((error, response) => {
-        console.log(response);
-    }, data);
-
-});
-S_BTN.addEventListener('click', function () {
-
-    console.log('send');
-
-    const json = JSON.parse(sessionStorage.getItem('TEMP_DATA'));
-    var formData = JsFunctions.FormToJson(FORM_DOC_SEND);
-    let id = 0;
-
-    if (!json) {
-        alert('no_id');
-        return;
-    }
-
-    id = json.ID;
-    console.log(id);
-    sessionStorage.removeItem('TEMP_DATA');
-    //confirm
-
-    var data = {
-        TABLE: DOTS_DOCUMENT_SUB.NAME,
-        REQUEST: _REQUEST.UPDATE,
-        DATA: {
-            // ACTION_ID: 2,
-            // R_USER_ID: hrisId,
-            formData,
-        },
-        WHERE: {
-            ID: id,
-        }
-    }
-
-    // MyAjax.createJSON((error, response) => {
-    //     console.log(response);
-    // }, data);
+   
 });
 function setACTION_TYPE(element) {
     action_type = element.value;
-    setTable(searchBar.value.toUpperCase(), action_type);
 }
+
 function setTable(filter, action_type) {
     const columns = [
         'DOC_NUM',
@@ -238,24 +170,16 @@ function setRECEIVED_TIME(element) {
     }, data);
 }
 function setDOC_PURPOSEselect() {
-    const SEND_DOC_PRPS = document.getElementById("SEND_DOC_PRPS")
-    var columns = [
-        DOTS_DOC_PRPS.ID,
-        DOTS_DOC_PRPS.DOC_PRPS,
-    ]
 
     var data = {
-        TABLE: DOTS_DOC_PRPS.NAME,
-        REQUEST: _REQUEST.SELECT,
-        COLUMNS: columns,
+        REQUEST: _REQUEST.GET_DOC_PRPS,
     }
 
     MyAjax.createJSON((error, response) => {
         if (!error) {
             if (response.VALID) {
                 delete response.VALID;
-                var object = Object.values(response)[0];
-                JsFunctions.setSelect(SEND_DOC_PRPS, object);
+                SEND_DOC_PRPS.innerHTML = Object.values(response)[0];
             } else {
             }
         } else {
@@ -328,10 +252,6 @@ function getSessionDeptId() {
             }
         }
     }, data);
-}
-
-function setSubId(){
-
 }
 function setDOC_LOCATION() {
 
