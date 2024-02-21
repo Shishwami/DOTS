@@ -108,8 +108,8 @@
                 <input type="text" name="ROUTE_NUM" id="SEND_ROUTE_NUM" readonly>
             </div>
             <div>
-                <label for="SEND_DATE_TIME_RECEIVED">Date Received:</label>
-                <input type="datetime-local" name="DATE_TIME_RECEIVED" id="SEND_DATE_TIME_RECEIVED">
+                <label for="SEND_DATE_TIME_SENT">Date Sent:</label>
+                <input type="datetime-local" name="DATE_TIME_RECEIVED" id="SEND_DATE_TIME_SENT">
             </div>
             <div>
                 <label for="SEND_DOC_PRPS">Documnet Purpose:</label>
