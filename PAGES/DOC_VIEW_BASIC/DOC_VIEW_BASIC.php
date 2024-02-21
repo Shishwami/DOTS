@@ -48,9 +48,6 @@
         </tbody>
     </table>
 
-    <button type="button" id="R_BTN">Receive</button>
-    <button type="button" id="S_BTN">SEND</button>
-
     <form action="submit" name="FORM_DOC_SEND" id="FORM_DOC_SEND">
         <div>
             <label for="SEND_DOC_NUM">Document Number:</label>
