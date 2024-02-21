@@ -90,6 +90,8 @@ function setButtons(table) {
 
 function setReceiveBtn(id, doc_num, route_num) {
     console.log("btnpressed");
+
+    //updateform
 }
 function setSendBtn(id, doc_num, route_num) {
 
