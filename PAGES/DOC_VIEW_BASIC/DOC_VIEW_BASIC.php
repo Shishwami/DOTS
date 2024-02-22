@@ -61,22 +61,22 @@
                 <div class="modal" id="rec_modal">
                     <div class="modal_content">
                         <div class="modal_banner">
-                            <span class="sent_close">&times;</span>
+                            <span class="rec_close">&times;</span>
                             <h1>Receive</h1>
                         </div>
 
                         <form class="tbl_form" action="submit" name="FORM_DOC_RECEIVE" id="FORM_DOC_RECEIVE">
                             <div class="form_head">
                                 <div>
-                                    <label for="RECEIVE_DATE_TIME_RECEIVED">Date Recevied:</label>
+                                    <label for="RECEIVE_DATE_TIME_RECEIVED">Date Received:</label>
                                     <input type="datetime-local" name="DATE_TIME_RECEIVED" id="RECEIVE_DATE_TIME_RECEIVED">
                                 </div>
                             </div>   
 
                             <div class="form_body">
-                                <input type="text" name="ID" id="RECEIVE_DOC_ID">
-                                <input type="text" name="ACTION_ID" id="RECEIVE_DOC_ACTION" value="2">
-                                <input type="text" name="R_USER_ID" id="RECEIVE_R_USER_ID">
+                                <input type="text" name="ID" id="RECEIVE_DOC_ID" hidden>
+                                <input type="text" name="ACTION_ID" id="RECEIVE_DOC_ACTION" value="2" hidden>
+                                <input type="text" name="R_USER_ID" id="RECEIVE_R_USER_ID" hidden>
                             </div>
 
                             <div class="form_sub">

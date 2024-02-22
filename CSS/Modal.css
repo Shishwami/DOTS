@@ -70,7 +70,7 @@
 }
 
 /* Close Button Styles */
-.crt_close, .snd_close, .atc_close, .add_close, .dlt_close, .sent_close
+.crt_close, .snd_close, .atc_close, .add_close, .dlt_close, .sent_close, .rec_close
 {
     color: var(--white);
     float: right;
@@ -79,8 +79,8 @@
     margin: 0.5rem 2rem 0 1rem;
 }
   
-.crt_close:hover, .snd_close:hover, .atc_close:hover, .add_close:hover, .dlt_close:hover, .sent_close:hover,
-.crt_close:focus, .snd_close:focus, .atc_close:focus, .add_close:focus, .dlt_close:focus, .sent_close:focus
+.crt_close:hover, .snd_close:hover, .atc_close:hover, .add_close:hover, .dlt_close:hover, .sent_close:hover, .rec_close:hover,
+.crt_close:focus, .snd_close:focus, .atc_close:focus, .add_close:focus, .dlt_close:focus, .sent_close:focus, .rec_close:focus
 {
     color: var(--modal_close);
     text-decoration: none;
@@ -100,7 +100,7 @@
     font-size: 13px;
   }
 
-  .crt_close, .snd_close, .atc_close, .add_close, .dlt_close, .sent_close
+  .crt_close, .snd_close, .atc_close, .add_close, .dlt_close, .sent_close, .rec_close
 {
     font-size: 25px;
 }
@@ -113,7 +113,7 @@
     font-size: 10px;
   }
 
-  .crt_close, .snd_close, .atc_close, .add_close, .dlt_close, .sent_close
+  .crt_close, .snd_close, .atc_close, .add_close, .dlt_close, .sent_close, .rec_close
   {
       font-size: 20px;
   }

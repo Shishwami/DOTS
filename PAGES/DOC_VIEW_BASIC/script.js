@@ -107,6 +107,10 @@ function setReceiveBtn(id, doc_num, route_num) {
         RECEIVE_R_USER_ID.value = result;
     });
 
+    const rec_modal = document.getElementById("rec_modal");
+
+    rec_modal.style.display="block";
+
     //open modal
 
 }

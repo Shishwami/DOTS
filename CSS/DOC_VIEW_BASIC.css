@@ -293,7 +293,6 @@ body:before
 }
 
 /* Modal Grid Styles */
-
 .tbl_form
 {
     margin: auto;
@@ -386,6 +385,11 @@ body:before
 .form_sub input:hover
 {
     background-image: var(--opt_btn-hover); 
+}
+
+#rec_modal
+{
+    
 }
 
 /* CSS Responsiveness */
