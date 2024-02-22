@@ -100,12 +100,18 @@ body:before
     grid-template-areas: "search" "table" "buttons";
 }
 
+.header
+{
+    display: flex;
+}
+
 .search
 {
     grid-area: search;
     font-size: 15px;
     width: 30%;
     padding: 0.5rem;
+    margin-right: 5rem;
     margin-bottom: 1rem;
     border-radius: 0.5rem;
 }
@@ -165,7 +171,6 @@ body:before
 .opt
 {
     grid-area: buttons;
-    margin-top: 1rem;
 }
 
 .opt_btn
@@ -283,7 +288,7 @@ body:before
     justify-content: space-between;
 }
 
-#crt_modal .content_one .cnt2,
+#crt_modal .content_two .cnt1,
 #crt_modal .content_two .cnt2
 {
     margin-top: 0.5rem;
@@ -292,7 +297,6 @@ body:before
 #crt_modal .content_one label
 {
     margin-right: 0.5rem;
-   
 }
 
 #crt_modal .content_one input
@@ -351,7 +355,7 @@ body:before
 #crt_modal .form_content label
 {
     font-size: 15px;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 #crt_modal .form_content input,
@@ -413,7 +417,7 @@ body:before
 
 #snd_modal .content_two
 {
-    margin-top: 2rem;
+    margin-top: 1rem;
     grid-area: content_two;
     display: flex;
     justify-content: space-between;
@@ -436,7 +440,7 @@ body:before
 
 #snd_modal .content_three
 {
-    margin-top: 1rem;
+    margin: 1rem auto 0 auto;
     grid-area: content_three;
     display: flex;
     justify-content: space-between;
@@ -465,13 +469,13 @@ body:before
 #snd_modal .form_content label
 {
     font-size: 20px;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 #snd_modal .submit
 {
     text-align: center;
-    margin-top: 3rem;
+    margin-top: 2rem;
 }
 
 #snd_modal .submit input
@@ -581,6 +585,18 @@ body:before
         left: 22%;
     }
 
+    .search
+    {
+        font-size: 10px;
+        padding: 0.3rem;
+        width: auto;
+    }
+
+    .opt_btn
+    {
+        font-size: 10px;
+    }
+
     #crt_modal .form_content label
     {
         font-size: 6px;
@@ -636,6 +652,16 @@ body:before
         font-size: 6px;
     }
 
+    #snd_modal .content_one
+    {
+        flex-direction: column;
+    }
+
+    #snd_modal .content_one input
+    {
+        width: 100%;
+    }
+
     #snd_modal .content_two
     {
         margin-top: 0;
@@ -667,4 +693,4 @@ body:before
     {
         font-size: 8px;
     }
-} 
+}

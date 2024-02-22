@@ -171,11 +171,11 @@
                                     <label for="SEND_DOC_NOTES">Notes:</label>
                                     <textarea name="DOC_NOTES" id="SEND_DOC_NOTES" cols="20" rows="5"></textarea>
                                 </div>
-                                <div>
+                                <div hidden>
                                     <label for="SEND_DOC_ACTION">Action ID</label>
                                     <input type="text" name="ACTION_ID" id="SEND_DOC_ACTION" value="3">
                                 </div>
-                                <div>
+                                <div hidden>
                                     <label for="SEND_S_USER_ID">User ID</label>
                                     <input type="text" name="S_USER_ID" id="SEND_S_USER_ID" value="">
                                 </div>

@@ -401,7 +401,7 @@ function getOptions($tableName, $columnName, $conn)
         $columnNameFormated = "Department";
     }
 
-    $options = "<option value='' selected disabled>Please Select $columnNameFormated</option>";
+    $options = "<option value='' selected disabled>Select $columnNameFormated</option>";
     if ($result) {
         $valid = true;
         while ($row = $result->fetch_assoc()) {
@@ -436,7 +436,7 @@ function getAddressee($inputs, $conn)
     $result = mysqli_query($conn, $sql);
 
 
-    $options = "<option value='' selected disabled>Please Select Addressee</option>";
+    $options = "<option value='' selected disabled>Select Addressee</option>";
     if ($result) {
         $valid = true;
         while ($row = $result->fetch_assoc()) {

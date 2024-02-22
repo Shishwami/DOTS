@@ -20,10 +20,10 @@
         <div class="main">
 
             <div class="grid">
-                <div>
+                <div class="header">
                     <input type="text"  class="search" name="searchBar" id="searchBar" placeholder="Search Document">
                     <div class="opt">
-                        <button class="opt_btn crt" name="BTN_DOC_CREATE" id="BTN_DOC_CREATE">CREATE</button>
+                        <button class="opt_btn crt" name="BTN_DOC_CREATE" id="BTN_DOC_CREATE">Create</button>
                     </div>
                 </div>
 
@@ -33,7 +33,7 @@
                             <tr></tr>
                         </thead>
                         <tbody>
-
+                            
                         </tbody>
                     </table>
                 </div>
@@ -146,23 +146,23 @@
 
                             <div class="box content_two">
                                 <div>
-                                    <label for="SEND_DOC_PRPS">Documnet Purpose:</label>
+                                    <label for="SEND_DOC_PRPS">Document Purpose:</label>
                                     <select name="PRPS_ID" id="SEND_DOC_PRPS">
-                                        <option value="" disabled selected>Please Select Purpose</option>
+                                        <option value="" disabled selected>Select Purpose</option>
                                         <!-- to be filled using database -->
                                     </select>
                                 </div>
                                 <div>
                                     <label for="SEND_R_DEPT_ID">Department:</label>
                                     <select name="R_DEPT_ID" id="SEND_R_DEPT_ID">
-                                        <option value="" disabled selected>Please Select Department</option>
+                                        <option value="" disabled selected>Select Department</option>
                                         <!-- to be filled using database -->
                                     </select>
                                 </div>
                                 <div>
                                     <label for="SEND_DOC_ADDRESSEE">Addressee:</label>
                                     <select name="R_USER_ID" id="SEND_DOC_ADDRESSEE">
-                                        <option value="" disabled selected>Please Select Addressee</option>
+                                        <option value="" disabled selected>Select Addressee</option>
                                         <!-- to be filled using database -->
                                     </select>
                                 </div>
@@ -171,7 +171,7 @@
                             <div class="box content_three">
                                 <div>
                                     <label for="SEND_DOC_NOTES">Notes:</label>
-                                    <input type="text" name="DOC_NOTES" id="SEND_DOC_NOTES">
+                                    <textarea name="DOC_NOTES" id="SEND_DOC_NOTES" cols="20" rows="5"></textarea>
                                 </div>
                             </div>
 
