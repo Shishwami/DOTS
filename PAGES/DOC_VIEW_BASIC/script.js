@@ -8,6 +8,7 @@ const DOC_VIEW_BASIC = document.getElementById("DOC_VIEW_BASIC");
 const FORM_DOC_RECEIVE = document.getElementById('FORM_DOC_RECEIVE');
 const RECEIVE_DATE_TIME_RECEIVED = FORM_DOC_RECEIVE.querySelector("#RECEIVE_DATE_TIME_RECEIVED");
 const RECEIVE_DOC_ID = FORM_DOC_RECEIVE.querySelector('#RECEIVE_DOC_ID');
+const RECEIVE_R_USER_ID = FORM_DOC_RECEIVE.querySelector('#RECEIVE_R_USER_ID');
 
 const FORM_DOC_SEND = document.getElementById('FORM_DOC_SEND');
 const SEND_DATE_TIME_RECEIVED = FORM_DOC_SEND.querySelector("#SEND_DATE_TIME_RECEIVED");
@@ -24,10 +25,10 @@ let action_type = "receive";
 
 setSession();
 setFormEvents();
-setDOC_PURPOSEselect();
+// setDOC_PURPOSEselect();
 // setRECEIVED_TIME(SEND_DATE_TIME_RECEIVED); move to send
-setDOC_LOCATION();
-getSessionDeptId();
+// setDOC_LOCATION();
+// getSessionDeptId();
 
 setTable("", action_type);
 searchBar.addEventListener('input', function () {
@@ -95,9 +96,17 @@ function setButtons(table) {
 
 function setReceiveBtn(id, doc_num, route_num) {
     console.log("btnpressed");
+    
     //updateform
-    setRECEIVED_TIME(RECEIVE_DATE_TIME_RECEIVED);
     RECEIVE_DOC_ID.value = id;
+
+    getData(_REQUEST.GET_DATE, { DATE: "DATE_TIME" }, (result) => {
+        RECEIVE_DATE_TIME_RECEIVED.value = result;
+    });
+    getData(_REQUEST.GET_SESSION_HRIS_ID, null, (result) => {
+        RECEIVE_R_USER_ID.value = result;
+    });
+
     //open modal
 
 }
@@ -241,6 +250,28 @@ function setDOC_LOCATION() {
             }
         } else {
             alert(error)
+        }
+    }, data);
+}
+
+function getData(requestType, additionalData, successCallback, failureCallback) {
+    const data = {
+        REQUEST: requestType,
+        ...additionalData
+    };
+
+    MyAjax.createJSON((error, response) => {
+        if (error) {
+            if (failureCallback) failureCallback(error);
+            else alert(error);
+        } else {
+            if (response.VALID) {
+                delete response.VALID;
+                if (successCallback) successCallback(Object.values(response)[0]);
+            } else {
+                console.log(response);
+                // Handle error response
+            }
         }
     }, data);
 }
