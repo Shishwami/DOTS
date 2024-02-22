@@ -54,11 +54,10 @@
 
         <div>
             <label for="RECEIVE_DATE_TIME_RECEIVED">Date Recevied:</label>
-            <input type="datetime" name="DATE_TIME_RECEIVED" id="RECEIVE_DATE_TIME_RECEIVED">
+            <input type="datetime-local" name="DATE_TIME_RECEIVED" id="RECEIVE_DATE_TIME_RECEIVED">
         </div>
-        <div>
-            <label for=""></label>
-        </div>
+        <input type="text" name="ID" id="RECEIVE_DOC_ID">
+        <input type="submit" value="Receive">
 
     </form>
     <form action="submit" name="FORM_DOC_SEND" id="FORM_DOC_SEND">
