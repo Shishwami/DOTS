@@ -412,5 +412,6 @@ function setSendFormSubmit() {
     }
     MyAjax.createJSON((error, response) => {
         console.log(response);
+        setTable(searchBar.value.toUpperCase());
     }, routedCheck);
 }
