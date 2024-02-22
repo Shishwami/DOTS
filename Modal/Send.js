@@ -1,6 +1,6 @@
 var sent_modal = document.getElementById("sent_modal");
 
-var sent_btn = document.getElementById("RADIO_SEND");
+var sent_btn = document.getElementById("S_BTN");
 
 var sent_span = document.getElementsByClassName("sent_close")[0];
 
@@ -21,3 +21,5 @@ window.onclick = function(event)
     sent_modal.style.display = "none";
   }
 }
+
+

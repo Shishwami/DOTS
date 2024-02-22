@@ -104,10 +104,9 @@ input[type=text], input[type=password]
     padding: 0.7rem 0.8rem;
     margin: 0.7rem 0;
     font-size: 1rem;
+    font-weight: 500;
     border: 1.7px solid var(--border_dark_grey);
-    border-radius: 0.5rem;
-    
-    
+    border-radius: 0.5rem;   
 }
 
 input[type=text]:focus, input[type=password]:focus
