@@ -5,6 +5,10 @@ const searchBar = document.getElementById("searchBar");
 
 const DOC_VIEW_BASIC = document.getElementById("DOC_VIEW_BASIC");
 
+const FORM_DOC_RECEIVE = document.getElementById('FORM_DOC_RECEIVE');
+const RECEIVE_DATE_TIME_RECEIVED = FORM_DOC_RECEIVE.querySelector("#RECEIVE_DATE_TIME_RECEIVED");
+const RECEIVE_DOC_ID = FORM_DOC_RECEIVE.querySelector('#RECEIVE_DOC_ID');
+
 const FORM_DOC_SEND = document.getElementById('FORM_DOC_SEND');
 const SEND_DATE_TIME_RECEIVED = FORM_DOC_SEND.querySelector("#SEND_DATE_TIME_RECEIVED");
 const SEND_DOC_PRPS = FORM_DOC_SEND.querySelector("#SEND_DOC_PRPS");
@@ -19,8 +23,9 @@ const hrisId = sessionStorage.getItem(DOTS_ACCOUNT_INFO.HRIS_ID);
 let action_type = "receive";
 
 setSession();
+setFormEvents();
 setDOC_PURPOSEselect();
-setRECEIVED_TIME(SEND_DATE_TIME_RECEIVED);
+// setRECEIVED_TIME(SEND_DATE_TIME_RECEIVED); move to send
 setDOC_LOCATION();
 getSessionDeptId();
 
@@ -31,192 +36,94 @@ searchBar.addEventListener('input', function () {
 setInterval(function () {
     setTable(searchBar.value.toUpperCase(), action_type);
 }, _RESET_TIME);
-S_BTN.disabled = true;
-
 
 RADIO_SEND.addEventListener('change', function () {
     setACTION_TYPE(this);
-    S_BTN.disabled = false;
-    R_BTN.disabled = true;
+
 });
 RADIO_RECEIVE.addEventListener('change', function () {
     setACTION_TYPE(this);
-    S_BTN.disabled = true;
-    R_BTN.disabled = false;
-});
-R_BTN.addEventListener('click', function () {
-    const json = JSON.parse(sessionStorage.getItem('TEMP_DATA'));
-    let id = 0;
 
-    if (!json) {
-        alert('no_id');
-        return;
-    }
-
-    id = json.ID;
-    console.log(id);
-    sessionStorage.removeItem('TEMP_DATA');
-    //confirm
-
-    var data = {
-        TABLE: DOTS_DOCUMENT_SUB.NAME,
-        REQUEST: _REQUEST.UPDATE,
-        DATA: {
-            ACTION_ID: 2,
-            R_USER_ID: hrisId,
-        },
-        WHERE: {
-            ID: id,
-        }
-    }
-
-    MyAjax.createJSON((error, response) => {
-        console.log(response);
-    }, data);
-
-});
-S_BTN.addEventListener('click', function () {
-
-    console.log('send');
-
-    const json = JSON.parse(sessionStorage.getItem('TEMP_DATA'));
-    var formData = JsFunctions.FormToJson(FORM_DOC_SEND);
-    let id = 0;
-
-    if (!json) {
-        alert('no_id');
-        return;
-    }
-
-    id = json.ID;
-    console.log(id);
-    sessionStorage.removeItem('TEMP_DATA');
-    //confirm
-
-    var data = {
-        TABLE: DOTS_DOCUMENT_SUB.NAME,
-        REQUEST: _REQUEST.UPDATE,
-        DATA: {
-            // ACTION_ID: 2,
-            // R_USER_ID: hrisId,
-            formData,
-        },
-        WHERE: {
-            ID: id,
-        }
-    }
-
-    // MyAjax.createJSON((error, response) => {
-    //     console.log(response);
-    // }, data);
 });
 function setACTION_TYPE(element) {
     action_type = element.value;
     setTable(searchBar.value.toUpperCase(), action_type);
+
 }
+
 function setTable(filter, action_type) {
-    const columns = [
-        'DOC_NUM',
-        DOTS_DOCUMENT_SUB.NAME + "." + DOTS_DOCUMENT_SUB.ID,
-        'DOC_NOTES',
-        DOTS_DOC_PRPS.DOC_PRPS,
-
-        "CONCAT(" +
-        "IF(S_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(S_OFFICE.DOC_OFFICE,'-'), ' '),' ', " +
-        "IF(S_DEPT.DOC_DEPT IS NOT NULL,CONCAT(S_DEPT.DOC_DEPT,'-'), ' '), " +
-        "IFNULL(S_FULL_NAME.FULL_NAME, ' ')) as 'Sender'",
-
-        "CONCAT(" +
-        "IF(R_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(R_OFFICE.DOC_OFFICE,'-'), ' '),' ', " +
-        "IF(R_DEPT.DOC_DEPT IS NOT NULL,CONCAT(R_DEPT.DOC_DEPT,'-'), ' '), " +
-        "IFNULL(R_FULL_NAME.FULL_NAME, ' ')) as 'Receiver'",
-
-        'DATE_TIME_RECEIVED',
-        DOTS_DOC_ACTION.DOC_ACTION
-    ];
-    var data = {
-        TABLE: DOTS_DOCUMENT_SUB.NAME,
-        REQUEST: _REQUEST.SELECT,
-        COLUMNS: columns,
-        JOIN: [
-            {
-                table: DOTS_DOC_PRPS.NAME,
-                ON: [DOTS_DOCUMENT_SUB.NAME + "." + DOTS_DOCUMENT_SUB.PRPS_ID
-                    + " = " + DOTS_DOC_PRPS.NAME + "." + DOTS_DOC_PRPS.ID],
-                TYPE: 'LEFT'
-            },
-            {
-                table: DOTS_DOC_OFFICE.NAME + " S_OFFICE",
-                ON: [DOTS_DOCUMENT_SUB.NAME + "." + DOTS_DOCUMENT_SUB.S_OFFICE_ID +
-                    " = " + "S_OFFICE." + DOTS_DOC_OFFICE.ID],
-                TYPE: 'LEFT'
-            },
-            {
-                table: DOTS_DOC_DEPT.NAME + " S_DEPT",
-                ON: [DOTS_DOCUMENT_SUB.NAME + "." + DOTS_DOCUMENT_SUB.S_DEPT_ID
-                    + " = " + "S_DEPT." + DOTS_DOC_DEPT.ID],
-                TYPE: 'LEFT'
-            },
-            {
-                table: DOTS_ACCOUNT_INFO.NAME + " S_FULL_NAME",
-                ON: [DOTS_DOCUMENT_SUB.NAME + "." + DOTS_DOCUMENT_SUB.S_USER_ID
-                    + " = " + "S_FULL_NAME." + DOTS_ACCOUNT_INFO.HRIS_ID],
-                TYPE: 'LEFT',
-            },
-            {
-                table: DOTS_DOC_OFFICE.NAME + " R_OFFICE",
-                ON: [DOTS_DOCUMENT_SUB.NAME + "." + DOTS_DOCUMENT_SUB.R_OFFICE_ID
-                    + " = " + "R_OFFICE." + DOTS_DOC_OFFICE.ID],
-                TYPE: 'LEFT'
-            },
-            {
-                table: DOTS_DOC_DEPT.NAME + " R_DEPT",
-                ON: [DOTS_DOCUMENT_SUB.NAME + "." + DOTS_DOCUMENT_SUB.R_DEPT_ID
-                    + " = " + "R_DEPT." + DOTS_DOC_DEPT.ID],
-                TYPE: 'LEFT'
-            },
-            {
-                table: DOTS_ACCOUNT_INFO.NAME + " R_FULL_NAME",
-                ON: [DOTS_DOCUMENT_SUB.NAME + "." + DOTS_DOCUMENT_SUB.R_USER_ID
-                    + " = " + "R_FULL_NAME." + DOTS_ACCOUNT_INFO.HRIS_ID],
-                TYPE: 'LEFT',
-            },
-            {
-                table: DOTS_DOC_ACTION.NAME,
-                ON: [DOTS_DOCUMENT_SUB.NAME + "." + DOTS_DOCUMENT_SUB.ACTION_ID
-                    + " = " + DOTS_DOC_ACTION.NAME + "." + DOTS_DOC_ACTION.ID],
-                TYPE: 'LEFT',
-            },
-
-        ],
-        ORDER_BY: DOTS_DOCUMENT_SUB.NAME + "." + DOTS_DOCUMENT_SUB.ID + ' DESC',
-        WHERE: {
-            AND: {}
-        }
-    }
+    var data = {};
     if (action_type == 'receive') {
-        data['WHERE']['AND']['DOTS_DOCUMENT_SUB.R_USER_ID'] = hrisId;
-        data['WHERE']['AND']['DOTS_DOCUMENT_SUB.ACTION_ID'] = 1;
+        data['REQUEST'] = _REQUEST.GET_TABLE_INBOUND;
     }
     if (action_type == 'send') {
-        data['WHERE']['AND']['DOTS_DOCUMENT_SUB.R_USER_ID'] = hrisId;
-        data['WHERE']['AND']['DOTS_DOCUMENT_SUB.ACTION_ID'] = 2;
+        data['REQUEST'] = _REQUEST.GET_TABLE_OUTBOUND;
     }
-
     MyAjax.createJSON((error, response) => {
         if (error) {
             alert(error);
         } else {
-            var results = ""
             if (response.VALID) {
-                delete response.VALID;
-                results = Object.values(response)[0];
             } else {
-                //response valid=false
             }
-            JsFunctions.updateTable(results, DOC_VIEW_BASIC, filter);
+            const thead = DOC_VIEW_BASIC.querySelector('thead');
+            const tbody = DOC_VIEW_BASIC.querySelector('tbody');
+            if (response.THEAD) {
+                thead.innerHTML = response.THEAD;
+            } else {
+                thead.innerHTML = '';
+            }
+            if (response.TBODY) {
+                tbody.innerHTML = response.TBODY;
+            } else {
+                tbody.innerHTML = '';
+            }
+            setButtons(DOC_VIEW_BASIC);
+            JsFunctions.updateTable(DOC_VIEW_BASIC, filter);
         }
     }, data);
+}
+
+function setButtons(table) {
+    table.querySelectorAll('.btnR').forEach(function (button) {
+        button.addEventListener('mousedown', function () {
+            var itemId = this.getAttribute('data-i');
+            setReceiveBtn(this.dataset.i, this.dataset.d, this.dataset.r);
+        });
+    });
+}
+
+function setReceiveBtn(id, doc_num, route_num) {
+    console.log("btnpressed");
+    //updateform
+    setRECEIVED_TIME(RECEIVE_DATE_TIME_RECEIVED);
+    RECEIVE_DOC_ID.value = id;
+    //open modal
+
+}
+function setSendBtn(id, doc_num, route_num) {
+
+}
+function setFormEvents() {
+    FORM_DOC_RECEIVE.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const data = {
+            REQUEST: _REQUEST.RECEIVE_DOC_USER,
+            DATA: JsFunctions.FormToJson(this),
+        }
+
+        console.log(data);
+
+        MyAjax.createJSON((error, response) => {
+            console.log(response);
+        }, data);
+        // notify
+    });
+    FORM_DOC_SEND.addEventListener('submit', function (e) {
+        e.preventDefault();
+    });
+
 }
 function setRECEIVED_TIME(element) {
     var data = {
@@ -238,24 +145,16 @@ function setRECEIVED_TIME(element) {
     }, data);
 }
 function setDOC_PURPOSEselect() {
-    const SEND_DOC_PRPS = document.getElementById("SEND_DOC_PRPS")
-    var columns = [
-        DOTS_DOC_PRPS.ID,
-        DOTS_DOC_PRPS.DOC_PRPS,
-    ]
 
     var data = {
-        TABLE: DOTS_DOC_PRPS.NAME,
-        REQUEST: _REQUEST.SELECT,
-        COLUMNS: columns,
+        REQUEST: _REQUEST.GET_DOC_PRPS,
     }
 
     MyAjax.createJSON((error, response) => {
         if (!error) {
             if (response.VALID) {
                 delete response.VALID;
-                var object = Object.values(response)[0];
-                JsFunctions.setSelect(SEND_DOC_PRPS, object);
+                SEND_DOC_PRPS.innerHTML = Object.values(response)[0];
             } else {
             }
         } else {
@@ -328,10 +227,6 @@ function getSessionDeptId() {
             }
         }
     }, data);
-}
-
-function setSubId(){
-
 }
 function setDOC_LOCATION() {
 
