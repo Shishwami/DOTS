@@ -9,6 +9,9 @@ const FORM_DOC_RECEIVE = document.getElementById('FORM_DOC_RECEIVE');
 const RECEIVE_DATE_TIME_RECEIVED = FORM_DOC_RECEIVE.querySelector("#RECEIVE_DATE_TIME_RECEIVED");
 const RECEIVE_DOC_ID = FORM_DOC_RECEIVE.querySelector('#RECEIVE_DOC_ID');
 const RECEIVE_R_USER_ID = FORM_DOC_RECEIVE.querySelector('#RECEIVE_R_USER_ID');
+const RECEIVE_DOC_NUM = FORM_DOC_RECEIVE.querySelector('#RECEIVE_DOC_NUM');
+const RECEIVE_ROUTE_NUM = FORM_DOC_RECEIVE.querySelector('#RECEIVE_ROUTE_NUM');
+const RECEIVE_R_DEPT_ID = FORM_DOC_RECEIVE.querySelector('#RECEIVE_R_DEPT_ID');
 
 const FORM_DOC_SEND = document.getElementById('FORM_DOC_SEND');
 const SEND_DATE_TIME_RECEIVED = FORM_DOC_SEND.querySelector("#SEND_DATE_TIME_RECEIVED");
@@ -96,9 +99,11 @@ function setButtons(table) {
 
 function setReceiveBtn(id, doc_num, route_num) {
     console.log("btnpressed");
-    
+
     //updateform
     RECEIVE_DOC_ID.value = id;
+    RECEIVE_DOC_NUM.value = id;
+    RECEIVE_ROUTE_NUM.value = id;
 
     getData(_REQUEST.GET_DATE, { DATE: "DATE_TIME" }, (result) => {
         RECEIVE_DATE_TIME_RECEIVED.value = result;
@@ -106,6 +111,9 @@ function setReceiveBtn(id, doc_num, route_num) {
     getData(_REQUEST.GET_SESSION_HRIS_ID, null, (result) => {
         RECEIVE_R_USER_ID.value = result;
     });
+    getData(_REQUEST.GET_SESSION_DEPT_ID, null, (result => {
+        RECEIVE_R_DEPT_ID.value = result;
+    }));
 
     //open modal
 
