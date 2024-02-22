@@ -621,6 +621,7 @@ function createDoc($createData, $conn)
 function getTableMain($inputs, $conn)
 {
     $queries = new Queries();
+    $tableName = 'DOTS_DOCUMENT';
     $data = array(
         'TABLE' => 'DOTS_DOCUMENT',
         'COLUMNS' => [
@@ -712,7 +713,7 @@ function getTableMain($inputs, $conn)
         'btnS' => 'S'
     );
 
-    setupTable($resultAsArray, $buttons);
+    setupTable($resultAsArray, $buttons, $tableName);
 }
 
 function getTableUser($inputs, $conn, $tableName)
@@ -730,8 +731,8 @@ function getTableUser($inputs, $conn, $tableName)
 
             "DOC_NUM",
             "ROUTE_NUM",
-            "DOC_NOTES",
-            "DOTS_DOC_PRPS.DOC_PRPS",
+            "DOC_NOTES as `Notes`",
+            "DOTS_DOC_PRPS.DOC_PRPS `Purpose`",
 
             "CONCAT(" .
             "IF(S_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(S_OFFICE.DOC_OFFICE,'-'), ' '),' ', " .
@@ -743,9 +744,9 @@ function getTableUser($inputs, $conn, $tableName)
             "IF(R_DEPT.DOC_DEPT IS NOT NULL,CONCAT(R_DEPT.DOC_DEPT,'-'), ' '), " .
             "IFNULL(R_FULL_NAME.FULL_NAME, ' ')) as 'Receiver'",
 
-            "DATE_TIME_RECEIVED",
-            "DATE_TIME_SEND",
-            "DOTS_DOC_ACTION.DOC_ACTION",
+            "DATE_TIME_RECEIVED as `Date Received`",
+            "DATE_TIME_SEND as `Date Sent`",
+            "DOTS_DOC_ACTION.DOC_ACTION as `Action`",
         ),
         "JOIN" => array(
             array(
@@ -807,9 +808,9 @@ function getTableUser($inputs, $conn, $tableName)
         'btnR' => 'R'
     );
 
-    setupTable($resultAsArray, $buttons);
+    setupTable($resultAsArray, $buttons, $tableName);
 }
-function setupTable($result, $buttons)
+function setupTable($result, $buttons, $tableName)
 {
 
     $thead = "";
@@ -831,16 +832,18 @@ function setupTable($result, $buttons)
             } else {
                 $thead .= "<th>$key</th> ";
             }
-
         }
-
         foreach ($result as $rows) {
             $tbody .= "<tr>";
 
             if ($buttons != null) {
                 $tbody .= "<td>";
                 foreach ($buttons as $key => $value) {
-                    $tbody .= "<button class=$key type='button' data-i=$rows[ID] data-d=$rows[DOC_NUM] data-r=$rows[ROUTE_NUM]>$value</button>";
+                    $tbody .= "<button class=$key type='button' data-i=$rows[ID] data-d=$rows[DOC_NUM] data-r=$rows[ROUTE_NUM]";
+                    if ($rows['Action'] == "RECEIVE" && $tableName=="DOTS_DOCUMENT_INBOUND") {
+                        $tbody .= " style='visibility:hidden' ";
+                    }
+                    $tbody .= ">$value</button>";
                 }
                 $tbody .= "</td>";
             }
@@ -855,9 +858,9 @@ function setupTable($result, $buttons)
                 ) {
                     $remove = true;
                 } else {
-                    if ($key == "Date Received") {
+                    if ($key == "Date Received" && $value != null) {
                         $tbody .= "<td>" . formatDateTime($value) . "</td>";
-                    } else if ($key == "Date Sent") {
+                    } else if ($key == "Date Sent" && $value != null) {
                         $tbody .= "<td>" . formatDateTime($value) . "</td>";
                     } else if ($key == "Letter Date") {
                         $tbody .= "<td>" . formatDate($value) . "</td>";
@@ -865,7 +868,6 @@ function setupTable($result, $buttons)
                         $tbody .= "<td>$value</td>";
                     }
                 }
-
             }
             $tbody .= "</tr>";
         }
@@ -873,9 +875,6 @@ function setupTable($result, $buttons)
         $thead = "";
         $tbody = "";
     }
-
-
-
 
     echo json_encode(
         array(
@@ -887,8 +886,39 @@ function setupTable($result, $buttons)
 }
 function receiveDocUser($inputs, $conn)
 {
+    $queries = new Queries();
+    $valid = false;
+
     $data = $inputs['DATA'];
-    var_dump($data);
+    $dateTimeReceived = $data['DATE_TIME_RECEIVED'];
+    $id = $data['ID'];
+    $action = $data['ACTION_ID'];
+
+    $updateData = array(
+        'TABLE' => 'DOTS_DOCUMENT_INBOUND',
+        'DATA' => array(
+            'DATE_TIME_RECEIVED' => $dateTimeReceived,
+            'ACTION_ID' => $action
+        ),
+        'WHERE' => array(
+            'ID' => $id,
+        ),
+    );
+
+    $updateDataSql = $queries->updateQuery($updateData);
+    $result = mysqli_query($conn, $updateDataSql);
+    if (mysqli_affected_rows($conn)) {
+        $valid = true;
+    }
+
+    echo json_encode(
+        array(
+            'VALID' => true,
+        )
+    );
+
+
+
 }
 function formatDateTime($dateString)
 {
@@ -896,11 +926,8 @@ function formatDateTime($dateString)
     $hours = $date->format('H');
     $minutes = $date->format('i');
     $ampm = $hours >= 12 ? 'pm' : 'am';
-    $hours = $hours % 12;
-    $hours = $hours ? $hours : 12; // the hour '0' should be '12'
-    $minutes = $minutes < 10 ? '0' . $minutes : $minutes;
     $strTime = $hours . ':' . $minutes . ' ' . $ampm;
-    return ($date->format('n')) . "/" . $date->format('j') . "/" . $date->format('Y') . "  " . $strTime;
+    return $date->format('n/j/Y') . "  " . $strTime;
 }
 
 function formatDate($dateString)

@@ -57,6 +57,7 @@
             <input type="datetime-local" name="DATE_TIME_RECEIVED" id="RECEIVE_DATE_TIME_RECEIVED">
         </div>
         <input type="text" name="ID" id="RECEIVE_DOC_ID">
+        <input type="text" name="ACTION_ID" id="RECEIVE_DOC_ACTION" value="2">
         <input type="submit" value="Receive">
 
     </form>
