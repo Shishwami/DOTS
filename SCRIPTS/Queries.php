@@ -37,7 +37,6 @@ class Queries
         } else {
             //no table name
         }
-
         if (isset($inputs['JOIN'])) {
             foreach ($inputs['JOIN'] as $join) {
                 $sql .= " {$join['TYPE']} JOIN {$join['table']} ON " . implode(' AND ', $join['ON']);

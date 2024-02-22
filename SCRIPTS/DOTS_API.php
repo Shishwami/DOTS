@@ -5,7 +5,9 @@ include "Queries.php";
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-$sql = "";
+
+$sql = '';
+
 try {
     $inputs = json_decode(file_get_contents("php://input"), true);
     $inputs = sanitizeInputs($inputs);
@@ -67,8 +69,21 @@ try {
             getOptions('DOTS_DOC_PRPS', 'DOC_PRPS', $conn);
             break;
 
+        case 'RECEIVE_DOC':
+            receiveDoc($inputs, $conn);
+            break;
         case 'SEND_DOC_FORM':
             sendDocForm($inputs, $conn);
+            break;
+
+        case 'GET_TABLE_MAIN':
+            getTableMain($inputs, $conn);
+            break;
+        case 'GET_TABLE_INBOUND':
+            getTableUser($inputs, $conn, 'DOTS_DOCUMENT_INBOUND');
+            break;
+        case 'GET_TABLE_OUTBOUND':
+            getTableUser($inputs, $conn, 'DOTS_DOCUMENT_OUTBOUND');
             break;
     }
     $conn->close();
@@ -329,11 +344,11 @@ function getDocNum($inputs, $conn)
 
     $valid = false;
     $data = array(
-        'TABLE' => 'DOTS_DOCUMENT',
+        'TABLE' => 'DOTS_NUM_SEQUENCE',
         'COLUMNS' => array(
-            'DOC_NUM',
+            'CURRENT_VALUE',
         ),
-        'ORDER_BY' => 'DOC_NUM DESC'
+        // 'ORDER_BY' => 'DOC_NUM DESC'
     );
 
     $sql = $queries->selectQuery($data);
@@ -345,10 +360,9 @@ function getDocNum($inputs, $conn)
         $valid = true;
         $row = $result->fetch_assoc();
         $doc_num = 0;
-        if (isset($row['DOC_NUM'])) {
-            $doc_num = $row['DOC_NUM'];
+        if (isset($row['CURRENT_VALUE'])) {
+            $doc_num = $row['CURRENT_VALUE'];
         }
-        $doc_num = intval($doc_num) + 1;
         // var_dump($result);
     }
 
@@ -376,7 +390,18 @@ function getOptions($tableName, $columnName, $conn)
     // echo $sql;
     $result = mysqli_query($conn, $sql);
 
-    $options = "<option value='' selected disabled>Please Select " . ucwords(str_replace('_', ' ', $columnName)) . "</option>";
+    $columnNameFormated = "value";
+    if ($columnName == 'DOC_TYPE') {
+        $columnNameFormated = "Document Type";
+    } else if ($columnName == 'DOC_OFFICE') {
+        $columnNameFormated = "Office";
+    } else if ($columnName == 'DOC_PRPS') {
+        $columnNameFormated = "Document Purpose";
+    }else if ($columnName == 'DOC_DEPT') {
+        $columnNameFormated = "Department";
+    }
+
+    $options = "<option value='' selected disabled>Please Select $columnNameFormated</option>";
     if ($result) {
         $valid = true;
         while ($row = $result->fetch_assoc()) {
@@ -411,7 +436,7 @@ function getAddressee($inputs, $conn)
     $result = mysqli_query($conn, $sql);
 
 
-    $options = "<option value='' selected disabled>Please Select Department</option>";
+    $options = "<option value='' selected disabled>Please Select Addressee</option>";
     if ($result) {
         $valid = true;
         while ($row = $result->fetch_assoc()) {
@@ -436,7 +461,7 @@ function sendDocForm($inputs, $conn)
     $route_num = $inputs['DATA']['ROUTE_NUM'];
 
     $insertData = array(
-        'TABLE' => 'DOTS_DOCUMENT_SUB',
+        'TABLE' => 'DOTS_DOCUMENT_INBOUND',
         'DATA' => $inputs['DATA'],
     );
     //chheck if routed
@@ -527,7 +552,6 @@ function resendDoc($insertData, $conn)
     );
 
     $getRouteNumSql = $queries->selectQuery($getRouteNum);
-    echo $getRouteNumSql;
     $result = mysqli_query($conn, $getRouteNumSql);
     if ($result) {
         $row = mysqli_fetch_assoc($result);
@@ -546,26 +570,334 @@ function resendDoc($insertData, $conn)
             'TABLE' => 'DOTS_DOCUMENT',
             'DATA' => $associativeRow,
         );
-        createDoc($createData, $conn);
+        $valid = createDoc($createData, $conn);
 
         //send the new doc
         $insertData['DATA']['ROUTE_NUM'] = $routeNum + 1;
         $insertData2 = array(
-            'TABLE' => 'DOTS_DOCUMENT_SUB',
+            'TABLE' => 'DOTS_DOCUMENT_INBOUND',
             'DATA' => $insertData['DATA']
         );
-        sendDoc($insertData2, $conn);
+        $valid = sendDoc($insertData2, $conn);
     }
+
+    return $valid;
+}
+function receiveDoc($inputs, $conn)
+{
+    $valid = false;
+    $data = $inputs['DATA'];
+    $createData = array(
+        'TABLE' => 'DOTS_DOCUMENT',
+        'DATA' => $data,
+    );
+    $valid = createDoc($createData, $conn);
+
+    echo json_encode(
+        array(
+            'VALID' => $valid
+        )
+    );
 }
 function createDoc($createData, $conn)
 {
     $queries = new Queries();
     $sql = $queries->insertQuery($createData);
-    echo $sql;
+    // echo $sql;
 
     // var_dump($createData);
     if (mysqli_query($conn, $sql)) {
         return true;
     }
+
+
 }
+function getTableMain($inputs, $conn)
+{
+    $queries = new Queries();
+    $data = array(
+        'TABLE' => 'DOTS_DOCUMENT',
+        'COLUMNS' => [
+            'DOTS_DOCUMENT.ID',
+
+            "CASE WHEN ROUTE_NUM = 0 THEN DOTS_DOCUMENT.DOC_NUM 
+             ELSE CONCAT(DOTS_DOCUMENT.DOC_NUM,\"-\",ROUTE_NUM) 
+             END AS `No.`",
+
+            'DOC_NUM',
+            'ROUTE_NUM',
+            'DOC_SUBJECT as `Subject`',
+            'DOC_NOTES `Notes`',
+            'DOC_TYPE `Type`',
+            'LETTER_DATE `Letter Date`',
+
+            "CONCAT(
+             IF(S_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(S_OFFICE.DOC_OFFICE,'-'), ' '),' ', 
+             IF(S_DEPT.DOC_DEPT IS NOT NULL,CONCAT(S_DEPT.DOC_DEPT,'-'), ' '), 
+             IFNULL(S_FULL_NAME.FULL_NAME, ' ')) as 'Sent By'",
+
+            "CONCAT(
+            IF(R_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(R_OFFICE.DOC_OFFICE,'-'), ' '),' ',
+            IF(R_DEPT.DOC_DEPT IS NOT NULL,CONCAT(R_DEPT.DOC_DEPT,'-'), ' '), 
+            IFNULL(R_FULL_NAME.FULL_NAME, ' ')) as 'Received By'",
+
+            'DATE_TIME_RECEIVED `Date Received`',
+            'DOTS_DOC_STATUS.DOC_STATUS `Status`',
+            'DOTS_DOC_ACTION.DOC_ACTION `Action`'
+        ],
+        'JOIN' => [
+            array(
+                'table' => 'DOTS_DOC_TYPE',
+                'ON' => ['DOTS_DOCUMENT.DOC_TYPE_ID = DOTS_DOC_TYPE.ID'],
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_DOC_OFFICE S_OFFICE',
+                'ON' => ['DOTS_DOCUMENT.S_OFFICE_ID = S_OFFICE.ID'],
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_DOC_DEPT S_DEPT',
+                'ON' => ['DOTS_DOCUMENT.S_DEPT_ID = S_DEPT.ID'],
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_ACCOUNT_INFO S_FULL_NAME',
+                'ON' => ['DOTS_DOCUMENT.S_USER_ID = S_FULL_NAME.HRIS_ID'],
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_DOC_OFFICE R_OFFICE',
+                'ON' => ['DOTS_DOCUMENT.R_OFFICE_ID = R_OFFICE.ID'],
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_DOC_DEPT R_DEPT',
+                'ON' => ['DOTS_DOCUMENT.R_DEPT_ID = R_DEPT.ID'],
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_ACCOUNT_INFO R_FULL_NAME',
+                'ON' => ['DOTS_DOCUMENT.R_USER_ID = R_FULL_NAME.HRIS_ID'],
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_DOC_STATUS',
+                'ON' => ['DOTS_DOCUMENT.DOC_STATUS = DOTS_DOC_STATUS.ID'],
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_DOC_ACTION',
+                'ON' => ['DOTS_DOCUMENT.ACTION_ID = DOTS_DOC_ACTION.ID'],
+                'TYPE' => 'LEFT'
+            ),
+        ],
+        'ORDER_BY' => 'DOTS_DOCUMENT.DOC_NUM DESC'
+    );
+    $selectTableSql = $queries->selectQuery($data);
+    $result = mysqli_query($conn, $selectTableSql);
+    $resultAsArray = array();
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $resultAsArray[] = $row;
+    }
+
+    $buttons = array(
+        'btnS' => 'S'
+    );
+
+    setupTable($resultAsArray, $buttons);
+}
+
+function getTableUser($inputs, $conn, $tableName)
+{
+    $queries = new Queries();
+
+    $data = array(
+        'TABLE' => "$tableName",
+        'COLUMNS' => array(
+            "$tableName.ID",
+
+            "CASE WHEN ROUTE_NUM = 0 THEN $tableName.DOC_NUM 
+             ELSE CONCAT($tableName.DOC_NUM,\"-\",ROUTE_NUM) 
+             END AS `No.`",
+
+            "DOC_NUM",
+            "ROUTE_NUM",
+            "DOC_NOTES",
+            "DOTS_DOC_PRPS.DOC_PRPS",
+
+            "CONCAT(" .
+            "IF(S_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(S_OFFICE.DOC_OFFICE,'-'), ' '),' ', " .
+            "IF(S_DEPT.DOC_DEPT IS NOT NULL,CONCAT(S_DEPT.DOC_DEPT,'-'), ' '), " .
+            "IFNULL(S_FULL_NAME.FULL_NAME, ' ')) as 'Sender'",
+
+            "CONCAT(" .
+            "IF(R_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(R_OFFICE.DOC_OFFICE,'-'), ' '),' ', " .
+            "IF(R_DEPT.DOC_DEPT IS NOT NULL,CONCAT(R_DEPT.DOC_DEPT,'-'), ' '), " .
+            "IFNULL(R_FULL_NAME.FULL_NAME, ' ')) as 'Receiver'",
+
+            "DATE_TIME_RECEIVED",
+            "DATE_TIME_SEND",
+            "DOTS_DOC_ACTION.DOC_ACTION",
+        ),
+        "JOIN" => array(
+            array(
+                "table" => "DOTS_DOC_PRPS",
+                "ON" => ["$tableName.PRPS_ID = DOTS_DOC_PRPS.ID"],
+                "TYPE" => "LEFT",
+            ),
+            array(
+                "table" => "DOTS_DOC_OFFICE S_OFFICE",
+                "ON" => ["$tableName.S_OFFICE_ID = S_OFFICE.ID"],
+                "TYPE" => "LEFT",
+            ),
+            array(
+                "table" => "DOTS_DOC_DEPT S_DEPT",
+                "ON" => ["$tableName.S_DEPT_ID = S_DEPT.ID"],
+                "TYPE" => "LEFT",
+            ),
+            array(
+                "table" => "DOTS_ACCOUNT_INFO S_FULL_NAME",
+                "ON" => ["$tableName.S_USER_ID = S_FULL_NAME.HRIS_ID"],
+                "TYPE" => "LEFT",
+            ),
+            array(
+                "table" => "DOTS_DOC_OFFICE R_OFFICE",
+                "ON" => ["$tableName.R_OFFICE_ID = R_OFFICE.ID"],
+                "TYPE" => "LEFT",
+            ),
+            array(
+                "table" => "DOTS_DOC_DEPT R_DEPT",
+                "ON" => ["$tableName.R_DEPT_ID = R_DEPT.ID"],
+                "TYPE" => "LEFT",
+            ),
+            array(
+                "table" => "DOTS_ACCOUNT_INFO R_FULL_NAME",
+                "ON" => ["$tableName.R_USER_ID = R_FULL_NAME.HRIS_ID"],
+                "TYPE" => "LEFT",
+            ),
+            array(
+                "table" => "DOTS_DOC_ACTION",
+                "ON" => ["$tableName.ACTION_ID = DOTS_DOC_ACTION.ID"],
+                "TYPE" => "LEFT",
+            ),
+        ),
+        "WHERE" => array(
+            "AND" => array(
+                "$tableName.R_USER_ID" => $_SESSION["HRIS_ID"],
+            ),
+        ),
+    );
+    $selectTableSql = $queries->selectQuery($data);
+    $result = mysqli_query($conn, $selectTableSql);
+    $resultAsArray = array();
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $resultAsArray[] = $row;
+    }
+
+    $buttons = array(
+        'btnR' => 'R'
+    );
+
+    setupTable($resultAsArray, $buttons);
+}
+function setupTable($result, $buttons)
+{
+
+    $thead = "";
+    $tbody = "";
+
+    if ($buttons != null) {
+        $thead = "<th></th>";
+    }
+    if (isset($result[0])) {
+        $theadKeys = array_keys($result[0]);
+
+        foreach ($theadKeys as $key) {
+            if (
+                $key == 'ID' ||
+                $key == 'ROUTE_NUM' ||
+                $key == 'DOC_NUM'
+            ) {
+                $remove = true;
+            } else {
+                $thead .= "<th>$key</th> ";
+            }
+
+        }
+
+        foreach ($result as $rows) {
+            $tbody .= "<tr>";
+
+            if ($buttons != null) {
+                $tbody .= "<td>";
+                foreach ($buttons as $key => $value) {
+                    $tbody .= "<button class=$key type='button' data-i=$rows[ID] data-d=$rows[DOC_NUM] data-r=$rows[ROUTE_NUM]>$value</button>";
+                }
+                $tbody .= "</td>";
+            }
+
+
+            foreach ($rows as $key => $value) {
+
+                if (
+                    $key == 'ID' ||
+                    $key == 'ROUTE_NUM' ||
+                    $key == 'DOC_NUM'
+                ) {
+                    $remove = true;
+                } else {
+                    if ($key == "Date Received") {
+                        $tbody .= "<td>" . formatDateTime($value) . "</td>";
+                    } else if ($key == "Date Sent") {
+                        $tbody .= "<td>" . formatDateTime($value) . "</td>";
+                    } else if ($key == "Letter Date") {
+                        $tbody .= "<td>" . formatDate($value) . "</td>";
+                    } else {
+                        $tbody .= "<td>$value</td>";
+                    }
+                }
+
+            }
+            $tbody .= "</tr>";
+        }
+    } else {
+        $thead = "";
+        $tbody = "";
+    }
+
+
+
+
+    echo json_encode(
+        array(
+            'VALID' => true,
+            'THEAD' => $thead,
+            'TBODY' => $tbody
+        )
+    );
+}
+
+function formatDateTime($dateString)
+{
+    $date = new DateTime($dateString);
+    $hours = $date->format('H');
+    $minutes = $date->format('i');
+    $ampm = $hours >= 12 ? 'pm' : 'am';
+    $hours = $hours % 12;
+    $hours = $hours ? $hours : 12; // the hour '0' should be '12'
+    $minutes = $minutes < 10 ? '0' . $minutes : $minutes;
+    $strTime = $hours . ':' . $minutes . ' ' . $ampm;
+    return ($date->format('n')) . "/" . $date->format('j') . "/" . $date->format('Y') . "  " . $strTime;
+}
+
+function formatDate($dateString)
+{
+    $date = new DateTime($dateString);
+    return ($date->format('n')) . "/" . $date->format('j') . "/" . $date->format('Y');
+}
+
+
 ?>
