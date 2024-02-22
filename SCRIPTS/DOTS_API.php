@@ -85,11 +85,17 @@ try {
         case 'GET_TABLE_OUTBOUND':
             getTableUser($inputs, $conn, 'DOTS_DOCUMENT_OUTBOUND');
             break;
+        case 'RECEIVE_DOC_USER':
+            receiveDocUser($inputs, $conn);
+            break;
     }
     $conn->close();
 
 
 } catch (mysqli_sql_exception $th) {
+    // throw $th;
+    echo '' . $th->getMessage() . '\r\n asd' . $sql;
+} catch (Exception $th) {
     // throw $th;
     echo '' . $th->getMessage() . '\r\n asd' . $sql;
 }
@@ -397,7 +403,7 @@ function getOptions($tableName, $columnName, $conn)
         $columnNameFormated = "Office";
     } else if ($columnName == 'DOC_PRPS') {
         $columnNameFormated = "Document Purpose";
-    }else if ($columnName == 'DOC_DEPT') {
+    } else if ($columnName == 'DOC_DEPT') {
         $columnNameFormated = "Department";
     }
 
@@ -879,7 +885,11 @@ function setupTable($result, $buttons)
         )
     );
 }
-
+function receiveDocUser($inputs, $conn)
+{
+    $data = $inputs['DATA'];
+    var_dump($data);
+}
 function formatDateTime($dateString)
 {
     $date = new DateTime($dateString);
