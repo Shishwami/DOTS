@@ -722,6 +722,41 @@ function getTableUser($inputs, $conn, $tableName)
 {
     $queries = new Queries();
 
+
+    $buttons = array(
+        'btnR' => 'R'
+    );
+
+    $WHERE = [];
+    if ($tableName == "DOTS_DOCUMENT_INBOUND") {
+        $WHERE[] = [
+            "AND" => array(
+                array("$tableName.R_DEPT_ID" => $_SESSION["DEPT_ID"]),
+            ),
+            "OR" => array(
+                array("$tableName.R_USER_ID" => $_SESSION["HRIS_ID"]),
+                array("$tableName.R_USER_ID" => '0'),
+            ),
+        ];
+        $buttons = array(
+            'btnR' => 'R'
+        );
+    }
+    if ($tableName == "DOTS_DOCUMENT_OUTBOUND") {
+        $WHERE[] = [
+            "AND" => array(
+                array("$tableName.S_DEPT_ID" => $_SESSION["DEPT_ID"]),
+            ),
+            "OR" => array(
+                array("$tableName.S_USER_ID" => $_SESSION["HRIS_ID"]),
+                array("$tableName.S_USER_ID" => '0'),
+            ),
+        ];
+        $buttons = array(
+            'btns' => 'S'
+        );
+    }
+
     $data = array(
         'TABLE' => "$tableName",
         'COLUMNS' => array(
@@ -792,16 +827,20 @@ function getTableUser($inputs, $conn, $tableName)
                 "TYPE" => "LEFT",
             ),
         ),
-        "WHERE" => array(
-            "AND" => array(
-                array("$tableName.R_DEPT_ID" => $_SESSION["DEPT_ID"]),
-            ),
-            "OR" => array(
-                array("$tableName.R_USER_ID" => $_SESSION["HRIS_ID"]),
-                array("$tableName.R_USER_ID" => '0'),
-            ),
-        ),
+        // "WHERE" => array(
+        //     "AND" => array(
+        //         array("$tableName.R_DEPT_ID" => $_SESSION["DEPT_ID"]),
+        //     ),
+        //     "OR" => array(
+        //         array("$tableName.R_USER_ID" => $_SESSION["HRIS_ID"]),
+        //         array("$tableName.R_USER_ID" => '0'),
+        //     ),
+        // ),
     );
+    $data['WHERE'] = $WHERE[0];
+
+    // var_dump ($data);
+
     $selectTableSql = $queries->selectQuery($data);
     $result = mysqli_query($conn, $selectTableSql);
     $resultAsArray = array();
@@ -810,9 +849,6 @@ function getTableUser($inputs, $conn, $tableName)
         $resultAsArray[] = $row;
     }
 
-    $buttons = array(
-        'btnR' => 'R'
-    );
 
     setupTable($resultAsArray, $buttons, $tableName);
 }
@@ -853,7 +889,6 @@ function setupTable($result, $buttons, $tableName)
                 }
                 $tbody .= "</td>";
             }
-
 
             foreach ($rows as $key => $value) {
 
@@ -898,8 +933,11 @@ function receiveDocUser($inputs, $conn)
     $data = $inputs['DATA'];
     $dateTimeReceived = $data['DATE_TIME_RECEIVED'];
     $id = $data['ID'];
+    $doc_num = $data['DOC_NUM'];
+    $route_num = $data['ROUTE_NUM'];
     $action = $data['ACTION_ID'];
     $user_id = $data['R_USER_ID'];
+    $dept_id = $data['R_DEPT_ID'];
 
     $updateData = array(
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
@@ -913,12 +951,34 @@ function receiveDocUser($inputs, $conn)
         ),
     );
 
+    $insertData = array(
+        'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
+        'DATA' => array(
+            'DATE_TIME_SEND' => $dateTimeReceived,
+            'S_USER_ID' => $user_id,
+            'S_DEPT_ID' => $dept_id,
+            'ACTION_ID' => '1',
+            'DOC_NUM' => $doc_num,
+            'ROUTE_NUM' => $route_num,
+            'ROUTED' => '1'
+        ),
+    );
+
     //TODO validate if received
 
     $updateDataSql = $queries->updateQuery($updateData);
-    $result = mysqli_query($conn, $updateDataSql);
-    if (mysqli_affected_rows($conn)) {
+    $insertDataSql = $queries->insertQuery($insertData);
+
+    $resultUpdate = $conn->query($updateDataSql);
+    $insertUpdate = $conn->query($insertDataSql);
+
+    $conn->begin_transaction();
+
+    if ($updateDataSql && $insertDataSql) {
         $valid = true;
+        $conn->commit();
+    } else {
+        $conn->rollback();
     }
 
     //TODO add to outbound
