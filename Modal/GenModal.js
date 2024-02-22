@@ -14,39 +14,51 @@ var crt_span = document.getElementsByClassName("crt_close")[0];
 var snd_span = document.getElementsByClassName("snd_close")[0];
 var atc_span = document.getElementsByClassName("atc_close")[0];
 
-// Open Modal Function
-crt_btn.onclick = function()
-{
+// // Open Modal Function
+if (crt_btn) {
+  crt_btn.onclick = function()
+  {
   crt_modal.style.display = "block";
+  }
 }
 
-snd_btn.onclick = function()
-{
+if (snd_btn) {
+  snd_btn.onclick = function()
+  {
   snd_modal.style.display = "block";
+  }
 }
 
-atc_btn.onclick = function()
-{
+if (atc_btn) {
+  atc_btn.onclick = function()
+  {
   atc_modal.style.display = "block";
+  }
 }
 
-// Close Modal Function - Button
-crt_span.onclick = function()
-{
+// // Close Modal Function - Button
+if (crt_span) {
+  crt_span.onclick = function()
+  {
   crt_modal.style.display = "none";
+  }
 }
 
-snd_span.onclick = function()
-{
-  snd_modal.style.display = "none";
+if (snd_span) {
+  snd_span.onclick = function()
+  {
+    snd_modal.style.display = "none";
+  }  
 }
 
-atc_span.onclick = function()
-{
-  atc_modal.style.display = "none";
+if (atc_span) {
+  atc_span.onclick = function()
+  {
+    atc_modal.style.display = "none";
+  }
 }
 
-// Close Modal Function - Window
+// // Close Modal Function - Window
 window.onclick = function(event)
 {
   if (event.target == crt_modal)

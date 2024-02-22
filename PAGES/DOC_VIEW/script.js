@@ -276,7 +276,11 @@ function sendBtnEvent(id, doc_num, route_num) {
     clearValues();
     resetAddressee();
     setRECEIVED_TIME(SEND_DATE_TIME_SENT);
+    const modal = document.getElementById("snd_modal");
 
+    // console.log(modal);
+
+    modal.style.display = "block";
     if (id != 0) {
         SEND_DOC_NUM.value = doc_num;
         SEND_ROUTE_NUM.value = route_num;
