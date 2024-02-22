@@ -407,7 +407,7 @@ function getOptions($tableName, $columnName, $conn)
         $columnNameFormated = "Department";
     }
 
-    $options = "<option value='' selected disabled>Please Select $columnNameFormated</option>";
+    $options = "<option value='' selected disabled> Select $columnNameFormated</option>";
     if ($result) {
         $valid = true;
         while ($row = $result->fetch_assoc()) {
@@ -433,7 +433,9 @@ function getAddressee($inputs, $conn)
             'FULL_NAME',
         ),
         'WHERE' => [
-            'AND' => ['DEPT_ID' => $inputs['DEPT_ID']],
+            'AND' => array(
+                array('DEPT_ID' => $inputs['DEPT_ID'])
+            ),
         ]
     );
 
@@ -442,7 +444,7 @@ function getAddressee($inputs, $conn)
     $result = mysqli_query($conn, $sql);
 
 
-    $options = "<option value='' selected disabled>Please Select Addressee</option>";
+    $options = "<option value='' selected disabled> Select Addressee</option>";
     if ($result) {
         $valid = true;
         while ($row = $result->fetch_assoc()) {
@@ -482,8 +484,8 @@ function sendDocForm($inputs, $conn)
         ],
         'WHERE' => array(
             'AND' => array(
-                'DOC_NUM' => $doc_num,
-                'ROUTE_NUM' => $route_num,
+                array('DOC_NUM' => $doc_num),
+                array('ROUTE_NUM' => $route_num),
             )
         ),
     );
@@ -551,7 +553,7 @@ function resendDoc($insertData, $conn)
         'TABLE' => 'DOTS_DOCUMENT',
         'WHERE' => array(
             'AND' => array(
-                'DOC_NUM' => $doc_num
+                array('DOC_NUM' => $doc_num),
             )
         ),
         'ORDER_BY' => 'ROUTE_NUM DESC'
@@ -792,7 +794,11 @@ function getTableUser($inputs, $conn, $tableName)
         ),
         "WHERE" => array(
             "AND" => array(
-                "$tableName.R_USER_ID" => $_SESSION["HRIS_ID"],
+                array("$tableName.R_DEPT_ID" => $_SESSION["DEPT_ID"]),
+            ),
+            "OR" => array(
+                array("$tableName.R_USER_ID" => $_SESSION["HRIS_ID"]),
+                array("$tableName.R_USER_ID" => '0'),
             ),
         ),
     );
@@ -840,7 +846,7 @@ function setupTable($result, $buttons, $tableName)
                 $tbody .= "<td>";
                 foreach ($buttons as $key => $value) {
                     $tbody .= "<button class=$key type='button' data-i=$rows[ID] data-d=$rows[DOC_NUM] data-r=$rows[ROUTE_NUM]";
-                    if ($rows['Action'] == "RECEIVE" && $tableName=="DOTS_DOCUMENT_INBOUND") {
+                    if ($rows['Action'] == "RECEIVE" && $tableName == "DOTS_DOCUMENT_INBOUND") {
                         $tbody .= " style='visibility:hidden' ";
                     }
                     $tbody .= ">$value</button>";
@@ -893,17 +899,21 @@ function receiveDocUser($inputs, $conn)
     $dateTimeReceived = $data['DATE_TIME_RECEIVED'];
     $id = $data['ID'];
     $action = $data['ACTION_ID'];
+    $user_id = $data['R_USER_ID'];
 
     $updateData = array(
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
         'DATA' => array(
             'DATE_TIME_RECEIVED' => $dateTimeReceived,
-            'ACTION_ID' => $action
+            'ACTION_ID' => $action,
+            'R_USER_ID' => $user_id,
         ),
         'WHERE' => array(
             'ID' => $id,
         ),
     );
+
+    //TODO validate if received
 
     $updateDataSql = $queries->updateQuery($updateData);
     $result = mysqli_query($conn, $updateDataSql);
@@ -911,14 +921,15 @@ function receiveDocUser($inputs, $conn)
         $valid = true;
     }
 
+    //TODO add to outbound
+
+    //TODO update to logs
+
     echo json_encode(
         array(
-            'VALID' => true,
+            'VALID' => $valid,
         )
     );
-
-
-
 }
 function formatDateTime($dateString)
 {
