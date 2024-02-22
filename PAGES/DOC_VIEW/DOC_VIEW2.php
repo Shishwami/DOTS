@@ -143,46 +143,60 @@
                                     <input type="datetime-local" name="DATE_TIME_SEND" id="SEND_DATE_TIME_SENT">
                                 </div>
                             </div>
-                            <div>
-                                <label for="SEND_DOC_PRPS">Documnet Purpose:</label>
-                                <select name="PRPS_ID" id="SEND_DOC_PRPS">
-                                    <option value="" disabled selected>Please Select Purpose</option>
-                                    <!-- to be filled using database -->
-                                </select>
-                            </div>
-                            <div>
-                                <label for="SEND_R_DEPT_ID">Department:</label>
-                                <select name="R_DEPT_ID" id="SEND_R_DEPT_ID">
-                                    <option value="" disabled selected>Please Select Department</option>
-                                    <!-- to be filled using database -->
-                                </select>
-                            </div>
-                            <div>
-                                <label for="SEND_DOC_ADDRESSEE">Addressee:</label>
-                                <select name="R_USER_ID" id="SEND_DOC_ADDRESSEE">
-                                    <option value="" disabled selected>Please Select Addressee</option>
-                                    <!-- to be filled using database -->
-                                </select>
+
+                            <div class="box content_two">
+                                <div>
+                                    <label for="SEND_DOC_PRPS">Documnet Purpose:</label>
+                                    <select name="PRPS_ID" id="SEND_DOC_PRPS">
+                                        <option value="" disabled selected>Please Select Purpose</option>
+                                        <!-- to be filled using database -->
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="SEND_R_DEPT_ID">Department:</label>
+                                    <select name="R_DEPT_ID" id="SEND_R_DEPT_ID">
+                                        <option value="" disabled selected>Please Select Department</option>
+                                        <!-- to be filled using database -->
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="SEND_DOC_ADDRESSEE">Addressee:</label>
+                                    <select name="R_USER_ID" id="SEND_DOC_ADDRESSEE">
+                                        <option value="" disabled selected>Please Select Addressee</option>
+                                        <!-- to be filled using database -->
+                                    </select>
+                                </div>
                             </div>
 
-                            <div>
-                                <label for="SEND_DOC_NOTES">Notes:</label>
-                                <input type="text" name="DOC_NOTES" id="SEND_DOC_NOTES">
+                            <div class="box content_three">
+                                <div>
+                                    <label for="SEND_DOC_NOTES">Notes:</label>
+                                    <input type="text" name="DOC_NOTES" id="SEND_DOC_NOTES">
+                                </div>
                             </div>
 
-                            <input type="text" name="ACTION_ID" id="SEND_DOC_ACTION" value="1" readonly>
-                            <input type="text" name="S_DEPT_ID" id="SEND_S_DEPT_ID" value="" readonly>
-                            <input type="text" name="S_USER_ID" id="SEND_S_USER_ID" value="" readonly>
+                            <input type="text" name="ACTION_ID" id="SEND_DOC_ACTION" value="1" readonly hidden>
+                            <input type="text" name="S_DEPT_ID" id="SEND_S_DEPT_ID" value="" readonly hidden>
+                            <input type="text" name="S_USER_ID" id="SEND_S_USER_ID" value="" readonly hidden>
                         </div>
 
+                        <div class="submit">
                             <input type="submit" value="Send">
+                        </div>
                     </form>
                 </div>
-            </div>   
+            </div>
+            
+            <div class="modal" id="atc_modal">
+                <div class="modal_content">
+                    <div class="modal_banner">
+                        <span class="atc_close">&times;</span>
+                        <h1>Attach</h1>
+                    </div>
 
-                <div>
-                    <h2>ATTACHMENTS MODAL</h2>
                 </div>
+            </div>
+
         </div>
     </div>
     <br>
