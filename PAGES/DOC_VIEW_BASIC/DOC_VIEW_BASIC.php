@@ -58,6 +58,7 @@
         </div>
         <input type="text" name="ID" id="RECEIVE_DOC_ID">
         <input type="text" name="ACTION_ID" id="RECEIVE_DOC_ACTION" value="2">
+        <input type="text" name="R_USER_ID" id="RECEIVE_R_USER_ID">
         <input type="submit" value="Receive">
 
     </form>
