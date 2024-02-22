@@ -5,6 +5,10 @@ const searchBar = document.getElementById("searchBar");
 
 const DOC_VIEW_BASIC = document.getElementById("DOC_VIEW_BASIC");
 
+const FORM_DOC_RECEIVE = document.getElementById('FORM_DOC_RECEIVE');
+const RECEIVE_DATE_TIME_RECEIVED = FORM_DOC_RECEIVE.querySelector("#RECEIVE_DATE_TIME_RECEIVED");
+const RECEIVE_DOC_ID = FORM_DOC_RECEIVE.querySelector('#RECEIVE_DOC_ID');
+
 const FORM_DOC_SEND = document.getElementById('FORM_DOC_SEND');
 const SEND_DATE_TIME_RECEIVED = FORM_DOC_SEND.querySelector("#SEND_DATE_TIME_RECEIVED");
 const SEND_DOC_PRPS = FORM_DOC_SEND.querySelector("#SEND_DOC_PRPS");
@@ -19,8 +23,9 @@ const hrisId = sessionStorage.getItem(DOTS_ACCOUNT_INFO.HRIS_ID);
 let action_type = "receive";
 
 setSession();
+setFormEvents();
 setDOC_PURPOSEselect();
-setRECEIVED_TIME(SEND_DATE_TIME_RECEIVED);
+// setRECEIVED_TIME(SEND_DATE_TIME_RECEIVED); move to send
 setDOC_LOCATION();
 getSessionDeptId();
 
@@ -90,10 +95,34 @@ function setButtons(table) {
 
 function setReceiveBtn(id, doc_num, route_num) {
     console.log("btnpressed");
-
     //updateform
+    setRECEIVED_TIME(RECEIVE_DATE_TIME_RECEIVED);
+    RECEIVE_DOC_ID.value = id;
+    //open modal
+
 }
 function setSendBtn(id, doc_num, route_num) {
+
+}
+function setFormEvents() {
+    FORM_DOC_RECEIVE.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const data = {
+            REQUEST: _REQUEST.RECEIVE_DOC_USER,
+            DATA: JsFunctions.FormToJson(this),
+        }
+
+        console.log(data);
+
+        MyAjax.createJSON((error, response) => {
+            console.log(response);
+        }, data);
+        // notify
+    });
+    FORM_DOC_SEND.addEventListener('submit', function (e) {
+        e.preventDefault();
+    });
 
 }
 function setRECEIVED_TIME(element) {
