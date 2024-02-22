@@ -128,6 +128,7 @@ body:before
     width: 100%;
     grid-area: table;
     font-size: 12px;
+    font-weight: 600;
     text-align: center;
     border: 1px solid #000000;
     border-collapse: collapse;
@@ -191,6 +192,21 @@ body:before
 .opt_btn:hover
 {
     background-image: var(--opt_btn-hover); 
+}
+
+.btnS
+{
+    background-image: var(--opt_btn);
+    padding: 0.3rem 0.4rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--font_white);
+    cursor: pointer;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    margin: 0 auto;
 }
 
 .radio_btn
