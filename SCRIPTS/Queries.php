@@ -23,11 +23,13 @@ class Queries
     // }';
     function selectQuery($inputs)
     {
-
         $sql = "SELECT ";
 
         if (isset($inputs['COLUMNS'])) {
-            $sql .= implode(', ', $inputs['COLUMNS']);
+            $columns = array_map(function ($column) {
+                return "$column";
+            }, $inputs['COLUMNS']);
+            $sql .= implode(', ', $columns);
         } else {
             $sql .= '*';
         }
@@ -37,6 +39,7 @@ class Queries
         } else {
             //no table name
         }
+
         if (isset($inputs['JOIN'])) {
             foreach ($inputs['JOIN'] as $join) {
                 $sql .= " {$join['TYPE']} JOIN {$join['table']} ON " . implode(' AND ', $join['ON']);
@@ -58,14 +61,12 @@ class Queries
             $whereConditions = [];
             foreach ($whereData as $key => $value) {
                 $innerConditions = [];
-
                 foreach ($value as $key2 => $value2) {
                     foreach ($value2 as $key3 => $value3) {
-                        $innerConditions[] = "$key3 = $value3";
+                        $innerConditions[] = "$key3 = '$value3'";
                     }
                 }
                 $whereConditions[] = '(' . implode(" $key ", $innerConditions) . ')';
-
             }
             $sql .= ' WHERE ' . implode(' AND ', $whereConditions);
         }
