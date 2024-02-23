@@ -28,6 +28,9 @@ try {
         case 'DELETE':
             DELETE_($inputs, $conn);
             break;
+        case 'USER_LOGIN':
+            userLogin($inputs, $conn);
+            break;
         case 'GET_DATE':
             get_Date($inputs);
             break;
@@ -128,7 +131,7 @@ function SELECT_($inputs, $conn)
     $valid = false;
 
     $sql = $queries->selectQuery($inputs);
-    // echo $sql;  
+    echo $sql;
 
     $result = mysqli_query($conn, $sql);
     if ($result) {
@@ -196,6 +199,66 @@ function DELETE_($inputs, $conn)
     );
 }
 
+function userLogin($inputs, $conn)
+{
+    $queries = new Queries();
+    $valid = false;
+
+    $response = [];
+
+    $whereData = $inputs['WHERE'];
+    $username = $whereData['USERNAME'];
+    $password = $whereData['PASSWORD'];
+
+    $data = array(
+        'TABLE' => 'DOTS_ACCOUNT_INFO',
+        'COLUMNS' => array(
+            'HRIS_ID',
+            'FULL_NAME',
+            'INITIAL',
+            'DEPT_ID',
+            'DOTS_PRIV'
+        ),
+        'WHERE' => array(
+            'AND' => array(
+                array(
+                    'USERNAME' => "$username",
+                    'PASSWORD' => "$password"
+                )
+            ),
+        ),
+    );
+
+    $selectSql = $queries->selectQuery($data);
+    $result = mysqli_query($conn, $selectSql);
+
+    if (mysqli_num_rows($result) == 1) {
+        $valid = true;
+        $row = mysqli_fetch_assoc($result);
+
+        foreach ($row as $key => $value) {
+            $_SESSION[$key] = $value;
+        }
+
+        // if($_SESSION['DOTS_PRIV'] == 0){
+        //     //
+        // }
+        
+        // if($_SESSION['DOTS_PRIV'] == 1){
+        //     //
+        // }
+        
+        // if($_SESSION['DOTS_PRIV'] == 2){
+        //     //
+        // }
+
+    } else {
+        $response['MESSAGE'] = 'Invalid Username or Password';
+    }
+
+    $response["VALID"] = $valid;
+    echo json_encode($response);
+}
 function get_Date($inputs)
 {
 
@@ -753,7 +816,7 @@ function getTableUser($inputs, $conn, $tableName)
             ),
         ];
         $buttons = array(
-            'btns' => 'S'
+            'btnS' => 'S'
         );
     }
 
@@ -942,22 +1005,22 @@ function receiveDocUser($inputs, $conn)
     $updateData = array(
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
         'DATA' => array(
-            'DATE_TIME_RECEIVED' => $dateTimeReceived,
+            'DATE_TIME_RECEIVED' => $data['DATE_TIME_RECEIVED'],
             'ACTION_ID' => $action,
             'R_USER_ID' => $user_id,
         ),
         'WHERE' => array(
-            'ID' => $id,
+            'ID' => $data['ID'],
         ),
     );
 
     $insertData = array(
         'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
         'DATA' => array(
-            'DATE_TIME_SEND' => $dateTimeReceived,
+            'DATE_TIME_SEND' => $data['DATE_TIME_RECEIVED'],
             'S_USER_ID' => $user_id,
             'S_DEPT_ID' => $dept_id,
-            'ACTION_ID' => '1',
+            'ACTION_ID' => $action,
             'DOC_NUM' => $doc_num,
             'ROUTE_NUM' => $route_num,
             'ROUTED' => '1'
