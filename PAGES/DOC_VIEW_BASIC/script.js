@@ -16,6 +16,10 @@ const RECEIVE_R_DEPT_ID = FORM_DOC_RECEIVE.querySelector('#RECEIVE_R_DEPT_ID');
 const FORM_DOC_SEND = document.getElementById('FORM_DOC_SEND');
 const SEND_DATE_TIME_RECEIVED = FORM_DOC_SEND.querySelector("#SEND_DATE_TIME_RECEIVED");
 const SEND_DOC_PRPS = FORM_DOC_SEND.querySelector("#SEND_DOC_PRPS");
+const SEND_DOC_ID = FORM_DOC_SEND.querySelector('#SEND_DOC_ID');
+const SEND_S_USER_ID = FORM_DOC_SEND.querySelector('#SEND_S_USER_ID');
+const SEND_S_DEPT_ID = FORM_DOC_SEND.querySelector('#SEND_S_DEPT_ID');
+const SEND_R_DEPT_ID = FORM_DOC_SEND.querySelector('#SEND_R_DEPT_ID');
 
 const RADIO_SEND = document.getElementById("RADIO_SEND");
 const RADIO_RECEIVE = document.getElementById("RADIO_RECEIVE");
@@ -98,8 +102,7 @@ function setButtons(table) {
     table.querySelectorAll('.btnS').forEach(function (button) {
         button.addEventListener('mousedown', function () {
             var itemId = this.getAttribute('data-i');
-            // setReceiveBtn(this.dataset.i, this.dataset.d, this.dataset.r);
-            console.log("SEND");
+            setSendBtn(this.dataset.i, this.dataset.d, this.dataset.r);
         });
     });
 }
@@ -109,8 +112,8 @@ function setReceiveBtn(id, doc_num, route_num) {
 
     //updateform
     RECEIVE_DOC_ID.value = id;
-    RECEIVE_DOC_NUM.value = id;
-    RECEIVE_ROUTE_NUM.value = id;
+    RECEIVE_DOC_NUM.value = doc_num;
+    RECEIVE_ROUTE_NUM.value = route_num;
 
     getData(_REQUEST.GET_DATE, { DATE: "DATE_TIME" }, (result) => {
         RECEIVE_DATE_TIME_RECEIVED.value = result;
@@ -118,14 +121,40 @@ function setReceiveBtn(id, doc_num, route_num) {
     getData(_REQUEST.GET_SESSION_HRIS_ID, null, (result) => {
         RECEIVE_R_USER_ID.value = result;
     });
-    getData(_REQUEST.GET_SESSION_DEPT_ID, null, (result => {
+    getData(_REQUEST.GET_SESSION_DEPT_ID, null, (result) => {
         RECEIVE_R_DEPT_ID.value = result;
-    }));
+    });
+
 
     //open modal
 
 }
 function setSendBtn(id, doc_num, route_num) {
+    //updateform
+    SEND_DOC_ID.value = id;
+    SEND_DOC_NUM.value = doc_num;
+    SEND_ROUTE_NUM.value = route_num;
+
+    getData(_REQUEST.GET_DATE, { DATE: "DATE_TIME" }, (result) => {
+        SEND_DATE_TIME_RECEIVED.value = result;
+    });
+    getData(_REQUEST.GET_SESSION_HRIS_ID, null, (result) => {
+        SEND_S_USER_ID.value = result;
+    });
+    getData(_REQUEST.GET_SESSION_DEPT_ID, null, (result => {
+        SEND_S_DEPT_ID.value = result;
+    }));
+    getData(_REQUEST.GET_DOC_PRPS, null, (result) => {
+        SEND_DOC_PRPS.innerHTML = result;
+    });
+    getData(_REQUEST.GET_DEPT, null, (result) => {
+        SEND_R_DEPT_ID.innerHTML = result;
+        SEND_R_DEPT_ID.addEventListener('change', function () {
+            getData(_REQUEST.GET_ADDRESSEE, { DEPT_ID: this.value }, (result2) => {
+                SEND_DOC_ADDRESSEE.innerHTML = result2;
+            });
+        });
+    });
 
 }
 function setFormEvents() {
@@ -146,6 +175,17 @@ function setFormEvents() {
     });
     FORM_DOC_SEND.addEventListener('submit', function (e) {
         e.preventDefault();
+
+        const data = {
+            REQUEST: _REQUEST.SEND_DOC_USER,
+            DATA: JsFunctions.FormToJson(this),
+        }
+
+        console.log(data);
+
+        MyAjax.createJSON((error, response) => {
+            console.log(response);
+        }, data);
     });
 
 }
