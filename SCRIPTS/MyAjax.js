@@ -1,4 +1,5 @@
 class MyAjax {
+    
     static createJSON(callback,data) {
         const xhr = new XMLHttpRequest();
         xhr.open('POST', "../../SCRIPTS/DOTS_API.php", true);
@@ -17,5 +18,6 @@ class MyAjax {
         const jsonData = JSON.stringify(data);
         xhr.send(jsonData);
     }
+    
 }
 export default MyAjax;

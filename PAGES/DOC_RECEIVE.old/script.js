@@ -12,51 +12,7 @@ setLETTER_DATE();
 
 getSessionName();
 
-FORM_RECEIVE.addEventListener('submit', function (e) {
-    e.preventDefault();
 
-    const data2 = {
-        REQUEST: _REQUEST.GET_SESSION_ID,
-    }
-    var vals = JsFunctions.FormToJson(FORM_RECEIVE);
-    var data = {
-        TABLE: DOTS_DOCUMENT.NAME,
-        REQUEST: _REQUEST.INSERT,
-        DATA: vals,
-    }
-
-    const dataValues = Object.values(data);
-    var empty = JsFunctions.checkIfEmpty(dataValues);
-
-    if (!empty) {
-        MyAjax.createJSON((error, response) => {
-            if (error) {
-                alert(error);
-            } else {
-                if (response.VALID) {
-                    delete response.VALID;
-                    data["RECEIVED_BY"] = Object.values(response)[0];
-                    MyAjax.createJSON((error, response) => {
-                        if (!error) {
-                            if (response.VALID) {
-                                console.log(response);
-                                alert("DOC CREsddssddsATED");
-                            }
-                        } else {
-                            alert(error);
-                        }
-                    }, data);
-                } else {
-                    console.log(response);
-                    //error message
-                }
-            }
-        }, data2);
-    } else {
-        //validation
-    }
-
-});
 
 function setDOC_NUM() {
 

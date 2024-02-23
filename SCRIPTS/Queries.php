@@ -16,17 +16,20 @@ class Queries
     //             "TYPE": "LEFT"
     //         }
     //     ],
-    //     "WHERE": {"t1.column4": "value1"},
+    //     "WHERE": {"t1.column4": "value1"},//AND
+    //              ["t1.column4": "value1"]//OR
     //     "ORDER BY": "t1.column1",
     //     "LIMIT": 10
     // }';
     function selectQuery($inputs)
     {
-
         $sql = "SELECT ";
 
         if (isset($inputs['COLUMNS'])) {
-            $sql .= implode(', ', $inputs['COLUMNS']);
+            $columns = array_map(function ($column) {
+                return "$column";
+            }, $inputs['COLUMNS']);
+            $sql .= implode(', ', $columns);
         } else {
             $sql .= '*';
         }
@@ -44,13 +47,36 @@ class Queries
         }
 
         if (isset($inputs['WHERE'])) {
-            $sql .= ' WHERE ';
-            foreach ($inputs['WHERE'] as $column => $value) {
-                $sql .= "$column = '$value'";
+            // $whereConditions = [];
+            // foreach ($inputs['WHERE'] as $logicalOperator => $conditions) {
+            //     $innerConditions = [];
+            //     foreach ($conditions as $column => $value) {
+            //         $innerConditions[] = "$column = '$value'";
+            //     }
+            //     $whereConditions[] = '(' . implode(" $logicalOperator ", $innerConditions) . ')';
+            // }
+            // $sql .= ' WHERE ' . implode(' AND ', $whereConditions);
+
+            $whereData = $inputs['WHERE'];
+            $whereConditions = [];
+            foreach ($whereData as $key => $value) {
+                $innerConditions = [];
+                foreach ($value as $key2 => $value2) {
+                    foreach ($value2 as $key3 => $value3) {
+                        $innerConditions[] = "$key3 = '$value3'";
+                    }
+                }
+                $whereConditions[] = '(' . implode(" $key ", $innerConditions) . ')';
             }
+            $sql .= ' WHERE ' . implode(' AND ', $whereConditions);
+        }
+
+        if (isset($inputs['ORDER_BY'])) {
+            $sql .= ' ORDER BY ' . $inputs['ORDER_BY'];
         }
 
         $sql .= ";";
+        $sql = str_replace('&#39;', "'", $sql);
         // echo $sql;
 
         return $sql;
@@ -119,7 +145,7 @@ class Queries
         // echo $sql;
         return $sql;
     }
-    
+
     // jsonFormat= '{
     //     "TABLE": "table_name",
     //     "WHERE": {

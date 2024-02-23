@@ -1,53 +1,28 @@
 class JsFunctions {
 
-    static updateTable(tableJSON, table, filter) {
+    static updateTable(table, filter) {
 
         const thead = table.querySelector('thead');
         const tbody = table.querySelector('tbody');
-
-        thead.innerHTML = '';
-        tbody.innerHTML = '';
-
-        if (tableJSON[0] == null) {
-            return
-        }
-
-        const keys = Object.keys(tableJSON[0]);
-        keys.forEach(key => {
-            const th = document.createElement('th');
-            if (_SUB_NAME[key] == null) {
-                th.textContent = key;
+        const rows = tbody.querySelectorAll('tr');
+        for (var i = 0; i < rows.length; i++) {
+            var td = rows[i].querySelectorAll("td");
+            var found = false;
+            for (var j = 0; j < td.length; j++) {
+              if (td[j]) {
+                var txtValue = td[j].textContent || td[j].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                  found = true;
+                  break;
+                }
+              }
+            }
+            if (found) {
+              rows[i].style.display = "";
             } else {
-                th.textContent = _SUB_NAME[key];
+              rows[i].style.display = "none";
             }
-
-            thead.appendChild(th);
-        });
-
-        tableJSON.forEach(item => {
-            const row = document.createElement('tr');
-            let found = 0;
-
-            Object.entries(item).forEach(([key, value]) => {
-                const cell = document.createElement('td');
-                cell.textContent = value;
-                cell.dataset.keys = key;
-                cell.dataset.value = value;
-                row.appendChild(cell);
-                if (value == null) {
-                    value = "";
-                }
-                if (value.toUpperCase().indexOf(filter) > -1) {
-                    found++;
-                }
-            });
-
-            if (found == 0) {
-                row.style.display = "none";
-            }
-
-            tbody.appendChild(row);
-        });
+          }
     }
 
     static FormToJson(form) {
@@ -76,9 +51,25 @@ class JsFunctions {
         for (let i = 0; i < values.length; i++) {
             if (values[i] == "" || values[i] == null) {
                 empty = true;
+                console.log(values[i]);
             }
         }
         return empty;
+    }
+
+    static formatDateTime(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
+    }
+
+    static formatDate(date) {
+        return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
     }
 
     static tbodyEventListener(tbody) {
