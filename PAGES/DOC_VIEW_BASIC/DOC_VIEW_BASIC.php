@@ -56,8 +56,8 @@
             <label for="RECEIVE_DATE_TIME_RECEIVED">Date Recevied:</label>
             <input type="datetime-local" name="DATE_TIME_RECEIVED" id="RECEIVE_DATE_TIME_RECEIVED">
         </div>
-        <input type="text" name="ID" id="RECEIVE_DOC_ID">
         
+        <input type="text" name="ID" id="RECEIVE_DOC_ID">
         <input type="text" name="ACTION_ID" id="RECEIVE_DOC_ACTION" value="2">
         <input type="text" name="R_USER_ID" id="RECEIVE_R_USER_ID">
         <input type="text" name="DOC_NUM" id="RECEIVE_DOC_NUM">
@@ -71,6 +71,10 @@
         <div>
             <label for="SEND_DOC_NUM">Document Number:</label>
             <input type="text" name="DOC_NUM" id="SEND_DOC_NUM" readonly>
+        </div>
+        <div>
+            <label for="SEND_ROUTE_NUM">Document Number:</label>
+            <input type="text" name="ROUTE_NUM" id="SEND_ROUTE_NUM" readonly>
         </div>
         <div>
             <label for="SEND_DATE_TIME_RECEIVED">Date Received:</label>
@@ -103,6 +107,7 @@
             <input type="text" name="DOC_NOTES" id="SEND_DOC_NOTES">
         </div>
 
+        <input type="text" name="ID" id="SEND_DOC_ID">
         <input type="text" name="ACTION_ID" id="SEND_DOC_ACTION" value="1" readonly>
         <input type="text" name="S_DEPT_ID" id="SEND_S_DEPT_ID" value="" readonly>
         <input type="text" name="S_USER_ID" id="SEND_S_USER_ID" value="" readonly>
