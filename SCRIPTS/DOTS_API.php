@@ -1017,7 +1017,7 @@ function receiveDocUser($inputs, $conn)
     $insertData = array(
         'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
         'DATA' => array(
-            'DATE_TIME_SEND' => $data['DATE_TIME_RECEIVED'],
+            'DATE_TIME_RECEIVED' => $data['DATE_TIME_RECEIVED'],
             'S_USER_ID' => $user_id,
             'S_DEPT_ID' => $dept_id,
             'ACTION_ID' => $action,
