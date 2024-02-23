@@ -95,6 +95,13 @@ function setButtons(table) {
             setReceiveBtn(this.dataset.i, this.dataset.d, this.dataset.r);
         });
     });
+    table.querySelectorAll('.btnS').forEach(function (button) {
+        button.addEventListener('mousedown', function () {
+            var itemId = this.getAttribute('data-i');
+            // setReceiveBtn(this.dataset.i, this.dataset.d, this.dataset.r);
+            console.log("SEND");
+        });
+    });
 }
 
 function setReceiveBtn(id, doc_num, route_num) {
