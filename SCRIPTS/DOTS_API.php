@@ -91,6 +91,9 @@ try {
         case 'RECEIVE_DOC_USER':
             receiveDocUser($inputs, $conn);
             break;
+        case 'SED_DOC_USER':
+            sendDocUser($inputs,$conn);
+            break;
     }
     $conn->close();
 
@@ -243,11 +246,11 @@ function userLogin($inputs, $conn)
         // if($_SESSION['DOTS_PRIV'] == 0){
         //     //
         // }
-        
+
         // if($_SESSION['DOTS_PRIV'] == 1){
         //     //
         // }
-        
+
         // if($_SESSION['DOTS_PRIV'] == 2){
         //     //
         // }
