@@ -10,47 +10,63 @@ $sql = '';
 
 try {
     $inputs = json_decode(file_get_contents("php://input"), true);
-    $inputs = sanitizeInputs($inputs);
+    // $inputs = sanitizeInputs($inputs);
     // var_dump($inputs);
 
     $REQUEST = $inputs['REQUEST'];
+    if (!isset($inputs['REQUEST'])) {
+        var_dump($inputs);
+    }
 
     switch ($REQUEST) {
-        case 'INSERT':
-            INSERT_($inputs, $conn);
-            break;
-        case 'SELECT':
-            SELECT_($inputs, $conn);
-            break;
-        case 'UPDATE':
-            UPDATE_($inputs, $conn);
-            break;
-        case 'DELETE':
-            DELETE_($inputs, $conn);
-            break;
+        // case 'INSERT':
+        //     INSERT_($inputs, $conn);
+        //     break;
+        // case 'SELECT':
+        //     SELECT_($inputs, $conn);
+        //     break;
+        // case 'UPDATE':
+        //     UPDATE_($inputs, $conn);
+        //     break;
+        // case 'DELETE':
+        //     DELETE_($inputs, $conn);
+        //     break;
         case 'USER_LOGIN':
             userLogin($inputs, $conn);
             break;
         case 'GET_DATE':
             get_Date($inputs);
             break;
-        case 'CREATE_SESSION':
-            createSession($inputs, $conn);
-            break;
-        case 'GET_SESSION_NAME':
-            getSessionName();
-            break;
-        case 'GET_SESSION_INITIAL':
-            getSessionInitial();
-            break;
-        case 'GET_SESSION_HRIS_ID':
-            getSessionHrisID();
-            break;
-        case 'GET_SESSION_DEPT_ID':
-            getSessionDeptID();
-            break;
+        // case 'CREATE_SESSION':
+        //     createSession($inputs, $conn);
+        //     break;
+        // case 'GET_SESSION_NAME':
+        //     getSessionName();
+        //     break;
+        // case 'GET_SESSION_INITIAL':
+        //     getSessionInitial();
+        //     break;
+        // case 'GET_SESSION_HRIS_ID':
+        //     getSessionHrisID();
+        //     break;
+        // case 'GET_SESSION_DEPT_ID':
+        //     getSessionDeptID();
+        //     break;
 
         //REMAKE
+
+        case 'GET_SESSION_NAME':
+            getSessionValue("FULL_NAME");
+            break;
+        case 'GET_SESSION_INITIAL':
+            getSessionValue("INIITAL");
+            break;
+        case 'GET_SESSION_HRIS_ID':
+            getSessionValue("HRIS_ID");
+            break;
+        case 'GET_SESSION_DEPT_ID':
+            getSessionValue("DEPT_ID");
+            break;
 
         case 'GET_DOC_NUM':
             getDocNum($inputs, $conn);
@@ -91,6 +107,9 @@ try {
         case 'RECEIVE_DOC_USER':
             receiveDocUser($inputs, $conn);
             break;
+        case 'SEND_DOC_USER':
+            sendDocUser($inputs, $conn);
+            break;
     }
     $conn->close();
 
@@ -103,101 +122,101 @@ try {
     echo '' . $th->getMessage() . '\r\n asd' . $sql;
 }
 
-function INSERT_($inputs, $conn)
-{
-    $queries = new Queries();
-    $valid = false;
+// function INSERT_($inputs, $conn)
+// {
+//     $queries = new Queries();
+//     $valid = false;
 
-    $sql = $queries->insertQuery($inputs);
-    // echo $sql;
+//     $sql = $queries->insertQuery($inputs);
+//     // echo $sql;
 
-    if (mysqli_query($conn, $sql)) {
-        $valid = true;
-    } else {
-        echo "Failed to connect to MySQL: " . $conn->connect_error;
-    }
+//     if (mysqli_query($conn, $sql)) {
+//         $valid = true;
+//     } else {
+//         echo "Failed to connect to MySQL: " . $conn->connect_error;
+//     }
 
-    echo json_encode(
-        array(
-            'VALID' => $valid,
-            'SQL' => $sql,
-        )
-    );
-}
+//     echo json_encode(
+//         array(
+//             'VALID' => $valid,
+//             'SQL' => $sql,
+//         )
+//     );
+// }
 
-function SELECT_($inputs, $conn)
-{
-    $queries = new Queries();
-    $valid = false;
+// function SELECT_($inputs, $conn)
+// {
+//     $queries = new Queries();
+//     $valid = false;
 
-    $sql = $queries->selectQuery($inputs);
-    echo $sql;
+//     $sql = $queries->selectQuery($inputs);
+//     echo $sql;
 
-    $result = mysqli_query($conn, $sql);
-    if ($result) {
-        $rows = array();
-        while ($row = mysqli_fetch_assoc($result)) {
-            $rows[] = $row;
-            $valid = true;
-        }
-        mysqli_free_result($result);
+//     $result = mysqli_query($conn, $sql);
+//     if ($result) {
+//         $rows = array();
+//         while ($row = mysqli_fetch_assoc($result)) {
+//             $rows[] = $row;
+//             $valid = true;
+//         }
+//         mysqli_free_result($result);
 
-        echo json_encode(
-            array(
-                'VALID' => $sql,
-                'RESULT' => $rows
-            )
-        );
-    } else {
-        echo json_encode(
-            array(
-                'VALID' => $valid,
-            )
-        );
-    }
+//         echo json_encode(
+//             array(
+//                 'VALID' => $sql,
+//                 'RESULT' => $rows
+//             )
+//         );
+//     } else {
+//         echo json_encode(
+//             array(
+//                 'VALID' => $valid,
+//             )
+//         );
+//     }
 
 
-}
-function UPDATE_($inputs, $conn)
-{
-    $queries = new Queries();
-    $valid = false;
+// }
+// function UPDATE_($inputs, $conn)
+// {
+//     $queries = new Queries();
+//     $valid = false;
 
-    $sql = $queries->updateQuery($inputs);
-    // echo $sql;
-    if (mysqli_query($conn, $sql)) {
-        $valid = true;
-    } else {
-        echo "Failed to connect to MySQL: " . $conn->connect_error;
-    }
+//     $sql = $queries->updateQuery($inputs);
+//     // echo $sql;
+//     if (mysqli_query($conn, $sql)) {
+//         $valid = true;
+//     } else {
+//         echo "Failed to connect to MySQL: " . $conn->connect_error;
+//     }
 
-    echo json_encode(
-        array(
-            'VALID' => $valid
-        )
-    );
-}
+//     echo json_encode(
+//         array(
+//             'VALID' => $valid
+//         )
+//     );
+// }
 
-function DELETE_($inputs, $conn)
-{
-    $queries = new Queries();
-    $valid = false;
+// function DELETE_($inputs, $conn)
+// {
+//     $queries = new Queries();
+//     $valid = false;
 
-    $sql = $queries->deleteQuery($inputs);
-    //echo $sql
+//     $sql = $queries->deleteQuery($inputs);
+//     //echo $sql
 
-    if (mysqli_query($conn, $sql)) {
-        $valid = true;
-    } else {
-        echo "Failed to connect to MySQL: " . $conn->connect_error;
-    }
+//     if (mysqli_query($conn, $sql)) {
+//         $valid = true;
+//     } else {
+//         echo "Failed to connect to MySQL: " . $conn->connect_error;
+//     }
 
-    echo json_encode(
-        array(
-            'VALID' => $valid
-        )
-    );
-}
+//     echo json_encode(
+//         array(
+//             'VALID' => $valid
+//         )
+//     );
+// }
 
 function userLogin($inputs, $conn)
 {
@@ -243,11 +262,11 @@ function userLogin($inputs, $conn)
         // if($_SESSION['DOTS_PRIV'] == 0){
         //     //
         // }
-        
+
         // if($_SESSION['DOTS_PRIV'] == 1){
         //     //
         // }
-        
+
         // if($_SESSION['DOTS_PRIV'] == 2){
         //     //
         // }
@@ -261,7 +280,6 @@ function userLogin($inputs, $conn)
 }
 function get_Date($inputs)
 {
-
     $time = "";
     date_default_timezone_set("Asia/Manila");
 
@@ -269,132 +287,148 @@ function get_Date($inputs)
         $time = date("Y-m-d");
         $valid = true;
     }
+
     if ($inputs['DATE'] == "TIME") {
         $time = date('h:i');
     }
+
     if ($inputs['DATE'] == "DATE_TIME") {
         $time = date("Y-m-d\TH:i");
     }
 
     if ($time != "") {
         $valid = true;
-
-        echo json_encode(
-            array(
-                'VALID' => $valid,
-                'TIME' => $time,
-            )
-        );
-    } else {
-        echo json_encode(
-            array(
-                'VALID' => $valid
-            )
-        );
-    }
-}
-
-function createSession($inputs, $conn)
-{
-    $valid = false;
-
-    $keys = array_keys($inputs);
-    $values = array_values($inputs);
-
-    for ($i = 0; $i < count($inputs); $i++) {
-        $_SESSION[$keys[$i]] = $values[$i];
-        $valid = true;
     }
 
     echo json_encode(
         array(
-            'VALID' => $valid
+            'VALID' => $valid,
+            'TIME' => $time,
         )
     );
 }
-function getSessionName()
+
+// function createSession($inputs, $conn)
+
+// {
+//     $valid = false;
+
+//     $keys = array_keys($inputs);
+//     $values = array_values($inputs);
+
+//     for ($i = 0; $i < count($inputs); $i++) {
+//         $_SESSION[$keys[$i]] = $values[$i];
+//         $valid = true;
+//     }
+
+//     echo json_encode(
+//         array(
+//             'VALID' => $valid
+//         )
+//     );
+// }
+
+function getSessionValue($key)
 {
     $valid = false;
+    $sessionValue = '';
 
     if (isset($_SESSION["FULL_NAME"])) {
         $valid = true;
-        echo json_encode(
-            array(
-                'VALID' => $valid,
-                'FULLNAME' => $_SESSION["FULL_NAME"],
-            )
-        );
-    } else {
-        echo json_encode(
-            array(
-                'VALID' => $valid
-            )
-        );
+        $sessionValue = $_SESSION[$key];
+
     }
+
+    echo json_encode(
+        array(
+            'VALID' => $valid,
+            'FULLNAME' => $sessionValue,
+        )
+    );
 }
+// function getSessionName()
+// {
+//     $valid = false;
+//     $fullname = '';
 
-function getSessionInitial()
-{
-    $valid = false;
+//     if (isset($_SESSION["FULL_NAME"])) {
+//         $valid = true;
+//         $fullname = $_SESSION["FULLNAME"];
 
-    if (isset($_SESSION["INITIAL"])) {
-        $valid = true;
-        echo json_encode(
-            array(
-                'VALID' => $valid,
-                'INITIAL' => $_SESSION["INITIAL"],
-            )
-        );
-    } else {
-        echo json_encode(
-            array(
-                'VALID' => $valid
-            )
-        );
-    }
-}
+//     }
 
-function getSessionHrisID()
-{
-    $valid = false;
+//     echo json_encode(
+//         array(
+//             'VALID' => $valid,
+//             'FULLNAME' => $fullname,
+//         )
+//     );
+// }
 
-    if (isset($_SESSION["HRIS_ID"])) {
-        $valid = true;
-        echo json_encode(
-            array(
-                'VALID' => $valid,
-                'HRIS_ID' => $_SESSION["HRIS_ID"],
-            )
-        );
-    } else {
-        echo json_encode(
-            array(
-                'VALID' => $valid
-            )
-        );
-    }
-}
+// function getSessionInitial()
+// {
+//     $valid = false;
 
-function getSessionDeptID()
-{
-    $valid = false;
+//     if (isset($_SESSION["INITIAL"])) {
+//         $valid = true;
 
-    if (isset($_SESSION["DEPT_ID"])) {
-        $valid = true;
-        echo json_encode(
-            array(
-                'VALID' => $valid,
-                'DEPT_ID' => $_SESSION["DEPT_ID"],
-            )
-        );
-    } else {
-        echo json_encode(
-            array(
-                'VALID' => $valid
-            )
-        );
-    }
-}
+//     } else {
+//         echo json_encode(
+//             array(
+//                 'VALID' => $valid
+//             )
+//         );
+//     }
+
+//     echo json_encode(
+//         array(
+//             'VALID' => $valid,
+//             'INITIAL' => $_SESSION["INITIAL"],
+//         )
+//     );
+// }
+
+// function getSessionHrisID()
+// {
+//     $valid = false;
+
+//     if (isset($_SESSION["HRIS_ID"])) {
+//         $valid = true;
+//         echo json_encode(
+//             array(
+//                 'VALID' => $valid,
+//                 'HRIS_ID' => $_SESSION["HRIS_ID"],
+//             )
+//         );
+//     } else {
+//         echo json_encode(
+//             array(
+//                 'VALID' => $valid
+//             )
+//         );
+//     }
+// }
+
+// function getSessionDeptID()
+// {
+//     $valid = false;
+
+//     if (isset($_SESSION["DEPT_ID"])) {
+//         $valid = true;
+//         echo json_encode(
+//             array(
+//                 'VALID' => $valid,
+//                 'DEPT_ID' => $_SESSION["DEPT_ID"],
+//             )
+//         );
+//     } else {
+//         echo json_encode(
+//             array(
+//                 'VALID' => $valid
+//             )
+//         );
+//     }
+// }
 
 function sanitizeInputs($input)
 {
@@ -421,18 +455,15 @@ function getDocNum($inputs, $conn)
     );
 
     $sql = $queries->selectQuery($data);
-    // echo $sql;
     $result = mysqli_query($conn, $sql);
 
     $doc_num = 0;
     if ($result) {
         $valid = true;
         $row = $result->fetch_assoc();
-        $doc_num = 0;
         if (isset($row['CURRENT_VALUE'])) {
             $doc_num = $row['CURRENT_VALUE'];
         }
-        // var_dump($result);
     }
 
     echo json_encode(
@@ -456,7 +487,6 @@ function getOptions($tableName, $columnName, $conn)
     );
 
     $sql = $queries->selectQuery($data);
-    // echo $sql;
     $result = mysqli_query($conn, $sql);
 
     $columnNameFormated = "value";
@@ -993,36 +1023,28 @@ function receiveDocUser($inputs, $conn)
     $queries = new Queries();
     $valid = false;
 
-    $data = $inputs['DATA'];
-    $dateTimeReceived = $data['DATE_TIME_RECEIVED'];
-    $id = $data['ID'];
-    $doc_num = $data['DOC_NUM'];
-    $route_num = $data['ROUTE_NUM'];
-    $action = $data['ACTION_ID'];
-    $user_id = $data['R_USER_ID'];
-    $dept_id = $data['R_DEPT_ID'];
-
     $updateData = array(
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
         'DATA' => array(
-            'DATE_TIME_RECEIVED' => $data['DATE_TIME_RECEIVED'],
-            'ACTION_ID' => $action,
-            'R_USER_ID' => $user_id,
+            'DATE_TIME_RECEIVED' => $inputs['DATA']['DATE_TIME_RECEIVED'],
+            'ACTION_ID' => $inputs['DATA']['ACTION_ID'],
+            'R_USER_ID' => $inputs['DATA']['R_USER_ID'],
+            'R_DEPT_ID' => $inputs['DATA']['R_DEPT_ID'],
         ),
         'WHERE' => array(
-            'ID' => $data['ID'],
+            'ID' => $inputs['DATA']['ID'],
         ),
     );
 
     $insertData = array(
         'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
         'DATA' => array(
-            'DATE_TIME_RECEIVED' => $data['DATE_TIME_RECEIVED'],
-            'S_USER_ID' => $user_id,
-            'S_DEPT_ID' => $dept_id,
-            'ACTION_ID' => $action,
-            'DOC_NUM' => $doc_num,
-            'ROUTE_NUM' => $route_num,
+            'DATE_TIME_RECEIVED' => $inputs['DATA']['DATE_TIME_RECEIVED'],
+            'S_USER_ID' => $inputs['DATA']['R_USER_ID'],
+            'S_DEPT_ID' => $inputs['DATA']['R_DEPT_ID'],
+            'ACTION_ID' => $inputs['DATA']['ACTION_ID'],
+            'DOC_NUM' => $inputs['DATA']['DOC_NUM'],
+            'ROUTE_NUM' => $inputs['DATA']['ROUTE_NUM'],
             'ROUTED' => '1'
         ),
     );
@@ -1037,14 +1059,73 @@ function receiveDocUser($inputs, $conn)
 
     $conn->begin_transaction();
 
-    if ($updateDataSql && $insertDataSql) {
+    if ($resultUpdate && $insertUpdate) {
         $valid = true;
         $conn->commit();
     } else {
         $conn->rollback();
     }
 
-    //TODO add to outbound
+    //TODO update to logs
+
+    echo json_encode(
+        array(
+            'VALID' => $valid,
+        )
+    );
+}
+function sendDocUser($inputs, $conn)
+{
+    $queries = new Queries();
+    $valid = false;
+
+    $updateData = array(
+        'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
+        'DATA' => array(
+            'DOC_NOTES' => $inputs['DATA']['DOC_NOTES'],
+            'DATE_TIME_SEND' => $inputs['DATA']['DATE_TIME_SEND'],
+            'ACTION_ID' => $inputs['DATA']['ACTION_ID'],
+            'R_USER_ID' => $inputs['DATA']['R_USER_ID'],
+            'R_DEPT_ID' => $inputs['DATA']['R_DEPT_ID'],
+        ),
+        'WHERE' => array(
+            'ID' => $inputs['DATA']['ID'],
+        ),
+    );
+
+    
+    $insertData = array(
+        'TABLE' => 'DOTS_DOCUMENT_INBOUND',
+        'DATA' => array(
+            'DOC_NOTES' => $inputs['DATA']['DOC_NOTES'],
+            'DATE_TIME_SEND' => $inputs['DATA']['DATE_TIME_SEND'],
+            'R_USER_ID' => $inputs['DATA']['R_USER_ID'],
+            'R_DEPT_ID' => $inputs['DATA']['R_DEPT_ID'],
+            'S_USER_ID' => $inputs['DATA']['S_USER_ID'],
+            'S_DEPT_ID' => $inputs['DATA']['S_DEPT_ID'],
+            'ACTION_ID' => $inputs['DATA']['ACTION_ID'],
+            'DOC_NUM' => $inputs['DATA']['DOC_NUM'],
+            'ROUTE_NUM' => $inputs['DATA']['ROUTE_NUM'],
+            'ROUTED' => '1'
+        ),
+    );
+
+    //TODO validate if received
+
+    $updateDataSql = $queries->updateQuery($updateData);
+    $insertDataSql = $queries->insertQuery($insertData);
+
+    $resultUpdate = $conn->query($updateDataSql);
+    $insertUpdate = $conn->query($insertDataSql);
+
+    $conn->begin_transaction();
+
+    if ($resultUpdate && $insertUpdate) {
+        $valid = true;
+        $conn->commit();
+    } else {
+        $conn->rollback();
+    }
 
     //TODO update to logs
 
