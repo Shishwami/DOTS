@@ -1110,7 +1110,11 @@ function sendDocUser($inputs, $conn)
         ),
     );
 
-    //TODO validate if received
+    //TODO validate if sent
+
+    //if sent
+
+    //if not
 
     $updateDataSql = $queries->updateQuery($updateData);
     $insertDataSql = $queries->insertQuery($insertData);
