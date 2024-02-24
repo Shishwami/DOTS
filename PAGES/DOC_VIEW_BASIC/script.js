@@ -14,7 +14,7 @@ const RECEIVE_ROUTE_NUM = FORM_DOC_RECEIVE.querySelector('#RECEIVE_ROUTE_NUM');
 const RECEIVE_R_DEPT_ID = FORM_DOC_RECEIVE.querySelector('#RECEIVE_R_DEPT_ID');
 
 const FORM_DOC_SEND = document.getElementById('FORM_DOC_SEND');
-const SEND_DATE_TIME_RECEIVED = FORM_DOC_SEND.querySelector("#SEND_DATE_TIME_RECEIVED");
+const SEND_DATE_TIME_SEND = FORM_DOC_SEND.querySelector("#SEND_DATE_TIME_SEND");
 const SEND_DOC_PRPS = FORM_DOC_SEND.querySelector("#SEND_DOC_PRPS");
 const SEND_DOC_ID = FORM_DOC_SEND.querySelector('#SEND_DOC_ID');
 const SEND_S_USER_ID = FORM_DOC_SEND.querySelector('#SEND_S_USER_ID');
@@ -33,14 +33,16 @@ let action_type = "receive";
 setSession();
 setFormEvents();
 // setDOC_PURPOSEselect();
-// setRECEIVED_TIME(SEND_DATE_TIME_RECEIVED); move to send
+// setRECEIVED_TIME(SEND_DATE_TIME_SEND); move to send
 // setDOC_LOCATION();
 // getSessionDeptId();
 
 setTable("", action_type);
+
 searchBar.addEventListener('input', function () {
     setTable(searchBar.value.toUpperCase(), action_type);
 });
+
 setInterval(function () {
     setTable(searchBar.value.toUpperCase(), action_type);
 }, _RESET_TIME);
@@ -67,41 +69,42 @@ function setTable(filter, action_type) {
     if (action_type == 'send') {
         data['REQUEST'] = _REQUEST.GET_TABLE_OUTBOUND;
     }
+
+    console.log(data);
+
     MyAjax.createJSON((error, response) => {
         if (error) {
             alert(error);
         } else {
-            if (response.VALID) {
-            } else {
-            }
+            // if (response.VALID) {
+            // } else {
+            // }
             const thead = DOC_VIEW_BASIC.querySelector('thead');
             const tbody = DOC_VIEW_BASIC.querySelector('tbody');
             if (response.THEAD) {
                 thead.innerHTML = response.THEAD;
             } else {
-                thead.innerHTML = '';
+                // thead.innerHTML = '';
             }
             if (response.TBODY) {
                 tbody.innerHTML = response.TBODY;
             } else {
-                tbody.innerHTML = '';
+                // tbody.innerHTML = '';
             }
             setButtons(DOC_VIEW_BASIC);
-            JsFunctions.updateTable(DOC_VIEW_BASIC, filter);
         }
     }, data);
+    JsFunctions.updateTable(DOC_VIEW_BASIC, filter);
 }
 
 function setButtons(table) {
     table.querySelectorAll('.btnR').forEach(function (button) {
         button.addEventListener('mousedown', function () {
-            var itemId = this.getAttribute('data-i');
             setReceiveBtn(this.dataset.i, this.dataset.d, this.dataset.r);
         });
     });
     table.querySelectorAll('.btnS').forEach(function (button) {
         button.addEventListener('mousedown', function () {
-            var itemId = this.getAttribute('data-i');
             setSendBtn(this.dataset.i, this.dataset.d, this.dataset.r);
         });
     });
@@ -136,7 +139,7 @@ function setSendBtn(id, doc_num, route_num) {
     SEND_ROUTE_NUM.value = route_num;
 
     getData(_REQUEST.GET_DATE, { DATE: "DATE_TIME" }, (result) => {
-        SEND_DATE_TIME_RECEIVED.value = result;
+        SEND_DATE_TIME_SEND.value = result;
     });
     getData(_REQUEST.GET_SESSION_HRIS_ID, null, (result) => {
         SEND_S_USER_ID.value = result;
@@ -166,12 +169,13 @@ function setFormEvents() {
             DATA: JsFunctions.FormToJson(this),
         }
 
-        console.log(data);
-
         MyAjax.createJSON((error, response) => {
             console.log(response);
+            setTable(searchBar.value.toUpperCase, "receive");
+
         }, data);
         // notify
+
     });
     FORM_DOC_SEND.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -181,51 +185,51 @@ function setFormEvents() {
             DATA: JsFunctions.FormToJson(this),
         }
 
-        console.log(data);
-
         MyAjax.createJSON((error, response) => {
             console.log(response);
+            setTable(searchBar.value.toUpperCase, "send");
         }, data);
+
     });
 
 }
-function setRECEIVED_TIME(element) {
-    var data = {
-        REQUEST: _REQUEST.GET_DATE,
-        DATE: "DATE_TIME"
-    }
+// function setRECEIVED_TIME(element) {
+//     var data = {
+//         REQUEST: _REQUEST.GET_DATE,
+//         DATE: "DATE_TIME"
+//     }
 
-    MyAjax.createJSON((error, response) => {
-        if (error) {
-            alert(error);
-        } else {
-            if (response.VALID) {
-                delete response.VALID;
-                element.value = Object.values(response)[0];
-            } else {
-                console.log(response);
-            }
-        }
-    }, data);
-}
-function setDOC_PURPOSEselect() {
+//     MyAjax.createJSON((error, response) => {
+//         if (error) {
+//             alert(error);
+//         } else {
+//             if (response.VALID) {
+//                 delete response.VALID;
+//                 element.value = Object.values(response)[0];
+//             } else {
+//                 console.log(response);
+//             }
+//         }
+//     }, data);
+// }
+// function setDOC_PURPOSEselect() {
 
-    var data = {
-        REQUEST: _REQUEST.GET_DOC_PRPS,
-    }
+//     var data = {
+//         REQUEST: _REQUEST.GET_DOC_PRPS,
+//     }
 
-    MyAjax.createJSON((error, response) => {
-        if (!error) {
-            if (response.VALID) {
-                delete response.VALID;
-                SEND_DOC_PRPS.innerHTML = Object.values(response)[0];
-            } else {
-            }
-        } else {
+//     MyAjax.createJSON((error, response) => {
+//         if (!error) {
+//             if (response.VALID) {
+//                 delete response.VALID;
+//                 SEND_DOC_PRPS.innerHTML = Object.values(response)[0];
+//             } else {
+//             }
+//         } else {
 
-        }
-    }, data);
-}
+//         }
+//     }, data);
+// }
 function setSession() {
     getSessionDeptId();
     getSessionHrisId();
@@ -292,22 +296,22 @@ function getSessionDeptId() {
         }
     }, data);
 }
-function setDOC_LOCATION() {
+// function setDOC_LOCATION() {
 
-    const data = {
-        REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
-    }
-    MyAjax.createJSON((error, response) => {
-        if (!error) {
-            if (response.VALID) {
-                delete response.VALID;
-                SEND_S_USER_ID.value = Object.values(response)[0];
-            }
-        } else {
-            alert(error)
-        }
-    }, data);
-}
+//     const data = {
+//         REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
+//     }
+//     MyAjax.createJSON((error, response) => {
+//         if (!error) {
+//             if (response.VALID) {
+//                 delete response.VALID;
+//                 SEND_S_USER_ID.value = Object.values(response)[0];
+//             }
+//         } else {
+//             alert(error)
+//         }
+//     }, data);
+// }
 
 function getData(requestType, additionalData, successCallback, failureCallback) {
     const data = {
