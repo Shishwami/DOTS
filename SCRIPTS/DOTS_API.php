@@ -108,7 +108,7 @@ try {
             receiveDocUser($inputs, $conn);
             break;
         case 'SEND_DOC_USER':
-            sendDocUser($inputs, $conn);
+            sendDocFormUser($inputs, $conn);
             break;
     }
     $conn->close();
@@ -1045,7 +1045,7 @@ function receiveDocUser($inputs, $conn)
             'ACTION_ID' => $inputs['DATA']['ACTION_ID'],
             'DOC_NUM' => $inputs['DATA']['DOC_NUM'],
             'ROUTE_NUM' => $inputs['DATA']['ROUTE_NUM'],
-            'ROUTED' => '1'
+            'ROUTED' => '0'
         ),
     );
 
@@ -1074,10 +1074,12 @@ function receiveDocUser($inputs, $conn)
         )
     );
 }
-function sendDocUser($inputs, $conn)
+function sendDocFormUser($inputs, $conn)
 {
     $queries = new Queries();
     $valid = false;
+
+    // var_dump($inputs);
 
     $updateData = array(
         'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
@@ -1085,15 +1087,16 @@ function sendDocUser($inputs, $conn)
             'DOC_NOTES' => $inputs['DATA']['DOC_NOTES'],
             'DATE_TIME_SEND' => $inputs['DATA']['DATE_TIME_SEND'],
             'ACTION_ID' => $inputs['DATA']['ACTION_ID'],
-            'R_USER_ID' => $inputs['DATA']['R_USER_ID'],
-            'R_DEPT_ID' => $inputs['DATA']['R_DEPT_ID'],
+            'R_USER_ID' => $inputs['DATA']['S_USER_ID'],
+            'R_DEPT_ID' => $inputs['DATA']['S_DEPT_ID'],
+            'ROUTED' => '1'
         ),
         'WHERE' => array(
             'ID' => $inputs['DATA']['ID'],
         ),
     );
 
-    
+
     $insertData = array(
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
         'DATA' => array(
@@ -1110,25 +1113,42 @@ function sendDocUser($inputs, $conn)
         ),
     );
 
-    //TODO validate if sent
+    $selectData = array(
+        'TABLE' => "DOTS_DOCUMENT_INBOUND",
+        'WHERE' => array(
+            'AND' => array(
+                array('ID' => $inputs['DATA']['ID']),
+            ),
+        ),
+        'ORDER_BY' => 'ROUTE_NUM DESC'
+    );
 
-    //if sent
+    $sqlCheckRouted = $queries->selectQuery($selectData);
+    $result = mysqli_query($conn, $sqlCheckRouted);
 
-    //if not
+    if ($result) {
+        $row = $result->fetch_assoc();
+        if ($row['ROUTED'] == 0) {
+            //send
+            $updateDataSql = $queries->updateQuery($updateData);
+            $insertDataSql = $queries->insertQuery($insertData);
 
-    $updateDataSql = $queries->updateQuery($updateData);
-    $insertDataSql = $queries->insertQuery($insertData);
+            $updateResult = $conn->query($updateDataSql);
+            $insertResult = $conn->query($insertDataSql);
 
-    $resultUpdate = $conn->query($updateDataSql);
-    $insertUpdate = $conn->query($insertDataSql);
+            $conn->begin_transaction();
 
-    $conn->begin_transaction();
+            if ($updateResult && $insertResult) {
+                $valid = true;
+                $conn->commit();
+            } else {
+                $conn->rollback();
+            }
 
-    if ($resultUpdate && $insertUpdate) {
-        $valid = true;
-        $conn->commit();
-    } else {
-        $conn->rollback();
+        } else if ($row['ROUTED'] == 1) {
+            //resend
+            var_dump($row);
+        }
     }
 
     //TODO update to logs
