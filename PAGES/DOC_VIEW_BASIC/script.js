@@ -76,25 +76,23 @@ function setTable(filter, action_type) {
         if (error) {
             alert(error);
         } else {
-            // if (response.VALID) {
-            // } else {
-            // }
-            const thead = DOC_VIEW_BASIC.querySelector('thead');
-            const tbody = DOC_VIEW_BASIC.querySelector('tbody');
-            if (response.THEAD) {
-                thead.innerHTML = response.THEAD;
-            } else {
-                // thead.innerHTML = '';
-            }
-            if (response.TBODY) {
-                tbody.innerHTML = response.TBODY;
-            } else {
-                // tbody.innerHTML = '';
-            }
-            setButtons(DOC_VIEW_BASIC);
+        
         }
+        const thead = DOC_VIEW_BASIC.querySelector('thead');
+        const tbody = DOC_VIEW_BASIC.querySelector('tbody');
+        if (response.THEAD) {
+            thead.innerHTML = response.THEAD;
+        } else {
+            thead.innerHTML = '';
+        }
+        if (response.TBODY) {
+            tbody.innerHTML = response.TBODY;
+        } else {
+            tbody.innerHTML = '';
+        }
+        setButtons(DOC_VIEW_BASIC);
     }, data);
-    JsFunctions.updateTable(DOC_VIEW_BASIC, filter);
+    // JsFunctions.updateTable(DOC_VIEW_BASIC, filter);
 }
 
 function setButtons(table) {
@@ -184,6 +182,8 @@ function setFormEvents() {
             REQUEST: _REQUEST.SEND_DOC_USER,
             DATA: JsFunctions.FormToJson(this),
         }
+
+        console.log(data);
 
         MyAjax.createJSON((error, response) => {
             console.log(response);
