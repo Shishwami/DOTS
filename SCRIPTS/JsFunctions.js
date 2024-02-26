@@ -9,20 +9,20 @@ class JsFunctions {
             var td = rows[i].querySelectorAll("td");
             var found = false;
             for (var j = 0; j < td.length; j++) {
-              if (td[j]) {
-                var txtValue = td[j].textContent || td[j].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                  found = true;
-                  break;
+                if (td[j]) {
+                    var txtValue = td[j].textContent || td[j].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        found = true;
+                        break;
+                    }
                 }
-              }
             }
             if (found) {
-              rows[i].style.display = "";
+                rows[i].style.display = "";
             } else {
-              rows[i].style.display = "none";
+                rows[i].style.display = "none";
             }
-          }
+        }
     }
 
     static FormToJson(form) {
@@ -35,13 +35,22 @@ class JsFunctions {
     }
 
     static setSelect(element, options) {
+        // console.log(options);
+        // for (let i = 0; i < options.length; i++) {
+        //     var option = document.createElement('option');
+        //     var somedata = Object.values(options[i]);
 
-        for (let i = 0; i < options.length; i++) {
+        //     option.value = somedata[0];
+        //     option.innerText = somedata[1];
+
+        //     element.appendChild(option);
+        // }
+
+        for (var key in options) {
             var option = document.createElement('option');
-            var somedata = Object.values(options[i]);
 
-            option.value = somedata[0];
-            option.innerText = somedata[1];
+            option.value = key;
+            option.textContent = options[key];
 
             element.appendChild(option);
         }
