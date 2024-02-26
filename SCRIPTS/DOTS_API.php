@@ -1010,11 +1010,35 @@ function setupTable($result, $buttons, $tableName)
         $tbody = "";
     }
 
+    $formattedResult = [];
+
+    foreach ($result as $key => $value) {
+        foreach ($value as $key2 => $value2) {
+
+            $fValue = $value2;
+
+            if ($key2 == "Date Received" && $value2 != null) {
+                $fValue = formatDateTime($value2);
+            } else if ($key2 == "Date Sent" && $value2 != null) {
+                $fValue = formatDateTime($value2);
+            } else if ($key2 == "Letter Date") {
+                $fValue = formatDate($value2);
+            }
+
+            $formattedResult[$value['ID']][$key2] = $fValue;
+
+            unset($formattedResult[$value['ID']]['ID']);
+            unset($formattedResult[$value['ID']]['DOC_NUM']);
+            unset($formattedResult[$value['ID']]['ROUTE_NUM']);
+        }
+    }
+
     echo json_encode(
         array(
             'VALID' => true,
             'THEAD' => $thead,
-            'TBODY' => $tbody
+            'TBODY' => $tbody,
+            'RESULT' => $formattedResult
         )
     );
 }
@@ -1141,8 +1165,6 @@ function sendDocFormUser($inputs, $conn)
         $selectMainDataSql = $queries->selectQuery($selectMainData);
         $selectMainDataResult = $conn->query($selectMainDataSql);
         $selectMainDataRow = $selectMainDataResult->fetch_assoc();
-
-        // var_dump($selectMainDataRow);
 
         //reassign route number
         $newRouteNumber = intval($selectMainDataRow['ROUTE_NUM']) + 1;
