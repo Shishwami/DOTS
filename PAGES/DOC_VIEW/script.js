@@ -40,7 +40,7 @@ function InitializePAGE() {
     //TODO too add in btn event listeners
     initializeSEND_FORM();
     initializeRECEIVE_FORM();
-    getSessionDeptId();
+    // getSessionDeptId();
     setCreateBtn();
     setTable("");
 
@@ -55,227 +55,282 @@ function InitializePAGE() {
 
     setForms();
 }
+
 function initializeSEND_FORM() {
-    setR_DEPT_ID();
-    setDOC_PURPOSE();
-    setDOC_LOCATION();
-    setRECEIVED_TIME(SEND_DATE_TIME_SENT);
-
+    // setR_DEPT_ID();
+    getData(_REQUEST.GET_DEPT, null, (result) => {
+        JsFunctions.setSelect(SEND_R_DEPT_ID, result);
+        SEND_R_DEPT_ID.addEventListener('change', () => {
+            getData(_REQUEST.GET_ADDRESSEE, { "DEPT_ID": SEND_R_DEPT_ID.value }, (result2) => {
+                SEND_DOC_ADDRESSEE.innerHTML = '<option disabled selected>Select Addressee</option>';
+                JsFunctions.setSelect(SEND_DOC_ADDRESSEE, result2);
+            }, null);
+        });
+    }, null);
+    // setDOC_PURPOSE();
+    getData(_REQUEST.GET_DOC_PRPS, null, (result) => {
+        JsFunctions.setSelect(SEND_DOC_PRPS, result);
+    }, null);
+    // setDOC_LOCATION();
+    // setRECEIVED_TIME(SEND_DATE_TIME_SENT);
 }
+
 function initializeRECEIVE_FORM() {
-    setInterval(setDOC_NUM, 1000);
-    setDOC_NUM();
-    setDOC_TYPE();
-    setDOC_OFFICE();
-    setRECEIVED_TIME(CREATE_DATE_TIME_RECEIVED);
-    setLETTER_DATE();
-    getSessionName();
-    getSessionHrisId();
-}
-function setR_DEPT_ID() {
-    SEND_R_DEPT_ID.addEventListener('change', function (e) {
-        setADDRESSEE(this.value);
-    });
 
+    setInterval(() => {
+        getData(_REQUEST.GET_DOC_NUM, null, (result) => {
+            CREATE_DOC_NUM.value = result;
+        }, null);
+    }, 1000);
+
+    getData(_REQUEST.GET_DOC_TYPE, null, (result) => {
+        JsFunctions.setSelect(CREATE_DOC_TYPE, result);
+    }, null);
+    getData(_REQUEST.GET_DOC_OFFICE, null, (result) => {
+        JsFunctions.setSelect(CREATE_DOC_OFFICE, result);
+    }, null);
+    getData(_REQUEST.GET_SESSION_NAME, null, (result) => {
+        CREATE_FULLNAME.value = result;
+    }, null);
+    getData(_REQUEST.GET_SESSION_HRIS_ID, null, (result) => {
+        CREATE_R_USER_ID.value = result;
+    }, null);
+}
+// function setR_DEPT_ID() {
+//     SEND_R_DEPT_ID.addEventListener('change', function (e) {
+//         setADDRESSEE(this.value);
+//     });
+
+//     const data = {
+//         REQUEST: _REQUEST.GET_DEPT
+//     }
+
+//     MyAjax.createJSON((error, response) => {
+//         if (!error) {
+//             if (response.VALID) {
+//                 delete response.VALID;
+//                 var object = Object.values(response)[0];
+//                 SEND_R_DEPT_ID.innerHTML = object;
+//             } else {
+//                 alert(error);
+//             }
+//         } else {
+//             alert(error);
+//         }
+//     }, data);
+// }
+// function setDOC_OFFICE() {
+
+//     var data = {
+//         REQUEST: _REQUEST.GET_DOC_OFFICE,
+//     }
+//     MyAjax.createJSON((error, response) => {
+//         if (error) {
+//             return alert(error);
+//         }
+//         if (response.VALID) {
+//             delete response.VALID;
+//             CREATE_DOC_OFFICE.innerHTML = Object.values(response)[0];
+//         }
+//     }, data);
+// }
+// function setDOC_NUM() {
+//     const data = {
+//         REQUEST: _REQUEST.GET_DOC_NUM
+//     }
+//     MyAjax.createJSON((error, response) => {
+//         if (!error && response.VALID) {
+//             delete response.VALID;
+//             const docNumber = Object.values(response)[0];
+//             CREATE_DOC_NUM.value = docNumber;
+//         } else {
+//             alert(error || "Error occurred while retrieving document number.");
+//         }
+//     }, data);
+// }
+// function setDOC_TYPE() {
+//     const data = {
+//         REQUEST: _REQUEST.GET_DOC_TYPE,
+//     }
+//     MyAjax.createJSON((error, response) => {
+//         if (error) {
+//             alert(error);
+//         } else if (response.VALID) {
+//             delete response.VALID;
+//             CREATE_DOC_TYPE.innerHTML = Object.values(response)[0];
+//         }
+//     }, data);
+// }
+// function setRECEIVED_TIME(element) {
+//     var data = {
+//         REQUEST: _REQUEST.GET_DATE,
+//         DATE: "DATE_TIME"
+//     }
+
+//     MyAjax.createJSON((error, response) => {
+//         if (error) {
+//             alert(error);
+//         } else if (response.VALID) {
+//             delete response.VALID;
+//             element.value = Object.values(response)[0];
+//         }
+//     }, data);
+
+// }
+// function setLETTER_DATE() {
+//     var data = {
+//         REQUEST: _REQUEST.GET_DATE,
+//         DATE: "DATE"
+//     }
+
+//     MyAjax.createJSON((error, response) => {
+//         if (error) {
+//             alert(error);
+//         } else {
+//             if (response.VALID) {
+//                 delete response.VALID;
+//                 CREATE_LETTER_DATE.value = Object.values(response)[0];
+//             } else {
+//             }
+//         }
+//     }, data);
+// }
+// function getSessionName() {
+//     const data = {
+//         REQUEST: _REQUEST.GET_SESSION_NAME,
+//     }
+//     MyAjax.createJSON((error, response) => {
+//         if (error) {
+//             alert(error);
+//         } else {
+//             if (response.VALID
+//             ) {
+//                 delete response.VALID;
+//                 var name = Object.values(response)[0];
+//                 CREATE_FULLNAME.value = name;
+//                 sessionStorage.setItem(DOTS_ACCOUNT_INFO.FULL_NAME, name);
+//             } else {
+//                 //error message
+//             }
+//         }
+//     }, data);
+// }
+// function getSessionHrisId() {
+//     const data = {
+//         REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
+//     }
+//     MyAjax.createJSON((error, response) => {
+//         if (error) {
+//             alert(error);
+//         } else {
+//             if (response.VALID) {
+//                 delete response.VALID;
+//                 var id = Object.values(response)[0];
+//                 CREATE_R_USER_ID.value = id;
+//                 sessionStorage.setItem(DOTS_ACCOUNT_INFO.HRIS_ID, id);
+//             } else {
+//                 //error message
+//             }
+//         }
+//     }, data);
+// }
+// function getSessionDeptId() {
+//     const data = {
+//         REQUEST: _REQUEST.GET_SESSION_DEPT_ID,
+//     }
+//     MyAjax.createJSON((error, response) => {
+//         if (error) {
+//             return alert(error);
+//         }
+
+//         if (response.VALID) {
+//             delete response.VALID;
+//             var dept_id = Object.values(response)[0];
+//             CREATE_R_DEPT_ID.value = dept_id;
+//             SEND_S_DEPT_ID.value = dept_id;
+//             sessionStorage.setItem(DOTS_ACCOUNT_INFO.DEPT_ID, dept_id);
+//         }
+//     }, data);
+// }
+// function setDOC_PURPOSE() {
+//     var data = {
+//         REQUEST: _REQUEST.GET_DOC_PRPS,
+//     }
+
+//     MyAjax.createJSON((error, response) => {
+//         if (!error) {
+//             if (response.VALID) {
+//                 delete response.VALID;
+//                 var object = Object.values(response)[0];
+//                 SEND_DOC_PRPS.innerHTML = object;
+//             } else {
+//             }
+//         } else {
+
+//         }
+//     }, data);
+// }
+// function setDOC_LOCATION() {
+
+//     const data = {
+//         REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
+//     }
+//     MyAjax.createJSON((error, response) => {
+//         if (!error) {
+//             if (response.VALID) {
+//                 delete response.VALID;
+//                 SEND_S_USER_ID.value = Object.values(response)[0];
+//             }
+//         } else {
+//             alert(error)
+//         }
+//     }, data);
+// }
+function getData(requestType, additionalData, successCallback, failureCallback) {
     const data = {
-        REQUEST: _REQUEST.GET_DEPT
-    }
+        REQUEST: requestType,
+        ...additionalData
+    };
 
     MyAjax.createJSON((error, response) => {
-        if (!error) {
+        if (error) {
+            if (failureCallback) failureCallback(error);
+            else alert(error);
+        } else {
             if (response.VALID) {
                 delete response.VALID;
-                var object = Object.values(response)[0];
-                SEND_R_DEPT_ID.innerHTML = object;
+                if (successCallback) successCallback(Object.values(response)[0]);
             } else {
-                alert(error);
+                console.log(response);
+                // Handle error response
             }
-        } else {
-            alert(error);
-        }
-    }, data);
-}
-function setDOC_OFFICE() {
-
-    var data = {
-        REQUEST: _REQUEST.GET_DOC_OFFICE,
-    }
-    MyAjax.createJSON((error, response) => {
-        if (error) {
-            return alert(error);
-        }
-        if (response.VALID) {
-            delete response.VALID;
-            CREATE_DOC_OFFICE.innerHTML = Object.values(response)[0];
-        }
-    }, data);
-}
-function setDOC_NUM() {
-    const data = {
-        REQUEST: _REQUEST.GET_DOC_NUM
-    }
-    MyAjax.createJSON((error, response) => {
-        if (!error && response.VALID) {
-            delete response.VALID;
-            const docNumber = Object.values(response)[0];
-            CREATE_DOC_NUM.value = docNumber;
-        } else {
-            alert(error || "Error occurred while retrieving document number.");
-        }
-    }, data);
-}
-function setDOC_TYPE() {
-    const data = {
-        REQUEST: _REQUEST.GET_DOC_TYPE,
-    }
-    MyAjax.createJSON((error, response) => {
-        if (error) {
-            alert(error);
-        } else if (response.VALID) {
-            delete response.VALID;
-            CREATE_DOC_TYPE.innerHTML = Object.values(response)[0];
-        }
-    }, data);
-}
-function setRECEIVED_TIME(element) {
-    var data = {
-        REQUEST: _REQUEST.GET_DATE,
-        DATE: "DATE_TIME"
-    }
-
-    MyAjax.createJSON((error, response) => {
-        if (error) {
-            alert(error);
-        } else if (response.VALID) {
-            delete response.VALID;
-            element.value = Object.values(response)[0];
-        }
-    }, data);
-
-}
-function setLETTER_DATE() {
-    var data = {
-        REQUEST: _REQUEST.GET_DATE,
-        DATE: "DATE"
-    }
-
-    MyAjax.createJSON((error, response) => {
-        if (error) {
-            alert(error);
-        } else {
-            if (response.VALID) {
-                delete response.VALID;
-                CREATE_LETTER_DATE.value = Object.values(response)[0];
-            } else {
-            }
-        }
-    }, data);
-}
-function getSessionName() {
-    const data = {
-        REQUEST: _REQUEST.GET_SESSION_NAME,
-    }
-    MyAjax.createJSON((error, response) => {
-        if (error) {
-            alert(error);
-        } else {
-            if (response.VALID
-            ) {
-                delete response.VALID;
-                var name = Object.values(response)[0];
-                CREATE_FULLNAME.value = name;
-                sessionStorage.setItem(DOTS_ACCOUNT_INFO.FULL_NAME, name);
-            } else {
-                //error message
-            }
-        }
-    }, data);
-}
-function getSessionHrisId() {
-    const data = {
-        REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
-    }
-    MyAjax.createJSON((error, response) => {
-        if (error) {
-            alert(error);
-        } else {
-            if (response.VALID) {
-                delete response.VALID;
-                var id = Object.values(response)[0];
-                CREATE_R_USER_ID.value = id;
-                sessionStorage.setItem(DOTS_ACCOUNT_INFO.HRIS_ID, id);
-            } else {
-                //error message
-            }
-        }
-    }, data);
-}
-function getSessionDeptId() {
-    const data = {
-        REQUEST: _REQUEST.GET_SESSION_DEPT_ID,
-    }
-    MyAjax.createJSON((error, response) => {
-        if (error) {
-            return alert(error);
-        }
-
-        if (response.VALID) {
-            delete response.VALID;
-            var dept_id = Object.values(response)[0];
-            CREATE_R_DEPT_ID.value = dept_id;
-            SEND_S_DEPT_ID.value = dept_id;
-            sessionStorage.setItem(DOTS_ACCOUNT_INFO.DEPT_ID, dept_id);
-        }
-    }, data);
-}
-function setDOC_PURPOSE() {
-    var data = {
-        REQUEST: _REQUEST.GET_DOC_PRPS,
-    }
-
-    MyAjax.createJSON((error, response) => {
-        if (!error) {
-            if (response.VALID) {
-                delete response.VALID;
-                var object = Object.values(response)[0];
-                SEND_DOC_PRPS.innerHTML = object;
-            } else {
-            }
-        } else {
-
-        }
-    }, data);
-}
-function setDOC_LOCATION() {
-
-    const data = {
-        REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
-    }
-    MyAjax.createJSON((error, response) => {
-        if (!error) {
-            if (response.VALID) {
-                delete response.VALID;
-                SEND_S_USER_ID.value = Object.values(response)[0];
-            }
-        } else {
-            alert(error)
         }
     }, data);
 }
 function setCreateBtn() {
     BTN_DOC_CREATE.addEventListener('click', function (event) {
-        setLETTER_DATE();
-        setRECEIVED_TIME(CREATE_DATE_TIME_RECEIVED);
-        setDOC_TYPE();
-        setDOC_OFFICE();
+
+        getData(_REQUEST.GET_DATE, { 'DATE': 'DATE' }, (result) => {
+            CREATE_LETTER_DATE.value = result;
+        }, null);
+
+        getData(_REQUEST.GET_DATE, { 'DATE': 'DATE_TIME' }, (result) => {
+            CREATE_DATE_TIME_RECEIVED.value = result;
+        }, null);
+
         CREATE_DOC_SUBJECT.value = '';
+        CREATE_DOC_TYPE.value = '';
+        CREATE_DOC_OFFICE.value = '';
     });
 }
 function sendBtnEvent(id, doc_num, route_num) {
 
     clearValues();
     resetAddressee();
-    setRECEIVED_TIME(SEND_DATE_TIME_SENT);
+
+    getData(_REQUEST.GET_DATE, { 'DATE': 'DATE_TIME' }, (result) => {
+        SEND_DATE_TIME_SENT.value = result;
+    }, null);
 
     if (id != 0) {
         SEND_DOC_NUM.value = doc_num;
