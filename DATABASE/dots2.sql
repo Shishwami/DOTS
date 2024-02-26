@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 26/02/2024 13:01:11
+ Date: 26/02/2024 14:36:03
 */
 
 SET NAMES utf8mb4;
@@ -198,12 +198,13 @@ CREATE TABLE `dots_document`  (
   `ACTION_ID` int NOT NULL,
   `ROUTED` int NOT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_document
 -- ----------------------------
-INSERT INTO `dots_document` VALUES (1, 1912, 0, 'test 1', 2, '2024-02-26', '', 3, 0, 0, 0, 2, 27003, '2024-02-26 12:56:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (1, 1913, 0, '', 2, '2024-02-26', '', 2, 0, 0, 0, 2, 27003, '2024-02-26 13:27:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (2, 1914, 0, '', 0, '2024-02-26', '', 0, 0, 0, 0, 2, 27003, '2024-02-26 14:17:00.000000', 5, 2, 0);
 
 -- ----------------------------
 -- Table structure for dots_document_inbound
@@ -226,12 +227,11 @@ CREATE TABLE `dots_document_inbound`  (
   `ACTION_ID` int NOT NULL,
   `ROUTED` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_document_inbound
 -- ----------------------------
-INSERT INTO `dots_document_inbound` VALUES (1, 1912, 0, '2', 1, 0, 27003, 2, 0, 34010, 3, NULL, '2024-02-26 12:56:00', 1, 1);
 
 -- ----------------------------
 -- Table structure for dots_document_outbound
@@ -334,7 +334,7 @@ CREATE TABLE `dots_num_sequence`  (
 -- ----------------------------
 -- Records of dots_num_sequence
 -- ----------------------------
-INSERT INTO `dots_num_sequence` VALUES (1, 1913);
+INSERT INTO `dots_num_sequence` VALUES (1, 1915);
 
 -- ----------------------------
 -- Triggers structure for table dots_document
