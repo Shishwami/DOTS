@@ -488,29 +488,22 @@ function getOptions($tableName, $columnName, $conn)
 
     $sql = $queries->selectQuery($data);
     $result = mysqli_query($conn, $sql);
-
-    $columnNameFormated = "value";
-    if ($columnName == 'DOC_TYPE') {
-        $columnNameFormated = "Document Type";
-    } else if ($columnName == 'DOC_OFFICE') {
-        $columnNameFormated = "Office";
-    } else if ($columnName == 'DOC_PRPS') {
-        $columnNameFormated = "Document Purpose";
-    } else if ($columnName == 'DOC_DEPT') {
-        $columnNameFormated = "Department";
-    }
-
-    $options = "<option value='' selected disabled> Select $columnNameFormated</option>";
+    $formattedOptions = [];
     if ($result) {
         $valid = true;
-        while ($row = $result->fetch_assoc()) {
-            $options .= '<option value="' . $row['ID'] . '">' . $row[$columnName] . '</option>';
+        foreach($result as $key => $value){
+            foreach ($value as $key2 => $value2) {
+                // $formattedOptions[$key] = $value;
+                $value3 = array_values($value);
+                $formattedOptions[$value3[0]] = $value3[1];
+            }
         }
     }
+
     echo json_encode(
         array(
             'VALID' => $valid,
-            'RESULT' => $options
+            'RESULT' => $formattedOptions
         )
     );
 }
@@ -536,14 +529,19 @@ function getAddressee($inputs, $conn)
     // echo $sql;
     $result = mysqli_query($conn, $sql);
 
-
+    $formattedOptions = [];
     $options = "<option value='' selected disabled> Select Addressee</option>";
     if ($result) {
         $valid = true;
         while ($row = $result->fetch_assoc()) {
             $options .= '<option value="' . $row['HRIS_ID'] . '">' . $row['FULL_NAME'] . '</option>';
         }
+
     }
+
+    var_dump($formattedOptions);
+
+
 
     echo json_encode(
         array(
