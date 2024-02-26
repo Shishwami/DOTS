@@ -333,7 +333,7 @@ function getSessionValue($key)
     $valid = false;
     $sessionValue = '';
 
-    if (isset($_SESSION["FULL_NAME"])) {
+    if (isset($_SESSION[$key])) {
         $valid = true;
         $sessionValue = $_SESSION[$key];
 
@@ -342,7 +342,7 @@ function getSessionValue($key)
     echo json_encode(
         array(
             'VALID' => $valid,
-            'FULLNAME' => $sessionValue,
+            'RESULT' => $sessionValue,
         )
     );
 }
@@ -1077,87 +1077,105 @@ function receiveDocUser($inputs, $conn)
 function sendDocFormUser($inputs, $conn)
 {
     $queries = new Queries();
-    $valid = false;
 
-    // var_dump($inputs);
-
-    $updateData = array(
+    //update outbound 
+    $updateOutboundData = [
         'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
-        'DATA' => array(
+        'DATA' => [
+            'ROUTED' => '1',
+            'PRPS_ID' => $inputs['DATA']['PRPS_ID'],
             'DOC_NOTES' => $inputs['DATA']['DOC_NOTES'],
-            'DATE_TIME_SEND' => $inputs['DATA']['DATE_TIME_SEND'],
-            'ACTION_ID' => $inputs['DATA']['ACTION_ID'],
-            'R_USER_ID' => $inputs['DATA']['S_USER_ID'],
-            'R_DEPT_ID' => $inputs['DATA']['S_DEPT_ID'],
-            'ROUTED' => '1'
-        ),
-        'WHERE' => array(
-            'ID' => $inputs['DATA']['ID'],
-        ),
-    );
-
-
-    $insertData = array(
-        'TABLE' => 'DOTS_DOCUMENT_INBOUND',
-        'DATA' => array(
-            'DOC_NOTES' => $inputs['DATA']['DOC_NOTES'],
-            'DATE_TIME_SEND' => $inputs['DATA']['DATE_TIME_SEND'],
             'R_USER_ID' => $inputs['DATA']['R_USER_ID'],
             'R_DEPT_ID' => $inputs['DATA']['R_DEPT_ID'],
             'S_USER_ID' => $inputs['DATA']['S_USER_ID'],
             'S_DEPT_ID' => $inputs['DATA']['S_DEPT_ID'],
             'ACTION_ID' => $inputs['DATA']['ACTION_ID'],
+            'DATE_TIME_SEND' => $inputs['DATA']['DATE_TIME_SEND'],
+        ],
+        'WHERE' => [
+            'ID' => $inputs["DATA"]["ID"],
+        ]
+    ];
+    //insert to inbound /send
+    $insertInboundData = [
+        'TABLE' => 'DOTS_DOCUMENT_INBOUND',
+        'DATA' => [
             'DOC_NUM' => $inputs['DATA']['DOC_NUM'],
-            'ROUTE_NUM' => $inputs['DATA']['ROUTE_NUM'],
-            'ROUTED' => '1'
-        ),
-    );
+            'PRPS_ID' => $inputs['DATA']['PRPS_ID'],
+            'DOC_NOTES' => $inputs['DATA']['DOC_NOTES'],
+            'R_USER_ID' => $inputs['DATA']['R_USER_ID'],
+            'R_DEPT_ID' => $inputs['DATA']['R_DEPT_ID'],
+            'S_USER_ID' => $inputs['DATA']['S_USER_ID'],
+            'S_DEPT_ID' => $inputs['DATA']['S_DEPT_ID'],
+            'DATE_TIME_SEND' => $inputs['DATA']['DATE_TIME_SEND'],
+            'ACTION_ID' => "1",
+        ],
+    ];
 
-    $selectData = array(
-        'TABLE' => "DOTS_DOCUMENT_INBOUND",
+    //check if routed
+    $selectOutboundData = [
+        'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
         'WHERE' => array(
             'AND' => array(
                 array('ID' => $inputs['DATA']['ID']),
             ),
         ),
-        'ORDER_BY' => 'ROUTE_NUM DESC'
-    );
+    ];
+    $selectOutboundSql = $queries->selectQuery($selectOutboundData);
+    $selectOutboundResult = $conn->query($selectOutboundSql);
+    $selectOutboundRow = $selectOutboundResult->fetch_assoc();
 
-    $sqlCheckRouted = $queries->selectQuery($selectData);
-    $result = mysqli_query($conn, $sqlCheckRouted);
+    if ($selectOutboundRow['ROUTED'] == 1) {
+        echo 'resend';
+        //if routed duplicate in docmain & outbound
+        $selectMainData = [
+            'TABLE' => 'DOTS_DOCUMENT',
+            'WHERE' => array(
+                'AND' => array(
+                    array('DOC_NUM' => $selectOutboundRow["DOC_NUM"]),
+                ),
+            ),
+            'ORDER_BY' => 'ROUTE_NUM DESC'
+        ];
 
-    if ($result) {
-        $row = $result->fetch_assoc();
-        if ($row['ROUTED'] == 0) {
-            //send
-            $updateDataSql = $queries->updateQuery($updateData);
-            $insertDataSql = $queries->insertQuery($insertData);
+        $selectMainDataSql = $queries->selectQuery($selectMainData);
+        $selectMainDataResult = $conn->query($selectMainDataSql);
+        $selectMainDataRow = $selectMainDataResult->fetch_assoc();
 
-            $updateResult = $conn->query($updateDataSql);
-            $insertResult = $conn->query($insertDataSql);
+        // var_dump($selectMainDataRow);
 
-            $conn->begin_transaction();
+        //reassign route number
+        $newRouteNumber = intval($selectMainDataRow['ROUTE_NUM']) + 1;
+        $insertInboundData['DATA']['ROUTE_NUM'] = $newRouteNumber;
+        $selectMainDataRow['ROUTE_NUM'] = $newRouteNumber;
 
-            if ($updateResult && $insertResult) {
-                $valid = true;
-                $conn->commit();
-            } else {
-                $conn->rollback();
-            }
+        //addto doc main
+        unset($selectMainDataRow['ID']);
+        $insertMainData = [
+            'TABLE' => 'DOTS_DOCUMENT',
+            'DATA' => $selectMainDataRow,
+        ];
 
-        } else if ($row['ROUTED'] == 1) {
-            //resend
-            var_dump($row);
-        }
+        $insertMainSql = $queries->insertQuery($insertMainData);
+        $insertMainResult = $conn->query($insertMainSql);
+
+        //add to outbound
+        $selectOutboundRow['ROUTE_NUM'] = $newRouteNumber;
+        $insertOutboundData = [
+            'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
+            'DATA' => $selectOutboundRow
+        ];
+        unset($insertOutboundData['DATA']['ID']);
+        $insertOutboundSql = $queries->insertQuery($insertOutboundData);
+        $insertOutboundResult = $conn->query($insertOutboundSql);
+
+        // var_dump($insertInboundData);
+    } else {
+        $updateOutboundSql = $queries->updateQuery($updateOutboundData);
+        $updateOutboundResult = $conn->query($updateOutboundSql);
     }
-
-    //TODO update to logs
-
-    echo json_encode(
-        array(
-            'VALID' => $valid,
-        )
-    );
+    $insertInboundSql = $queries->insertQuery($insertInboundData);
+    $insertInboundResult = $conn->query($insertInboundSql);
 }
 function formatDateTime($dateString)
 {
