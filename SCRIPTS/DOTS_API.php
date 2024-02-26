@@ -10,7 +10,7 @@ $sql = '';
 
 try {
     $inputs = json_decode(file_get_contents("php://input"), true);
-    // $inputs = sanitizeInputs($inputs);
+    $inputs = sanitizeInputs($inputs);
     // var_dump($inputs);
 
     $REQUEST = $inputs['REQUEST'];
@@ -1166,9 +1166,7 @@ function sendDocFormUser($inputs, $conn)
             'DATA' => $selectOutboundRow
         ];
         unset($insertOutboundData['DATA']['ID']);
-        $insertOutboundSql = $queries->insertQuery($insertOutboundData);
-        $insertOutboundResult = $conn->query($insertOutboundSql);
-
+        createDoc($insertOutboundData, $conn);
         // var_dump($insertInboundData);
     } else {
         $updateOutboundSql = $queries->updateQuery($updateOutboundData);
