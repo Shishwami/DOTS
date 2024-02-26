@@ -529,7 +529,6 @@ function getAddressee($inputs, $conn)
     // echo $sql;
     $result = mysqli_query($conn, $sql);
 
-    
     $formattedOptions = [];
     if ($result) {
         $valid = true;
