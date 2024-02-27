@@ -8,6 +8,10 @@ class JsFunctions {
         tbody.innerHTML = '';
         thead.innerHTML = '';
 
+        if (Object.keys(results).length === 0) {
+            return;
+        }
+
         const theadrow = document.createElement('tr');
         if (buttons != undefined) {
             const buttonHeaderCell = document.createElement('th');
@@ -38,9 +42,14 @@ class JsFunctions {
                     button.dataset.d = item.DOC_NUM;
                     button.dataset.r = item.ROUTE_NUM;
 
-                    buttonCell.appendChild(button);
-                });
+                    if (item.Action == "RECEIVE" && btn.className == "btnR") {
+                        button.disabled = false;
+                        button.style.visibility = 'hidden';
+                    }
 
+                    buttonCell.appendChild(button);
+
+                });
                 row.appendChild(buttonCell);
             }
 
