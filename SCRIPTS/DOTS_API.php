@@ -107,6 +107,10 @@ try {
         case 'GET_TABLE_ATTACHMENT':
             getTableAttachment($inputs, $conn);
             break;
+        case 'ATTACH_ADD':
+            echo "ADDATACHMENT";
+            addAttachment($inputs, $conn);
+            break;
         case 'RECEIVE_DOC_USER':
             receiveDocUser($inputs, $conn);
             break;
@@ -1024,7 +1028,7 @@ function setupTable($result, $buttons, $tableName)
 
     $formattedResult = [];
     foreach ($result as $row) {
-        $formattedRow =[];
+        $formattedRow = [];
         foreach ($row as $key => $value) {
 
             $fValue = $value;
@@ -1232,6 +1236,15 @@ function getTableAttachment($inputs, $conn)
     var_dump($resultAsArray);
 
 
+}
+
+function addAttachment($inputs, $conn)
+{
+    // echo "ASDSDSADASDSA";
+    $file = $_FILES[$inputs['DATA']['ATTACH_FILE']];
+
+    echo $file;
+    // var_dump($file);
 }
 function formatDateTime($dateString)
 {
