@@ -931,6 +931,7 @@ function getTableUser($inputs, $conn, $tableName)
                 "TYPE" => "LEFT",
             ),
         ),
+        'ORDER_BY' => "$tableName.DOC_NUM DESC",
         // "WHERE" => array(
         //     "AND" => array(
         //         array("$tableName.R_DEPT_ID" => $_SESSION["DEPT_ID"]),
