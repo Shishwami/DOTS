@@ -95,6 +95,8 @@ function initializeRECEIVE_FORM() {
     getData(_REQUEST.GET_SESSION_HRIS_ID, null, (result) => {
         CREATE_R_USER_ID.value = result;
     }, null);
+
+    console.log('ALLFINISHED');
 }
 // function setR_DEPT_ID() {
 //     SEND_R_DEPT_ID.addEventListener('change', function (e) {
