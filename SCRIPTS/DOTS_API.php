@@ -670,7 +670,7 @@ function resendDoc($insertData, $conn)
         $valid = createDoc($createData, $conn);
 
         //send the new doc
-        $insertData['DATA']['ROUTE_NUM'] = $routeNum + 1;
+        $insertData['DATA']['ROUTE_NUM'] = $routeNum;
         $insertData2 = array(
             'TABLE' => 'DOTS_DOCUMENT_INBOUND',
             'DATA' => $insertData['DATA']
@@ -801,7 +801,10 @@ function getTableMain($inputs, $conn)
     }
 
     $buttons = array(
-        'btnS' => 'S'
+        [
+            "className" => "btnS",
+            "label" => "S"
+        ]
     );
 
     setupTable($resultAsArray, $buttons, $tableName);
@@ -813,7 +816,10 @@ function getTableUser($inputs, $conn, $tableName)
 
 
     $buttons = array(
-        'btnR' => 'R'
+        [
+            "className" => "btnR",
+            "label" => "S"
+        ]
     );
 
     $WHERE = [];
@@ -947,64 +953,64 @@ function setupTable($result, $buttons, $tableName)
     $thead = "";
     $tbody = "";
 
-    if ($buttons != null) {
-        $thead = "<th></th>";
-    }
-    if (isset($result[0])) {
-        $theadKeys = array_keys($result[0]);
+    // if ($buttons != null) {
+    //     $thead = "<th></th>";
+    // }
+    // if (isset($result[0])) {
+    //     $theadKeys = array_keys($result[0]);
 
-        foreach ($theadKeys as $key) {
-            if (
-                $key == 'ID' ||
-                $key == 'ROUTE_NUM' ||
-                $key == 'DOC_NUM'
-            ) {
-                $remove = true;
-            } else {
-                $thead .= "<th>$key</th> ";
-            }
-        }
-        foreach ($result as $rows) {
-            $tbody .= "<tr>";
+    //     foreach ($theadKeys as $key) {
+    //         if (
+    //             $key == 'ID' ||
+    //             $key == 'ROUTE_NUM' ||
+    //             $key == 'DOC_NUM'
+    //         ) {
+    //             $remove = true;
+    //         } else {
+    //             $thead .= "<th>$key</th> ";
+    //         }
+    //     }
+    //     foreach ($result as $rows) {
+    //         $tbody .= "<tr>";
 
-            if ($buttons != null) {
-                $tbody .= "<td>";
-                foreach ($buttons as $key => $value) {
-                    $tbody .= "<button class=$key type='button' data-i=$rows[ID] data-d=$rows[DOC_NUM] data-r=$rows[ROUTE_NUM]";
-                    if ($rows['Action'] == "RECEIVE" && $tableName == "DOTS_DOCUMENT_INBOUND") {
-                        $tbody .= " style='visibility:hidden' ";
-                    }
-                    $tbody .= ">$value</button>";
-                }
-                $tbody .= "</td>";
-            }
+    //         if ($buttons != null) {
+    //             $tbody .= "<td>";
+    //             foreach ($buttons as $key => $value) {
+    //                 $tbody .= "<button class=$key type='button' data-i=$rows[ID] data-d=$rows[DOC_NUM] data-r=$rows[ROUTE_NUM]";
+    //                 if ($rows['Action'] == "RECEIVE" && $tableName == "DOTS_DOCUMENT_INBOUND") {
+    //                     $tbody .= " style='visibility:hidden' ";
+    //                 }
+    //                 $tbody .= ">$value</button>";
+    //             }
+    //             $tbody .= "</td>";
+    //         }
 
-            foreach ($rows as $key => $value) {
+    //         foreach ($rows as $key => $value) {
 
-                if (
-                    $key == 'ID' ||
-                    $key == 'ROUTE_NUM' ||
-                    $key == 'DOC_NUM'
-                ) {
-                    $remove = true;
-                } else {
-                    if ($key == "Date Received" && $value != null) {
-                        $tbody .= "<td>" . formatDateTime($value) . "</td>";
-                    } else if ($key == "Date Sent" && $value != null) {
-                        $tbody .= "<td>" . formatDateTime($value) . "</td>";
-                    } else if ($key == "Letter Date") {
-                        $tbody .= "<td>" . formatDate($value) . "</td>";
-                    } else {
-                        $tbody .= "<td>$value</td>";
-                    }
-                }
-            }
-            $tbody .= "</tr>";
-        }
-    } else {
-        $thead = "";
-        $tbody = "";
-    }
+    //             if (
+    //                 $key == 'ID' ||
+    //                 $key == 'ROUTE_NUM' ||
+    //                 $key == 'DOC_NUM'
+    //             ) {
+    //                 $remove = true;
+    //             } else {
+    //                 if ($key == "Date Received" && $value != null) {
+    //                     $tbody .= "<td>" . formatDateTime($value) . "</td>";
+    //                 } else if ($key == "Date Sent" && $value != null) {
+    //                     $tbody .= "<td>" . formatDateTime($value) . "</td>";
+    //                 } else if ($key == "Letter Date") {
+    //                     $tbody .= "<td>" . formatDate($value) . "</td>";
+    //                 } else {
+    //                     $tbody .= "<td>$value</td>";
+    //                 }
+    //             }
+    //         }
+    //         $tbody .= "</tr>";
+    //     }
+    // } else {
+    //     $thead = "";
+    //     $tbody = "";
+    // }
 
     $formattedResult = [];
 
@@ -1023,9 +1029,9 @@ function setupTable($result, $buttons, $tableName)
 
             $formattedResult[$value['ID']][$key2] = $fValue;
 
-            unset($formattedResult[$value['ID']]['ID']);
-            unset($formattedResult[$value['ID']]['DOC_NUM']);
-            unset($formattedResult[$value['ID']]['ROUTE_NUM']);
+            // unset($formattedResult[$value['ID']]['ID']);
+            // unset($formattedResult[$value['ID']]['DOC_NUM']);
+            // unset($formattedResult[$value['ID']]['ROUTE_NUM']);
         }
     }
 
@@ -1034,7 +1040,8 @@ function setupTable($result, $buttons, $tableName)
             'VALID' => true,
             'THEAD' => $thead,
             'TBODY' => $tbody,
-            'RESULT' => $formattedResult
+            'RESULT' => $formattedResult,
+            'BUTTONS' => $buttons
         )
     );
 }
