@@ -301,7 +301,7 @@ function getData(requestType, additionalData, successCallback, failureCallback) 
                 delete response.VALID;
                 if (successCallback) successCallback(Object.values(response)[0]);
             } else {
-                console.log(response);
+                // console.log(response);
                 // Handle error response
             }
         }
@@ -326,18 +326,22 @@ function setCreateBtn() {
 function sendBtnEvent(id, doc_num, route_num) {
 
     clearValues();
-    resetAddressee();
+
+    SEND_DOC_ADDRESSEE.innerHTML = "<option disabled selected>Select Addressee</option>";
 
     getData(_REQUEST.GET_DATE, { 'DATE': 'DATE_TIME' }, (result) => {
         SEND_DATE_TIME_SENT.value = result;
     }, null);
+    
+    SEND_DOC_NUM.value = doc_num;
+    SEND_ROUTE_NUM.value = route_num;
 
-    if (id != 0) {
-        SEND_DOC_NUM.value = doc_num;
-        SEND_ROUTE_NUM.value = route_num;
-    } else {
-        alert("Please Select A Document");
-    }
+    // if (id != 0) {
+    //     SEND_DOC_NUM.value = doc_num;
+    //     SEND_ROUTE_NUM.value = route_num;
+    // } else {
+    //     alert("Please Select A Document");
+    // }
 }
 function clearValues() {
     SEND_DOC_PRPS.value = "";
@@ -345,39 +349,32 @@ function clearValues() {
     SEND_DOC_NOTES.value = "";
     SEND_DOC_ADDRESSEE.value = "";
 }
-function setADDRESSEE(DEPT_ID) {
+// function setADDRESSEE(DEPT_ID) {
 
-    resetAddressee();
+//     resetAddressee();
 
-    const data = {
-        REQUEST: _REQUEST.GET_ADDRESSEE,
-        DEPT_ID: DEPT_ID
-    }
+//     const data = {
+//         REQUEST: _REQUEST.GET_ADDRESSEE,
+//         DEPT_ID: DEPT_ID
+//     }
 
-    MyAjax.createJSON((error, response) => {
-        if (!error) {
-            if (response.VALID) {
-                delete response.VALID;
-                var object = Object.values(response)[0];
-                SEND_DOC_ADDRESSEE.innerHTML = object;
-            } else {
-            }
-        } else {
-            alert(error);
-        }
-    }, data);
+//     MyAjax.createJSON((error, response) => {
+//         if (!error) {
+//             if (response.VALID) {
+//                 delete response.VALID;
+//                 var object = Object.values(response)[0];
+//                 SEND_DOC_ADDRESSEE.innerHTML = object;
+//             } else {
+//             }
+//         } else {
+//             alert(error);
+//         }
+//     }, data);
 
-}
-function resetAddressee() {
-    const blankOption = document.createElement('option');
-    blankOption.innerText = "Please Select Addressee";
-    blankOption.disabled = true;
-    blankOption.selected = true;
-    blankOption.value = "";
-
-    SEND_DOC_ADDRESSEE.innerHTML = "";
-    SEND_DOC_ADDRESSEE.append(blankOption);
-}
+// }
+// function resetAddressee() {
+//     SEND_DOC_ADDRESSEE.innerHTML = "<option disabled selected>Select Addressee</option>";
+// }
 function setTable(filter) {
 
     const data2 = {
@@ -391,42 +388,39 @@ function setTable(filter) {
             if (response.VALID) {
             } else {
             }
-            const thead = DOC_VIEW_MAIN.querySelector('thead');
-            const tbody = DOC_VIEW_MAIN.querySelector('tbody');
-            if (response.THEAD) {
-                thead.innerHTML = response.THEAD;
-            } else {
-                thead.innerHTML = '';
-            }
-            if (response.TBODY) {
-                tbody.innerHTML = response.TBODY;
-            } else {
-                tbody.innerHTML = '';
-            }
+            // const thead = DOC_VIEW_MAIN.querySelector('thead');
+            // const tbody = DOC_VIEW_MAIN.querySelector('tbody');
+            // if (response.THEAD) {
+            //     thead.innerHTML = response.THEAD;
+            // } else {
+            //     thead.innerHTML = '';
+            // }
+            // if (response.TBODY) {
+            //     tbody.innerHTML = response.TBODY;
+            // } else {
+            //     tbody.innerHTML = '';
+            // }
+            JsFunctions.updateTable(DOC_VIEW_MAIN, response.RESULT, response.BUTTONS, filter);
             setButtons(DOC_VIEW_MAIN);
-            JsFunctions.updateTable(DOC_VIEW_MAIN, filter);
+
         }
     }, data2);
 }
 function setButtons(table) {
     table.querySelectorAll('.btnS').forEach(function (button) {
         button.addEventListener('mousedown', function () {
-            var itemId = this.getAttribute('data-i');
             sendBtnEvent(this.dataset.i, this.dataset.d, this.dataset.r);
         });
     });
 
-    table.querySelectorAll('.btnE').forEach(function (button) {
-        button.addEventListener('click', function () {
-            var itemId = this.getAttribute('data-i');
-            alert('Edit item with ID: ' + this.dataset.i);
-        });
-    });
+    // table.querySelectorAll('.btnE').forEach(function (button) {
+    //     button.addEventListener('click', function () {
+    //     });
+    // });
 
     table.querySelectorAll('.btnA').forEach(function (button) {
         button.addEventListener('click', function () {
-            var itemId = this.getAttribute('data-i');
-            alert('Delete item with ID: ' + itemId);
+            //attachmentBtnEvent
         });
     });
 }
