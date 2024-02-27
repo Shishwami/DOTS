@@ -834,7 +834,10 @@ function getTableUser($inputs, $conn, $tableName)
             ),
         ];
         $buttons = array(
-            'btnR' => 'R'
+            [
+                "className" => "btnR",
+                "label" => "R"
+            ]
         );
     }
     if ($tableName == "DOTS_DOCUMENT_OUTBOUND") {
@@ -848,7 +851,10 @@ function getTableUser($inputs, $conn, $tableName)
             ),
         ];
         $buttons = array(
-            'btnS' => 'S'
+            [
+                "className" => "btnS",
+                "label" => "S"
+            ]
         );
     }
 
