@@ -104,12 +104,17 @@ try {
         case 'GET_TABLE_OUTBOUND':
             getTableUser($inputs, $conn, 'DOTS_DOCUMENT_OUTBOUND');
             break;
+        case 'GET_TABLE_ATTACHMENT':
+            getTableAttachment($inputs, $conn);
+            break;
         case 'RECEIVE_DOC_USER':
             receiveDocUser($inputs, $conn);
             break;
         case 'SEND_DOC_USER':
             sendDocFormUser($inputs, $conn);
             break;
+
+
     }
     $conn->close();
 
@@ -794,20 +799,18 @@ function getTableMain($inputs, $conn)
     );
     $selectTableSql = $queries->selectQuery($data);
     $result = mysqli_query($conn, $selectTableSql);
-    $resultAsArray = array();
-
-    while ($row = mysqli_fetch_assoc($result)) {
-        $resultAsArray[] = $row;
-    }
 
     $buttons = array(
         [
             "className" => "btnS",
             "label" => "S"
+        ],
+        [
+            "className" => "btnA",
+            "label" => "A"
         ]
     );
-
-    setupTable($resultAsArray, $buttons, $tableName);
+    setupTable($result, $buttons, $tableName);
 }
 
 function getTableUser($inputs, $conn, $tableName)
@@ -1019,26 +1022,23 @@ function setupTable($result, $buttons, $tableName)
     // }
 
     $formattedResult = [];
+    foreach ($result as $row) {
+        $formattedRow =[];
+        foreach ($row as $key => $value) {
 
-    foreach ($result as $key => $value) {
-        foreach ($value as $key2 => $value2) {
+            $fValue = $value;
 
-            $fValue = $value2;
-
-            if ($key2 == "Date Received" && $value2 != null) {
-                $fValue = formatDateTime($value2);
-            } else if ($key2 == "Date Sent" && $value2 != null) {
-                $fValue = formatDateTime($value2);
-            } else if ($key2 == "Letter Date") {
-                $fValue = formatDate($value2);
+            if ($key == "Date Received" && $value != null) {
+                $fValue = formatDateTime($value);
+            } else if ($key == "Date Sent" && $value != null) {
+                $fValue = formatDateTime($value);
+            } else if ($key == "Letter Date") {
+                $fValue = formatDate($value);
             }
 
-            $formattedResult[$value['ID']][$key2] = $fValue;
-
-            // unset($formattedResult[$value['ID']]['ID']);
-            // unset($formattedResult[$value['ID']]['DOC_NUM']);
-            // unset($formattedResult[$value['ID']]['ROUTE_NUM']);
+            $formattedRow[$key] = $fValue;
         }
+        $formattedResult[] = $formattedRow;
     }
 
     echo json_encode(
@@ -1206,10 +1206,37 @@ function sendDocFormUser($inputs, $conn)
     $insertInboundSql = $queries->insertQuery($insertInboundData);
     $insertInboundResult = $conn->query($insertInboundSql);
 }
+function getTableAttachment($inputs, $conn)
+{
+    $queries = new Queries();
+
+    $data = [
+        'TABLE' => 'DOTS_ATTACHMENTS',
+        'COLUMNS' => [
+            "CASE WHEN ROUTE_NUM = 0 THEN DOC_NUM 
+            ELSE CONCAT(DOC_NUM,\"-\",ROUTE_NUM) 
+            END AS `No.`",
+            'FILE_PATH'
+        ],
+        'WHERE' => $inputs['WHERE']
+    ];
+    $selectTableSql = $queries->selectQuery($data);
+    $result = mysqli_query($conn, $selectTableSql);
+    $resultAsArray = array();
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $resultAsArray[] = $row;
+    }
+
+    var_dump($resultAsArray);
+
+
+}
 function formatDateTime($dateString)
 {
     $date = new DateTime($dateString);
     $hours = $date->format('H');
+    $hours = $hours % 12;
     $minutes = $date->format('i');
     $ampm = $hours >= 12 ? 'pm' : 'am';
     $strTime = $hours . ':' . $minutes . ' ' . $ampm;
