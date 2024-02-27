@@ -76,7 +76,7 @@ function setTable(filter, action_type) {
         if (error) {
             alert(error);
         } else {
-        
+
         }
         const thead = DOC_VIEW_BASIC.querySelector('thead');
         const tbody = DOC_VIEW_BASIC.querySelector('tbody');
@@ -90,9 +90,10 @@ function setTable(filter, action_type) {
         } else {
             tbody.innerHTML = '';
         }
+        JsFunctions.updateTable(DOC_VIEW_BASIC, response.RESULT, response.BUTTONS, filter);
         setButtons(DOC_VIEW_BASIC);
     }, data);
-    // JsFunctions.updateTable(DOC_VIEW_BASIC, filter);
+
 }
 
 function setButtons(table) {
@@ -136,23 +137,29 @@ function setSendBtn(id, doc_num, route_num) {
     SEND_DOC_NUM.value = doc_num;
     SEND_ROUTE_NUM.value = route_num;
 
+
     getData(_REQUEST.GET_DATE, { DATE: "DATE_TIME" }, (result) => {
         SEND_DATE_TIME_SEND.value = result;
     });
     getData(_REQUEST.GET_SESSION_HRIS_ID, null, (result) => {
         SEND_S_USER_ID.value = result;
     });
+
+    getData(_REQUEST.GET_DOC_PRPS, null, (result) => {
+        // SEND_DOC_PRPS.innerHTML = result;
+        SEND_DOC_PRPS.innerHTML = "<option disabled selected>Select Purpose</option>";;
+        JsFunctions.setSelect(SEND_DOC_PRPS, result);
+    });
     getData(_REQUEST.GET_SESSION_DEPT_ID, null, (result => {
         SEND_S_DEPT_ID.value = result;
     }));
-    getData(_REQUEST.GET_DOC_PRPS, null, (result) => {
-        SEND_DOC_PRPS.innerHTML = result;
-    });
     getData(_REQUEST.GET_DEPT, null, (result) => {
-        SEND_R_DEPT_ID.innerHTML = result;
+        SEND_R_DEPT_ID.innerHTML = "<option disabled selected>Select Department</option>";
+        JsFunctions.setSelect(SEND_R_DEPT_ID, result);
         SEND_R_DEPT_ID.addEventListener('change', function () {
             getData(_REQUEST.GET_ADDRESSEE, { DEPT_ID: this.value }, (result2) => {
-                SEND_DOC_ADDRESSEE.innerHTML = result2;
+                SEND_DOC_ADDRESSEE.innerHTML = "<option disabled selected>Select Addressee</option>";
+                JsFunctions.setSelect(SEND_DOC_ADDRESSEE, result2);
             });
         });
     });
