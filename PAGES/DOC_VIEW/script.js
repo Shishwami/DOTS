@@ -495,8 +495,23 @@ function setForms() {
     });
     FORM_ATTACH_ADD.addEventListener('submit', function (e) {
         e.preventDefault();
-    });
+        var data = {
+            REQUEST: _REQUEST.ATTACH_ADD,
+            DATA: JsFunctions.FormToJson(FORM_ATTACH_ADD),
+        }
 
+        MyAjax.createJSON((error, response) => {
+            if (error) {
+                alert(error);
+            } else {
+                if (response.VALID) {
+                } else {
+                    //response valid=false
+                }
+            }
+        }, data);
+    });
+    
 }
 function setSendFormSubmit() {
     var data = JsFunctions.FormToJson(FORM_DOC_SEND);
