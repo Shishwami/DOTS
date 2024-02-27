@@ -6,8 +6,10 @@ import MyAjax from "../../SCRIPTS/MyAjax.js";
 const searchBar = document.getElementById("searchBar");
 //Table
 const DOC_VIEW_MAIN = document.getElementById("DOC_VIEW_MAIN");
+const ATTACH_VIEW_MAIN = document.getElementById("ATTACH_VIEW_MAIN");
 //buttons
 const BTN_DOC_CREATE = document.getElementById("BTN_DOC_CREATE");
+const BTN_ATTACH_ADD = document.getElementById("BTN_ATTACH_ADD");
 //RECEIVE FORM
 const FORM_DOC_RECEIVE = document.getElementById("FORM_DOC_RECEIVE");
 const CREATE_DOC_NUM = FORM_DOC_RECEIVE.querySelector("#CREATE_DOC_NUM");
@@ -32,6 +34,10 @@ const SEND_DATE_TIME_SENT = FORM_DOC_SEND.querySelector("#SEND_DATE_TIME_SENT");
 const SEND_ACTION_ID = FORM_DOC_SEND.querySelector("#SEND_ACTION_ID");
 const SEND_S_USER_ID = FORM_DOC_SEND.querySelector("#SEND_S_USER_ID");
 const SEND_S_DEPT_ID = FORM_DOC_SEND.querySelector("#SEND_S_DEPT_ID");
+
+const FORM_ATTACH_ADD = document.getElementById("FORM_ATTACH_ADD");
+const ATTACH_DOC_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_DOC_NUM');
+const ATTACH_ROUTE_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_ROUTE_NUM');
 
 InitializePAGE();
 
@@ -334,7 +340,7 @@ function sendBtnEvent(id, doc_num, route_num) {
     getData(_REQUEST.GET_DATE, { 'DATE': 'DATE_TIME' }, (result) => {
         SEND_DATE_TIME_SENT.value = result;
     }, null);
-    
+
     SEND_DOC_NUM.value = doc_num;
     SEND_ROUTE_NUM.value = route_num;
 
@@ -350,6 +356,40 @@ function clearValues() {
     SEND_R_DEPT_ID.value = "";
     SEND_DOC_NOTES.value = "";
     SEND_DOC_ADDRESSEE.value = "";
+}
+
+function setAttachBtn(id, doc_num, route_num) {
+    ATTACH_DOC_NUM.value = doc_num;
+    ATTACH_ROUTE_NUM.value = route_num;
+
+    //update tbl
+    setTableAttachment();
+
+    //open attachment modal
+
+
+}
+function setTableAttachment() {
+    const data = {
+        REQUEST: _REQUEST.GET_TABLE_ATTACHMENT,
+        WHERE: {
+            AND: [
+                { DOC_NUM: ATTACH_DOC_NUM.value },
+                { ROUTE_NUM: ATTACH_ROUTE_NUM.value },
+            ],
+        }
+    }
+
+    MyAjax.createJSON((error, response) => {
+        if (error) {
+            alert(error);
+        } else {
+            if (response.VALID) {
+            } else {
+            }
+            JsFunctions.updateTable(ATTACH_VIEW_MAIN, response.RESULT, response.BUTTONS, filter);
+        }
+    }, data);
 }
 // function setADDRESSEE(DEPT_ID) {
 
@@ -422,7 +462,7 @@ function setButtons(table) {
 
     table.querySelectorAll('.btnA').forEach(function (button) {
         button.addEventListener('click', function () {
-            //attachmentBtnEvent
+            setAttachBtn(this.dataset.i, this.dataset.d, this.dataset.r);
         });
     });
 }
@@ -452,6 +492,9 @@ function setForms() {
             }
             setTable(searchBar.value.toUpperCase());
         }, data);
+    });
+    FORM_ATTACH_ADD.addEventListener('submit', function (e) {
+        e.preventDefault();
     });
 
 }
