@@ -1241,10 +1241,10 @@ function getTableAttachment($inputs, $conn)
 function addAttachment($inputs, $conn)
 {
     // echo "ASDSDSADASDSA";
-    $file = $_FILES[$inputs['DATA']['ATTACH_FILE']];
+    $file = $inputs['DATA']['ATTACH_FILE'];
 
-    echo $file;
-    // var_dump($file);
+    // echo $file;
+    var_dump($inputs);
 }
 function formatDateTime($dateString)
 {
