@@ -147,7 +147,32 @@
     </div>
 
     <div>
-        <h2>ATTACHMENTS MODAL</h2>
+        <h2>ATTACHMENT MODAL</h2>
+        <button id="BTN_ATTACH_ADD">Add Attachment</button>
+        <table id="ATTACH_VIEW_MAIN">
+            <th>
+            </th>
+            <tbody>
+            </tbody>
+        </table>
+
+        <div>
+            <!-- preview -->
+        </div>
+        <div>
+            <h1>ADD ATTACHMENT MODAL</h1>
+            <form action="submit" id="FORM_ATTACH_ADD">
+                <input type="file">
+                <input type="submit" value="Submit">
+                <input type="text" name="DOC_NUM" id="ATTACH_DOC_NUM">
+                <input type="text" name="ROUTE_NUM" id="ATTACH_ROUTE_NUM">
+            </form>
+
+            <div>
+                <!-- input preview -->
+            </div>
+        </div>
+
     </div>
 
     <script src="../../SCRIPTS/Constants.js"></script>
