@@ -107,9 +107,22 @@ class JsFunctions {
         thead.append(theadrow);
 
     }
-    static updateAttachments(preview, results, buttons, filter) {
+    static updateAttachments(mini, results, buttons, preview) {
+        mini.innerHTML = '';
         Object.entries(results).forEach(([key, item]) => {
-            console.log('RESULT', key, "=", item);
+            const url = `url(../${item['FILE_PATH']}${item['FILE_NAME']})`;
+            const doc = document.createElement("div");
+            doc.className = "ATTACH_MINI";
+            doc.style.backgroundImage = url;
+            doc.addEventListener('mouseover', function () {
+                preview.style.backgroundImage = url;
+            });
+
+            // doc.addEventListener('mouseout', function () {
+            //     preview.style.backgroundImage = "";
+            // });
+            mini.appendChild(doc);
+
         });
     }
     static FormToJson(form) {
