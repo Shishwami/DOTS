@@ -39,6 +39,8 @@ const FORM_ATTACH_ADD = document.getElementById("FORM_ATTACH_ADD");
 const ATTACH_DOC_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_DOC_NUM');
 const ATTACH_ROUTE_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_ROUTE_NUM');
 const ATTACH_FILE = document.getElementById("ATTACH_FILE");
+const ATTACH_RESULTS = document.getElementById("ATTACH_RESULTS");
+const ATTACH_ZOOM = document.getElementById("ATTACH_ZOOM");
 
 InitializePAGE();
 
@@ -388,7 +390,7 @@ function setTableAttachment() {
             } else {
             }
             console.log(response);
-            JsFunctions.updateAttachments(null,response.RESULT,null,'');
+            JsFunctions.updateAttachments(ATTACH_RESULTS, response.RESULT, null, ATTACH_ZOOM);
             // JsFunctions.updateTable(ATTACH_VIEW_MAIN, response.RESULT, response.BUTTONS, '');
         }
     }, data);
@@ -532,7 +534,8 @@ function setForms() {
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                console.log(xhr.responseText);;
+                console.log(xhr.responseText);
+                setTableAttachment();
             }
         };
 
