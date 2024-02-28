@@ -5,11 +5,13 @@ include './DB_Connect.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
 
     $queries = new Queries();
+    $config = parse_ini_file('config.ini', true);
+    $uploadDirectory = $config['directories']['upload_directory'];
 
     $doc_num = $_POST['DOC_NUM'];
     $route_num = $_POST['ROUTE_NUM'];
-    $targetDir = "uploads/$doc_num/$route_num/";
-
+    $targetDir = "$uploadDirectory/$doc_num/$route_num/";
+    echo $targetDir;
     // Create the target directory if it doesn't exist
     if (!file_exists($targetDir)) {
         mkdir($targetDir, 0777, true);
