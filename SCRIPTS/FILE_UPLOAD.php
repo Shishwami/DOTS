@@ -2,9 +2,14 @@
 include './Queries.php';
 include './DB_Connect.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
+$imgFile = $_FILES['ATTACH_FILE'];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($imgFile)) {
+
+    var_dump($_POST);
 
     $queries = new Queries();
+
     $config = parse_ini_file('config.ini', true);
     $uploadDirectory = $config['directories']['upload_directory'];
 
@@ -17,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
         mkdir($targetDir, 0777, true);
     }
 
-    $originalFileName = $_FILES["file"]["name"];
+    $originalFileName = $imgFile["name"];
     $fileExtension = pathinfo($originalFileName, PATHINFO_EXTENSION);
 
     $filename = "0." . $fileExtension;
@@ -29,12 +34,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
         $filename = strval($index) . '.' . $fileExtension;
     }
 
-    $originalFileName = $_FILES["file"]["name"];
+    $originalFileName = $imgFile["name"];
     $fileExtension = pathinfo($originalFileName, PATHINFO_EXTENSION);
 
     $targetFile = $targetDir . $filename;
 
-    if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
+    if (move_uploaded_file($imgFile["tmp_name"], $targetFile)) {
         // $filePath = mysqli_real_escape_string($conn, $targetFile); // Assuming $conn is your MySQLi connection
 
         // $query = "INSERT INTO files (file_path) VALUES ('$filePath')";
@@ -47,12 +52,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
         $insertData = [
             'TABLE' => "DOTS_ATTACHMENTS",
             'DATA' => [
-                "DOC_NUM" => "$doc_num",
-                "ROUTE_NUM" => "$route_num",
+
                 "FILE_PATH" => "$targetDir",
                 "FILE_NAME" => "$filename",
             ]
         ];
+
+        foreach ($_POST as $key => $value) {
+            $safeKey = mysqli_real_escape_string($conn, $key);
+            $safeValue = mysqli_real_escape_string($conn, $value);
+            $insertData['DATA'][$safeKey] = $safeValue;
+        }
 
         $insertSql = $queries->insertQuery($insertData);
         if (mysqli_query($conn, $insertSql)) {
