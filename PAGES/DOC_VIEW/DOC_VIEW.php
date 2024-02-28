@@ -25,6 +25,25 @@
     tbody tr:hover {
         background-color: coral;
     }
+
+    .ATTACH_MINI {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        border: 1px black solid;
+    }
+
+    #ATTACH_ZOOM {
+        width: 500px;
+        height: 500px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        border: 1px black solid;
+    }
 </style>
 
 <body>
@@ -163,8 +182,8 @@
         </div>
         <div>
             <h1>ADD ATTACHMENT MODAL</h1>
-            <form action="submit"  method="POST" id="FORM_ATTACH_ADD" enctype="multipart/form-data">
-                <input type="file" name="ATTACH_FILE" id ="ATTACH_FILE" >
+            <form action="submit" method="POST" id="FORM_ATTACH_ADD" enctype="multipart/form-data">
+                <input type="file" name="ATTACH_FILE" id="ATTACH_FILE">
                 <input type="submit" value="Submit">
                 <input type="text" name="DOC_NUM" id="ATTACH_DOC_NUM">
                 <input type="text" name="ROUTE_NUM" id="ATTACH_ROUTE_NUM">
