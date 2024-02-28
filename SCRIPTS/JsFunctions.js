@@ -107,7 +107,11 @@ class JsFunctions {
         thead.append(theadrow);
 
     }
-
+    static updateAttachments(preview, results, buttons, filter) {
+        Object.entries(results).forEach(([key, item]) => {
+            console.log('RESULT', key, "=", item);
+        });
+    }
     static FormToJson(form) {
         var formData = new FormData(form);
         var formDataObject = {};
