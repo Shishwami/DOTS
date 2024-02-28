@@ -380,16 +380,17 @@ function setTableAttachment() {
         }
     }
 
-    // MyAjax.createJSON((error, response) => {
-    //     if (error) {
-    //         alert(error);
-    //     } else {
-    //         if (response.VALID) {
-    //         } else {
-    //         }
-    //         JsFunctions.updateTable(ATTACH_VIEW_MAIN, response.RESULT, response.BUTTONS, filter);
-    //     }
-    // }, data);
+    MyAjax.createJSON((error, response) => {
+        if (error) {
+            alert(error);
+        } else {
+            if (response.VALID) {
+            } else {
+            }
+            console.log(response);
+            // JsFunctions.updateTable(ATTACH_VIEW_MAIN, response.RESULT, response.BUTTONS, '');
+        }
+    }, data);
 }
 // function setADDRESSEE(DEPT_ID) {
 
@@ -522,8 +523,8 @@ function setForms() {
         var file = ATTACH_FILE.files[0];
         var formData = new FormData();
         formData.append('file', file);
-        formData.append('DOC_NUM',ATTACH_DOC_NUM.value);
-        formData.append('ROUTE_NUM',ATTACH_ROUTE_NUM.value);
+        formData.append('DOC_NUM', ATTACH_DOC_NUM.value);
+        formData.append('ROUTE_NUM', ATTACH_ROUTE_NUM.value);
 
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '../../SCRIPTS/FILE_UPLOAD.php', true);
