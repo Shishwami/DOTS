@@ -14,9 +14,9 @@ try {
     // var_dump($inputs);
 
     $REQUEST = $inputs['REQUEST'];
-    if (!isset($inputs['REQUEST'])) {
-        var_dump($inputs);
-    }
+    // if (!isset($inputs['REQUEST'])) {
+    //     var_dump($inputs);
+    // }
 
     switch ($REQUEST) {
         // case 'INSERT':
@@ -108,7 +108,6 @@ try {
             getTableAttachment($inputs, $conn);
             break;
         case 'ATTACH_ADD':
-            echo "ADDATACHMENT";
             addAttachment($inputs, $conn);
             break;
         case 'RECEIVE_DOC_USER':
@@ -1233,18 +1232,47 @@ function getTableAttachment($inputs, $conn)
         $resultAsArray[] = $row;
     }
 
-    var_dump($resultAsArray);
+    // var_dump($resultAsArray);
 
 
 }
 
 function addAttachment($inputs, $conn)
 {
-    // echo "ASDSDSADASDSA";
-    $file = $inputs['DATA']['ATTACH_FILE'];
+    echo "ASDSDSADASDSA";
+    
+    // // $file = $inputs['DATA']['ATTACH_FILE'];
+    // $file2 = $_FILES['ATTACH_FILE']['name'];
+    // // echo $file;
+    // var_dump($inputs);
 
-    // echo $file;
-    var_dump($inputs);
+    // if (isset($_FILES['ATTACH_FILE'])) {
+    //     $file = $_FILES['ATTACH_FILE'];
+    //     $fileName = $file['name'];
+    //     $fileTmpName = $file['tmp_name'];
+    //     $fileSize = $file['size'];
+    //     $fileError = $file['error'];
+
+    //     // Move the uploaded file to the desired location
+    //     $uploadDir = 'uploads/';
+    //     $uploadedFile = $uploadDir . $fileName;
+    //     if (move_uploaded_file($fileTmpName, $uploadedFile)) {
+    //         echo "File uploaded successfully!";
+    //     } else {
+    //         echo "File upload failed!";
+    //     }
+
+    //     // You can now use $docNum, $routeNum, and $uploadedFile in your further processing
+    // } else {
+    //     echo "No file uploaded!";
+    // }
+
+    // var_dump($inputs);
+
+    $jsonData = file_get_contents('php://input');
+    $requestData = json_decode($jsonData, true);
+
+    var_dump($requestData);
 }
 function formatDateTime($dateString)
 {
