@@ -1,43 +1,63 @@
 <?php
-// Assuming you have already established a database connection
+include './Queries.php';
+include './DB_Connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
+
+    $queries = new Queries();
+
     $doc_num = $_POST['DOC_NUM'];
     $route_num = $_POST['ROUTE_NUM'];
     $targetDir = "uploads/$doc_num/$route_num/";
 
     // Create the target directory if it doesn't exist
     if (!file_exists($targetDir)) {
-        mkdir($targetDir, 0777, true); // The third parameter creates nested directories if needed
+        mkdir($targetDir, 0777, true);
     }
 
     $originalFileName = $_FILES["file"]["name"];
     $fileExtension = pathinfo($originalFileName, PATHINFO_EXTENSION);
 
-    // Generate a unique filename
-    $uniqueFileName = uniqid() . '_' . bin2hex(random_bytes(8)) . '.' . $fileExtension;
+    $filename = "0." . $fileExtension;
+    $index = 0;
 
-    $targetFile = $targetDir . $uniqueFileName;
+
+    while (file_exists($targetDir . $filename)) {
+        $index++;
+        $filename = strval($index) . '.' . $fileExtension;
+    }
+
+    $originalFileName = $_FILES["file"]["name"];
+    $fileExtension = pathinfo($originalFileName, PATHINFO_EXTENSION);
+
+    $targetFile = $targetDir . $filename;
 
     if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
-        // File uploaded successfully, now insert file path into database
         // $filePath = mysqli_real_escape_string($conn, $targetFile); // Assuming $conn is your MySQLi connection
 
-        $data = [
-            'TABLE' => "",
-            'DATA' => [
-                "DOC_NUM" => "",
-                "ROUTE_NUM" => "",
-            ]
-        ];
         // $query = "INSERT INTO files (file_path) VALUES ('$filePath')";
 
         // if (mysqli_query($conn, $query)) {
-        //     $insertedId = mysqli_insert_id($conn); // Get the ID of the inserted row
-        //     echo "File uploaded successfully. ID of the inserted row: $insertedId";
+        // echo "File uploaded successfully.";
         // } else {
-        //     echo "Error: " . $query . "<br>" . mysqli_error($conn);
+        // echo "Error: " . $query . "<br>" . mysqli_error($conn);
         // }
+        $insertData = [
+            'TABLE' => "DOTS_ATTACHMENTS",
+            'DATA' => [
+                "DOC_NUM" => "$doc_num",
+                "ROUTE_NUM" => "$route_num",
+                "FILE_PATH" => "$targetDir",
+                "FILE_NAME" => "$filename",
+            ]
+        ];
+
+        $insertSql = $queries->insertQuery($insertData);
+        if (mysqli_query($conn, $insertSql)) {
+            echo "File uploaded successfully.";
+        } else {
+            echo "Error: " . $query . "<br>" . mysqli_error($conn);
+        }
     } else {
         echo "Sorry, there was an error uploading your file.";
     }
