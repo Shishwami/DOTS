@@ -149,12 +149,12 @@
     <div>
         <h2>ATTACHMENT MODAL</h2>
         <button id="BTN_ATTACH_ADD">Add Attachment</button>
-        <table id="ATTACH_VIEW_MAIN">
+        <!-- <table id="ATTACH_VIEW_MAIN">
             <th>
             </th>
             <tbody>
             </tbody>
-        </table>
+        </table> -->
 
         <div>
             <!-- preview -->
