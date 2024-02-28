@@ -107,9 +107,6 @@ try {
         case 'GET_TABLE_ATTACHMENT':
             getTableAttachment($inputs, $conn);
             break;
-        case 'ATTACH_ADD':
-            addAttachment($inputs, $conn);
-            break;
         case 'RECEIVE_DOC_USER':
             receiveDocUser($inputs, $conn);
             break;
@@ -963,9 +960,6 @@ function getTableUser($inputs, $conn, $tableName)
 function setupTable($result, $buttons, $tableName)
 {
 
-    $thead = "";
-    $tbody = "";
-
     // if ($buttons != null) {
     //     $thead = "<th></th>";
     // }
@@ -1048,8 +1042,6 @@ function setupTable($result, $buttons, $tableName)
     echo json_encode(
         array(
             'VALID' => true,
-            'THEAD' => $thead,
-            'TBODY' => $tbody,
             'RESULT' => $formattedResult,
             'BUTTONS' => $buttons
         )
@@ -1214,66 +1206,64 @@ function getTableAttachment($inputs, $conn)
 {
     $queries = new Queries();
 
+    $tableName = 'DOTS_ATTACHMENTS';
+
     $data = [
-        'TABLE' => 'DOTS_ATTACHMENTS',
+        'TABLE' => $tableName,
         'COLUMNS' => [
             "CASE WHEN ROUTE_NUM = 0 THEN DOC_NUM 
             ELSE CONCAT(DOC_NUM,\"-\",ROUTE_NUM) 
             END AS `No.`",
-            'FILE_PATH'
+            'FILE_PATH',
+            'FILE_NAME',
         ],
         'WHERE' => $inputs['WHERE']
     ];
     $selectTableSql = $queries->selectQuery($data);
     $result = mysqli_query($conn, $selectTableSql);
-    $resultAsArray = array();
-
-    while ($row = mysqli_fetch_assoc($result)) {
-        $resultAsArray[] = $row;
-    }
-
     // var_dump($resultAsArray);
 
+    setupTable($result,null,$tableName);
 
 }
 
-function addAttachment($inputs, $conn)
-{
-    echo "ASDSDSADASDSA";
+// function addAttachment($inputs, $conn)
+// {
+//     echo "ASDSDSADASDSA";
     
-    // // $file = $inputs['DATA']['ATTACH_FILE'];
-    // $file2 = $_FILES['ATTACH_FILE']['name'];
-    // // echo $file;
-    // var_dump($inputs);
+//     // // $file = $inputs['DATA']['ATTACH_FILE'];
+//     // $file2 = $_FILES['ATTACH_FILE']['name'];
+//     // // echo $file;
+//     // var_dump($inputs);
 
-    // if (isset($_FILES['ATTACH_FILE'])) {
-    //     $file = $_FILES['ATTACH_FILE'];
-    //     $fileName = $file['name'];
-    //     $fileTmpName = $file['tmp_name'];
-    //     $fileSize = $file['size'];
-    //     $fileError = $file['error'];
+//     // if (isset($_FILES['ATTACH_FILE'])) {
+//     //     $file = $_FILES['ATTACH_FILE'];
+//     //     $fileName = $file['name'];
+//     //     $fileTmpName = $file['tmp_name'];
+//     //     $fileSize = $file['size'];
+//     //     $fileError = $file['error'];
 
-    //     // Move the uploaded file to the desired location
-    //     $uploadDir = 'uploads/';
-    //     $uploadedFile = $uploadDir . $fileName;
-    //     if (move_uploaded_file($fileTmpName, $uploadedFile)) {
-    //         echo "File uploaded successfully!";
-    //     } else {
-    //         echo "File upload failed!";
-    //     }
+//     //     // Move the uploaded file to the desired location
+//     //     $uploadDir = 'uploads/';
+//     //     $uploadedFile = $uploadDir . $fileName;
+//     //     if (move_uploaded_file($fileTmpName, $uploadedFile)) {
+//     //         echo "File uploaded successfully!";
+//     //     } else {
+//     //         echo "File upload failed!";
+//     //     }
 
-    //     // You can now use $docNum, $routeNum, and $uploadedFile in your further processing
-    // } else {
-    //     echo "No file uploaded!";
-    // }
+//     //     // You can now use $docNum, $routeNum, and $uploadedFile in your further processing
+//     // } else {
+//     //     echo "No file uploaded!";
+//     // }
 
-    // var_dump($inputs);
+//     // var_dump($inputs);
 
-    $jsonData = file_get_contents('php://input');
-    $requestData = json_decode($jsonData, true);
+//     $jsonData = file_get_contents('php://input');
+//     $requestData = json_decode($jsonData, true);
 
-    var_dump($requestData);
-}
+//     var_dump($requestData);
+// }
 function formatDateTime($dateString)
 {
     $date = new DateTime($dateString);
