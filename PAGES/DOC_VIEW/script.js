@@ -103,7 +103,6 @@ function initializeRECEIVE_FORM() {
         CREATE_R_USER_ID.value = result;
     }, null);
 
-    console.log('ALLFINISHED');
 }
 // function setR_DEPT_ID() {
 //     SEND_R_DEPT_ID.addEventListener('change', function (e) {

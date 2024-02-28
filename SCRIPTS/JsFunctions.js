@@ -1,7 +1,6 @@
 class JsFunctions {
 
     static updateTable(table, results, buttons, filter) {
-        console.log(results);
         const tbody = table.querySelector('tbody');
         const thead = table.querySelector('thead');
 
@@ -63,7 +62,6 @@ class JsFunctions {
 
                     if (cell.textContent.toUpperCase().indexOf(filter) > -1) {
                         found++;
-                        console.log("FOUND ");
                     }
                 }
             });
