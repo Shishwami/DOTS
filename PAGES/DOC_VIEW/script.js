@@ -473,7 +473,15 @@ function setButtons(table) {
 function setForms() {
     FORM_DOC_SEND.addEventListener('submit', function (e) {
         e.preventDefault();
-        setSendFormSubmit();
+        var data = JsFunctions.FormToJson(FORM_DOC_SEND);
+        var routedCheck = {
+            REQUEST: _REQUEST.SEND_DOC_FORM,
+            DATA: data,
+        }
+        MyAjax.createJSON((error, response) => {
+            console.log(response);
+            setTable(searchBar.value.toUpperCase());
+        }, routedCheck);
     });
 
     FORM_DOC_RECEIVE.addEventListener('submit', function (e) {
@@ -524,10 +532,10 @@ function setForms() {
         // }, data);
 
         var file = ATTACH_FILE.files[0];
-        var formData = new FormData();
-        formData.append('file', file);
-        formData.append('DOC_NUM', ATTACH_DOC_NUM.value);
-        formData.append('ROUTE_NUM', ATTACH_ROUTE_NUM.value);
+        var formData = new FormData(this);
+        // formData.append('file', file);
+        // formData.append('DOC_NUM', ATTACH_DOC_NUM.value);
+        // formData.append('ROUTE_NUM', ATTACH_ROUTE_NUM.value);
 
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '../../SCRIPTS/FILE_UPLOAD.php', true);
@@ -538,19 +546,7 @@ function setForms() {
                 setTableAttachment();
             }
         };
-
         xhr.send(formData);
     });
 
-}
-function setSendFormSubmit() {
-    var data = JsFunctions.FormToJson(FORM_DOC_SEND);
-    var routedCheck = {
-        REQUEST: _REQUEST.SEND_DOC_FORM,
-        DATA: data,
-    }
-    MyAjax.createJSON((error, response) => {
-        console.log(response);
-        setTable(searchBar.value.toUpperCase());
-    }, routedCheck);
 }
