@@ -155,8 +155,10 @@
             <tbody>
             </tbody>
         </table> -->
+        <div id="ATTACH_RESULTS">
 
-        <div>
+        </div>
+        <div id="ATTACH_ZOOM">
             <!-- preview -->
         </div>
         <div>
