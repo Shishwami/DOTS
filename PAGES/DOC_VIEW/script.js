@@ -381,16 +381,16 @@ function setTableAttachment() {
         }
     }
 
-    MyAjax.createJSON((error, response) => {
-        if (error) {
-            alert(error);
-        } else {
-            if (response.VALID) {
-            } else {
-            }
-            JsFunctions.updateTable(ATTACH_VIEW_MAIN, response.RESULT, response.BUTTONS, filter);
-        }
-    }, data);
+    // MyAjax.createJSON((error, response) => {
+    //     if (error) {
+    //         alert(error);
+    //     } else {
+    //         if (response.VALID) {
+    //         } else {
+    //         }
+    //         JsFunctions.updateTable(ATTACH_VIEW_MAIN, response.RESULT, response.BUTTONS, filter);
+    //     }
+    // }, data);
 }
 // function setADDRESSEE(DEPT_ID) {
 
