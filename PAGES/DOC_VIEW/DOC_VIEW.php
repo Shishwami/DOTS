@@ -22,7 +22,7 @@
         padding: 0;
     }
 
-    tr:hover {
+    tbody tr:hover {
         background-color: coral;
     }
 </style>

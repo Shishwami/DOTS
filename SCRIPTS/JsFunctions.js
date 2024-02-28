@@ -29,6 +29,7 @@ class JsFunctions {
 
         Object.entries(results).forEach(([key, item]) => {
             const row = document.createElement('tr');
+            var found = 0;
 
             if (buttons !== undefined) {
                 const buttonCell = document.createElement('td');
@@ -50,6 +51,7 @@ class JsFunctions {
                     buttonCell.appendChild(button);
 
                 });
+
                 row.appendChild(buttonCell);
             }
 
@@ -58,9 +60,18 @@ class JsFunctions {
                     const cell = document.createElement('td');
                     cell.textContent = value;
                     row.appendChild(cell);
+
+                    if (cell.textContent.toUpperCase().indexOf(filter) > -1) {
+                        found++;
+                        console.log("FOUND ");
+                    }
                 }
             });
 
+
+            if (found == 0) {
+                row.style.display = "none";
+            }
             tbody.appendChild(row);
         });
 
