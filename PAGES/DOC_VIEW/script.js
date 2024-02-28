@@ -388,6 +388,7 @@ function setTableAttachment() {
             } else {
             }
             console.log(response);
+            JsFunctions.updateAttachments(null,response.RESULT,null,'');
             // JsFunctions.updateTable(ATTACH_VIEW_MAIN, response.RESULT, response.BUTTONS, '');
         }
     }, data);
