@@ -34,9 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($imgFile)) {
         $filename = strval($index) . '.' . $fileExtension;
     }
 
-    $originalFileName = $imgFile["name"];
-    $fileExtension = pathinfo($originalFileName, PATHINFO_EXTENSION);
-
     $targetFile = $targetDir . $filename;
 
     if (move_uploaded_file($imgFile["tmp_name"], $targetFile)) {
