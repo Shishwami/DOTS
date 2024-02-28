@@ -162,7 +162,7 @@
         <div>
             <h1>ADD ATTACHMENT MODAL</h1>
             <form action="submit"  method="POST" id="FORM_ATTACH_ADD" enctype="multipart/form-data">
-                <input type="file" name="ATTACH_FILE">
+                <input type="file" name="ATTACH_FILE" id ="ATTACH_FILE" >
                 <input type="submit" value="Submit">
                 <input type="text" name="DOC_NUM" id="ATTACH_DOC_NUM">
                 <input type="text" name="ROUTE_NUM" id="ATTACH_ROUTE_NUM">
