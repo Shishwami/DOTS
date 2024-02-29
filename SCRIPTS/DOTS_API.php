@@ -330,64 +330,48 @@ function sendDocForm($inputs, $conn)
 {
     $queries = new Queries();
     $valid = false;
-    //update document
-    //send to inbound
     //check if routed
+
+    //send to inbound
+    //update document
 
     var_dump($inputs);
 
+    $insertData = array(
+        'TABLE' => 'DOTS_DOCUMENT_INBOUND',
+        'DATA' => $inputs['DATA'],
+    );
 
+    $checkRoutedData = array(
+        'TABLE' => 'DOTS_DOCUMENT',
+        'COLUMNS' => [
+            'ID',
+            'DOC_NUM',
+            'ROUTE_NUM',
+            'ROUTED',
+        ],
+        'WHERE' => array(
+            'AND' => array(
+                array('DOC_NUM' => $inputs['DATA']['DOC_NUM']),
+                array('ROUTE_NUM' => $inputs['DATA']['ROUTE_NUM']),
+            )
+        ),
+    );
 
+    $checkRoutedSql = $queries->selectQuery($checkRoutedData);
+    $result = mysqli_query($conn, $checkRoutedSql);
+    $row = $result->fetch_assoc();
+    if ($row['ROUTED'] == 0) {
 
+    } else if ($row['ROUTED'] == 1) {
 
+    }
 
-
-    // $doc_num = $inputs['DATA']['DOC_NUM'];
-    // $route_num = $inputs['DATA']['ROUTE_NUM'];
-
-    // $insertData = array(
-    //     'TABLE' => 'DOTS_DOCUMENT_INBOUND',
-    //     'DATA' => $inputs['DATA'],
-    // );
-    // //chheck if routed
-
-    // $checkRouted = array(
-    //     'TABLE' => 'DOTS_DOCUMENT',
-    //     'COLUMNS' => [
-    //         'ID',
-    //         'DOC_NUM',
-    //         'ROUTE_NUM',
-    //         'ROUTED',
-    //     ],
-    //     'WHERE' => array(
-    //         'AND' => array(
-    //             array('DOC_NUM' => $doc_num),
-    //             array('ROUTE_NUM' => $route_num),
-    //         )
-    //     ),
-    // );
-
-    // $sqlCheckRouted = $queries->selectQuery($checkRouted);
-
-    // $result = mysqli_query($conn, $sqlCheckRouted);
-    // if ($result) {
-    //     $row = $result->fetch_assoc();
-    //     // echo"ashhdshioadhiosad";
-    //     if ($row['ROUTED'] == 0) {
-    //         //send
-    //         $valid = sendDoc($insertData, $conn);
-    //     } else if ($row['ROUTED'] == 1) {
-    //         //resend
-    //         $valid = resendDoc($insertData, $conn);
-
-    //     }
-    // }
-
-    // echo json_encode(
-    //     array(
-    //         'VALID' => $valid
-    //     )
-    // );
+    echo json_encode(
+        array(
+            'VALID' => $valid
+        )
+    );
 }
 
 // function sendDoc($insertData, $conn)
@@ -480,7 +464,7 @@ function receiveDoc($inputs, $conn)
     );
     $sql = $queries->insertQuery($createData);
     if (mysqli_query($conn, $sql)) {
-        return true;
+        $valid = true;
     }
     echo json_encode(
         array(
@@ -741,7 +725,7 @@ function getTableUser($inputs, $conn, $tableName)
 }
 function setupTable($result, $buttons, $tableName)
 {
-
+    $valid = false;
     $formattedResult = [];
     foreach ($result as $row) {
         $formattedRow = [];
@@ -756,6 +740,8 @@ function setupTable($result, $buttons, $tableName)
             } else if ($key == "Letter Date") {
                 $fValue = formatDate($value);
             }
+            $valid = true;
+
 
             $formattedRow[$key] = $fValue;
         }
@@ -764,7 +750,7 @@ function setupTable($result, $buttons, $tableName)
 
     echo json_encode(
         array(
-            'VALID' => true,
+            'VALID' => $valid,
             'RESULT' => $formattedResult,
             'BUTTONS' => $buttons
         )
