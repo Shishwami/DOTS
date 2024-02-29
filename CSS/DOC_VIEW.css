@@ -519,6 +519,11 @@ body:before
     font-weight: 600;
 }
 
+.spacer
+{
+    padding: 1.5rem 2rem;
+}
+
 #atc_modal button
 {
     background-image: var(--modal_opt_btn);
@@ -539,6 +544,23 @@ body:before
     background-image: var(--modal_opt_btn-hover);
 }
 
+#atc_modal .attachments
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+#atc_modal .preview
+{
+    display: flex;
+    flex-direction: column;
+}
+
+#atc_modal .zoom
+{
+    
+}
+
 .ATTACH_MINI
 {
     display: inline-block;
@@ -554,7 +576,7 @@ body:before
 #ATTACH_ZOOM
 {
     width: 500px;
-    height: 500px;
+    height: 350px;
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
