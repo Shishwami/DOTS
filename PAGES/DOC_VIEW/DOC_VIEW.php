@@ -91,14 +91,14 @@
             <div>
                 <label for="CREATE_DOC_TYPE">Document Type:</label> <br>
                 <select name="DOC_TYPE_ID" id="CREATE_DOC_TYPE">
-                    <option value="" disabled selected>Please Select Type</option>
+                    <option value="" disabled selected> Select Type</option>
                     <!-- to be filled using database -->
                 </select>
             </div>
             <div>
                 <label for="CREATE_DOC_OFFICE">Office/Agency</label> <br>
                 <select name="S_OFFICE_ID" id="CREATE_DOC_OFFICE">
-                    <option value="" disabled selected>Please Select Office</option>
+                    <option value="" disabled selected> Select Office</option>
                     <!-- to be filled using database -->
                 </select>
             </div>
@@ -133,21 +133,21 @@
             <div>
                 <label for="SEND_DOC_PRPS">Documnet Purpose:</label>
                 <select name="PRPS_ID" id="SEND_DOC_PRPS">
-                    <option value="" disabled selected>Please Select Purpose</option>
+                    <option value="" disabled selected> Select Purpose</option>
                     <!-- to be filled using database -->
                 </select>
             </div>
             <div>
                 <label for="SEND_R_DEPT_ID">Department:</label>
                 <select name="R_DEPT_ID" id="SEND_R_DEPT_ID">
-                    <option value="" disabled selected>Please Select Department</option>
+                    <option value="" disabled selected> Select Department</option>
                     <!-- to be filled using database -->
                 </select>
             </div>
             <div>
                 <label for="SEND_DOC_ADDRESSEE">Addressee:</label>
                 <select name="R_USER_ID" id="SEND_DOC_ADDRESSEE">
-                    <option value="" disabled selected>Please Select Addressee</option>
+                    <option value="" disabled selected> Select Addressee</option>
                     <!-- to be filled using database -->
                 </select>
             </div>
