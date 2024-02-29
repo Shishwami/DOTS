@@ -43,6 +43,8 @@ const ATTACH_RESULTS = document.getElementById("ATTACH_RESULTS");
 const ATTACH_ZOOM = document.getElementById("ATTACH_ZOOM");
 
 const snd_modal = document.getElementById("snd_modal");
+const atc_modal = document.getElementById("atc_modal");
+
 
 InitializePAGE();
 
@@ -362,8 +364,8 @@ function sendBtnEvent(id, doc_num, route_num) {
     // } else {
     //     alert("Please Select A Document");
     // }
-    if(snd_modal)
-    snd_modal.style.display = "block";
+    if (snd_modal)
+        snd_modal.style.display = "block";
 }
 function clearValues() {
     SEND_DOC_PRPS.value = "";
@@ -380,9 +382,8 @@ function setAttachBtn(id, doc_num, route_num) {
     setTableAttachment();
 
     //open attachment modal
-    atc_modal = document.getElementById("atc_modal");
-
-    atc_modal.style.display = "block";
+    if (atc_modal)
+        atc_modal.style.display = "block";
 
 }
 function setTableAttachment() {
