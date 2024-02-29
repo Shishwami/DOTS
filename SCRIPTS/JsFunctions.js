@@ -1,30 +1,130 @@
 class JsFunctions {
 
-    static updateTable(table, filter) {
-
-        const thead = table.querySelector('thead');
+    static updateTable(table, results, buttons, filter) {
         const tbody = table.querySelector('tbody');
-        const rows = tbody.querySelectorAll('tr');
-        for (var i = 0; i < rows.length; i++) {
-            var td = rows[i].querySelectorAll("td");
-            var found = false;
-            for (var j = 0; j < td.length; j++) {
-              if (td[j]) {
-                var txtValue = td[j].textContent || td[j].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                  found = true;
-                  break;
-                }
-              }
-            }
-            if (found) {
-              rows[i].style.display = "";
-            } else {
-              rows[i].style.display = "none";
-            }
-          }
-    }
+        const thead = table.querySelector('thead');
 
+        tbody.innerHTML = '';
+        thead.innerHTML = '';
+
+        if (Object.keys(results).length === 0) {
+            return;
+        }
+
+        const theadrow = document.createElement('tr');
+        if (buttons != undefined) {
+            const buttonHeaderCell = document.createElement('th');
+            theadrow.appendChild(buttonHeaderCell);
+        }
+        Object.entries(results[1]).forEach(([key, value]) => {
+            if (key !== 'ID' && key !== 'DOC_NUM' && key !== 'ROUTE_NUM') {
+                const headerCell = document.createElement('th');
+                headerCell.textContent = key;
+                theadrow.appendChild(headerCell);
+            }
+        });
+
+        thead.appendChild(theadrow);
+
+        Object.entries(results).forEach(([key, item]) => {
+            const row = document.createElement('tr');
+            var found = 0;
+
+            if (buttons !== undefined) {
+                const buttonCell = document.createElement('td');
+
+                buttons.forEach(btn => {
+                    const button = document.createElement('button');
+                    button.textContent = btn.label;
+                    button.className = btn.className;
+                    // button.id = `button-${item.ID}-${item.DOC_NUM}-${item.ROUTE_NUM}`;
+                    button.dataset.i = item.ID;
+                    button.dataset.d = item.DOC_NUM;
+                    button.dataset.r = item.ROUTE_NUM;
+
+                    if (item.Action == "RECEIVE" && btn.className == "btnR") {
+                        button.disabled = false;
+                        button.style.visibility = 'hidden';
+                    }
+
+                    buttonCell.appendChild(button);
+
+                });
+
+                row.appendChild(buttonCell);
+            }
+
+            Object.entries(item).forEach(([key, value]) => {
+                if (key !== 'ID' && key !== 'DOC_NUM' && key !== 'ROUTE_NUM') {
+                    const cell = document.createElement('td');
+                    cell.textContent = value;
+                    row.appendChild(cell);
+
+                    if (cell.textContent.toUpperCase().indexOf(filter) > -1) {
+                        found++;
+                    }
+                }
+            });
+
+
+            if (found == 0) {
+                row.style.display = "none";
+            }
+            tbody.appendChild(row);
+        });
+
+        // for (const key in results) {
+        //     if (results.hasOwnProperty(key)) {
+        //         const item = results[key];
+        //         for(const value in item){
+        //             console.log(value);
+        //         }
+        //     }
+        // }
+
+        // const thead = table.querySelector('thead');
+        // const tbody = table.querySelector('tbody');
+        // const rows = tbody.querySelectorAll('tr');
+        // for (var i = 0; i < rows.length; i++) {
+        //     var td = rows[i].querySelectorAll("td");
+        //     var found = false;
+        //     for (var j = 0; j < td.length; j++) {
+        //         if (td[j]) {
+        //             var txtValue = td[j].textContent || td[j].innerText;
+        //             if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        //                 found = true;
+        //                 break;
+        //             }
+        //         }
+        //     }
+        //     if (found) {
+        //         rows[i].style.display = "";
+        //     } else {
+        //         rows[i].style.display = "none";
+        //     }
+        // }
+
+        thead.append(theadrow);
+
+    }
+    static updateAttachments(mini, results, buttons, preview) {
+        mini.innerHTML = '';
+        Object.entries(results).forEach(([key, item]) => {
+            const url = `url(../${item['FILE_PATH']}${item['FILE_NAME']})`;
+            const doc = document.createElement("div");
+            doc.className = "ATTACH_MINI";
+            doc.style.backgroundImage = url;
+            doc.addEventListener('mouseover', function () {
+                preview.style.backgroundImage = url;
+            });
+
+            // doc.addEventListener('mouseout', function () {
+            //     preview.style.backgroundImage = "";
+            // });
+            mini.appendChild(doc);
+
+        });
+    }
     static FormToJson(form) {
         var formData = new FormData(form);
         var formDataObject = {};
@@ -35,13 +135,22 @@ class JsFunctions {
     }
 
     static setSelect(element, options) {
+        // console.log(options);
+        // for (let i = 0; i < options.length; i++) {
+        //     var option = document.createElement('option');
+        //     var somedata = Object.values(options[i]);
 
-        for (let i = 0; i < options.length; i++) {
+        //     option.value = somedata[0];
+        //     option.innerText = somedata[1];
+
+        //     element.appendChild(option);
+        // }
+
+        for (var key in options) {
             var option = document.createElement('option');
-            var somedata = Object.values(options[i]);
 
-            option.value = somedata[0];
-            option.innerText = somedata[1];
+            option.value = key;
+            option.textContent = options[key];
 
             element.appendChild(option);
         }

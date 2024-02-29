@@ -23,11 +23,13 @@ class Queries
     // }';
     function selectQuery($inputs)
     {
-
         $sql = "SELECT ";
 
         if (isset($inputs['COLUMNS'])) {
-            $sql .= implode(', ', $inputs['COLUMNS']);
+            $columns = array_map(function ($column) {
+                return "$column";
+            }, $inputs['COLUMNS']);
+            $sql .= implode(', ', $columns);
         } else {
             $sql .= '*';
         }
@@ -37,6 +39,7 @@ class Queries
         } else {
             //no table name
         }
+
         if (isset($inputs['JOIN'])) {
             foreach ($inputs['JOIN'] as $join) {
                 $sql .= " {$join['TYPE']} JOIN {$join['table']} ON " . implode(' AND ', $join['ON']);
@@ -44,13 +47,26 @@ class Queries
         }
 
         if (isset($inputs['WHERE'])) {
+            // $whereConditions = [];
+            // foreach ($inputs['WHERE'] as $logicalOperator => $conditions) {
+            //     $innerConditions = [];
+            //     foreach ($conditions as $column => $value) {
+            //         $innerConditions[] = "$column = '$value'";
+            //     }
+            //     $whereConditions[] = '(' . implode(" $logicalOperator ", $innerConditions) . ')';
+            // }
+            // $sql .= ' WHERE ' . implode(' AND ', $whereConditions);
+
+            $whereData = $inputs['WHERE'];
             $whereConditions = [];
-            foreach ($inputs['WHERE'] as $logicalOperator => $conditions) {
+            foreach ($whereData as $key => $value) {
                 $innerConditions = [];
-                foreach ($conditions as $column => $value) {
-                    $innerConditions[] = "$column = '$value'";
+                foreach ($value as $key2 => $value2) {
+                    foreach ($value2 as $key3 => $value3) {
+                        $innerConditions[] = "$key3 = '$value3'";
+                    }
                 }
-                $whereConditions[] = '(' . implode(" $logicalOperator ", $innerConditions) . ')';
+                $whereConditions[] = '(' . implode(" $key ", $innerConditions) . ')';
             }
             $sql .= ' WHERE ' . implode(' AND ', $whereConditions);
         }
@@ -136,24 +152,24 @@ class Queries
     //         "condition_column": "condition_value"
     //     }
     // }';
-    function deleteQuery($inputs)
-    {
-        $tableName = $inputs['TABLE'];
-        $condition = $inputs['WHERE'];
+    // function deleteQuery($inputs)
+    // {
+    //     $tableName = $inputs['TABLE'];
+    //     $condition = $inputs['WHERE'];
 
-        $sql = "DELETE FROM $tableName";
+    //     $sql = "DELETE FROM $tableName";
 
-        $sql .= ' WHERE ';
+    //     $sql .= ' WHERE ';
 
-        $wherePairs = [];
-        foreach ($condition as $column => $value) {
-            $wherePairs[] = "$column = '$value'";
-        }
+    //     $wherePairs = [];
+    //     foreach ($condition as $column => $value) {
+    //         $wherePairs[] = "$column = '$value'";
+    //     }
 
-        $sql .= implode(' AND ', $wherePairs);
+    //     $sql .= implode(' AND ', $wherePairs);
 
-        $sql .= ";";
-        return $sql;
-    }
+    //     $sql .= ";";
+    //     return $sql;
+    // }
 }
 ?>
