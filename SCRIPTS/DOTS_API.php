@@ -327,7 +327,7 @@ function getAddressee($inputs, $conn)
 }
 
 function sendDocForm($inputs, $conn)
-{
+{ 
     $queries = new Queries();
     $valid = false;
     //check if routed
