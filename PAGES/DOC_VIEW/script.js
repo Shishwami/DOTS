@@ -403,6 +403,8 @@ function setTableAttachment() {
         } else {
             if (response.VALID) {
             } else {
+                const prev =document.querySelector(".preview");
+                console.log(prev);
             }
             console.log(response);
             JsFunctions.updateAttachments(ATTACH_RESULTS, response.RESULT, null, ATTACH_ZOOM);

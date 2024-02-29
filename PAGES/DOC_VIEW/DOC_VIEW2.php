@@ -198,12 +198,16 @@
                         <button id="BTN_ATTACH_ADD">Add Attachment</button>
 
                         <div class="attachments">
-                            <div class="preview" id="ATTACH_RESULTS">
+                            <div class="preview">
+                                <div  id="ATTACH_RESULTS">
 
+                                </div>
                             </div>
 
-                            <div class="zoom" id="ATTACH_ZOOM">
-                                <!-- preview -->
+                            <div class="zoom">
+                                <div id="ATTACH_ZOOM">
+                                    <!-- preview -->
+                                </div>
                             </div>
                         </div>
 
