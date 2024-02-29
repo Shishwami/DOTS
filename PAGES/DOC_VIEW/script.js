@@ -42,6 +42,8 @@ const ATTACH_FILE = document.getElementById("ATTACH_FILE");
 const ATTACH_RESULTS = document.getElementById("ATTACH_RESULTS");
 const ATTACH_ZOOM = document.getElementById("ATTACH_ZOOM");
 
+const snd_modal = document.getElementById("snd_modal");
+
 InitializePAGE();
 
 function InitializePAGE() {
@@ -343,6 +345,14 @@ function sendBtnEvent(id, doc_num, route_num) {
         SEND_DATE_TIME_SENT.value = result;
     }, null);
 
+    getData(_REQUEST.GET_SESSION_DEPT_ID, null, (result) => {
+        SEND_S_DEPT_ID.value = result;
+    }, null);
+
+    getData(_REQUEST.GET_SESSION_HRIS_ID, null, (result) => {
+        SEND_S_USER_ID.value = result;
+    }, null);
+
     SEND_DOC_NUM.value = doc_num;
     SEND_ROUTE_NUM.value = route_num;
 
@@ -352,8 +362,7 @@ function sendBtnEvent(id, doc_num, route_num) {
     // } else {
     //     alert("Please Select A Document");
     // }
-
-    snd_modal = document.getElementById("snd_modal");
+    if(snd_modal)
     snd_modal.style.display = "block";
 }
 function clearValues() {
