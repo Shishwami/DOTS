@@ -536,7 +536,7 @@ body:before
     cursor: pointer;
     letter-spacing: 0.1rem;
     text-transform: uppercase;
-    margin-right: 1rem;
+    margin-bottom: 1rem;
 }
 
 #atc_modal button:hover
