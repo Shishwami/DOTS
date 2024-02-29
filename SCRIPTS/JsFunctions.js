@@ -40,6 +40,9 @@ class JsFunctions {
                     if (btn.className == "btnS") {
                         button.classList.add('fa-solid', 'fa-paper-plane');
                         button.title = "Send";
+                    } if (btn.className == "btnR") {
+                        button.classList.add('fa-solid', 'fa-paper-plane');
+                        button.title = "Send";
                     }
                     if (btn.className == "btnA") {
                         button.classList.add('fa-solid', 'fa-paperclip');

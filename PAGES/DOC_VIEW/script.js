@@ -67,6 +67,11 @@ function InitializePAGE() {
 
 
     setForms();
+
+    BTN_ATTACH_ADD.addEventListener("click", function () {
+        ATTACH_FILE.value=null;
+        console.log("ASDADSADSADS");
+    });
 }
 
 function initializeSEND_FORM() {
@@ -407,7 +412,7 @@ function setTableAttachment() {
 
             } else {
                 prev.style.visibility = "hidden";
-                
+
             }
             console.log(response);
             JsFunctions.updateAttachments(ATTACH_RESULTS, response.RESULT, null, ATTACH_ZOOM);

@@ -12,7 +12,7 @@
     --dark_purple: #3d0050;
 
     /* Gradients Navigation Bar Specific */
-    --gradient_br_dark-blue_to_dark-purple: linear-gradient(to bottom right, #030013, #120129);
+    --gradient_br_dark-blue_to_dark-purple: linear-gradient(to bottom right, #08c5ff, #170099);
     --gradient_br_dark-blue-purple_to_medium-blue-purple: linear-gradient(to bottom right, #0e0024, #191644);
 
     /* Navigation Bar Specific */
@@ -33,6 +33,7 @@
     --modal_banner_bg: linear-gradient(to top, #1f0031, #8d00b1);
     --container_bg: linear-gradient(to bottom right, rgba(255, 0, 0, 0.4), rgba(0, 89, 255, 0.4));
     --form_bg: linear-gradient(to bottom, #f1e7f1, #ffffff);
+    /* --form_bg: url(../CSS/Resources/City-of-Baguio-Logo\ Fill.png); */
 
     /* Font Color */
     --font_white: #ffffff;
@@ -45,8 +46,8 @@
     --login_btn-hover: linear-gradient(to top, #af0000, #ff0000);
     --submit_btn: linear-gradient(to bottom right, #200c36, #a502bb);
     --submit_btn-hover: linear-gradient(to bottom left, #5a5291, #c198da);
-    --opt_btn: linear-gradient(to bottom, rgb(41, 3, 63), #6c0586);
-    --opt_btn-hover: linear-gradient(to top, #100a4d, #2a03b6);
+    --opt_btn: linear-gradient(to bottom, #01025e, #130fff);
+    --opt_btn-hover: linear-gradient(to top, #320049, #5400f0);
     --modal_opt_btn: linear-gradient(to bottom, #0b0a52, #2717b6);
     --modal_opt_btn-hover: linear-gradient(to top, #22043f, #7702d6);
     --dlt_btn: linear-gradient(to bottom, #a10202, #ff0000);
@@ -79,6 +80,7 @@
 
 /* Font Embed Import */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 /* @import url('https://fonts.googleapis.com/css2?family=Electrolize&family=Orbitron:wght@400..900&display=swap'); */
 
 /* Regulation */

@@ -195,7 +195,7 @@
                     </div>
 
                     <div class="spacer">
-                        <button id="BTN_ATTACH_ADD">Add Attachment</button>
+                        <button class="atc_btn" id="BTN_ATTACH_ADD">Add Attachment</button>
 
                         <div class="attachments">
                             <div class="preview">
@@ -220,19 +220,23 @@
 
                                 <div class="spacer">
                                     <form class="atc_submodal" action="submit" method="POST" id="FORM_ATTACH_ADD" enctype="multipart/form-data">
-                                        <label for="ATTACH_DESCRIPTION">Description:</label>
-                                        <textarea name="DESCRIPTION" id="ATTACH_DESCRIPTION" cols="20" rows="5"></textarea>
-                                        <!-- <input type="text" name="DESCRIPTION" id="ATTACH_DESCRIPTION"> -->
-                                        <!-- <input type="file" name="ATTACH_FILE" id="ATTACH_FILE"> -->
-
-                                        <div class="imgbox">
-                                            <input type="file" name="ATTACH_FILE" id="ATTACH_FILE" accept="image/*" hidden>
-                                            <div class="img-area" data-img="">
-                                                <i class='fa-solid fa-upload icon'></i>
-                                                <h3>Upload Image</h3>
-                                                <p>Image size must be less than <span>10MB</span></p>
+                                        <div class="row">
+                                            <div class="desc">
+                                                <label for="ATTACH_DESCRIPTION">Description:</label>
+                                                <textarea name="DESCRIPTION" id="ATTACH_DESCRIPTION" cols="20" rows="3"></textarea>
                                             </div>
-                                            <button class="select-image">Select Image</button>
+                                            <!-- <input type="text" name="DESCRIPTION" id="ATTACH_DESCRIPTION"> -->
+                                            <!-- <input type="file" name="ATTACH_FILE" id="ATTACH_FILE"> -->
+
+                                            <div class="imgbox">
+                                                <input type="file" name="ATTACH_FILE" id="ATTACH_FILE" accept="image/*" hidden>
+                                                <div class="img-area" data-img="">
+                                                    <i class='fa-solid fa-upload icon'></i>
+                                                    <h3>Upload Image</h3>
+                                                    <p>Image size must be less than <span>10MB</span></p>
+                                                </div>
+                                                <button class="select-image">Select Image</button>
+                                            </div>
                                         </div>
                                         
                                         <div class="submit">
@@ -260,5 +264,35 @@
 <script src="../../Modal/GenModal.js"></script>
 <script src="../../SCRIPTS/Constants.js"></script>
 <script src="./script.js" type="module"></script>
+
+<script>
+    const selectImage = document.querySelector('.select-image');
+    const inputFile = document.querySelector('#ATTACH_FILE');
+    const imgArea = document.querySelector('.img-area');
+
+    selectImage.addEventListener('click', function () {
+        inputFile.click();
+    })
+
+    inputFile.addEventListener('change', function () {
+        const image = this.files[0]
+        if(image.size < (10*1024*1024)) {
+            const reader = new FileReader();
+            reader.onload = ()=> {
+                const allImg = imgArea.querySelectorAll('img');
+                allImg.forEach(item=> item.remove());
+                const imgUrl = reader.result;
+                const img = document.createElement('img');
+                img.src = imgUrl;
+                imgArea.appendChild(img);
+                imgArea.classList.add('active');
+                imgArea.dataset.img = image.name;
+            }
+            reader.readAsDataURL(image);
+        } else {
+            alert("Image size more than 10MB");
+        }
+    })
+</script>
 
 </html>
