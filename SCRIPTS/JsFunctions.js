@@ -7,7 +7,7 @@ class JsFunctions {
         tbody.innerHTML = '';
         thead.innerHTML = '';
 
-        if (Object.keys(results).length === 0) {
+        if (Object.keys(results).length == 0) {
             return;
         }
 
@@ -16,7 +16,7 @@ class JsFunctions {
             const buttonHeaderCell = document.createElement('th');
             theadrow.appendChild(buttonHeaderCell);
         }
-        Object.entries(results[1]).forEach(([key, value]) => {
+        Object.entries(results[0]).forEach(([key, value]) => {
             if (key !== 'ID' && key !== 'DOC_NUM' && key !== 'ROUTE_NUM') {
                 const headerCell = document.createElement('th');
                 headerCell.textContent = key;
