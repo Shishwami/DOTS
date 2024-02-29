@@ -191,7 +191,7 @@
                 <div class="modal_content">
                     <div class="modal_banner">
                         <span class="atc_close">&times;</span>
-                        <h1>Attach</h1>
+                        <h1>View Attachment</h1>
                     </div>
 
                     <div class="spacer">
@@ -211,15 +211,25 @@
                             </div>
                         </div>
 
-                        <div class="atc_submodal" id="atc_submodal">
-                            <form action="submit" method="POST" id="FORM_ATTACH_ADD" enctype="multipart/form-data">
-                                <label for="ATTACH_DESCRIPTION">Description:</label>
-                                <input type="text" name="DESCRIPTION" id="ATTACH_DESCRIPTION">
-                                <input type="file" name="ATTACH_FILE" id="ATTACH_FILE">
-                                <input type="submit" value="Submit">
-                                <input type="text" name="DOC_NUM" id="ATTACH_DOC_NUM">
-                                <input type="text" name="ROUTE_NUM" id="ATTACH_ROUTE_NUM">
-                            </form>
+                        <div class="modal" id="atc_submodal">
+                            <div class="modal_content">
+                                <div class="modal_banner">
+                                    <span class="atc_sub_close">&times;</span>
+                                    <h1>Attach</h1>
+                                </div>
+
+                                <div class="spacer">
+                                    <form class="atc_submodal" action="submit" method="POST" id="FORM_ATTACH_ADD" enctype="multipart/form-data">
+                                        <label for="ATTACH_DESCRIPTION">Description:</label>
+                                        <textarea name="DESCRIPTION" id="ATTACH_DESCRIPTION" cols="20" rows="5"></textarea>
+                                        <!-- <input type="text" name="DESCRIPTION" id="ATTACH_DESCRIPTION"> -->
+                                        <input type="file" name="ATTACH_FILE" id="ATTACH_FILE">
+                                        <input type="submit" value="Submit">
+                                        <input type="text" name="DOC_NUM" id="ATTACH_DOC_NUM" hidden readonly>
+                                        <input type="text" name="ROUTE_NUM" id="ATTACH_ROUTE_NUM" hidden readonly>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                                 
                         <div>

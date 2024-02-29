@@ -590,7 +590,34 @@ body:before
     background-size: contain;
     border: 1px black solid;
     border-radius: 10px;
+}
 
+.atc_submodal
+{
+    display: flex;
+    flex-direction: column;
+}
+
+#atc_submodal label
+{
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+#atc_submodal textarea
+{
+    resize: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+#atc_submodal input[type="file"]
+{
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
 }
 
 /* CSS Responsiveness */

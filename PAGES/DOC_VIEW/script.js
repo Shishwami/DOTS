@@ -401,10 +401,13 @@ function setTableAttachment() {
         if (error) {
             alert(error);
         } else {
+            const prev = document.querySelector(".preview");
             if (response.VALID) {
+                prev.style.visibility = "visible";
+
             } else {
-                const prev =document.querySelector(".preview");
-                console.log(prev);
+                prev.style.visibility = "hidden";
+                
             }
             console.log(response);
             JsFunctions.updateAttachments(ATTACH_RESULTS, response.RESULT, null, ATTACH_ZOOM);

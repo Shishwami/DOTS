@@ -2,17 +2,20 @@
 var crt_modal = document.getElementById("crt_modal");
 var snd_modal = document.getElementById("snd_modal");
 var atc_modal = document.getElementById("atc_modal");
+var atc_submodal = document.getElementById("atc_submodal");
 
 // Get Modal Button Variable
 
 var crt_btn = document.getElementById("BTN_DOC_CREATE");
 var snd_btn = document.getElementById("BTN_DOC_SEND");
 var atc_btn = document.getElementById("BTN_DOC_ATTACHMENTS");
+var atc_sub_btn = document.getElementById("BTN_ATTACH_ADD");
 
 // Get Span Close Variable
 var crt_span = document.getElementsByClassName("crt_close")[0];
 var snd_span = document.getElementsByClassName("snd_close")[0];
 var atc_span = document.getElementsByClassName("atc_close")[0];
+var atc_sub_span = document.getElementsByClassName("atc_sub_close")[0];
 
 // // Open Modal Function
 if (crt_btn) {
@@ -33,6 +36,13 @@ if (atc_btn) {
   atc_btn.onclick = function()
   {
   atc_modal.style.display = "block";
+  }
+}
+
+if (atc_sub_btn) {
+  atc_sub_btn.onclick = function()
+  {
+  atc_submodal.style.display = "block";
   }
 }
 
@@ -58,6 +68,13 @@ if (atc_span) {
   }
 }
 
+if (atc_sub_span) {
+  atc_sub_span.onclick = function()
+  {
+    atc_submodal.style.display = "none";
+  }
+}
+
 // // Close Modal Function - Window
 window.onclick = function(event)
 {
@@ -74,6 +91,11 @@ window.onclick = function(event)
   if (event.target == atc_modal)
   {
     atc_modal.style.display = "none";
+  }
+
+  if (event.target == atc_submodal)
+  {
+    atc_submodal.style.display = "none";
   }
 }
 
