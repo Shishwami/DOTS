@@ -327,7 +327,7 @@ function getAddressee($inputs, $conn)
 }
 
 function sendDocForm($inputs, $conn)
-{
+{ 
     $queries = new Queries();
     $valid = false;
     //check if routed
@@ -337,7 +337,7 @@ function sendDocForm($inputs, $conn)
 
     var_dump($inputs);
 
-    $insertData = array(
+    $insertInboundData = array(
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
         'DATA' => $inputs['DATA'],
     );
@@ -359,13 +359,63 @@ function sendDocForm($inputs, $conn)
     );
 
     $checkRoutedSql = $queries->selectQuery($checkRoutedData);
-    $result = mysqli_query($conn, $checkRoutedSql);
-    $row = $result->fetch_assoc();
-    if ($row['ROUTED'] == 0) {
+    $checkRoutedResult = mysqli_query($conn, $checkRoutedSql);
+    $checkRoutedRow = $checkRoutedResult->fetch_assoc();
 
-    } else if ($row['ROUTED'] == 1) {
+    $updateDocumentData = array(
+        'TABLE' => 'DOTS_DOCUMENT',
+        'DATA' => [
+            'ROUTED' => 1,//set to routed
+            'DOC_STATUS' => 1,//set on hand to pending
+        ],
+        'WHERE' => array(
+            'ID' => $checkRoutedRow['ID']
+        ),
+    );
+
+    if ($checkRoutedRow['ROUTED'] == 1) {
+        //select document with highest routing number to duplicate
+        $selectDocumentData = [
+            'TABLE' => 'DOTS_DOCUMENT',
+            'WHERE' => [
+                'AND' => [
+                    ['DOC_NUM' => $checkRoutedRow['DOC_NUM']]
+                ],
+            ],
+            'ORDER_BY' => 'ROUTE_NUM DESC'
+        ];
+
+        $selectDocumentSql = $queries->selectQuery($selectDocumentData);
+        $selectDocumentResult = $conn->query($selectDocumentSql);
+        $selectDocumentRow = $selectDocumentResult->fetch_assoc();
+
+        // var_dump($selectDocumentRow);
+
+        //increase the routing number
+        $newRoutingNumber = intval($selectDocumentRow['ROUTE_NUM']) + 1;
+        $selectDocumentRow['ROUTE_NUM'] = $newRoutingNumber;
+        $insertInboundData['DATA']["ROUTE_NUM"] = $newRoutingNumber;
+
+        //remove id for insert
+        unset($selectDocumentRow['ID']);
+
+        //duplicate to doc
+        $insertDocumentData = [
+            'TABLE' => 'DOTS_DOCUMENT',
+            'DATA' => $selectDocumentRow,
+        ];
+
+        $insertDocumentSql = $queries->insertQuery($insertDocumentData);
+        $insertDocumentResult = $conn->query($insertDocumentSql);
+
+    } else if ($checkRoutedRow['ROUTED'] == 0) {
+        $updateDocumentSql = $queries->updateQuery(($updateDocumentData));
+        $updateDocumentResult = $conn->query($updateDocumentSql);
 
     }
+    //insert to inbound
+    $insertInboundSql = $queries->insertQuery($insertInboundData);
+    $insertInboundResult = $conn->query($insertInboundSql);
 
     echo json_encode(
         array(
@@ -904,10 +954,11 @@ function sendDocFormUser($inputs, $conn)
         unset($insertOutboundData['DATA']['ID']);
         createDoc($insertOutboundData, $conn);
         // var_dump($insertInboundData);
-    } else {
+    } else if ($selectOutboundRow['ROUTED'] == 0) {
         $updateOutboundSql = $queries->updateQuery($updateOutboundData);
         $updateOutboundResult = $conn->query($updateOutboundSql);
     }
+    //insert to inbound
     $insertInboundSql = $queries->insertQuery($insertInboundData);
     $insertInboundResult = $conn->query($insertInboundSql);
 }
