@@ -337,7 +337,7 @@ function sendDocForm($inputs, $conn)
 
     var_dump($inputs);
 
-    $insertData = array(
+    $insertInboundData = array(
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
         'DATA' => $inputs['DATA'],
     );
@@ -358,14 +358,35 @@ function sendDocForm($inputs, $conn)
         ),
     );
 
-    $checkRoutedSql = $queries->selectQuery($checkRoutedData);
-    $result = mysqli_query($conn, $checkRoutedSql);
-    $row = $result->fetch_assoc();
-    if ($row['ROUTED'] == 0) {
 
-    } else if ($row['ROUTED'] == 1) {
+
+    $checkRoutedSql = $queries->selectQuery($checkRoutedData);
+    $checkRoutedResult = mysqli_query($conn, $checkRoutedSql);
+    $checkRoutedRow = $checkRoutedResult->fetch_assoc();
+
+
+    $updateDocumentData = array(
+        'TABLE' => 'DOTS_DOCUMENT',
+        'DATA' => [
+            'ROUTED' => 1,//set to routed
+            'DOC_STATUS' => 1,//set on hand to pending
+        ],
+        'WHERE' => array(
+            'ID' => $checkRoutedRow['ID']
+        ),
+    );
+    if ($checkRoutedRow['ROUTED'] == 1) {
+        echo "RE SENDING";
+    } else if ($checkRoutedRow['ROUTED'] == 0) {
+        echo "SENDING";
+       echo  $updateDocumentSql = $queries->updateQuery(($updateDocumentData));
+        $updateDocumentResult = $conn->query($updateDocumentSql);
 
     }
+
+    $insertInboundSql = $queries->insertQuery($insertInboundData);
+    $insertInboundResult = $conn->query($insertInboundSql);
+
 
     echo json_encode(
         array(
@@ -904,7 +925,7 @@ function sendDocFormUser($inputs, $conn)
         unset($insertOutboundData['DATA']['ID']);
         createDoc($insertOutboundData, $conn);
         // var_dump($insertInboundData);
-    } else {
+    } else if ($selectOutboundRow['ROUTED'] == 0) {
         $updateOutboundSql = $queries->updateQuery($updateOutboundData);
         $updateOutboundResult = $conn->query($updateOutboundSql);
     }
