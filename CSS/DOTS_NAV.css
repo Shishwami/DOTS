@@ -2,7 +2,7 @@
 :root
 {
     /* Page Background */
-    --page_bg: url(./Resources/1120291.png);
+    --page_bg: url(./Resources/717780.jpg);
 
     /* Pure Colors */
     --white: #ffffff;
@@ -10,30 +10,31 @@
     --light_grey: #c5c5c5;
     --light_purple: #cf6bee;
     --dark_purple: #3d0050;
+    --blue: #03a2e0;
 
     /* Gradients Navigation Bar Specific */
     --gradient_br_dark-blue_to_dark-purple: linear-gradient(to bottom right, #08c5ff, #170099);
-    --gradient_br_dark-blue-purple_to_medium-blue-purple: linear-gradient(to bottom right, #0e0024, #191644);
+    --gradient_br_dark-blue-purple_to_medium-blue-purple: linear-gradient(to bottom right, #005baf, #00a2ff);
 
     /* Navigation Bar Specific */
-    --nav_border_bottom: #9500ff;
-    --links_hover_bg: #545066;
-    --searchbox_bg: #171924;
-    --dropdown_menu_bg: #1e1724;
+    --nav_border_bottom: #00c3ff;
+    --links_hover_bg: #00c3ff;
+    --searchbox_bg: #005c99;
+    --dropdown_menu_bg: #0060df;
 
     /* Scrollbar Global */
-    --scrollbar_track: #090030;
-    --scrollbar_thumb: #330063;
-    --scrollbar_thumb-hover: #4400c4;
+    --scrollbar_track: #cdeffc;
+    --scrollbar_thumb: #0d427e;
+    --scrollbar_thumb-hover: #0085ad;
     
     /* Content Page Container Global */
 
     /*Background Gradients */
     --modal_bg: linear-gradient(to bottom, #e2e2e2, #ffffff);
     --modal_banner_bg: linear-gradient(to top, #1f0031, #8d00b1);
-    --container_bg: linear-gradient(to bottom right, rgba(255, 0, 0, 0.4), rgba(0, 89, 255, 0.4));
-    --form_bg: linear-gradient(to bottom, #f1e7f1, #ffffff);
-    /* --form_bg: url(../CSS/Resources/City-of-Baguio-Logo\ Fill.png); */
+    --container_bg: linear-gradient(to bottom right, rgba(117, 200, 255, 0.4), rgba(0, 36, 102, 0.4));
+    /* --form_bg: linear-gradient(to bottom, #f1e7f1, #ffffff); */
+    --form_bg: url(../CSS/Resources/City-of-Baguio-Logo\ Fill.png);
 
     /* Font Color */
     --font_white: #ffffff;
@@ -46,8 +47,8 @@
     --login_btn-hover: linear-gradient(to top, #af0000, #ff0000);
     --submit_btn: linear-gradient(to bottom right, #200c36, #a502bb);
     --submit_btn-hover: linear-gradient(to bottom left, #5a5291, #c198da);
-    --opt_btn: linear-gradient(to bottom, #01025e, #130fff);
-    --opt_btn-hover: linear-gradient(to top, #320049, #5400f0);
+    --opt_btn: linear-gradient(to bottom, #007acc, #130fff);
+    --opt_btn-hover: linear-gradient(to top, #2f71ff, #0064a7);
     --modal_opt_btn: linear-gradient(to bottom, #0b0a52, #2717b6);
     --modal_opt_btn-hover: linear-gradient(to top, #22043f, #7702d6);
     --dlt_btn: linear-gradient(to bottom, #a10202, #ff0000);
@@ -74,8 +75,8 @@
     --opt_bg_hover: #421477;
 
     /* Table */
-    --tr_light: #f7e5ff;
-    --tr_dark: #a3a3a3;
+    --tr_light: rgba(255, 255, 255, 0.8);
+    --tr_dark: rgba(130, 226, 255, 0.8);
 }
 
 /* Font Embed Import */
@@ -168,6 +169,7 @@ nav .content .links
 .content .links li label:hover
 {
     background: var(--links_hover_bg);
+    color: var(--black);
 }
 
 .wrapper .search-icon,

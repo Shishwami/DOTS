@@ -84,10 +84,10 @@ body:before
 .main
 {
     background-image: var(--form_bg);
-    /* background-color: #ffffff;
+    background-color: #ffffff;
     background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center; */
+    background-size: 35%;
+    background-position: 50% 65%;
     margin: auto 0;
     border: 1px solid var(--border_black);
     border-radius: 0.5rem;
@@ -148,9 +148,12 @@ body:before
 .db_table th
 {
     font-size: 15px;
+    font-weight: 600;
     font-family: "Montserrat", sans-serif !important;
     border: 1px solid #000000;
     padding: 5px;
+    background: #2f8efc;
+    color: #ffffff;
 }
 
 .db_table td
@@ -205,12 +208,12 @@ body:before
 
 .btnS, .btnA
 {
-    background-image: var(--opt_btn);
+    /* background-image: var(--opt_btn); */
     padding: 0.4rem 0.5rem;
     border: none;
     border-radius: 0.5rem;
     font-size: 18px;
-    color: var(--font_white);
+    color: var(--blue);
     cursor: pointer;
     letter-spacing: 0.1rem;
     text-transform: uppercase;
@@ -220,6 +223,7 @@ body:before
 .btnS:hover, .btnA:hover
 {
     background-image: var(--opt_btn-hover);
+    color: #ffffff;
 }
 
 

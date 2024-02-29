@@ -38,7 +38,7 @@ class JsFunctions {
                     // button.textCoxntent = btn.label;
                     button.classList.add(btn.className);
                     if (btn.className == "btnS") {
-                        button.classList.add('fa-solid', 'fa-paper-plane');
+                        button.classList.add('fa-regular', 'fa-paper-plane');
                         button.title = "Send";
                     } if (btn.className == "btnR") {
                         button.classList.add('fa-solid', 'fa-paper-plane');
