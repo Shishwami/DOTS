@@ -480,7 +480,7 @@ function receiveDoc($inputs, $conn)
     );
     $sql = $queries->insertQuery($createData);
     if (mysqli_query($conn, $sql)) {
-        return true;
+        $valid = true;
     }
     echo json_encode(
         array(
