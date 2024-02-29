@@ -1,0 +1,761 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
+
+/* Regulation */
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: "Orbitron", sans-serif;
+}
+
+body
+{
+    height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+/* Page Background */
+body:before 
+{
+    content:"";
+    background-image: var(--page_bg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position:fixed;
+    z-index:-1;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+}
+
+/* Scroll Bar Styles */
+::-webkit-scrollbar
+{ 
+   
+    width: 15px; 
+} 
+
+::-webkit-scrollbar-track
+{ 
+    background: var(--scrollbar_track); 
+} 
+
+::-webkit-scrollbar-thumb
+{ 
+    background: var(--scrollbar_thumb); 
+} 
+
+::-webkit-scrollbar-thumb:hover
+{ 
+    background: var(--scrollbar_thumb-hover); 
+} 
+
+::-webkit-scrollbar-button
+{ 
+    display: none; 
+}
+
+/* Form Container Styles */
+.container
+{
+    padding: 1.5rem 1.5rem 5rem 1.5rem;
+    margin: 7rem auto 5rem auto;
+    background-image: var(--container_bg);
+    width: 95%;
+    border-radius: 0.5rem;
+}
+
+.container h1
+{
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    color: var(--font_white);
+}
+
+.main
+{
+    background-image: var(--form_bg);
+    margin: auto 0;
+    border: 1px solid var(--border_black);
+    border-radius: 0.5rem;
+    width: 100%;
+    padding: 1.5rem;
+}
+
+/* Grid Styles */
+.grid
+{
+    margin: 1rem auto;
+    color: var(--font_black);
+    display: grid;
+    grid-gap: 1em;
+    grid-template-areas: "search" "table" "buttons";
+}
+
+.header
+{
+    display: flex;
+}
+
+.search
+{
+    grid-area: search;
+    font-size: 15px;
+    width: 30%;
+    padding: 0.5rem;
+    margin-right: 5rem;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+}
+
+.search:focus
+{
+    background: var(--input_focus);
+}
+
+.db_table
+{
+    min-width: 100px;
+    min-height: 100px;
+    width: 100%;
+    grid-area: table;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    border: 1px solid #000000;
+    border-collapse: collapse;
+}
+
+.tbl_cont
+{
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+.db_table th
+{
+    border: 1px solid #000000;
+    padding: 5px;
+}
+
+.db_table td
+{
+    border: 1px solid #000000;
+    padding: 5px;
+    width: 500px;
+    margin: 0;
+}
+
+.db_table tr
+{
+    background-color: var(--tr_light);
+}
+
+.db_table tr:nth-child(even)
+{
+    background-color: var(--tr_dark);
+}
+
+.db_table tbody tr:hover
+{
+    background-color: #00bd19
+}
+
+.opt
+{
+    grid-area: buttons;
+}
+
+.opt_btn
+{
+    background-image: var(--opt_btn);
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--font_white);
+    cursor: pointer;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    margin-right: 1rem;
+}
+
+.opt_btn:hover
+{
+    background-image: var(--opt_btn-hover); 
+}
+
+.btnS, .btnA
+{
+    background-image: var(--opt_btn);
+    padding: 0.4rem 0.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 18px;
+    color: var(--font_white);
+    cursor: pointer;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    margin: 0 3px;
+}
+
+.btnS:hover, .btnA:hover
+{
+    background-image: var(--opt_btn-hover);
+}
+
+
+.radio_btn
+{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+    margin-top: -0.5rem;
+}
+
+.radio_btn .btn2
+{
+    margin-left: 100px;
+}
+
+.radio_cnt
+{
+    font-size: 22px;
+    font-weight: 600;
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.radio_cnt input
+{
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.r_btn
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #8d8d8d;
+    border-radius: 50%;
+}
+
+.radio_cnt:hover input ~ .r_btn
+{
+    background-color: #444444;
+}
+  
+.radio_cnt input:checked ~ .r_btn
+{
+    background-color: #0087f5;
+}
+
+.r_btn:after
+{
+    content: "";
+    position: absolute;
+    display: none;
+}
+  
+.radio_cnt input:checked ~ .r_btn:after
+{
+    display: block;
+}
+  
+.radio_cnt .r_btn.one:after
+{
+    top: 24%;
+    left: 22%;
+    width: 55%;
+    height: 55%;
+    border-radius: 50%;
+    background: #ffffff;
+}
+
+.radio_cnt .r_btn.two:after
+{
+    top: 24%;
+    left: 22%;
+    width: 55%;
+    height: 55%;
+    border-radius: 50%;
+    background: #ffffff;
+}
+
+/* Modal Grid Styles */
+#crt_modal .content_one
+{
+    grid-area: content_one;
+    display: flex;
+    justify-content: space-between;
+}
+
+#crt_modal .content_two .cnt1,
+#crt_modal .content_two .cnt2
+{
+    margin-top: 0.5rem;
+}
+
+#crt_modal .content_one label
+{
+    margin-right: 0.5rem;
+}
+
+#crt_modal .content_one input
+{
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+#crt_modal .content_two
+{
+    grid-area: content_two;
+    display: flex;
+    justify-content: space-between;
+}
+
+#crt_modal .content_two label
+{
+    margin-right: 0.5rem;
+}
+
+#crt_modal .content_two input
+{
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+#crt_modal .content_three
+{
+    margin-top: 1rem;
+    grid-area: content_three;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}
+
+#crt_modal .content_three select,
+#crt_modal .content_three textarea
+{
+    resize: none;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+#crt_modal .form_content
+{
+    /* display: grid; */
+    grid-gap: 1em;
+    grid-template-areas: "content_one" "content_two" "content_three";
+    
+}
+
+#crt_modal .form_content label
+{
+    font-size: 15px;
+    font-weight: 600;
+}
+
+#crt_modal .form_content input,
+#crt_modal .form_content select,
+#crt_modal .form_content textarea
+
+{
+   font-size: 15px;
+}
+
+#crt_modal .submit
+{
+    text-align: center;
+    margin-top: 1rem;
+}
+
+#crt_modal .submit input
+{
+    background-image: var(--submit_btn);
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.1rem;
+    color: var(--font_white);
+    cursor: pointer;
+}
+
+#crt_modal .submit input:hover
+{
+    background-image: var(--submit_btn-hover);
+    color: var(--font_black);
+    font-weight: 600;
+}
+
+#snd_modal .content_one
+{
+    grid-area: content_one;
+    display: flex;
+    justify-content: space-between;
+}
+
+#snd_modal .content_one label
+{
+    margin-right: 0.5rem;
+}
+
+#snd_modal .content_one .doc_num input
+{
+    width: 150px;
+}
+
+#snd_modal .content_one input
+{
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+#snd_modal .content_two
+{
+    margin-top: 1rem;
+    grid-area: content_two;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}
+
+#snd_modal .content_two label
+{
+    margin-right: 0.5rem;
+}
+
+#snd_modal .content_two select
+{
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+#snd_modal .content_three
+{
+    margin: 1rem auto 0 auto;
+    grid-area: content_three;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}
+
+#snd_modal .content_three input,
+#snd_modal .content_three textarea
+{
+    resize: none;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+#snd_modal .form_content
+{
+    display: grid;
+    grid-gap: 1em;
+    grid-template-areas: "content_one" "content_two" "content_three";
+    width: 100%;
+}
+
+#snd_modal .form_content label
+{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+#snd_modal .submit
+{
+    text-align: center;
+    margin-top: 2rem;
+}
+
+#snd_modal .submit input
+{
+    background-image: var(--submit_btn);
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0.1rem;
+    color: var(--font_white);
+    cursor: pointer;
+}
+
+#snd_modal .submit input:hover
+{
+    background-image: var(--submit_btn-hover);
+    color: var(--font_black);
+    font-weight: 600;
+}
+
+#atc_modal button
+{
+    background-image: var(--modal_opt_btn);
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--font_white);
+    cursor: pointer;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    margin-right: 1rem;
+}
+
+#atc_modal button:hover
+{
+    background-image: var(--modal_opt_btn-hover);
+}
+
+.ATTACH_MINI
+{
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border: 1px black solid;
+    border-radius: 10px;
+}
+
+#ATTACH_ZOOM
+{
+    width: 500px;
+    height: 500px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border: 1px black solid;
+    border-radius: 10px;
+
+}
+
+/* CSS Responsiveness */
+@media screen and (max-width:900px)
+{
+    .r_btn
+    {
+        width: 20px;
+        height: 20px;
+    }
+
+    .radio_btn label
+    {
+        font-size: 16px;
+    }
+
+    .radio_cnt .r_btn.one:after
+    {
+        top: 24%;
+        left: 23%;
+    }
+
+    .radio_cnt .r_btn.two:after
+    {
+        top: 24%;
+        left: 23%;
+    }
+
+    #crt_modal .form_content label
+    {
+        font-size: 10px;
+    }
+
+    #crt_modal .form_content input,
+    #crt_modal .form_content select,
+    #crt_modal .form_content textarea
+    {
+        font-size: 10px;
+        padding: 0.3rem;
+    }
+
+    #crt_modal .submit input
+    {
+        font-size: 10px;
+    }
+
+    #snd_modal .form_content label
+    {
+        font-size: 10px;
+    }
+
+    #snd_modal .form_content input,
+    #snd_modal .form_content select,
+    #snd_modal .form_content textarea
+    {
+        font-size: 10px;
+        padding: 0.3rem;
+    }
+
+    #snd_modal .submit input
+    {
+        font-size: 0.8rem;
+    }
+}
+
+@media screen and (max-width:500px)
+{
+    .form
+    {
+        padding: 1.5rem 0 0 0 !important;
+    }
+
+    .r_btn
+    {
+        width: 18px;
+        height: 18px;
+    }
+
+    .radio_btn label
+    {
+        font-size: 14px;
+    }
+
+    .radio_cnt .r_btn.one:after
+    {
+        top: 24%;
+        left: 22%;
+    }
+
+    .search
+    {
+        font-size: 10px;
+        padding: 0.3rem;
+        width: auto;
+    }
+
+    .opt_btn
+    {
+        font-size: 10px;
+    }
+
+    #crt_modal .form_content label
+    {
+        font-size: 6px;
+    }
+
+    #crt_modal .form_content input,
+    #crt_modal .form_content select,
+    #crt_modal .form_content textarea
+    {
+        font-size: 6px;
+    }
+
+    #crt_modal .content_one input
+    {
+        margin-top: 0;
+    }
+
+    #crt_modal .content_two .cnt1,
+    #crt_modal .content_two .cnt2
+    {
+        margin-top: 0;
+    }
+
+    #crt_modal .content_two
+    {
+        margin-top: 0.5rem;
+    }
+
+    #crt_modal .content_one .cnt2
+    {
+        margin-top: 0;
+    }
+
+    #crt_modal .submit input
+    {
+        font-size: 8px;
+    }
+
+    #snd_modal .form
+    {
+        padding: .5rem 0 0 0 !important;
+    }
+
+    #snd_modal .form_content label
+    {
+        font-size: 6px;
+    }
+
+    #snd_modal .form_content input,
+    #snd_modal .form_content select,
+    #snd_modal .form_content textarea
+    {
+        font-size: 6px;
+    }
+
+    #snd_modal .content_one
+    {
+        flex-direction: column;
+    }
+
+    #snd_modal .content_one input
+    {
+        width: 100%;
+    }
+
+    #snd_modal .content_two
+    {
+        margin-top: 0;
+        flex-direction: column;
+    }
+
+    #snd_modal .content_two select
+    {
+        margin-top: 0;
+        width: 100%;
+    }
+
+    #snd_modal .content_one .doc_num input
+    {
+        width: auto;
+    }
+
+    #snd_modal .content_three
+    {
+        margin-top: 0;
+    }
+
+    #snd_modal .submit
+    {
+        margin-top: 1rem;
+    }
+
+    #snd_modal .submit input
+    {
+        font-size: 8px;
+    }
+}
