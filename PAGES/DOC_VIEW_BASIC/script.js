@@ -30,6 +30,14 @@ const S_BTN = document.getElementById('S_BTN');
 const hrisId = sessionStorage.getItem(DOTS_ACCOUNT_INFO.HRIS_ID);
 let action_type = "receive";
 
+const FORM_ATTACH_ADD = document.getElementById("FORM_ATTACH_ADD");
+const ATTACH_DOC_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_DOC_NUM');
+const ATTACH_ROUTE_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_ROUTE_NUM');
+const ATTACH_FILE = document.getElementById("ATTACH_FILE");
+const ATTACH_RESULTS = document.getElementById("ATTACH_RESULTS");
+const ATTACH_ZOOM = document.getElementById("ATTACH_ZOOM");
+
+
 setSession();
 setFormEvents();
 // setDOC_PURPOSEselect();
@@ -78,18 +86,18 @@ function setTable(filter, action_type) {
         } else {
 
         }
-        const thead = DOC_VIEW_BASIC.querySelector('thead');
-        const tbody = DOC_VIEW_BASIC.querySelector('tbody');
-        if (response.THEAD) {
-            thead.innerHTML = response.THEAD;
-        } else {
-            thead.innerHTML = '';
-        }
-        if (response.TBODY) {
-            tbody.innerHTML = response.TBODY;
-        } else {
-            tbody.innerHTML = '';
-        }
+        // const thead = DOC_VIEW_BASIC.querySelector('thead');
+        // const tbody = DOC_VIEW_BASIC.querySelector('tbody');
+        // if (response.THEAD) {
+        //     thead.innerHTML = response.THEAD;
+        // } else {
+        //     thead.innerHTML = '';
+        // }
+        // if (response.TBODY) {
+        //     tbody.innerHTML = response.TBODY;
+        // } else {
+        //     tbody.innerHTML = '';
+        // }
         JsFunctions.updateTable(DOC_VIEW_BASIC, response.RESULT, response.BUTTONS, filter);
         setButtons(DOC_VIEW_BASIC);
     }, data);
@@ -105,6 +113,11 @@ function setButtons(table) {
     table.querySelectorAll('.btnS').forEach(function (button) {
         button.addEventListener('mousedown', function () {
             setSendBtn(this.dataset.i, this.dataset.d, this.dataset.r);
+        });
+    });
+    table.querySelectorAll('.btnA').forEach(function (button) {
+        button.addEventListener('mousedown', function () {
+            setAttachBtn(this.dataset.i, this.dataset.d, this.dataset.r);
         });
     });
 }
@@ -197,6 +210,49 @@ function setFormEvents() {
             setTable(searchBar.value.toUpperCase, "send");
         }, data);
 
+    });
+    FORM_ATTACH_ADD.addEventListener('submit', function (e) {
+        e.preventDefault();
+        // var data = {
+        //     REQUEST: _REQUEST.ATTACH_ADD,
+        //     // ...JsFunctions.FormToJson(FORM_ATTACH_ADD),
+        // }
+
+        // var file = ATTACH_FILE.files[0];
+        // var formData = new FormData();
+        // formData.append('ATTACH_FILE', file);
+        // console.log(ATTACH_FILE.value);
+        // data['DATA'] = new FormData(this);
+        // data['DATA'] = JSON.stringify(data['DATA']);
+        // console.log(data);
+
+        // MyAjax.createJSON((error, response) => {
+        //     if (error) {
+        //         alert(error);
+        //     } else {
+        //         if (response.VALID) {
+        //         } else {
+        //             //response valid=false
+        //         }
+        //     }
+        // }, data);
+
+        var file = ATTACH_FILE.files[0];
+        var formData = new FormData(this);
+        // formData.append('file', file);
+        // formData.append('DOC_NUM', ATTACH_DOC_NUM.value);
+        // formData.append('ROUTE_NUM', ATTACH_ROUTE_NUM.value);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '../../SCRIPTS/FILE_UPLOAD.php', true);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                console.log(xhr.responseText);
+                setTableAttachment();
+            }
+        };
+        xhr.send(formData);
     });
 
 }
@@ -319,6 +375,42 @@ function getSessionDeptId() {
 //         }
 //     }, data);
 // }
+
+function setAttachBtn(id, doc_num, route_num) {
+    ATTACH_DOC_NUM.value = doc_num;
+    ATTACH_ROUTE_NUM.value = route_num;
+
+    //update tbl
+    setTableAttachment();
+
+    //open attachment modal
+
+
+}
+function setTableAttachment() {
+    const data = {
+        REQUEST: _REQUEST.GET_TABLE_ATTACHMENT,
+        WHERE: {
+            AND: [
+                { DOC_NUM: ATTACH_DOC_NUM.value },
+                { ROUTE_NUM: ATTACH_ROUTE_NUM.value },
+            ],
+        }
+    }
+
+    MyAjax.createJSON((error, response) => {
+        if (error) {
+            alert(error);
+        } else {
+            if (response.VALID) {
+            } else {
+            }
+            console.log(response);
+            JsFunctions.updateAttachments(ATTACH_RESULTS, response.RESULT, null, ATTACH_ZOOM);
+            // JsFunctions.updateTable(ATTACH_VIEW_MAIN, response.RESULT, response.BUTTONS, '');
+        }
+    }, data);
+}
 
 function getData(requestType, additionalData, successCallback, failureCallback) {
     const data = {
