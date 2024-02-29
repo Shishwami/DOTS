@@ -23,8 +23,8 @@
     --dropdown_menu_bg: #0060df;
 
     /* Scrollbar Global */
-    --scrollbar_track: #cdeffc;
-    --scrollbar_thumb: #0d427e;
+    --scrollbar_track: #ececec;
+    --scrollbar_thumb: #979797;
     --scrollbar_thumb-hover: #0085ad;
     
     /* Content Page Container Global */
@@ -75,8 +75,8 @@
     --opt_bg_hover: #421477;
 
     /* Table */
-    --tr_light: rgba(255, 255, 255, 0.8);
-    --tr_dark: rgba(130, 226, 255, 0.8);
+    --tr_light: rgba(255, 255, 255, 0.9);
+    --tr_dark: rgba(222, 248, 255, 0.9);
 }
 
 /* Font Embed Import */
