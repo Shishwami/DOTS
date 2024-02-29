@@ -558,162 +558,167 @@ function sendDocForm($inputs, $conn)
 {
     $queries = new Queries();
     $valid = false;
+    //update document
+    //send to inbound
+    //check if routed
 
-    $doc_num = $inputs['DATA']['DOC_NUM'];
-    $route_num = $inputs['DATA']['ROUTE_NUM'];
+    var_dump($inputs);
 
-    $insertData = array(
-        'TABLE' => 'DOTS_DOCUMENT_INBOUND',
-        'DATA' => $inputs['DATA'],
-    );
-    //chheck if routed
+    // $doc_num = $inputs['DATA']['DOC_NUM'];
+    // $route_num = $inputs['DATA']['ROUTE_NUM'];
 
-    $checkRouted = array(
-        'TABLE' => 'DOTS_DOCUMENT',
-        'COLUMNS' => [
-            'ID',
-            'DOC_NUM',
-            'ROUTE_NUM',
-            'ROUTED',
-        ],
-        'WHERE' => array(
-            'AND' => array(
-                array('DOC_NUM' => $doc_num),
-                array('ROUTE_NUM' => $route_num),
-            )
-        ),
-    );
+    // $insertData = array(
+    //     'TABLE' => 'DOTS_DOCUMENT_INBOUND',
+    //     'DATA' => $inputs['DATA'],
+    // );
+    // //chheck if routed
 
-    $sqlCheckRouted = $queries->selectQuery($checkRouted);
+    // $checkRouted = array(
+    //     'TABLE' => 'DOTS_DOCUMENT',
+    //     'COLUMNS' => [
+    //         'ID',
+    //         'DOC_NUM',
+    //         'ROUTE_NUM',
+    //         'ROUTED',
+    //     ],
+    //     'WHERE' => array(
+    //         'AND' => array(
+    //             array('DOC_NUM' => $doc_num),
+    //             array('ROUTE_NUM' => $route_num),
+    //         )
+    //     ),
+    // );
 
-    $result = mysqli_query($conn, $sqlCheckRouted);
-    if ($result) {
-        $row = $result->fetch_assoc();
-        // echo"ashhdshioadhiosad";
-        if ($row['ROUTED'] == 0) {
-            //send
-            $valid = sendDoc($insertData, $conn);
-        } else if ($row['ROUTED'] == 1) {
-            //resend
-            $valid = resendDoc($insertData, $conn);
+    // $sqlCheckRouted = $queries->selectQuery($checkRouted);
 
-        }
-    }
+    // $result = mysqli_query($conn, $sqlCheckRouted);
+    // if ($result) {
+    //     $row = $result->fetch_assoc();
+    //     // echo"ashhdshioadhiosad";
+    //     if ($row['ROUTED'] == 0) {
+    //         //send
+    //         $valid = sendDoc($insertData, $conn);
+    //     } else if ($row['ROUTED'] == 1) {
+    //         //resend
+    //         $valid = resendDoc($insertData, $conn);
 
-    echo json_encode(
-        array(
-            'VALID' => $valid
-        )
-    );
+    //     }
+    // }
+
+    // echo json_encode(
+    //     array(
+    //         'VALID' => $valid
+    //     )
+    // );
 }
 
-function sendDoc($insertData, $conn)
-{
-    $queries = new Queries();
-    $updateData = array(
-        'TABLE' => 'DOTS_DOCUMENT',
-        'DATA' => array(
-            'DOC_STATUS' => 1,//pending to onhand
-            'ROUTED' => 1//routed
-        ),
-        'WHERE' => array(
-            'DOC_NUM' => $insertData['DATA']['DOC_NUM'],
-            'ROUTE_NUM' => $insertData['DATA']['ROUTE_NUM'],
-        )
-    );
-    $insertDataSql = $queries->insertQuery($insertData);
-    $updateDataSql = $queries->updateQuery($updateData);
+// function sendDoc($insertData, $conn)
+// {
+//     $queries = new Queries();
+//     $updateData = array(
+//         'TABLE' => 'DOTS_DOCUMENT',
+//         'DATA' => array(
+//             'DOC_STATUS' => 1,//pending to onhand
+//             'ROUTED' => 1//routed
+//         ),
+//         'WHERE' => array(
+//             'DOC_NUM' => $insertData['DATA']['DOC_NUM'],
+//             'ROUTE_NUM' => $insertData['DATA']['ROUTE_NUM'],
+//         )
+//     );
+//     $insertDataSql = $queries->insertQuery($insertData);
+//     $updateDataSql = $queries->updateQuery($updateData);
 
-    $conn->begin_transaction();
+//     $conn->begin_transaction();
 
-    $resultInsert = $conn->query($insertDataSql);
-    $resultUpdate = $conn->query($updateDataSql);
+//     $resultInsert = $conn->query($insertDataSql);
+//     $resultUpdate = $conn->query($updateDataSql);
 
-    if ($resultInsert && $resultUpdate) {
-        $conn->commit();
-        return true;
-    } else {
-        $conn->rollback();
-        return false;
-    }
-}
-function resendDoc($insertData, $conn)
-{
-    $queries = new Queries();
-    $doc_num = $insertData['DATA']['DOC_NUM'];
-    //get last route num then add one
+//     if ($resultInsert && $resultUpdate) {
+//         $conn->commit();
+//         return true;
+//     } else {
+//         $conn->rollback();
+//         return false;
+//     }
+// }
+// function resendDoc($insertData, $conn)
+// {
+//     $queries = new Queries();
+//     $doc_num = $insertData['DATA']['DOC_NUM'];
+//     //get last route num then add one
 
-    $getRouteNum = array(
-        'TABLE' => 'DOTS_DOCUMENT',
-        'WHERE' => array(
-            'AND' => array(
-                array('DOC_NUM' => $doc_num),
-            )
-        ),
-        'ORDER_BY' => 'ROUTE_NUM DESC'
-    );
+//     $getRouteNum = array(
+//         'TABLE' => 'DOTS_DOCUMENT',
+//         'WHERE' => array(
+//             'AND' => array(
+//                 array('DOC_NUM' => $doc_num),
+//             )
+//         ),
+//         'ORDER_BY' => 'ROUTE_NUM DESC'
+//     );
 
-    $getRouteNumSql = $queries->selectQuery($getRouteNum);
-    $result = mysqli_query($conn, $getRouteNumSql);
-    if ($result) {
-        $row = mysqli_fetch_assoc($result);
+//     $getRouteNumSql = $queries->selectQuery($getRouteNum);
+//     $result = mysqli_query($conn, $getRouteNumSql);
+//     if ($result) {
+//         $row = mysqli_fetch_assoc($result);
 
-        $associativeRow = [];
-        foreach ($row as $key => $value) {
-            $associativeRow[$key] = $value;
-        }
-        unset($associativeRow['ID']);
+//         $associativeRow = [];
+//         foreach ($row as $key => $value) {
+//             $associativeRow[$key] = $value;
+//         }
+//         unset($associativeRow['ID']);
 
-        $routeNum = $associativeRow['ROUTE_NUM'];
-        $routeNum = intval($routeNum) + 1;
-        $associativeRow['ROUTE_NUM'] = $routeNum;
-        // insert it to new doc
-        $createData = array(
-            'TABLE' => 'DOTS_DOCUMENT',
-            'DATA' => $associativeRow,
-        );
-        $valid = createDoc($createData, $conn);
+//         $routeNum = $associativeRow['ROUTE_NUM'];
+//         $routeNum = intval($routeNum) + 1;
+//         $associativeRow['ROUTE_NUM'] = $routeNum;
+//         // insert it to new doc
+//         $createData = array(
+//             'TABLE' => 'DOTS_DOCUMENT',
+//             'DATA' => $associativeRow,
+//         );
+//         $valid = createDoc($createData, $conn);
 
-        //send the new doc
-        $insertData['DATA']['ROUTE_NUM'] = $routeNum;
-        $insertData2 = array(
-            'TABLE' => 'DOTS_DOCUMENT_INBOUND',
-            'DATA' => $insertData['DATA']
-        );
-        $valid = sendDoc($insertData2, $conn);
-    }
+//         //send the new doc
+//         $insertData['DATA']['ROUTE_NUM'] = $routeNum;
+//         $insertData2 = array(
+//             'TABLE' => 'DOTS_DOCUMENT_INBOUND',
+//             'DATA' => $insertData['DATA']
+//         );
+//         $valid = sendDoc($insertData2, $conn);
+//     }
 
-    return $valid;
-}
-function receiveDoc($inputs, $conn)
-{
-    $valid = false;
-    $data = $inputs['DATA'];
-    $createData = array(
-        'TABLE' => 'DOTS_DOCUMENT',
-        'DATA' => $data,
-    );
-    $valid = createDoc($createData, $conn);
+//     return $valid;
+// }
+// function receiveDoc($inputs, $conn)
+// {
+//     $valid = false;
+//     $data = $inputs['DATA'];
+//     $createData = array(
+//         'TABLE' => 'DOTS_DOCUMENT',
+//         'DATA' => $data,
+//     );
+//     $valid = createDoc($createData, $conn);
 
-    echo json_encode(
-        array(
-            'VALID' => $valid
-        )
-    );
-}
-function createDoc($createData, $conn)
-{
-    $queries = new Queries();
-    $sql = $queries->insertQuery($createData);
-    // echo $sql;
+//     echo json_encode(
+//         array(
+//             'VALID' => $valid
+//         )
+//     );
+// }
+// function createDoc($createData, $conn)
+// {
+//     $queries = new Queries();
+//     $sql = $queries->insertQuery($createData);
+//     // echo $sql;
 
-    // var_dump($createData);
-    if (mysqli_query($conn, $sql)) {
-        return true;
-    }
+//     // var_dump($createData);
+//     if (mysqli_query($conn, $sql)) {
+//         return true;
+//     }
 
 
-}
+// }
 function getTableMain($inputs, $conn)
 {
     $queries = new Queries();

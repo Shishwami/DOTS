@@ -343,8 +343,18 @@ function sendBtnEvent(id, doc_num, route_num) {
         SEND_DATE_TIME_SENT.value = result;
     }, null);
 
+    getData(_REQUEST.GET_SESSION_DEPT_ID, null, (result) => {
+        SEND_S_DEPT_ID.value = result;
+    }, null);
+
+    getData(_REQUEST.GET_SESSION_HRIS_ID, null, (result) => {
+        SEND_S_USER_ID.value = result;
+    }, null);
+
     SEND_DOC_NUM.value = doc_num;
     SEND_ROUTE_NUM.value = route_num;
+
+    // SEND_S_DEPT_ID, SEND_S_USER_ID
 
     // if (id != 0) {
     //     SEND_DOC_NUM.value = doc_num;
