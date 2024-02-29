@@ -6,10 +6,10 @@ import MyAjax from "../../SCRIPTS/MyAjax.js";
 const searchBar = document.getElementById("searchBar");
 //Table
 const DOC_VIEW_MAIN = document.getElementById("DOC_VIEW_MAIN");
+const ATTACH_VIEW_MAIN = document.getElementById("ATTACH_VIEW_MAIN");
 //buttons
 const BTN_DOC_CREATE = document.getElementById("BTN_DOC_CREATE");
-const BTN_DOC_SEND = document.getElementById("BTN_DOC_SEND");
-const BTN_DOC_ATTACHMENTS = document.getElementById("BTN_DOC_ATTACHMENTS");
+const BTN_ATTACH_ADD = document.getElementById("BTN_ATTACH_ADD");
 //RECEIVE FORM
 const FORM_DOC_RECEIVE = document.getElementById("FORM_DOC_RECEIVE");
 const CREATE_DOC_NUM = FORM_DOC_RECEIVE.querySelector("#CREATE_DOC_NUM");
@@ -25,15 +25,22 @@ const CREATE_R_DEPT_ID = FORM_DOC_RECEIVE.querySelector("#CREATE_R_DEPT_ID");
 //SEND FORM
 const FORM_DOC_SEND = document.getElementById("FORM_DOC_SEND");
 const SEND_DOC_NUM = FORM_DOC_SEND.querySelector("#SEND_DOC_NUM");
+const SEND_ROUTE_NUM = FORM_DOC_SEND.querySelector("#SEND_ROUTE_NUM");
 const SEND_DOC_PRPS = FORM_DOC_SEND.querySelector("#SEND_DOC_PRPS");
 const SEND_R_DEPT_ID = FORM_DOC_SEND.querySelector("#SEND_R_DEPT_ID");
 const SEND_DOC_ADDRESSEE = FORM_DOC_SEND.querySelector("#SEND_DOC_ADDRESSEE");
 const SEND_DOC_NOTES = FORM_DOC_SEND.querySelector("#SEND_DOC_NOTES");
-const SEND_DATE_TIME_RECEIVED = FORM_DOC_SEND.querySelector("#SEND_DATE_TIME_RECEIVED");
+const SEND_DATE_TIME_SENT = FORM_DOC_SEND.querySelector("#SEND_DATE_TIME_SENT");
 const SEND_ACTION_ID = FORM_DOC_SEND.querySelector("#SEND_ACTION_ID");
 const SEND_S_USER_ID = FORM_DOC_SEND.querySelector("#SEND_S_USER_ID");
+const SEND_S_DEPT_ID = FORM_DOC_SEND.querySelector("#SEND_S_DEPT_ID");
 
-console.log(SEND_DOC_NUM);
+// const FORM_ATTACH_ADD = document.getElementById("FORM_ATTACH_ADD");
+// const ATTACH_DOC_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_DOC_NUM');
+// const ATTACH_ROUTE_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_ROUTE_NUM');
+// const ATTACH_FILE = document.getElementById("ATTACH_FILE");
+// const ATTACH_RESULTS = document.getElementById("ATTACH_RESULTS");
+// const ATTACH_ZOOM = document.getElementById("ATTACH_ZOOM");
 
 InitializePAGE();
 
@@ -42,11 +49,9 @@ function InitializePAGE() {
     //TODO too add in btn event listeners
     initializeSEND_FORM();
     initializeRECEIVE_FORM();
-
+    // getSessionDeptId();
+    setCreateBtn();
     setTable("");
-
-    // const TBODY = DOC_VIEW_MAIN.querySelector("tbody");
-    // JsFunctions.tbodyEventListener(TBODY);
 
     searchBar.addEventListener('input', function () {
         setTable(searchBar.value.toUpperCase());
@@ -59,297 +64,294 @@ function InitializePAGE() {
 
     setForms();
 }
+
 function initializeSEND_FORM() {
-    setR_DEPT_ID();
-    setDOC_PURPOSE();
-    setDOC_LOCATION();
-    setButtonEvents();
-    setRECEIVED_TIME(SEND_DATE_TIME_RECEIVED);
-
+    // setR_DEPT_ID();
+    getData(_REQUEST.GET_DEPT, null, (result) => {
+        JsFunctions.setSelect(SEND_R_DEPT_ID, result);
+        SEND_R_DEPT_ID.addEventListener('change', () => {
+            getData(_REQUEST.GET_ADDRESSEE, { "DEPT_ID": SEND_R_DEPT_ID.value }, (result2) => {
+                SEND_DOC_ADDRESSEE.innerHTML = '<option disabled selected>Select Addressee</option>';
+                JsFunctions.setSelect(SEND_DOC_ADDRESSEE, result2);
+            }, null);
+        });
+    }, null);
+    // setDOC_PURPOSE();
+    getData(_REQUEST.GET_DOC_PRPS, null, (result) => {
+        JsFunctions.setSelect(SEND_DOC_PRPS, result);
+    }, null);
+    // setDOC_LOCATION();
+    // setRECEIVED_TIME(SEND_DATE_TIME_SENT);
 }
+
 function initializeRECEIVE_FORM() {
-    setInterval(setDOC_NUM, _RESET_TIME);
-    setDOC_NUM();
-    setDOC_TYPE();
-    setDOC_OFFICE();
-    setRECEIVED_TIME(CREATE_DATE_TIME_RECEIVED);
-    setLETTER_DATE();
-    getSessionName();
-    getSessionDeptId();
-    getSessionHrisId();
-}
-function setR_DEPT_ID() {
-    SEND_R_DEPT_ID.addEventListener('change', function (e) {
-        setADDRESSEE(this.value);
-    });
 
-    var columns = [
-        DOTS_DOC_DEPT.ID,
-        DOTS_DOC_DEPT.DOC_DEPT,
-    ]
+    setInterval(() => {
+        getData(_REQUEST.GET_DOC_NUM, null, (result) => {
+            CREATE_DOC_NUM.value = result;
+        }, null);
+    }, 1000);
 
-    var data = {
-        TABLE: DOTS_DOC_DEPT.NAME,
-        REQUEST: _REQUEST.SELECT,
-        COLUMNS: columns,
-    }
-
-    MyAjax.createJSON((error, response) => {
-        if (!error) {
-            if (response.VALID) {
-                delete response.VALID;
-                var object = Object.values(response)[0];
-                JsFunctions.setSelect(SEND_R_DEPT_ID, object);
-            } else {
-                alert(error);
-            }
-        } else {
-            alert(error);
-        }
-    }, data);
-}
-function setDOC_OFFICE() {
-
-    const columns = [
-        DOTS_DOC_OFFICE.ID,
-        DOTS_DOC_OFFICE.DOC_OFFICE,
-    ]
-
-    var data = {
-        TABLE: DOTS_DOC_OFFICE.NAME,
-        REQUEST: _REQUEST.SELECT,
-        COLUMNS: columns
-    }
-    MyAjax.createJSON((error, response) => {
-        if (error) {
-            alert(error);
-        } else {
-            if (response.VALID) {
-                delete response.VALID;
-                JsFunctions.setSelect(CREATE_DOC_OFFICE, Object.values(response)[0]);
-            } else {
-                console.log(response);
-            }
-        }
-    }, data);
-
+    getData(_REQUEST.GET_DOC_TYPE, null, (result) => {
+        JsFunctions.setSelect(CREATE_DOC_TYPE, result);
+    }, null);
+    getData(_REQUEST.GET_DOC_OFFICE, null, (result) => {
+        JsFunctions.setSelect(CREATE_DOC_OFFICE, result);
+    }, null);
+    getData(_REQUEST.GET_SESSION_NAME, null, (result) => {
+        CREATE_FULLNAME.value = result;
+    }, null);
+    getData(_REQUEST.GET_SESSION_HRIS_ID, null, (result) => {
+        CREATE_R_USER_ID.value = result;
+    }, null);
 
 }
-function setDOC_NUM() {
-    const columns = [
-        DOTS_DOCUMENT.DOC_NUM
-    ];
+// function setR_DEPT_ID() {
+//     SEND_R_DEPT_ID.addEventListener('change', function (e) {
+//         setADDRESSEE(this.value);
+//     });
+
+//     const data = {
+//         REQUEST: _REQUEST.GET_DEPT
+//     }
+
+//     MyAjax.createJSON((error, response) => {
+//         if (!error) {
+//             if (response.VALID) {
+//                 delete response.VALID;
+//                 var object = Object.values(response)[0];
+//                 SEND_R_DEPT_ID.innerHTML = object;
+//             } else {
+//                 alert(error);
+//             }
+//         } else {
+//             alert(error);
+//         }
+//     }, data);
+// }
+// function setDOC_OFFICE() {
+
+//     var data = {
+//         REQUEST: _REQUEST.GET_DOC_OFFICE,
+//     }
+//     MyAjax.createJSON((error, response) => {
+//         if (error) {
+//             return alert(error);
+//         }
+//         if (response.VALID) {
+//             delete response.VALID;
+//             CREATE_DOC_OFFICE.innerHTML = Object.values(response)[0];
+//         }
+//     }, data);
+// }
+// function setDOC_NUM() {
+//     const data = {
+//         REQUEST: _REQUEST.GET_DOC_NUM
+//     }
+//     MyAjax.createJSON((error, response) => {
+//         if (!error && response.VALID) {
+//             delete response.VALID;
+//             const docNumber = Object.values(response)[0];
+//             CREATE_DOC_NUM.value = docNumber;
+//         } else {
+//             alert(error || "Error occurred while retrieving document number.");
+//         }
+//     }, data);
+// }
+// function setDOC_TYPE() {
+//     const data = {
+//         REQUEST: _REQUEST.GET_DOC_TYPE,
+//     }
+//     MyAjax.createJSON((error, response) => {
+//         if (error) {
+//             alert(error);
+//         } else if (response.VALID) {
+//             delete response.VALID;
+//             CREATE_DOC_TYPE.innerHTML = Object.values(response)[0];
+//         }
+//     }, data);
+// }
+// function setRECEIVED_TIME(element) {
+//     var data = {
+//         REQUEST: _REQUEST.GET_DATE,
+//         DATE: "DATE_TIME"
+//     }
+
+//     MyAjax.createJSON((error, response) => {
+//         if (error) {
+//             alert(error);
+//         } else if (response.VALID) {
+//             delete response.VALID;
+//             element.value = Object.values(response)[0];
+//         }
+//     }, data);
+
+// }
+// function setLETTER_DATE() {
+//     var data = {
+//         REQUEST: _REQUEST.GET_DATE,
+//         DATE: "DATE"
+//     }
+
+//     MyAjax.createJSON((error, response) => {
+//         if (error) {
+//             alert(error);
+//         } else {
+//             if (response.VALID) {
+//                 delete response.VALID;
+//                 CREATE_LETTER_DATE.value = Object.values(response)[0];
+//             } else {
+//             }
+//         }
+//     }, data);
+// }
+// function getSessionName() {
+//     const data = {
+//         REQUEST: _REQUEST.GET_SESSION_NAME,
+//     }
+//     MyAjax.createJSON((error, response) => {
+//         if (error) {
+//             alert(error);
+//         } else {
+//             if (response.VALID
+//             ) {
+//                 delete response.VALID;
+//                 var name = Object.values(response)[0];
+//                 CREATE_FULLNAME.value = name;
+//                 sessionStorage.setItem(DOTS_ACCOUNT_INFO.FULL_NAME, name);
+//             } else {
+//                 //error message
+//             }
+//         }
+//     }, data);
+// }
+// function getSessionHrisId() {
+//     const data = {
+//         REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
+//     }
+//     MyAjax.createJSON((error, response) => {
+//         if (error) {
+//             alert(error);
+//         } else {
+//             if (response.VALID) {
+//                 delete response.VALID;
+//                 var id = Object.values(response)[0];
+//                 CREATE_R_USER_ID.value = id;
+//                 sessionStorage.setItem(DOTS_ACCOUNT_INFO.HRIS_ID, id);
+//             } else {
+//                 //error message
+//             }
+//         }
+//     }, data);
+// }
+// function getSessionDeptId() {
+//     const data = {
+//         REQUEST: _REQUEST.GET_SESSION_DEPT_ID,
+//     }
+//     MyAjax.createJSON((error, response) => {
+//         if (error) {
+//             return alert(error);
+//         }
+
+//         if (response.VALID) {
+//             delete response.VALID;
+//             var dept_id = Object.values(response)[0];
+//             CREATE_R_DEPT_ID.value = dept_id;
+//             SEND_S_DEPT_ID.value = dept_id;
+//             sessionStorage.setItem(DOTS_ACCOUNT_INFO.DEPT_ID, dept_id);
+//         }
+//     }, data);
+// }
+// function setDOC_PURPOSE() {
+//     var data = {
+//         REQUEST: _REQUEST.GET_DOC_PRPS,
+//     }
+
+//     MyAjax.createJSON((error, response) => {
+//         if (!error) {
+//             if (response.VALID) {
+//                 delete response.VALID;
+//                 var object = Object.values(response)[0];
+//                 SEND_DOC_PRPS.innerHTML = object;
+//             } else {
+//             }
+//         } else {
+
+//         }
+//     }, data);
+// }
+// function setDOC_LOCATION() {
+
+//     const data = {
+//         REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
+//     }
+//     MyAjax.createJSON((error, response) => {
+//         if (!error) {
+//             if (response.VALID) {
+//                 delete response.VALID;
+//                 SEND_S_USER_ID.value = Object.values(response)[0];
+//             }
+//         } else {
+//             alert(error)
+//         }
+//     }, data);
+// }
+function getData(requestType, additionalData, successCallback, failureCallback) {
     const data = {
-        TABLE: DOTS_DOCUMENT.NAME,
-        REQUEST: _REQUEST.SELECT,
-        COLUMNS: columns,
+        REQUEST: requestType,
+        ...additionalData
     };
-    MyAjax.createJSON((error, response) => {
-        if (!error && response.VALID) {
-            delete response.VALID;
-            const docNumbers = Object.values(response)[0];
-            const lastObj = docNumbers[docNumbers.length - 1];
-            const lastNumber = Object.values(lastObj)[0];
-            CREATE_DOC_NUM.value = Number(lastNumber) + 1;
-        } else {
-            alert(error || "Error occurred while retrieving document number.");
-        }
-    }, data);
-}
-function setDOC_TYPE() {
-    const columns = [
-        DOTS_DOC_TYPE.ID,
-        DOTS_DOC_TYPE.DOC_TYPE,
-    ]
-    var data = {
-        TABLE: DOTS_DOC_TYPE.NAME,
-        REQUEST: _REQUEST.SELECT,
-        COLUMNS: columns
-    }
-    MyAjax.createJSON((error, response) => {
-        if (error) {
-            alert(error);
-        } else {
-            if (response.VALID) {
-                delete response.VALID;
-                JsFunctions.setSelect(CREATE_DOC_TYPE, Object.values(response)[0]);
-            } else {
-                console.log(response);
-            }
-        }
-    }, data);
-}
-function setRECEIVED_TIME(element) {
-    var data = {
-        REQUEST: _REQUEST.GET_DATE,
-        DATE: "DATE_TIME"
-    }
 
     MyAjax.createJSON((error, response) => {
         if (error) {
-            alert(error);
+            if (failureCallback) failureCallback(error);
+            else alert(error);
         } else {
             if (response.VALID) {
                 delete response.VALID;
-                element.value = Object.values(response)[0];
+                if (successCallback) successCallback(Object.values(response)[0]);
             } else {
-                console.log(response);
+                // console.log(response);
+                // Handle error response
             }
         }
     }, data);
 }
-function setLETTER_DATE() {
-    var data = {
-        REQUEST: _REQUEST.GET_DATE,
-        DATE: "DATE"
-    }
+function setCreateBtn() {
+    BTN_DOC_CREATE.addEventListener('click', function (event) {
 
-    MyAjax.createJSON((error, response) => {
-        if (error) {
-            alert(error);
-        } else {
-            if (response.VALID) {
-                delete response.VALID;
-                CREATE_LETTER_DATE.value = Object.values(response)[0];
-            } else {
-                console.log(response);
-            }
-        }
-    }, data);
-}
-function getSessionName() {
-    const data = {
-        REQUEST: _REQUEST.GET_SESSION_NAME,
-    }
-    console.log(data);
-    MyAjax.createJSON((error, response) => {
-        if (error) {
-            alert(error);
-        } else {
-            if (response.VALID) {
-                delete response.VALID;
-                var name = Object.values(response)[0];
-                CREATE_FULLNAME.value = name;
-                sessionStorage.setItem(DOTS_ACCOUNT_INFO.FULL_NAME, name);
-            } else {
-                console.log(response);
-                //error message
-            }
-        }
-    }, data);
-}
-function getSessionHrisId() {
-    const data = {
-        REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
-    }
-    console.log(data);
-    MyAjax.createJSON((error, response) => {
-        if (error) {
-            alert(error);
-        } else {
-            if (response.VALID) {
-                delete response.VALID;
-                var id = Object.values(response)[0];
-                CREATE_R_USER_ID.value = id;
-                sessionStorage.setItem(DOTS_ACCOUNT_INFO.HRIS_ID, id);
-            } else {
-                console.log(response);
-                //error message
-            }
-        }
-    }, data);
-}
-function getSessionDeptId() {
-    const data = {
-        REQUEST: _REQUEST.GET_SESSION_DEPT_ID,
-    }
-    console.log(data);
-    MyAjax.createJSON((error, response) => {
-        if (error) {
-            alert(error);
-        } else {
-            if (response.VALID) {
-                delete response.VALID;
-                var dept_id = Object.values(response)[0];
-                CREATE_R_DEPT_ID.value = dept_id;
-                sessionStorage.setItem(DOTS_ACCOUNT_INFO.DEPT_ID, dept_id);
-            } else {
-                console.log(response);
-                //error message
-            }
-        }
-    }, data);
-}
-function setDOC_PURPOSE() {
-    const SEND_DOC_PRPS = document.getElementById("SEND_DOC_PRPS")
-    var columns = [
-        DOTS_DOC_PRPS.ID,
-        DOTS_DOC_PRPS.DOC_PRPS,
-    ]
+        getData(_REQUEST.GET_DATE, { 'DATE': 'DATE' }, (result) => {
+            CREATE_LETTER_DATE.value = result;
+        }, null);
 
-    var data = {
-        TABLE: DOTS_DOC_PRPS.NAME,
-        REQUEST: _REQUEST.SELECT,
-        COLUMNS: columns,
-    }
+        getData(_REQUEST.GET_DATE, { 'DATE': 'DATE_TIME' }, (result) => {
+            CREATE_DATE_TIME_RECEIVED.value = result;
+        }, null);
 
-    MyAjax.createJSON((error, response) => {
-        if (!error) {
-            if (response.VALID) {
-                delete response.VALID;
-                var object = Object.values(response)[0];
-                JsFunctions.setSelect(SEND_DOC_PRPS, object);
-            } else {
-            }
-        } else {
-
-        }
-    }, data);
-}
-function setDOC_LOCATION() {
-
-    const data = {
-        REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
-    }
-    MyAjax.createJSON((error, response) => {
-        if (!error) {
-            if (response.VALID) {
-                delete response.VALID;
-                SEND_S_USER_ID.value = Object.values(response)[0];
-            }
-        } else {
-            alert(error)
-        }
-    }, data);
-}
-function setButtonEvents() {
-
-    BTN_DOC_SEND.addEventListener('click', function () {
-
-        clearValues();
-        resetAddressee();
-        setRECEIVED_TIME(SEND_DATE_TIME_RECEIVED);
-        var doc_num = 0;
-        var id = 0;
-
-        const TEMP_DATA = JSON.parse(sessionStorage.getItem("TEMP_DATA"));
-        if (TEMP_DATA) {
-            if (TEMP_DATA.DOC_NUM) {
-                doc_num = TEMP_DATA.DOC_NUM;
-            }
-
-            if (TEMP_DATA.ID) {
-                id = TEMP_DATA.ID;
-            }
-        }
-        sessionStorage.clear("TEMP_DATA");
-
-        if (doc_num != 0) {
-            SEND_DOC_NUM.value = doc_num;
-        } else {
-            alert("Please Select A Document");
-        }
+        CREATE_DOC_SUBJECT.value = '';
+        CREATE_DOC_TYPE.value = '';
+        CREATE_DOC_OFFICE.value = '';
     });
+}
+function sendBtnEvent(id, doc_num, route_num) {
+
+    clearValues();
+
+    SEND_DOC_ADDRESSEE.innerHTML = "<option disabled selected>Select Addressee</option>";
+
+    getData(_REQUEST.GET_DATE, { 'DATE': 'DATE_TIME' }, (result) => {
+        SEND_DATE_TIME_SENT.value = result;
+    }, null);
+
+    SEND_DOC_NUM.value = doc_num;
+    SEND_ROUTE_NUM.value = route_num;
+
+    // if (id != 0) {
+    //     SEND_DOC_NUM.value = doc_num;
+    //     SEND_ROUTE_NUM.value = route_num;
+    // } else {
+    //     alert("Please Select A Document");
+    // }
 }
 function clearValues() {
     SEND_DOC_PRPS.value = "";
@@ -357,254 +359,194 @@ function clearValues() {
     SEND_DOC_NOTES.value = "";
     SEND_DOC_ADDRESSEE.value = "";
 }
-function setADDRESSEE(DEPT_ID) {
 
-    resetAddressee();
+function setAttachBtn(id, doc_num, route_num) {
+    ATTACH_DOC_NUM.value = doc_num;
+    ATTACH_ROUTE_NUM.value = route_num;
 
-    var columns = [
-        DOTS_ACCOUNT_INFO.HRIS_ID,
-        DOTS_ACCOUNT_INFO.FULL_NAME,
-    ]
+    //update tbl
+    setTableAttachment();
 
-    var data = {
-        TABLE: DOTS_ACCOUNT_INFO.NAME,
-        REQUEST: _REQUEST.SELECT,
-        COLUMNS: columns,
+    //open attachment modal
+
+
+}
+function setTableAttachment() {
+    const data = {
+        REQUEST: _REQUEST.GET_TABLE_ATTACHMENT,
         WHERE: {
-            DEPT_ID: DEPT_ID,
-        },
-    }
-
-    MyAjax.createJSON((error, response) => {
-        if (!error) {
-            if (response.VALID) {
-                delete response.VALID;
-                var object = Object.values(response)[0];
-                JsFunctions.setSelect(SEND_DOC_ADDRESSEE, object);
-            } else {
-            }
-        } else {
-            alert(error);
+            AND: [
+                { DOC_NUM: ATTACH_DOC_NUM.value },
+                { ROUTE_NUM: ATTACH_ROUTE_NUM.value },
+            ],
         }
-    }, data);
-
-}
-function resetAddressee() {
-    const blankOption = document.createElement('option');
-    blankOption.innerText = "Please Select Addressee";
-    blankOption.disabled = true;
-    blankOption.selected = true;
-    blankOption.value = "";
-
-    SEND_DOC_ADDRESSEE.innerHTML = "";
-    SEND_DOC_ADDRESSEE.append(blankOption);
-}
-function setTable(filter) {
-
-    const columns = [
-        'DOC_NUM',
-        'DOC_SUBJECT',
-        'DOC_NOTES',
-        DOTS_DOC_TYPE.DOC_TYPE ,
-        'LETTER_DATE',
-
-        // 'S_OFFICE.DOC_OFFICE AS Office1',
-        // 'S_DEPT.DOC_DEPT AS Department',
-        // 'S_FULL_NAME.FULL_NAME as sname',
-
-        "CONCAT(" +
-        "IF(S_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(S_OFFICE.DOC_OFFICE,'-'), ' '),' ', " +
-        "IF(S_DEPT.DOC_DEPT IS NOT NULL,CONCAT(S_DEPT.DOC_DEPT,'-'), ' '), " +
-        "IFNULL(S_FULL_NAME.FULL_NAME, ' ')) as 'Sent By'",
-
-        // 'R_OFFICE.DOC_OFFICE AS Office2',
-        // 'R_DEPT.DOC_DEPT AS Department2',
-        // 'R_FULL_NAME.FULL_NAME',
-
-        "CONCAT(" +
-        "IF(R_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(R_OFFICE.DOC_OFFICE,'-'), ' '),' ', " +
-        "IF(R_DEPT.DOC_DEPT IS NOT NULL,CONCAT(R_DEPT.DOC_DEPT,'-'), ' '), " +
-        "IFNULL(R_FULL_NAME.FULL_NAME, ' ')) as 'Received By'",
-
-        'DATE_TIME_RECEIVED',
-        DOTS_DOC_STATUS.NAME + "." + DOTS_DOC_STATUS.DOC_STATUS];
-    var data = {
-        TABLE: DOTS_DOCUMENT.NAME,
-        REQUEST: _REQUEST.SELECT,
-        COLUMNS: columns,
-        JOIN: [
-            {
-                table: DOTS_DOC_TYPE.NAME,
-                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_TYPE_ID
-                    + " = " + DOTS_DOC_TYPE.NAME + "." + DOTS_DOC_TYPE.ID],
-                TYPE: 'LEFT',
-            },
-            {
-                table: DOTS_DOC_OFFICE.NAME + " S_OFFICE",
-                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.S_OFFICE_ID +
-                    " = " + "S_OFFICE." + DOTS_DOC_OFFICE.ID],
-                TYPE: 'LEFT'
-            },
-            {
-                table: DOTS_DOC_DEPT.NAME + " S_DEPT",
-                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.S_DEPT_ID
-                    + " = " + "S_DEPT." + DOTS_DOC_DEPT.ID],
-                TYPE: 'LEFT'
-            },
-            {
-                table: DOTS_ACCOUNT_INFO.NAME + " S_FULL_NAME",
-                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.S_USER_ID
-                    + " = " + "S_FULL_NAME." + DOTS_ACCOUNT_INFO.HRIS_ID],
-                TYPE: 'LEFT',
-            },
-            {
-                table: DOTS_DOC_OFFICE.NAME + " R_OFFICE",
-                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.R_OFFICE_ID
-                    + " = " + "R_OFFICE." + DOTS_DOC_OFFICE.ID],
-                TYPE: 'LEFT'
-            },
-            {
-                table: DOTS_DOC_DEPT.NAME + " R_DEPT",
-                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.R_DEPT_ID
-                    + " = " + "R_DEPT." + DOTS_DOC_DEPT.ID],
-                TYPE: 'LEFT'
-            },
-            {
-                table: DOTS_ACCOUNT_INFO.NAME + " R_FULL_NAME",
-                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.R_USER_ID
-                    + " = " + "R_FULL_NAME." + DOTS_ACCOUNT_INFO.HRIS_ID],
-                TYPE: 'LEFT',
-            },
-            {
-                table: DOTS_DOC_STATUS.NAME,
-                ON: [DOTS_DOCUMENT.NAME + "." + DOTS_DOCUMENT.DOC_STATUS
-                    + " = " + DOTS_DOC_STATUS.NAME + "." + DOTS_DOC_STATUS.ID],
-                TYPE: 'LEFT',
-            }
-        ],
-        ORDER_BY: DOTS_DOCUMENT.DOC_NUM + ' DESC',
-        // WHERE:{
-        //     DOC_STATUS: 1
-        // }
     }
 
     MyAjax.createJSON((error, response) => {
         if (error) {
             alert(error);
         } else {
-            var results = ""
             if (response.VALID) {
-                delete response.VALID;
-                results = Object.values(response)[0];
             } else {
-                //response valid=false
             }
-            JsFunctions.updateTable(results, DOC_VIEW_MAIN, filter);
+            console.log(response);
+            JsFunctions.updateAttachments(ATTACH_RESULTS, response.RESULT, null, ATTACH_ZOOM);
+            // JsFunctions.updateTable(ATTACH_VIEW_MAIN, response.RESULT, response.BUTTONS, '');
         }
     }, data);
-} ``
+}
+// function setADDRESSEE(DEPT_ID) {
+
+//     resetAddressee();
+
+//     const data = {
+//         REQUEST: _REQUEST.GET_ADDRESSEE,
+//         DEPT_ID: DEPT_ID
+//     }
+
+//     MyAjax.createJSON((error, response) => {
+//         if (!error) {
+//             if (response.VALID) {
+//                 delete response.VALID;
+//                 var object = Object.values(response)[0];
+//                 SEND_DOC_ADDRESSEE.innerHTML = object;
+//             } else {
+//             }
+//         } else {
+//             alert(error);
+//         }
+//     }, data);
+
+// }
+// function resetAddressee() {
+//     SEND_DOC_ADDRESSEE.innerHTML = "<option disabled selected>Select Addressee</option>";
+// }
+function setTable(filter) {
+
+    const data2 = {
+        REQUEST: _REQUEST.GET_TABLE_MAIN,
+    };
+
+    MyAjax.createJSON((error, response) => {
+        if (error) {
+            alert(error);
+        } else {
+            if (response.VALID) {
+            } else {
+            }
+            // const thead = DOC_VIEW_MAIN.querySelector('thead');
+            // const tbody = DOC_VIEW_MAIN.querySelector('tbody');
+            // if (response.THEAD) {
+            //     thead.innerHTML = response.THEAD;
+            // } else {
+            //     thead.innerHTML = '';
+            // }
+            // if (response.TBODY) {
+            //     tbody.innerHTML = response.TBODY;
+            // } else {
+            //     tbody.innerHTML = '';
+            // }
+            JsFunctions.updateTable(DOC_VIEW_MAIN, response.RESULT, response.BUTTONS, filter);
+            setButtons(DOC_VIEW_MAIN);
+
+        }
+    }, data2);
+}
+function setButtons(table) {
+    table.querySelectorAll('.btnS').forEach(function (button) {
+        button.addEventListener('mousedown', function () {
+            sendBtnEvent(this.dataset.i, this.dataset.d, this.dataset.r);
+        });
+    });
+
+    // table.querySelectorAll('.btnE').forEach(function (button) {
+    //     button.addEventListener('click', function () {
+    //     });
+    // });
+
+    table.querySelectorAll('.btnA').forEach(function (button) {
+        button.addEventListener('click', function () {
+            setAttachBtn(this.dataset.i, this.dataset.d, this.dataset.r);
+        });
+    });
+}
 function setForms() {
     FORM_DOC_SEND.addEventListener('submit', function (e) {
         e.preventDefault();
-
-        var data = JsFunctions.FormToJson(this);
-
-        var insertData = {
-            TABLE: DOTS_DOCUMENT_SUB.NAME,
-            REQUEST: _REQUEST.INSERT,
+        var data = JsFunctions.FormToJson(FORM_DOC_SEND);
+        var routedCheck = {
+            REQUEST: _REQUEST.SEND_DOC_FORM,
             DATA: data,
         }
-
-        delete data.SEND_DOC_NOTES;
-        const dataValues = Object.values(data);
-        var empty = JsFunctions.checkIfEmpty(dataValues);
-        data['DOC_NOTES'] = SEND_DOC_NOTES.value
-
-        console.log(insertData);
-        var updateData = {
-            TABLE: DOTS_DOCUMENT.NAME,
-            REQUEST: _REQUEST.UPDATE,
-            DATA: {
-                DOC_STATUS: 1,//sent
-            },
-            WHERE: {
-                DOC_NUM: data[DOTS_DOCUMENT.DOC_NUM],
-            }
-        }
-
-        console.log(updateData);
-        if (!empty) {
-            MyAjax.createJSON((error, response) => {
-                if (error) {
-                    alert(error);
-                } else {
-                    if (response.VALID) {
-                        delete response.VALID;
-                        alert("SENT");
-                        //update status from received to pending
-                        // MyAjax.createJSON((error, response) => {
-                        //     if (error) {
-                        //         alert(error);
-                        //     } else {
-                        //         if (response.VALID) {
-                        //             console.log(response);
-                        //         }
-                        //     }
-                        // }, updateData);
-                    }
-                }
-            }, insertData);
-        } else {
-            alert("CHECKINPUTS");
-        }
-
+        MyAjax.createJSON((error, response) => {
+            console.log(response);
+            setTable(searchBar.value.toUpperCase());
+        }, routedCheck);
     });
 
     FORM_DOC_RECEIVE.addEventListener('submit', function (e) {
         e.preventDefault();
-
-        const data2 = {
-            REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
-        }
-        var vals = JsFunctions.FormToJson(FORM_DOC_RECEIVE);
         var data = {
-            TABLE: DOTS_DOCUMENT.NAME,
-            REQUEST: _REQUEST.INSERT,
-            DATA: vals,
+            REQUEST: _REQUEST.RECEIVE_DOC,
+            DATA: JsFunctions.FormToJson(FORM_DOC_RECEIVE),
         }
 
-        const dataValues = Object.values(data);
-        var empty = JsFunctions.checkIfEmpty(dataValues);
-        console.log(data);
-        if (!empty) {
-            MyAjax.createJSON((error, response) => {
-                if (error) {
-                    alert(error);
+        MyAjax.createJSON((error, response) => {
+            if (error) {
+                alert(error);
+            } else {
+                var results = ""
+                if (response.VALID) {
+                    delete response.VALID;
                 } else {
-                    if (response.VALID) {
-                        console.log(response);
-                        delete response.VALID;
-                        data["RECEIVED_BY"] = Object.values(response)[0];
-                        MyAjax.createJSON((error, response) => {
-                            if (!error) {
-                                if (response.VALID) {
-                                    console.log(response);
-                                    alert("DOC CREsddssddsATED");
-                                }
-                            } else {
-                                alert(error);
-                            }
-                        }, data);
-                    } else {
-                        console.log(response);
-                        //error message
-                    }
+                    //response valid=false
                 }
-            }, data2);
-        } else {
-            //validation
-        }
-
+            }
+            setTable(searchBar.value.toUpperCase());
+        }, data);
     });
-}
+    FORM_ATTACH_ADD.addEventListener('submit', function (e) {
+        e.preventDefault();
+        // var data = {
+        //     REQUEST: _REQUEST.ATTACH_ADD,
+        //     // ...JsFunctions.FormToJson(FORM_ATTACH_ADD),
+        // }
 
+        // var file = ATTACH_FILE.files[0];
+        // var formData = new FormData();
+        // formData.append('ATTACH_FILE', file);
+        // console.log(ATTACH_FILE.value);
+        // data['DATA'] = new FormData(this);
+        // data['DATA'] = JSON.stringify(data['DATA']);
+        // console.log(data);
+
+        // MyAjax.createJSON((error, response) => {
+        //     if (error) {
+        //         alert(error);
+        //     } else {
+        //         if (response.VALID) {
+        //         } else {
+        //             //response valid=false
+        //         }
+        //     }
+        // }, data);
+
+        var file = ATTACH_FILE.files[0];
+        var formData = new FormData(this);
+        // formData.append('file', file);
+        // formData.append('DOC_NUM', ATTACH_DOC_NUM.value);
+        // formData.append('ROUTE_NUM', ATTACH_ROUTE_NUM.value);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '../../SCRIPTS/FILE_UPLOAD.php', true);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                console.log(xhr.responseText);
+                setTableAttachment();
+            }
+        };
+        xhr.send(formData);
+    });
+
+}

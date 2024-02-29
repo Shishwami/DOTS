@@ -4,16 +4,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="TEST.css">
-    <link rel="stylesheet" href="../../CSS/Modal.css">
-    <link rel="stylesheet" href="../../CSS/DOTS_NAV.css">
-    <link rel="stylesheet" href="../../CSS/FontAwesome/css/all.css">
-    <link rel="stylesheet" href="../../CSS/FontAwesome/css/fontawesome.css">
-    <link rel="stylesheet" href="../../CSS/FontAwesome/css/fontawesome.min.css">
-    <title></title>
+    <title>Document</title>
 </head>
+<style>
+    table,
+    th,
+    td {
+        border: 1px solid;
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+
+    table tr {
+        margin: 0;
+        padding: 0;
+    }
+
+    tbody tr:hover {
+        background-color: coral;
+    }
+
+    .ATTACH_MINI {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        border: 1px black solid;
+    }
+
+    #ATTACH_ZOOM {
+        width: 500px;
+        height: 500px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        border: 1px black solid;
+    }
+</style>
+
 <body>
-<div>
+
+    <div>
         <input type="text" name="searchBar" id="searchBar">
         <button name="BTN_DOC_CREATE" id="BTN_DOC_CREATE">CREATE</button>
     </div>
@@ -162,9 +197,10 @@
         </div>
 
     </div>
-</body>
 
-<script src="../../SCRIPTS/Constants.js"></script>
-<script src="./script.js" type="module"></script>
+    <script src="../../SCRIPTS/Constants.js"></script>
+    <script src="./script.js" type="module"></script>
+
+</body>
 
 </html>

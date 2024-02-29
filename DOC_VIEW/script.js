@@ -35,12 +35,12 @@ const SEND_ACTION_ID = FORM_DOC_SEND.querySelector("#SEND_ACTION_ID");
 const SEND_S_USER_ID = FORM_DOC_SEND.querySelector("#SEND_S_USER_ID");
 const SEND_S_DEPT_ID = FORM_DOC_SEND.querySelector("#SEND_S_DEPT_ID");
 
-// const FORM_ATTACH_ADD = document.getElementById("FORM_ATTACH_ADD");
-// const ATTACH_DOC_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_DOC_NUM');
-// const ATTACH_ROUTE_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_ROUTE_NUM');
-// const ATTACH_FILE = document.getElementById("ATTACH_FILE");
-// const ATTACH_RESULTS = document.getElementById("ATTACH_RESULTS");
-// const ATTACH_ZOOM = document.getElementById("ATTACH_ZOOM");
+const FORM_ATTACH_ADD = document.getElementById("FORM_ATTACH_ADD");
+const ATTACH_DOC_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_DOC_NUM');
+const ATTACH_ROUTE_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_ROUTE_NUM');
+const ATTACH_FILE = document.getElementById("ATTACH_FILE");
+const ATTACH_RESULTS = document.getElementById("ATTACH_RESULTS");
+const ATTACH_ZOOM = document.getElementById("ATTACH_ZOOM");
 
 InitializePAGE();
 

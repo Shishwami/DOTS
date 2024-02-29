@@ -89,14 +89,14 @@
                                 <div>
                                     <label for="CREATE_DOC_TYPE">Document Type:</label>
                                     <select name="DOC_TYPE_ID" id="CREATE_DOC_TYPE">
-                                        <option value="" disabled selected>Please Select Type</option>
+                                        <option value="" disabled selected> Select Type</option>
                                         <!-- to be filled using database -->
                                     </select>
                                 </div>
                                 <div>
                                     <label for="CREATE_DOC_OFFICE">Office/Agency</label>
                                     <select name="S_OFFICE_ID" id="CREATE_DOC_OFFICE">
-                                        <option value="" disabled selected>Please Select Office</option>
+                                        <option value="" disabled selected> Select Office</option>
                                         <!-- to be filled using database -->
                                     </select>
                                 </div>
@@ -194,6 +194,26 @@
                         <h1>Attach</h1>
                     </div>
 
+                    <div id="ATTACH_RESULTS">
+
+                    </div>
+
+                    <div id="ATTACH_ZOOM">
+                        <!-- preview -->
+                    </div>
+
+                    <form action="submit" method="POST" id="FORM_ATTACH_ADD" enctype="multipart/form-data">
+                        <label for="ATTACH_DESCRIPTION">Description:</label>
+                        <input type="text" name="DESCRIPTION" id="ATTACH_DESCRIPTION">
+                        <input type="file" name="ATTACH_FILE" id="ATTACH_FILE">
+                        <input type="submit" value="Submit">
+                        <input type="text" name="DOC_NUM" id="ATTACH_DOC_NUM">
+                        <input type="text" name="ROUTE_NUM" id="ATTACH_ROUTE_NUM">
+                    </form>
+                            
+                    <div>
+                        <!-- input preview -->
+                    </div>
                 </div>
             </div>
 
