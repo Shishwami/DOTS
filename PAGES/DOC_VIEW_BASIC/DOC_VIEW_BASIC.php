@@ -25,6 +25,25 @@
     tr:hover {
         background-color: coral;
     }
+
+    .ATTACH_MINI {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        border: 1px black solid;
+    }
+
+    #ATTACH_ZOOM {
+        width: 500px;
+        height: 500px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        border: 1px black solid;
+    }
 </style>
 
 <body>
@@ -116,6 +135,39 @@
         <input type="submit" value="Send">
     </form>
 
+
+    <div>
+        <h2>ATTACHMENT MODAL</h2>
+        <button id="BTN_ATTACH_ADD">Add Attachment</button>
+        <!-- <table id="ATTACH_VIEW_MAIN">
+            <th>
+            </th>
+            <tbody>
+            </tbody>
+        </table> -->
+        <div id="ATTACH_RESULTS">
+
+        </div>
+        <div id="ATTACH_ZOOM">
+            <!-- preview -->
+        </div>
+        <div>
+            <h1>ADD ATTACHMENT MODAL</h1>
+            <form action="submit" method="POST" id="FORM_ATTACH_ADD" enctype="multipart/form-data">
+                <label for="ATTACH_DESCRIPTION">Description:</label>
+                <input type="text" name="DESCRIPTION" id="ATTACH_DESCRIPTION">
+                <input type="file" name="ATTACH_FILE" id="ATTACH_FILE">
+                <input type="submit" value="Submit">
+                <input type="text" name="DOC_NUM" id="ATTACH_DOC_NUM">
+                <input type="text" name="ROUTE_NUM" id="ATTACH_ROUTE_NUM">
+            </form>
+
+            <div>
+                <!-- input preview -->
+            </div>
+        </div>
+
+    </div>
 </body>
 
 <script src="../../SCRIPTS/Constants.js"></script>
