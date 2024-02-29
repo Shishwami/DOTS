@@ -223,8 +223,21 @@
                                         <label for="ATTACH_DESCRIPTION">Description:</label>
                                         <textarea name="DESCRIPTION" id="ATTACH_DESCRIPTION" cols="20" rows="5"></textarea>
                                         <!-- <input type="text" name="DESCRIPTION" id="ATTACH_DESCRIPTION"> -->
-                                        <input type="file" name="ATTACH_FILE" id="ATTACH_FILE">
-                                        <input type="submit" value="Submit">
+                                        <!-- <input type="file" name="ATTACH_FILE" id="ATTACH_FILE"> -->
+
+                                        <div class="imgbox">
+                                            <input type="file" name="ATTACH_FILE" id="ATTACH_FILE" accept="image/*" hidden>
+                                            <div class="img-area" data-img="">
+                                                <i class='fa-solid fa-upload icon'></i>
+                                                <h3>Upload Image</h3>
+                                                <p>Image size must be less than <span>10MB</span></p>
+                                            </div>
+                                            <button class="select-image">Select Image</button>
+                                        </div>
+                                        
+                                        <div class="submit">
+                                            <input type="submit" value="Submit">
+                                        </div>
                                         <input type="text" name="DOC_NUM" id="ATTACH_DOC_NUM" hidden readonly>
                                         <input type="text" name="ROUTE_NUM" id="ATTACH_ROUTE_NUM" hidden readonly>
                                     </form>
