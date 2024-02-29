@@ -35,8 +35,20 @@ class JsFunctions {
 
                 buttons.forEach(btn => {
                     const button = document.createElement('button');
-                    button.textContent = btn.label;
-                    button.className = btn.className;
+                    // button.textCoxntent = btn.label;
+                    button.classList.add(btn.className);
+                    if (btn.className == "btnS") {
+                        button.classList.add('fa-solid', 'fa-paper-plane');
+                        button.title = "Send";
+                    }
+                    if (btn.className == "btnA") {
+                        button.classList.add('fa-solid', 'fa-paperclip');
+                        button.title = "Attach";
+
+                    }
+
+
+                    // button.className = btn.className;
                     // button.id = `button-${item.ID}-${item.DOC_NUM}-${item.ROUTE_NUM}`;
                     button.dataset.i = item.ID;
                     button.dataset.d = item.DOC_NUM;

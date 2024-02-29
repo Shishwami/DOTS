@@ -194,6 +194,8 @@
                         <h1>Attach</h1>
                     </div>
 
+                    <button id="BTN_ATTACH_ADD">Add Attachment</button>
+
                     <div id="ATTACH_RESULTS">
 
                     </div>
@@ -202,14 +204,16 @@
                         <!-- preview -->
                     </div>
 
-                    <form action="submit" method="POST" id="FORM_ATTACH_ADD" enctype="multipart/form-data">
-                        <label for="ATTACH_DESCRIPTION">Description:</label>
-                        <input type="text" name="DESCRIPTION" id="ATTACH_DESCRIPTION">
-                        <input type="file" name="ATTACH_FILE" id="ATTACH_FILE">
-                        <input type="submit" value="Submit">
-                        <input type="text" name="DOC_NUM" id="ATTACH_DOC_NUM">
-                        <input type="text" name="ROUTE_NUM" id="ATTACH_ROUTE_NUM">
-                    </form>
+                    <div class="atc_submodal" id="atc_submodal">
+                        <form action="submit" method="POST" id="FORM_ATTACH_ADD" enctype="multipart/form-data">
+                            <label for="ATTACH_DESCRIPTION">Description:</label>
+                            <input type="text" name="DESCRIPTION" id="ATTACH_DESCRIPTION">
+                            <input type="file" name="ATTACH_FILE" id="ATTACH_FILE">
+                            <input type="submit" value="Submit">
+                            <input type="text" name="DOC_NUM" id="ATTACH_DOC_NUM">
+                            <input type="text" name="ROUTE_NUM" id="ATTACH_ROUTE_NUM">
+                        </form>
+                    </div>
                             
                     <div>
                         <!-- input preview -->
