@@ -358,12 +358,9 @@ function sendDocForm($inputs, $conn)
         ),
     );
 
-
-
     $checkRoutedSql = $queries->selectQuery($checkRoutedData);
     $checkRoutedResult = mysqli_query($conn, $checkRoutedSql);
     $checkRoutedRow = $checkRoutedResult->fetch_assoc();
-
 
     $updateDocumentData = array(
         'TABLE' => 'DOTS_DOCUMENT',
@@ -375,18 +372,50 @@ function sendDocForm($inputs, $conn)
             'ID' => $checkRoutedRow['ID']
         ),
     );
+
     if ($checkRoutedRow['ROUTED'] == 1) {
-        echo "RE SENDING";
+        //select document with highest routing number to duplicate
+        $selectDocumentData = [
+            'TABLE' => 'DOTS_DOCUMENT',
+            'WHERE' => [
+                'AND' => [
+                    ['DOC_NUM' => $checkRoutedRow['DOC_NUM']]
+                ],
+            ],
+            'ORDER_BY' => 'ROUTE_NUM DESC'
+        ];
+
+        $selectDocumentSql = $queries->selectQuery($selectDocumentData);
+        $selectDocumentResult = $conn->query($selectDocumentSql);
+        $selectDocumentRow = $selectDocumentResult->fetch_assoc();
+
+        // var_dump($selectDocumentRow);
+
+        //increase the routing number
+        $newRoutingNumber = intval($selectDocumentRow['ROUTE_NUM']) + 1;
+        $selectDocumentRow['ROUTE_NUM'] = $newRoutingNumber;
+        $insertInboundData['DATA']["ROUTE_NUM"] = $newRoutingNumber;
+
+        //remove id for insert
+        unset($selectDocumentRow['ID']);
+
+        //duplicate to doc
+        $insertDocumentData = [
+            'TABLE' => 'DOTS_DOCUMENT',
+            'DATA' => $selectDocumentRow,
+        ];
+
+        $insertDocumentSql = $queries->insertQuery($insertDocumentData);
+        $insertDocumentResult = $conn->query($insertDocumentSql);
+
     } else if ($checkRoutedRow['ROUTED'] == 0) {
-        echo "SENDING";
-       echo  $updateDocumentSql = $queries->updateQuery(($updateDocumentData));
+        $updateDocumentSql = $queries->updateQuery(($updateDocumentData));
         $updateDocumentResult = $conn->query($updateDocumentSql);
 
     }
-
+    //insert to inbound
     $insertInboundSql = $queries->insertQuery($insertInboundData);
     $insertInboundResult = $conn->query($insertInboundSql);
-
 
     echo json_encode(
         array(
@@ -929,6 +958,7 @@ function sendDocFormUser($inputs, $conn)
         $updateOutboundSql = $queries->updateQuery($updateOutboundData);
         $updateOutboundResult = $conn->query($updateOutboundSql);
     }
+    //insert to inbound
     $insertInboundSql = $queries->insertQuery($insertInboundData);
     $insertInboundResult = $conn->query($insertInboundSql);
 }
