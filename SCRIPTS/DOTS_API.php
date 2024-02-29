@@ -327,7 +327,7 @@ function getAddressee($inputs, $conn)
 }
 
 function sendDocForm($inputs, $conn)
-{ 
+{
     $queries = new Queries();
     $valid = false;
     //check if routed
@@ -505,16 +505,20 @@ function sendDocForm($inputs, $conn)
 function receiveDoc($inputs, $conn)
 {
     $queries = new Queries();
-
     $valid = false;
-    $data = $inputs['DATA'];
-    $createData = array(
+
+    $insertDocumentData = array(
         'TABLE' => 'DOTS_DOCUMENT',
-        'DATA' => $data,
+        'DATA' => $inputs['DATA'],
     );
-    $sql = $queries->insertQuery($createData);
-    if (mysqli_query($conn, $sql)) {
+    $insertDocumentSql = $queries->insertQuery($insertDocumentData);
+    $insertDocumentResult = $conn->query($insertDocumentSql);
+
+    if ($insertDocumentResult) {
         $valid = true;
+
+        //TODO create log
+
     }
     echo json_encode(
         array(
@@ -638,10 +642,9 @@ function getTableUser($inputs, $conn, $tableName)
 {
     $queries = new Queries();
 
-
     $buttons = array(
         [
-            "className" => "btnR",
+            "className" => "btnS",
             "label" => "S"
         ]
     );
@@ -854,7 +857,7 @@ function receiveDocUser($inputs, $conn)
         $conn->rollback();
     }
 
-    //TODO update to logs
+    //TODO insert to logs
 
     echo json_encode(
         array(
@@ -952,7 +955,10 @@ function sendDocFormUser($inputs, $conn)
             'DATA' => $selectOutboundRow
         ];
         unset($insertOutboundData['DATA']['ID']);
-        createDoc($insertOutboundData, $conn);
+
+        $insertOutboundSql = $queries->insertQuery($insertOutboundData);
+        $insertOutboundResult = $conn->query($insertOutboundSql);
+        // createDoc($insertOutboundData, $conn);
         // var_dump($insertInboundData);
     } else if ($selectOutboundRow['ROUTED'] == 0) {
         $updateOutboundSql = $queries->updateQuery($updateOutboundData);
@@ -961,6 +967,12 @@ function sendDocFormUser($inputs, $conn)
     //insert to inbound
     $insertInboundSql = $queries->insertQuery($insertInboundData);
     $insertInboundResult = $conn->query($insertInboundSql);
+
+    echo json_encode(
+        array(
+            "23"
+        )
+    );
 }
 function getTableAttachment($inputs, $conn)
 {
