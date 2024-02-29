@@ -642,10 +642,9 @@ function getTableUser($inputs, $conn, $tableName)
 {
     $queries = new Queries();
 
-
     $buttons = array(
         [
-            "className" => "btnR",
+            "className" => "btnS",
             "label" => "S"
         ]
     );
