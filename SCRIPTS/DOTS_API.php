@@ -1092,7 +1092,7 @@ function getTableTracking($inputs, $conn)
 
     $selectTableSql = $queries->insertQuery($selectTableData);
     $selectTableResult = $conn->query($selectTableSql);
-
+    setupTable($selectTableResult, null, 'DOTS_TRACKING');
 }
 function getTableAttachment($inputs, $conn)
 {
