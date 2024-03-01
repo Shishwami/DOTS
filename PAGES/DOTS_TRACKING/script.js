@@ -13,6 +13,7 @@ function setTable(filter) {
     };
 
     MyAjax.createJSON((error, response) => {
+        console.log(response);
         JsFunctions.updateTable(DOC_VIEW_TRACKING, response.RESULT, null, filter);
     }, data);
 
