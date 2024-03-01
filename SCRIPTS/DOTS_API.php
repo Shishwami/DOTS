@@ -897,11 +897,11 @@ function receiveDocUser($inputs, $conn)
 
     //add log recieve by user
     $insertLogData = [
-        'TABLE'=>'DOTS_TRACKING',
-        'DATA'=>[
+        'TABLE' => 'DOTS_TRACKING',
+        'DATA' => [
             'DOC_NUM' => $inputs['DATA']["DOC_NUM"],
             'ROUTE_NUM' => $inputs['DATA']["ROUTE_NUM"],
-            'ACTION_ID' => 2 ,//ACTION_ID RECEIVE
+            'ACTION_ID' => 2,//ACTION_ID RECEIVE
             'HRIS_ID' => $_SESSION['HRIS_ID'],
             'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
         ]
@@ -1024,7 +1024,7 @@ function sendDocFormUser($inputs, $conn)
             'DATA' => [
                 'DOC_NUM' => $insertMainData['DATA']["DOC_NUM"],
                 'ROUTE_NUM' => $insertMainData['DATA']["ROUTE_NUM"],
-                'ACTION_ID' => 4 ,//ACTION_ID DUPLICATE
+                'ACTION_ID' => 4,//ACTION_ID DUPLICATE
                 'HRIS_ID' => $_SESSION['HRIS_ID'],
                 'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
             ],
@@ -1044,25 +1044,27 @@ function sendDocFormUser($inputs, $conn)
         $insertOutboundSql = $queries->insertQuery($insertOutboundData);
         $insertOutboundResult = $conn->query($insertOutboundSql);
 
-        //add log outbound send
-        $insertMainLogData = [
-            'TABLE' => 'DOTS_TRACKING',
-            'DATA' => [
-                'DOC_NUM' => $insertOutboundData['DATA']["DOC_NUM"],
-                'ROUTE_NUM' => $insertOutboundData['DATA']["ROUTE_NUM"],
-                'ACTION_ID' => 1 ,//ACTION_ID SEND
-                'HRIS_ID' => $_SESSION['HRIS_ID'],
-                'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
-            ],
-        ];
-
-        $insertMainLogSql = $queries->insertQuery($insertMainLogData);
-        $insertMainLogResult = $conn->query($insertMainLogSql);
-
     } else if ($selectOutboundRow['ROUTED'] == 0) {
         $updateOutboundSql = $queries->updateQuery($updateOutboundData);
         $updateOutboundResult = $conn->query($updateOutboundSql);
     }
+
+
+    //add log outbound send
+    $insertMainLogData = [
+        'TABLE' => 'DOTS_TRACKING',
+        'DATA' => [
+            'DOC_NUM' => $insertOutboundData['DATA']["DOC_NUM"],
+            'ROUTE_NUM' => $insertOutboundData['DATA']["ROUTE_NUM"],
+            'ACTION_ID' => 1,//ACTION_ID SEND
+            'HRIS_ID' => $_SESSION['HRIS_ID'],
+            'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
+        ],
+    ];
+
+    $insertMainLogSql = $queries->insertQuery($insertMainLogData);
+    $insertMainLogResult = $conn->query($insertMainLogSql);
+
     //insert to inbound
     $insertInboundSql = $queries->insertQuery($insertInboundData);
     $insertInboundResult = $conn->query($insertInboundSql);
