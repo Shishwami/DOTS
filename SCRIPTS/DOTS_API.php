@@ -408,7 +408,7 @@ function sendDocForm($inputs, $conn)
         $insertDocumentSql = $queries->insertQuery($insertDocumentData);
         $insertDocumentResult = $conn->query($insertDocumentSql);
 
-        //insert Logs
+        //add log duplicate main doc
         $insertDocumentLogData = [
             'TABLE' => 'DOTS_TRACKING',
             'DATA' => [
@@ -432,7 +432,7 @@ function sendDocForm($inputs, $conn)
     $insertInboundSql = $queries->insertQuery($insertInboundData);
     $insertInboundResult = $conn->query($insertInboundSql);
 
-    //insert inbound logs
+    //add log insert inbound 
     $insertInboundLogData = [
         'TABLE' => 'DOTS_TRACKING',
         'DATA' => [
