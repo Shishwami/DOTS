@@ -897,6 +897,19 @@ function receiveDocUser($inputs, $conn)
         ),
     );
 
+    //add log recieve by user
+    $insertLogData = [
+        'TABLE'=>'DOTS_TRACKING',
+        'DATA'=>[
+            'DOC_NUM' => $inputs['DATA']["DOC_NUM"],
+            'ROUTE_NUM' => $inputs['DATA']["ROUTE_NUM"],
+            'ACTION_ID' => 4 ,//ACTION_ID DUPLICATE
+            'HRIS_ID' => $_SESSION['HRIS_ID'],
+            'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
+        ]
+    ];
+
+
     //TODO validate if received
 
     $updateDataSql = $queries->updateQuery($updateData);
