@@ -9,31 +9,29 @@ FORM_LOGIN.addEventListener('submit', function (e) {
 
     var data = JsFunctions.FormToJson(FORM_LOGIN);
 
-    // var columns = [
-    //     DOTS_ACCOUNT_INFO.HRIS_ID,
-    //     DOTS_ACCOUNT_INFO.FULL_NAME,
-    //     DOTS_ACCOUNT_INFO.INITIAL,
-    //     DOTS_ACCOUNT_INFO.DEPT_ID,
-    // ]
+    var columns = [
+        DOTS_ACCOUNT_INFO.HRIS_ID,
+        DOTS_ACCOUNT_INFO.FULL_NAME,
+        DOTS_ACCOUNT_INFO.INITIAL,
+        DOTS_ACCOUNT_INFO.DEPT_ID,
+    ]
 
     var data2 = {
-        // TABLE: DOTS_ACCOUNT_INFO.NAME,
-        REQUEST: _REQUEST.USER_LOGIN,
-        // COLUMNS: columns,
-        WHERE: data,
+        TABLE: DOTS_ACCOUNT_INFO.NAME,
+        REQUEST: _REQUEST.SELECT,
+        COLUMNS: columns,
+        WHERE: { AND: data },
     };
 
     MyAjax.createJSON((error, response) => {
         if (!error) {
             if (response.VALID) {
-                // delete response.VALID;
+                delete response.VALID;
+                createSession(response);
             }
         } else {
             alert(error);
         }
-
-        console.log(response);
-
     }, data2);
 });
 
