@@ -11,7 +11,7 @@
 
     <input type="text" id="searchBar">
 
-    <table id="VIEW_TRACKING">
+    <table id="DOC_VIEW_TRACKING">
         <thead>
 
         </thead>
