@@ -1049,7 +1049,6 @@ function sendDocFormUser($inputs, $conn)
         $updateOutboundResult = $conn->query($updateOutboundSql);
     }
 
-
     //add log outbound send
     $insertMainLogData = [
         'TABLE' => 'DOTS_TRACKING',
