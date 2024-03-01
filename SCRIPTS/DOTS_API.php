@@ -334,6 +334,7 @@ function sendDocForm($inputs, $conn)
 {
     $queries = new Queries();
     $valid = false;
+    $newRoutingNumber = 0;
 
     $insertInboundData = array(
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
@@ -851,7 +852,10 @@ function setupTable($result, $buttons, $tableName)
                 $fValue = formatDateTime($value);
             } else if ($key == "Letter Date") {
                 $fValue = formatDate($value);
+            } else if ($key == "Date of Action") {
+                $fValue = formatDateTime($value);
             }
+
             $valid = true;
 
 
@@ -1088,13 +1092,14 @@ function getTableTracking($inputs, $conn)
             "CASE WHEN ROUTE_NUM = 0 THEN DOC_NUM 
             ELSE CONCAT(DOC_NUM,\"-\",ROUTE_NUM) 
             END AS `No.`",
-            'DOTS_ACCOUNT_INFO.FULL_NAME as `Initiator/Location`',
 
             "CONCAT(
                 IF(DOTS_ACCOUNT_INFO.OFFICE_ID IS NOT NULL,CONCAT(DOTS_ACCOUNT_INFO.OFFICE_ID,'-'), ' '),' ', 
                 IF(DOTS_ACCOUNT_INFO.DEPT_ID IS NOT NULL,CONCAT(DOTS_DOC_DEPT.DOC_DEPT,'-'), ' '), 
-                IFNULL(DOTS_ACCOUNT_INFO.FULL_NAME, ' ')) as 'Sent By'",
+                IFNULL(DOTS_ACCOUNT_INFO.FULL_NAME, ' ')) as 'Location'",
 
+
+            'DATE_TIME_ACTION as `Date of Action`',
             'DOTS_DOC_ACTION.DOC_ACTION as `Action`',
 
         ],
