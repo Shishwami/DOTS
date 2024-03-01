@@ -17,7 +17,6 @@ function setTable(filter){
 
         }
         JsFunctions.updateTable(DOC_VIEW_BASIC, response.RESULT, response.BUTTONS, filter);
-        setButtons(DOC_VIEW_BASIC);
     }, data);
 
 }
