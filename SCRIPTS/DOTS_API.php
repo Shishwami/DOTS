@@ -576,6 +576,7 @@ function receiveDoc($inputs, $conn)
                 // 'DATE_TIME_ACTION'=>$selectDocumentRow['DATE_TIME_RECEIVED'],
             ],
         ];
+
         $insertLogSql = $queries->insertQuery($insertLogData);
         $insertLogResult = $conn->query($insertLogSql);
 
