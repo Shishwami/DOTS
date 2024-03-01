@@ -947,6 +947,7 @@ function sendDocFormUser($inputs, $conn)
 {
     $queries = new Queries();
     $newRouteNumber = 0;
+    $insertOutboundData = [];
     //update outbound 
     $updateOutboundData = [
         'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
@@ -995,7 +996,6 @@ function sendDocFormUser($inputs, $conn)
     $selectOutboundRow = $selectOutboundResult->fetch_assoc();
 
     if ($selectOutboundRow['ROUTED'] == 1) {
-        echo 'resend';
         //if routed duplicate in docmain & outbound
         $selectMainData = [
             'TABLE' => 'DOTS_DOCUMENT',
@@ -1073,12 +1073,13 @@ function sendDocFormUser($inputs, $conn)
     $insertMainLogResult = $conn->query($insertMainLogSql);
 
     //insert to inbound
+    var_dump($insertInboundData);
     $insertInboundSql = $queries->insertQuery($insertInboundData);
     $insertInboundResult = $conn->query($insertInboundSql);
 
     echo json_encode(
         array(
-            "23"
+            'VALID' => true,
         )
     );
 }
