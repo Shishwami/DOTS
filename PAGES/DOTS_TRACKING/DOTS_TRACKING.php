@@ -7,6 +7,7 @@
 </head>
 <body>
     
+<input type="text">
 
     <table id="VIEW_TRACKING">
         <thead>
