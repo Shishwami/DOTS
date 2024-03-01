@@ -1084,12 +1084,31 @@ function getTableTracking($inputs, $conn)
 
     $selectTableData = [
         'TABLE' => 'DOTS_TRACKING',
-
         'COLUMNS' => [
-            'ID',
-            'DOC_NUM'
-        ],
+            "CASE WHEN ROUTE_NUM = 0 THEN DOC_NUM 
+            ELSE CONCAT(DOC_NUM,\"-\",ROUTE_NUM) 
+            END AS `No.`",
+            'DOTS_ACCOUNT_INFO.FULL_NAME as `Initiator/Location`',
 
+            "CONCAT(
+                IF(DOTS_ACCOUNT_INFO.OFFICE_ID IS NOT NULL,CONCAT(DOTS_ACCOUNT_INFO.OFFICE_ID,'-'), ' '),' ', 
+                IF(DOTS_ACCOUNT_INFO.DEPT_ID IS NOT NULL,CONCAT(DOTS_DOC_DEPT.DOC_DEPT,'-'), ' '), 
+                IFNULL(DOTS_ACCOUNT_INFO.FULL_NAME, ' ')) as 'Sent By'",
+            'ACTION_ID as `Action`',
+
+        ],
+        'JOIN' => [
+            [
+                'table' => 'DOTS_ACCOUNT_INFO',
+                'ON' => ['DOTS_TRACKING.HRIS_ID = DOTS_ACCOUNT_INFO.HRIS_ID'],
+                'TYPE' => 'LEFT'
+            ],
+            [
+                'table' => 'DOTS_DOC_DEPT',
+                'ON' => ['DOTS_ACCOUNT_INFO.DEPT_ID = DOTS_DOC_DEPT.ID'],
+                'TYPE' => 'LEFT'
+            ]
+        ]
     ];
 
     $selectTableSql = $queries->selectQuery($selectTableData);
