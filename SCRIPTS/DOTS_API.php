@@ -998,13 +998,12 @@ function sendDocFormUser($inputs, $conn)
         $insertInboundData['DATA']['ROUTE_NUM'] = $newRouteNumber;
         $selectMainDataRow['ROUTE_NUM'] = $newRouteNumber;
 
-        //addto doc main
+        //add to doc main
         unset($selectMainDataRow['ID']);
         $insertMainData = [
             'TABLE' => 'DOTS_DOCUMENT',
             'DATA' => $selectMainDataRow,
         ];
-
 
         $insertMainSql = $queries->insertQuery($insertMainData);
         $insertMainResult = $conn->query($insertMainSql);
@@ -1019,8 +1018,7 @@ function sendDocFormUser($inputs, $conn)
 
         $insertOutboundSql = $queries->insertQuery($insertOutboundData);
         $insertOutboundResult = $conn->query($insertOutboundSql);
-        // createDoc($insertOutboundData, $conn);
-        // var_dump($insertInboundData);
+
     } else if ($selectOutboundRow['ROUTED'] == 0) {
         $updateOutboundSql = $queries->updateQuery($updateOutboundData);
         $updateOutboundResult = $conn->query($updateOutboundSql);
