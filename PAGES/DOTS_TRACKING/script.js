@@ -9,6 +9,9 @@ const DOC_VIEW_TRACKING=document.getElementById("DOC_VIEW_TRACKING");
 
 function setTable(filter){
 
+    var data = {
+
+    };
 
     MyAjax.createJSON((error, response) => {
         if (error) {
