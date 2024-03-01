@@ -41,7 +41,7 @@ class JsFunctions {
                         button.classList.add('fa-regular', 'fa-paper-plane');
                         button.title = "Send";
                     } if (btn.className == "btnR") {
-                        button.classList.add('fa-solid', 'fa-paper-plane');
+                        button.classList.add('fa-solid', 'fa-inbox');
                         button.title = "Send";
                     }
                     if (btn.className == "btnA") {

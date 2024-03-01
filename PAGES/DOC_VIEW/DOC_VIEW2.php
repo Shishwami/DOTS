@@ -202,6 +202,10 @@
                                 <div  id="ATTACH_RESULTS">
 
                                 </div>
+
+                                <div class="descbox">
+                                    <div>Description</div>
+                                </div>
                             </div>
 
                             <div class="zoom">
