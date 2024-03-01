@@ -330,10 +330,6 @@ function sendDocForm($inputs, $conn)
 {
     $queries = new Queries();
     $valid = false;
-    //check if routed
-
-    //send to inbound
-    //update document
 
     var_dump($inputs);
 
