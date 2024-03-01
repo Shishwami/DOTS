@@ -89,11 +89,8 @@ try {
         case 'SEND_DOC_USER':
             sendDocFormUser($inputs, $conn);
             break;
-
-
     }
     $conn->close();
-
 
 } catch (mysqli_sql_exception $th) {
     // throw $th;
