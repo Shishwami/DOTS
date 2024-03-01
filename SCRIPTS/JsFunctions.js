@@ -30,7 +30,7 @@ class JsFunctions {
             const row = document.createElement('tr');
             var found = 0;
 
-            if (buttons !== undefined) {
+            if (buttons != undefined) {
                 const buttonCell = document.createElement('td');
 
                 buttons.forEach(btn => {
