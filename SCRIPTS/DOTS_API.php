@@ -1094,6 +1094,7 @@ function getTableTracking($inputs, $conn)
                 IF(DOTS_ACCOUNT_INFO.OFFICE_ID IS NOT NULL,CONCAT(DOTS_ACCOUNT_INFO.OFFICE_ID,'-'), ' '),' ', 
                 IF(DOTS_ACCOUNT_INFO.DEPT_ID IS NOT NULL,CONCAT(DOTS_DOC_DEPT.DOC_DEPT,'-'), ' '), 
                 IFNULL(DOTS_ACCOUNT_INFO.FULL_NAME, ' ')) as 'Sent By'",
+
             'ACTION_ID as `Action`',
 
         ],
@@ -1105,6 +1106,11 @@ function getTableTracking($inputs, $conn)
             ],
             [
                 'table' => 'DOTS_DOC_DEPT',
+                'ON' => ['DOTS_ACCOUNT_INFO.DEPT_ID = DOTS_DOC_DEPT.ID'],
+                'TYPE' => 'LEFT'
+            ],
+            [
+                'table' => 'DOTS_DOC_ACTION',
                 'ON' => ['DOTS_ACCOUNT_INFO.DEPT_ID = DOTS_DOC_DEPT.ID'],
                 'TYPE' => 'LEFT'
             ]
@@ -1137,13 +1143,13 @@ function getTableAttachment($inputs, $conn)
 
     setupTable($result, null, $tableName);
 }
-function insertLogs($insertData, $conn)
-{
+// function insertLogs($insertData, $conn)
+// {
 
 
 
 
-}
+// }
 function formatDateTime($dateString)
 {
     $date = new DateTime($dateString);
