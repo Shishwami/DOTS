@@ -946,7 +946,7 @@ function receiveDocUser($inputs, $conn)
 function sendDocFormUser($inputs, $conn)
 {
     $queries = new Queries();
-
+    $newRouteNumber = 0;
     //update outbound 
     $updateOutboundData = [
         'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
