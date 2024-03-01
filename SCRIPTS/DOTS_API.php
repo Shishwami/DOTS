@@ -982,7 +982,6 @@ function sendDocFormUser($inputs, $conn)
     $insertMainLogResult = $conn->query($insertMainLogSql);
 
     //insert to inbound
-    var_dump($insertInboundData);
     $insertInboundSql = $queries->insertQuery($insertInboundData);
     $insertInboundResult = $conn->query($insertInboundSql);
 
@@ -1029,7 +1028,8 @@ function getTableTracking($inputs, $conn)
                 'ON' => ['DOTS_TRACKING.ACTION_ID = DOTS_DOC_ACTION.ID'],
                 'TYPE' => 'LEFT'
             ]
-        ]
+        ],
+        'SORT_BY' => 'DOC_NUM DESC'
     ];
 
     $selectTableSql = $queries->selectQuery($selectTableData);
