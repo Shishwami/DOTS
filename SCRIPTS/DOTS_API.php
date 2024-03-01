@@ -1084,16 +1084,15 @@ function getTableTracking($inputs, $conn)
 
     $selectTableData = [
         'TABLE' => 'DOTS_TRACKING',
-        'DATA' => [
-            'COLUMNS' => [
-                'ID',
-                'DOC_NUM'
-            ],
+
+        'COLUMNS' => [
+            'ID',
+            'DOC_NUM'
         ],
 
     ];
 
-    $selectTableSql = $queries->insertQuery($selectTableData);
+    $selectTableSql = $queries->selectQuery($selectTableData);
     $selectTableResult = $conn->query($selectTableSql);
     setupTable($selectTableResult, null, 'DOTS_TRACKING');
 }
