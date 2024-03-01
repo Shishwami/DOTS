@@ -69,7 +69,7 @@ function InitializePAGE() {
     setForms();
 
     BTN_ATTACH_ADD.addEventListener("click", function () {
-        ATTACH_FILE.value=null;
+        ATTACH_FILE.value = null;
         console.log("ASDADSADSADS");
     });
 }
@@ -407,12 +407,14 @@ function setTableAttachment() {
             alert(error);
         } else {
             const prev = document.querySelector(".preview");
-            if (response.VALID) {
-                prev.style.visibility = "visible";
+            if (prev) {
+                if (response.VALID) {
+                    prev.style.visibility = "visible";
 
-            } else {
-                prev.style.visibility = "hidden";
+                } else {
+                    prev.style.visibility = "hidden";
 
+                }
             }
             console.log(response);
             JsFunctions.updateAttachments(ATTACH_RESULTS, response.RESULT, null, ATTACH_ZOOM);
