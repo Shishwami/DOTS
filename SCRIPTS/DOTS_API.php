@@ -1005,16 +1005,17 @@ function sendDocFormUser($inputs, $conn)
             'DATA' => $selectMainDataRow,
         ];
 
+
         $insertMainSql = $queries->insertQuery($insertMainData);
         $insertMainResult = $conn->query($insertMainSql);
 
         //add to outbound
         $selectOutboundRow['ROUTE_NUM'] = $newRouteNumber;
+        unset($selectOutboundRow['ID']);
         $insertOutboundData = [
             'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
             'DATA' => $selectOutboundRow
         ];
-        unset($insertOutboundData['DATA']['ID']);
 
         $insertOutboundSql = $queries->insertQuery($insertOutboundData);
         $insertOutboundResult = $conn->query($insertOutboundSql);
