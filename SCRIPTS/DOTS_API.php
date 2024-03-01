@@ -18,6 +18,9 @@ try {
     //     var_dump($inputs);
     // }
 
+    date_default_timezone_set("Asia/Manila");
+
+
     switch ($REQUEST) {
         case 'USER_LOGIN':
             userLogin($inputs, $conn);
@@ -162,7 +165,6 @@ function userLogin($inputs, $conn)
 function get_Date($inputs)
 {
     $time = "";
-    date_default_timezone_set("Asia/Manila");
 
     if ($inputs['DATE'] == "DATE") {
         $time = date("Y-m-d");
@@ -187,6 +189,7 @@ function get_Date($inputs)
             'TIME' => $time,
         )
     );
+    return $time;
 }
 
 function getSessionValue($key)
@@ -408,6 +411,21 @@ function sendDocForm($inputs, $conn)
         $insertDocumentSql = $queries->insertQuery($insertDocumentData);
         $insertDocumentResult = $conn->query($insertDocumentSql);
 
+        //insert Logs
+        $insertDocumentLogData = [
+            'TABLE' => 'DOTS_TRACKING',
+            'DATA' => [
+                'HRIS_ID' => $_SESSION['HRIS_ID'],
+                'DOC_NUM' => $checkRoutedRow['DOC_NUM'],
+                'ROUTE_NUM' => $newRoutingNumber,
+                'ACTION_ID' => 4,//Duplicate action_id
+                'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
+            ]
+        ];
+
+        $insertDocumentLogSql = $queries->insertQuery($insertDocumentLogData);
+        $insertDocumentLogResult = $conn->query($insertDocumentLogSql);
+
     } else if ($checkRoutedRow['ROUTED'] == 0) {
         $updateDocumentSql = $queries->updateQuery(($updateDocumentData));
         $updateDocumentResult = $conn->query($updateDocumentSql);
@@ -416,6 +434,22 @@ function sendDocForm($inputs, $conn)
     //insert to inbound
     $insertInboundSql = $queries->insertQuery($insertInboundData);
     $insertInboundResult = $conn->query($insertInboundSql);
+
+    //insert inbound logs
+    $insertInboundLogData = [
+        'TABLE' => 'DOTS_TRACKING',
+        'DATA' => [
+            'HRIS_ID' => $_SESSION['HRIS_ID'],
+            'DOC_NUM' => $checkRoutedRow['DOC_NUM'],
+            'ROUTE_NUM' => $newRoutingNumber,
+            'ACTION_ID' => 1,//sent action_id
+            'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
+        ]
+    ];
+
+    $insertInboundLogSql = $queries->insertQuery($insertInboundLogData);
+    $insertInboundLogResult = $conn->query($insertInboundLogSql);
+
 
     echo json_encode(
         array(
@@ -517,7 +551,36 @@ function receiveDoc($inputs, $conn)
     if ($insertDocumentResult) {
         $valid = true;
 
+        $lastId = $conn->insert_id;
+
+        //get doc_num, route_num and actionid
+        $selectDocumentData = [
+            'TABLE' => 'DOTS_DOCUMENT',
+            'WHERE' => [
+                'AND' => [
+                    ['ID' => $lastId]
+                ]
+            ]
+        ];
+
+        $selectDocumentSql = $queries->selectQuery($selectDocumentData);
+        $selectDocumentResult = $conn->query($selectDocumentSql);
+        $selectDocumentRow = $selectDocumentResult->fetch_assoc();
+
+        $insertLogData = [
+            'TABLE' => 'DOTS_TRACKING',
+            'DATA' => [
+                'DOC_NUM' => $selectDocumentRow['DOC_NUM'],
+                'ROUTE_NUM' => $selectDocumentRow['ROUTE_NUM'],
+                'ACTION_ID' => $selectDocumentRow['ACTION_ID'],
+                'HRIS_ID' => $_SESSION['HRIS_ID'],
+                'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
+                // 'DATE_TIME_ACTION'=>$selectDocumentRow['DATE_TIME_RECEIVED'],
+            ],
+        ];
         //TODO create log
+        $insertLogSql = $queries->insertQuery($insertLogData);
+        $insertLogResult = $conn->query($insertLogSql);
 
     }
     echo json_encode(
@@ -995,6 +1058,13 @@ function getTableAttachment($inputs, $conn)
     $result = mysqli_query($conn, $selectTableSql);
 
     setupTable($result, null, $tableName);
+}
+function insertLogs($insertData, $conn)
+{
+
+
+
+
 }
 function formatDateTime($dateString)
 {
