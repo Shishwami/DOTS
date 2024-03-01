@@ -453,85 +453,6 @@ function sendDocForm($inputs, $conn)
         )
     );
 }
-
-// function sendDoc($insertData, $conn)
-// {
-//     $queries = new Queries();
-//     $updateData = array(
-//         'TABLE' => 'DOTS_DOCUMENT',
-//         'DATA' => array(
-//             'DOC_STATUS' => 1,//pending to onhand
-//             'ROUTED' => 1//routed
-//         ),
-//         'WHERE' => array(
-//             'DOC_NUM' => $insertData['DATA']['DOC_NUM'],
-//             'ROUTE_NUM' => $insertData['DATA']['ROUTE_NUM'],
-//         )
-//     );
-//     $insertDataSql = $queries->insertQuery($insertData);
-//     $updateDataSql = $queries->updateQuery($updateData);
-
-//     $conn->begin_transaction();
-
-//     $resultInsert = $conn->query($insertDataSql);
-//     $resultUpdate = $conn->query($updateDataSql);
-
-//     if ($resultInsert && $resultUpdate) {
-//         $conn->commit();
-//         return true;
-//     } else {
-//         $conn->rollback();
-//         return false;
-//     }
-// }
-// function resendDoc($insertData, $conn)
-// {
-//     $queries = new Queries();
-//     $doc_num = $insertData['DATA']['DOC_NUM'];
-//     //get last route num then add one
-
-//     $getRouteNum = array(
-//         'TABLE' => 'DOTS_DOCUMENT',
-//         'WHERE' => array(
-//             'AND' => array(
-//                 array('DOC_NUM' => $doc_num),
-//             )
-//         ),
-//         'ORDER_BY' => 'ROUTE_NUM DESC'
-//     );
-
-//     $getRouteNumSql = $queries->selectQuery($getRouteNum);
-//     $result = mysqli_query($conn, $getRouteNumSql);
-//     if ($result) {
-//         $row = mysqli_fetch_assoc($result);
-
-//         $associativeRow = [];
-//         foreach ($row as $key => $value) {
-//             $associativeRow[$key] = $value;
-//         }
-//         unset($associativeRow['ID']);
-
-//         $routeNum = $associativeRow['ROUTE_NUM'];
-//         $routeNum = intval($routeNum) + 1;
-//         $associativeRow['ROUTE_NUM'] = $routeNum;
-//         // insert it to new doc
-//         $createData = array(
-//             'TABLE' => 'DOTS_DOCUMENT',
-//             'DATA' => $associativeRow,
-//         );
-//         $valid = createDoc($createData, $conn);
-
-//         //send the new doc
-//         $insertData['DATA']['ROUTE_NUM'] = $routeNum;
-//         $insertData2 = array(
-//             'TABLE' => 'DOTS_DOCUMENT_INBOUND',
-//             'DATA' => $insertData['DATA']
-//         );
-//         $valid = sendDoc($insertData2, $conn);
-//     }
-
-//     return $valid;
-// }
 function receiveDoc($inputs, $conn)
 {
     $queries = new Queries();
@@ -586,19 +507,6 @@ function receiveDoc($inputs, $conn)
         )
     );
 }
-// function createDoc($createData, $conn)
-// {
-//     $queries = new Queries();
-//     $sql = $queries->insertQuery($createData);
-//     // echo $sql;
-
-//     // var_dump($createData);
-//     if (mysqli_query($conn, $sql)) {
-//         return true;
-//     }
-
-
-// }
 function getTableMain($inputs, $conn)
 {
     $queries = new Queries();
@@ -1048,6 +956,7 @@ function sendDocFormUser($inputs, $conn)
             'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
             'DATA' => $selectOutboundRow
         ];
+        $insertOutboundData["DATA"]['DATE_TIME_SEND'] = $inputs['DATA']['DATE_TIME_SEND'];
 
         $insertOutboundSql = $queries->insertQuery($insertOutboundData);
         $insertOutboundResult = $conn->query($insertOutboundSql);
@@ -1149,13 +1058,6 @@ function getTableAttachment($inputs, $conn)
 
     setupTable($result, null, $tableName);
 }
-// function insertLogs($insertData, $conn)
-// {
-
-
-
-
-// }
 function formatDateTime($dateString)
 {
     $date = new DateTime($dateString);
@@ -1172,6 +1074,4 @@ function formatDate($dateString)
     $date = new DateTime($dateString);
     return($date->format('n')) . "/" . $date->format('j') . "/" . $date->format('Y');
 }
-
-
 ?>
