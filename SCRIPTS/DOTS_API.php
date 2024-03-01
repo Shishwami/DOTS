@@ -1084,8 +1084,11 @@ function getTableTracking($inputs, $conn)
 
     $selectTableData = [
         'TABLE' => 'DOTS_TRACKING',
-        'COLUMNS' => [
-            'ID'
+        'DATA' => [
+            'COLUMNS' => [
+                'ID',
+                'DOC_NUM'
+            ],
         ],
 
     ];
