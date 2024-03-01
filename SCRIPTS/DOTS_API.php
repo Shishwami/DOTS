@@ -331,8 +331,6 @@ function sendDocForm($inputs, $conn)
     $queries = new Queries();
     $valid = false;
 
-    var_dump($inputs);
-
     $insertInboundData = array(
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
         'DATA' => $inputs['DATA'],
