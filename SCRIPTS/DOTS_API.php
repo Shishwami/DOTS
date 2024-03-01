@@ -1074,6 +1074,10 @@ function sendDocFormUser($inputs, $conn)
         )
     );
 }
+function getTableTracking($inputs, $conn)
+{
+    
+}
 function getTableAttachment($inputs, $conn)
 {
     $queries = new Queries();
