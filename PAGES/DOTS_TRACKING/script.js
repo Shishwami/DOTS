@@ -6,6 +6,14 @@ const DOC_VIEW_TRACKING = document.getElementById("DOC_VIEW_TRACKING");
 
 setTable("");
 
+setInterval(() => {
+    setTable(searchBar.value.toUpperCase());
+}, 5000);
+
+searchBar.addEventListener('input', function () {
+    setTable(searchBar.value.toUpperCase());
+});
+
 function setTable(filter) {
 
     var data = {
