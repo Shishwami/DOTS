@@ -19,7 +19,8 @@
 
         </tbody>
     </table>
-
+    
+    <script src="../../SCRIPTS/Constants.js"></script>
     <script type="module" src="./script.js"></script>
 
 </body>
