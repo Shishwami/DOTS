@@ -900,7 +900,7 @@ function receiveDocUser($inputs, $conn)
             'ROUTED' => '0'
         ),
     );
-
+    
     //TODO validate if received
 
     $updateDataSql = $queries->updateQuery($updateData);
