@@ -83,6 +83,10 @@ try {
         case 'GET_TABLE_ATTACHMENT':
             getTableAttachment($inputs, $conn);
             break;
+        case 'GET_TABLE_TRACKING':
+            getTableTracking($inputs, $conn);
+            break;
+
         case 'RECEIVE_DOC_USER':
             receiveDocUser($inputs, $conn);
             break;
@@ -1076,7 +1080,19 @@ function sendDocFormUser($inputs, $conn)
 }
 function getTableTracking($inputs, $conn)
 {
-    
+    $queries = new Queries();
+
+    $selectTableData = [
+        'TABLE' => 'DOTS_TRACKING',
+        'COLUMNS' => [
+            'ID'
+        ],
+
+    ];
+
+    $selectTableSql = $queries->insertQuery($selectTableData);
+    $selectTableResult = $conn->query($selectTableSql);
+
 }
 function getTableAttachment($inputs, $conn)
 {
