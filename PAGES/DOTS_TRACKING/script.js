@@ -5,12 +5,12 @@ const DOC_VIEW_TRACKING = document.getElementById("DOC_VIEW_TRACKING");
 
 
 
-
+setTable("");
 
 function setTable(filter) {
 
     var data = {
-
+        REQUEST: _REQUEST.GET_TABLE_TRACKING,
     };
 
     MyAjax.createJSON((error, response) => {
