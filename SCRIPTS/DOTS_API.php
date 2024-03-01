@@ -903,12 +903,14 @@ function receiveDocUser($inputs, $conn)
         'DATA'=>[
             'DOC_NUM' => $inputs['DATA']["DOC_NUM"],
             'ROUTE_NUM' => $inputs['DATA']["ROUTE_NUM"],
-            'ACTION_ID' => 4 ,//ACTION_ID DUPLICATE
+            'ACTION_ID' => 2 ,//ACTION_ID RECEIVE
             'HRIS_ID' => $_SESSION['HRIS_ID'],
             'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
         ]
     ];
 
+    $insertLogSql = $queries->insertQuery($insertLogData);
+    $insertLogResult = $conn->query($insertLogSql);
 
     //TODO validate if received
 
