@@ -10,7 +10,7 @@ $sql = '';
 
 try {
     $inputs = json_decode(file_get_contents("php://input"), true);
-    // $inputs = sanitizeInputs($inputs);
+    $inputs = sanitizeInputs($inputs);
     // var_dump($inputs);
 
     $REQUEST = $inputs['REQUEST'];
