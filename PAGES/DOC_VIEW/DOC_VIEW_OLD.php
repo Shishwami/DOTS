@@ -115,6 +115,55 @@
 
         </form>
     </div>
+
+    <div>
+        <h2>edit modal</h2>
+        <form action="" id="FORM_DOC_EDIT">
+            <div>
+
+            </div>
+            <div>
+                <label for="EDIT_DOC_NUM">Document Number:</label> <br>
+                <input type="text" name="DOC_NUM" id="EDIT_DOC_NUM" disabled>
+            </div>
+            <div>
+                <label for="EDIT_FULLNAME">Received By:</label> <br>
+                <input type="text" name="FULLNAME" id="EDIT_FULLNAME" disabled>
+            </div>
+            <div>
+                <label for="EDIT_DATE_TIME_RECEIVED">Date Received:</label> <br>
+                <input type="datetime-local" name="DATE_TIME_RECEIVED" id="EDIT_DATE_TIME_RECEIVED">
+            </div>
+            <div>
+                <label for="EDIT_LETTER_DATE">Letter Date:</label> <br>
+                <input type="date" name="LETTER_DATE" id="EDIT_LETTER_DATE">
+            </div>
+            <div>
+                <label for="EDIT_DOC_TYPE">Document Type:</label> <br>
+                <select name="DOC_TYPE_ID" id="EDIT_DOC_TYPE">
+                    <option value="" disabled selected> Select Type</option>
+                    <!-- to be filled using database -->
+                </select>
+            </div>
+            <div>
+                <label for="EDIT_DOC_OFFICE">Office/Agency</label> <br>
+                <select name="S_OFFICE_ID" id="EDIT_DOC_OFFICE">
+                    <option value="" disabled selected> Select Office</option>
+                    <!-- to be filled using database -->
+                </select>
+            </div>
+            <div>
+                <label for="EDIT_DOC_SUBJECT">Subject:</label> <br>
+                <input type="text" name="DOC_SUBJECT" id="EDIT_DOC_SUBJECT">
+            </div>
+
+            <input type="text" name="DOC_STATUS" id="EDIT_DOC_STATUS" value="5" hidden>
+            <input type="text" name="R_USER_ID" id="EDIT_R_USER_ID" hidden>
+            <input type="text" name="R_DEPT_ID" id="EDIT_R_DEPT_ID" hidden>
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
     <div>
         <h1>SEND MODAL</h1>
         <form action="submit" name="FORM_DOC_SEND" id="FORM_DOC_SEND">
