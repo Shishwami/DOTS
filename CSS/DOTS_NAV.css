@@ -31,7 +31,7 @@
 
     /*Background Gradients */
     --modal_bg: linear-gradient(to bottom, #e2e2e2, #ffffff);
-    --modal_banner_bg: linear-gradient(to top, #1f0031, #8d00b1);
+    --modal_banner_bg: linear-gradient(to top, #000280, #0088ff);
     --container_bg: linear-gradient(to bottom right, rgba(117, 200, 255, 0.4), rgba(0, 36, 102, 0.4));
     /* --form_bg: linear-gradient(to bottom, #f1e7f1, #ffffff); */
     --form_bg: url(../CSS/Resources/City-of-Baguio-Logo\ Fill.png);
