@@ -86,7 +86,7 @@ body:before
     background-image: var(--form_bg);
     background-color: #ffffff;
     background-repeat: no-repeat;
-    background-size: 35%;
+    background-size: 30%;
     background-position: 50% 65%;
     margin: auto 0;
     border: 1px solid var(--border_black);
@@ -605,21 +605,10 @@ body:before
     border-radius: 10px;
 }
 
-.atc_submodal
-{
-    /* display: flex; */
-    
-}
-
 .row
 {
     display: flex;
     justify-content: space-between;
-}
-
-.atc_submodal .desc
-{
-    /* flex-direction: column; */
 }
 
 #atc_submodal label
