@@ -13,8 +13,8 @@
     --blue: #03a2e0;
 
     /* Gradients Navigation Bar Specific */
-    --gradient_br_dark-blue_to_dark-purple: linear-gradient(to bottom right, #08c5ff, #170099);
-    --gradient_br_dark-blue-purple_to_medium-blue-purple: linear-gradient(to bottom right, #005baf, #00a2ff);
+    --gradient_bg: linear-gradient(to bottom right, #08c5ff, #170099);
+    --gradient_side_panel_bg: linear-gradient(to bottom right, #001eb6, #00a2ff);
 
     /* Navigation Bar Specific */
     --nav_border_bottom: #00c3ff;
@@ -24,17 +24,18 @@
 
     /* Scrollbar Global */
     --scrollbar_track: #ececec;
-    --scrollbar_thumb: #979797;
-    --scrollbar_thumb-hover: #0085ad;
+    --scrollbar_thumb: #0062ff;
+    --scrollbar_thumb-hover: #00c3ff;
     
     /* Content Page Container Global */
 
     /*Background Gradients */
-    --modal_bg: linear-gradient(to bottom, #e2e2e2, #ffffff);
-    --modal_banner_bg: linear-gradient(to top, #000280, #0088ff);
-    --container_bg: linear-gradient(to bottom right, rgba(117, 200, 255, 0.4), rgba(0, 36, 102, 0.4));
+    --modal_bg: linear-gradient(to bottom, #d0efff, #ffffff);
+    --modal_banner_bg: linear-gradient(to bottom, #0003ae, #0088ff);
+    --container_bg: linear-gradient(to bottom right, rgba(155, 215, 255, 0.5), rgba(0, 36, 102, 0.5));
     /* --form_bg: linear-gradient(to bottom, #f1e7f1, #ffffff); */
     --form_bg: url(../CSS/Resources/City-of-Baguio-Logo\ Fill.png);
+    --login_bg: url(../CSS/Resources/City-of-Baguio-Logo\ Fill.png);
 
     /* Font Color */
     --font_white: #ffffff;
@@ -67,7 +68,7 @@
     --box_shadow_dark_purple: rgba(57, 0, 80, 0.8);
 
     /* Input Focus */
-    --input_focus: #e8d9ec;
+    --input_focus: #edfbff;
 
     /* Options Background */
     --opt_bg_light: #ecc2f1;
@@ -98,7 +99,7 @@
 {
     font-family: "Orbitron", sans-serif;
     /* font-family: "Electrolize", sans-serif; */
-    background-image: var(--gradient_br_dark-blue_to_dark-purple);
+    background-image: var(--gradient_bg);
     top: 0;
     position: fixed;
     width: 100%;
@@ -401,7 +402,7 @@ nav .content .links
         {
             display: block;
             position: fixed;
-            background-image: var(--gradient_br_dark-blue-purple_to_medium-blue-purple);
+            background-image: var(--gradient_side_panel_bg);
             height: 100%;
             width: 100%;
             top: 70px;

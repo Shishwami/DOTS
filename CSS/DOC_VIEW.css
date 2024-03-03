@@ -86,7 +86,7 @@ body:before
     background-image: var(--form_bg);
     background-color: #ffffff;
     background-repeat: no-repeat;
-    background-size: 30%;
+    background-size: 35%;
     background-position: 50% 65%;
     margin: auto 0;
     border: 1px solid var(--border_black);

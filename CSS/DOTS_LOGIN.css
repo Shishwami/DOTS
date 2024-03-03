@@ -61,19 +61,29 @@ body:before
 }
 
 /* Login Form Styles */
+.login_border
+{
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
 .login-box
 {
     width: 50%;
     position: relative;
-    top:5rem;
+    top: 10rem;
     margin: auto;
-    
-    background: var(--form_bg);
+    background: var(--login_bg);
+    background-color: #ffffff;
+    background-size: 45%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
     border: 2px solid #333333;
-    box-shadow: 20px -20px 40px rgba(0, 8, 83, 0.5),
-                -20px 20px 40px rgba(255, 0, 0, 0.5);
+    box-shadow: 20px -20px 40px rgba(0, 208, 255, 0.5),
+                -20px 20px 40px rgba(0, 89, 255, 0.5);
     border-radius: 1rem;
-    padding: 3rem; 
+    padding: 1rem; 
     text-align: center;
 }
 
@@ -121,7 +131,7 @@ input[type=text]:focus, input[type=password]:focus
 
 input[type=submit]
 {
-    margin: 0 auto 1.5rem auto;
+    margin: 0 auto;
     padding: 0.5rem 4rem;
     background-image: var(--login_btn);
     font-weight: 500;
@@ -154,4 +164,17 @@ input[type=checkbox]
 .rmb:hover
 {
     color: var(--light_purple);
+}
+
+@media screen and (max-width:900px)
+{
+    .login-box
+    {
+        top: 8rem;
+    }
+
+    .login-box h1
+    {
+        font-size: 2rem;
+    }
 }
