@@ -8,8 +8,8 @@
     --white: #ffffff;
     --black: #000000;
     --light_grey: #c5c5c5;
-    --light_purple: #cf6bee;
-    --dark_purple: #3d0050;
+    --light_blue: #6b83ee;
+    --dark_blue: #000b89;
     --blue: #03a2e0;
 
     /* Gradients Navigation Bar Specific */
@@ -29,7 +29,7 @@
     
     /* Content Page Container Global */
 
-    /*Background Gradients */
+    /* Page Backgrounds */
     --modal_bg: linear-gradient(to bottom, #d0efff, #ffffff);
     --modal_banner_bg: linear-gradient(to bottom, #0003ae, #0088ff);
     --container_bg: linear-gradient(to bottom right, rgba(155, 215, 255, 0.5), rgba(0, 36, 102, 0.5));
@@ -44,8 +44,8 @@
     --font_dbl: #292929;
 
     /* Buttons */
-    --login_btn: linear-gradient(to bottom, #010042, #0003c2);
-    --login_btn-hover: linear-gradient(to top, #af0000, #ff0000);
+    --login_btn: #0033ff;
+    --login_btn-hover: #00c92f;
     --submit_btn: linear-gradient(to bottom right, #200c36, #a502bb);
     --submit_btn-hover: linear-gradient(to bottom left, #5a5291, #c198da);
     --opt_btn: linear-gradient(to bottom, #007acc, #130fff);

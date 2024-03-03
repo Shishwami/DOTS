@@ -133,7 +133,7 @@ input[type=submit]
 {
     margin: 0 auto;
     padding: 0.5rem 4rem;
-    background-image: var(--login_btn);
+    background: var(--login_btn);
     font-weight: 500;
     font-size: 1.2rem;
     text-transform: uppercase;
@@ -142,11 +142,12 @@ input[type=submit]
     border-radius: 0.5rem;
     color: var(--font_white);
     cursor: pointer;
+    transition: 0.2s;
 }
 
 input[type=submit]:hover
 {
-    background-image: var(--login_btn-hover);
+    background: var(--login_btn-hover);
     font-weight: 600;
 }
 
@@ -158,12 +159,12 @@ input[type=checkbox]
 .rmb
 {
     font-weight: 600;
-    color: var(--dark_purple);
+    color: var(--dark_blue);
 }
 
 .rmb:hover
 {
-    color: var(--light_purple);
+    color: var(--light_blue);
 }
 
 @media screen and (max-width:900px)
@@ -171,10 +172,42 @@ input[type=checkbox]
     .login-box
     {
         top: 8rem;
+        background-size: 70%;
     }
 
     .login-box h1
     {
         font-size: 2rem;
+    }
+}
+
+@media screen and (max-width:500px)
+{
+    .login-box
+    {
+        width: 70%;
+    }
+
+    .login-box h1
+    {
+        font-size: 1.5rem;
+    }
+
+    input[type=text], input[type=password]
+    {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.5rem;
+        margin: 0.5rem 0;
+    }
+
+    .rmb
+    {
+        font-size: 0.7rem;
+    }
+
+    input[type=submit]
+    {
+        font-size: 0.7rem;
+        padding: 0.5rem 2rem;
     }
 }
