@@ -113,6 +113,9 @@ function initializeRECEIVE_FORM() {
     getData(_REQUEST.GET_SESSION_HRIS_ID, null, (result) => {
         CREATE_R_USER_ID.value = result;
     }, null);
+    getData(_REQUEST.GET_SESSION_DEPT_ID, null, (result) => {
+        CREATE_R_DEPT_ID.value = result;
+    }, null);
 
 }
 // function setR_DEPT_ID() {
