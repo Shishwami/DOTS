@@ -127,39 +127,45 @@
                         <h1>Edit</h1>
                     </div>
 
-                    <form action="" id="FORM_DOC_EDIT">
-                        <div>
-                            <label for="EDIT_DATE_TIME_RECEIVED">Date Received:</label> <br>
-                            <input type="datetime-local" name="DATE_TIME_RECEIVED" id="EDIT_DATE_TIME_RECEIVED">
-                        </div>
-
-                        <div>
-                            <label for="EDIT_LETTER_DATE">Letter Date:</label> <br>
-                            <input type="date" name="LETTER_DATE" id="EDIT_LETTER_DATE">
+                    <form class="form" action="" id="FORM_DOC_EDIT">
+                        <div class="content_one">
+                            <div class="head">
+                                <label for="EDIT_DATE_TIME_RECEIVED">Date Received:</label> 
+                                <input type="datetime-local" name="DATE_TIME_RECEIVED" id="EDIT_DATE_TIME_RECEIVED">
                             </div>
-                        <div>
-                            <label for="EDIT_DOC_TYPE">Document Type:</label> <br>
-                            <select name="DOC_TYPE_ID" id="EDIT_DOC_TYPE">
-                                <option value="" disabled selected> Select Type</option>
-                                <!-- to be filled using database -->
-                            </select>
-                        </div>
-                        <div>
-                            <label for="EDIT_DOC_OFFICE">Office/Agency</label> <br>
-                            <select name="S_OFFICE_ID" id="EDIT_DOC_OFFICE">
-                                <option value="" disabled selected> Select Office</option>
-                                <!-- to be filled using database -->
-                            </select>
-                        </div>
-                        <div>
-                            <label for="EDIT_DOC_SUBJECT">Subject:</label> <br>
-                            <input type="text" name="DOC_SUBJECT" id="EDIT_DOC_SUBJECT">
+                            <div class="head">
+                                <label for="EDIT_LETTER_DATE">Letter Date:</label> 
+                                <input type="date" name="LETTER_DATE" id="EDIT_LETTER_DATE">
+                            </div>
                         </div>
 
-                        <input type="text" name="DOC_STATUS" id="EDIT_DOC_STATUS" value="5" hidden>
+                        <div class="content_two">
+                            <div class="body">
+                                <label for="EDIT_DOC_TYPE">Document Type:</label> 
+                                <select name="DOC_TYPE_ID" id="EDIT_DOC_TYPE">
+                                    <option value="" disabled selected> Select Type</option>
+                                    <!-- to be filled using database -->
+                                </select>
+                            </div>
+                            <div class="body">
+                                <label for="EDIT_DOC_OFFICE">Office/Agency</label> 
+                                <select name="S_OFFICE_ID" id="EDIT_DOC_OFFICE">
+                                    <option value="" disabled selected> Select Office</option>
+                                    <!-- to be filled using database -->
+                                </select>
+                            </div>
+                            <div class="body">
+                                <label for="EDIT_DOC_SUBJECT">Subject:</label>
+                                <textarea name="DOC_NOTES" id="EDIT_DOC_SUBJECT" cols="20" rows="5"></textarea>
+                                <!-- <input type="text" name="DOC_SUBJECT" id="EDIT_DOC_SUBJECT"> -->
+                            </div>
+                        </div>
 
-                        <input type="submit" value="Submit">
-                        <input type="text" name="ID" id="EDIT_DOC_ID">
+                        <div class="content_three">
+                            <input type="text" name="DOC_STATUS" id="EDIT_DOC_STATUS" value="5" hidden>
+                            <input type="submit" value="Submit">
+                            <input type="text" name="ID" id="EDIT_DOC_ID" hidden>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -242,9 +248,11 @@
                         <button class="atc_btn" id="BTN_ATTACH_ADD">Add Attachment</button>
 
                         <div class="attachments">
-                            <div class="preview">
-                                <div  id="ATTACH_RESULTS">
+                            <div class="descript">
+                                <div class="preview">
+                                    <div  id="ATTACH_RESULTS">
 
+                                    </div>
                                 </div>
 
                                 <div class="descbox">
@@ -306,7 +314,7 @@
 
         </div>
     </div>
-    <br>
+    
 </body>
 
 <script src="../../Modal/GenModal.js"></script>
