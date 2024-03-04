@@ -83,6 +83,7 @@ body:before
 .main
 {
     background-image: var(--form_bg);
+    
     margin: auto 0;
     border: 1px solid var(--border_black);
     border-radius: 0.5rem;
@@ -235,6 +236,10 @@ body:before
 {
     max-height: 450px;
     overflow-y: auto;
+    background-image: var(--form_bg_logo);
+    background-repeat: no-repeat;
+    background-size: 35%;
+    background-position: 50% 50%;
 }
 
 .db_table th
@@ -293,19 +298,24 @@ body:before
     cursor: default;
 }
 
-.btnR
+.btnR, .btnS, .btnA
 {
-    background-image: var(--opt_btn);
-    padding: 0.3rem 0.4rem;
+    /* background-image: var(--opt_btn); */
+    padding: 0.4rem 0.5rem;
     border: none;
     border-radius: 0.5rem;
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: var(--font_white);
+    font-size: 18px;
+    color: var(--blue);
     cursor: pointer;
     letter-spacing: 0.1rem;
     text-transform: uppercase;
-    margin: 0 auto;
+    margin: 0 3px;
+}
+
+.btnR:hover, .btnS:hover, .btnA:hover
+{
+    background-image: var(--opt_btn-hover);
+    color: #ffffff;
 }
 
 /* Modal Grid Styles */

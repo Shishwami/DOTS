@@ -84,10 +84,10 @@ body:before
 .main
 {
     background-image: var(--form_bg);
-    background-color: #ffffff;
+    /* background-color: #ffffff;
     background-repeat: no-repeat;
     background-size: 35%;
-    background-position: 50% 65%;
+    background-position: 50% 65%; */
     margin: auto 0;
     border: 1px solid var(--border_black);
     border-radius: 0.5rem;
