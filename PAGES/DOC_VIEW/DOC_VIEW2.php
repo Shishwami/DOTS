@@ -120,6 +120,50 @@
                 </div>
             </div>
 
+            <div class="modal" id="edt_modal">
+                <div class="modal_content">
+                    <div class="modal_banner">
+                        <span class="edt_close">&times;</span>
+                        <h1>Edit</h1>
+                    </div>
+
+                    <form action="" id="FORM_DOC_EDIT">
+                        <div>
+                            <label for="EDIT_DATE_TIME_RECEIVED">Date Received:</label> <br>
+                            <input type="datetime-local" name="DATE_TIME_RECEIVED" id="EDIT_DATE_TIME_RECEIVED">
+                        </div>
+
+                        <div>
+                            <label for="EDIT_LETTER_DATE">Letter Date:</label> <br>
+                            <input type="date" name="LETTER_DATE" id="EDIT_LETTER_DATE">
+                            </div>
+                        <div>
+                            <label for="EDIT_DOC_TYPE">Document Type:</label> <br>
+                            <select name="DOC_TYPE_ID" id="EDIT_DOC_TYPE">
+                                <option value="" disabled selected> Select Type</option>
+                                <!-- to be filled using database -->
+                            </select>
+                        </div>
+                        <div>
+                            <label for="EDIT_DOC_OFFICE">Office/Agency</label> <br>
+                            <select name="S_OFFICE_ID" id="EDIT_DOC_OFFICE">
+                                <option value="" disabled selected> Select Office</option>
+                                <!-- to be filled using database -->
+                            </select>
+                        </div>
+                        <div>
+                            <label for="EDIT_DOC_SUBJECT">Subject:</label> <br>
+                            <input type="text" name="DOC_SUBJECT" id="EDIT_DOC_SUBJECT">
+                        </div>
+
+                        <input type="text" name="DOC_STATUS" id="EDIT_DOC_STATUS" value="5" hidden>
+
+                        <input type="submit" value="Submit">
+                        <input type="text" name="ID" id="EDIT_DOC_ID">
+                    </form>
+                </div>
+            </div>
+
             <div class="modal" id="snd_modal">
                 <div class="modal_content">
                     <div class="modal_banner">

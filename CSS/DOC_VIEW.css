@@ -143,6 +143,10 @@ body:before
 {
     max-height: 450px;
     overflow-y: auto;
+    background-image: var(--form_bg_logo);
+    background-repeat: no-repeat;
+    background-size: 35%;
+    background-position: 50% 50%;
 }
 
 .db_table th
@@ -171,6 +175,21 @@ body:before
     background-color: var(--tr_light);
 }
 
+.db_table tbody tr td:first-child
+{
+    display: flex;
+    width: fit-content;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #000000;
+}
+
+.db_table tbody tr:last-child td:first-child
+{
+    border-bottom: none;
+}
+
 .db_table tr:nth-child(even)
 {
     background-color: var(--tr_dark);
@@ -188,7 +207,7 @@ body:before
 
 .opt_btn
 {
-    background-image: var(--opt_btn);
+    background: var(--opt_btn);
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 0.5rem;
@@ -203,12 +222,12 @@ body:before
 
 .opt_btn:hover
 {
-    background-image: var(--opt_btn-hover); 
+    background: var(--opt_btn-hover); 
 }
 
-.btnS, .btnA
+.btnS, .btnA, .btnE
 {
-    /* background-image: var(--opt_btn); */
+    /* background: var(--opt_btn); */
     padding: 0.4rem 0.5rem;
     border: none;
     border-radius: 0.5rem;
@@ -220,9 +239,9 @@ body:before
     margin: 0 3px;
 }
 
-.btnS:hover, .btnA:hover
+.btnS:hover, .btnA:hover, .btnE:hover
 {
-    background-image: var(--opt_btn-hover);
+    background: var(--tbl_opt_btn-hover);
     color: #ffffff;
 }
 
@@ -340,6 +359,15 @@ body:before
     border-radius: 0.5rem;
 }
 
+#crt_modal input:disabled,
+#crt_modal input:read-only
+{
+    cursor: default;
+    background: var(--disabled_bg);
+    color: var(--font_disabled);
+    border: 2px solid var(--border_disabled);
+}
+
 #crt_modal .content_two
 {
     grid-area: content_two;
@@ -426,9 +454,19 @@ body:before
     font-weight: 600;
 }
 
+#snd_modal input:disabled,
+#snd_modal input:read-only
+{
+    cursor: default;
+    background: var(--disabled_bg);
+    color: var(--font_disabled);
+    border: 2px solid var(--border_disabled);
+}
+
 #snd_modal .content_one
 {
-    grid-area: content_one;
+    /* grid-area: content_one; */
+    /* text-align: center; */
     display: flex;
     justify-content: space-between;
 }

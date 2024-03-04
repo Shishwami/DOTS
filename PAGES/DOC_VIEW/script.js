@@ -394,7 +394,10 @@ function setEditBtn(id, doc_num, route_num) {
         'DATA': {
             'ID': id
         }
-    }
+    };
+
+    edt_modal.style.display = "block";
+
     MyAjax.createJSON((error, response) => {
         EDIT_DOC_ID.value = response['ID'];
         EDIT_DATE_TIME_RECEIVED.value = response['DATE_TIME_RECEIVED'];

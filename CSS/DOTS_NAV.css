@@ -43,15 +43,20 @@
     --font_black: #000000;
     --font_grey: #575757;
     --font_dbl: #292929;
+    --font_disabled: rgb(94, 94, 94);
+
+    /* Disabled CSS */
+    --disabled_bg: rgba(236, 236, 236, 0.3);
 
     /* Buttons */
     --login_btn: #0033ff;
     --login_btn-hover: #00c92f;
-    --submit_btn: linear-gradient(to bottom right, #200c36, #a502bb);
-    --submit_btn-hover: linear-gradient(to bottom left, #5a5291, #c198da);
-    --opt_btn: linear-gradient(to bottom, #007acc, #130fff);
-    --opt_btn-hover: linear-gradient(to top, #2f71ff, #0064a7);
-    --modal_opt_btn: linear-gradient(to bottom, #0b0a52, #2717b6);
+    --submit_btn: linear-gradient(to bottom right, #043da7, #0296bb);
+    --submit_btn-hover: linear-gradient(to bottom left, #00ff0d, #00a70e);
+    --opt_btn: #0084ff;
+    --opt_btn-hover: #17c900;
+    --tbl_opt_btn-hover: #00afdb;
+    --modal_opt_btn: linear-gradient(to bottom, #0034c2, #006eff);
     --modal_opt_btn-hover: linear-gradient(to top, #22043f, #7702d6);
     --dlt_btn: linear-gradient(to bottom, #a10202, #ff0000);
     --dlt_btn-hover: linear-gradient(to top, #000b69, #0011ff);
@@ -64,6 +69,7 @@
     --border_dark_grey: #313131;
     --border_light_purple: #8c00ff;
     --border_dark_purple: #300042;
+    --border_disabled: rgba(83, 83, 83, 0.5);
 
     /* Box Shadow */
     --box_shadow_dark_purple: rgba(57, 0, 80, 0.8);

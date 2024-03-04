@@ -24,7 +24,7 @@
             <ul class="links">
             <li><a href="#">Dashboard</a></li> <!--  specific to sir joseph -->
             <li><a href="#">Home</a></li> <!--  for most users -->
-            <li><a href="#">Tracking</a></li>
+            <!-- <li><a href="#">Tracking</a></li> -->
                 <!-- <li>
                     <a href="#" class="desktop-link">Process</a>
                     <input type="checkbox" id="show-process">

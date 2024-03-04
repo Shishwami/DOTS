@@ -47,7 +47,10 @@ class JsFunctions {
                     if (btn.className == "btnA") {
                         button.classList.add('fa-solid', 'fa-paperclip');
                         button.title = "Attach";
-
+                    }
+                    if (btn.className == "btnE") {
+                        button.classList.add('fa-solid', 'fa-pen-to-square');
+                        button.title = "Edit";
                     }
 
 
