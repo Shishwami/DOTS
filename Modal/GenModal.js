@@ -1,5 +1,6 @@
 // Get Modal Variable
 var crt_modal = document.getElementById("crt_modal");
+var edt_modal = document.getElementById("edt_modal");
 var snd_modal = document.getElementById("snd_modal");
 var atc_modal = document.getElementById("atc_modal");
 var atc_submodal = document.getElementById("atc_submodal");
@@ -7,12 +8,14 @@ var atc_submodal = document.getElementById("atc_submodal");
 // Get Modal Button Variable
 
 var crt_btn = document.getElementById("BTN_DOC_CREATE");
+// var edt_btn = document.getElementById("BTN_DOC_EDIT");
 var snd_btn = document.getElementById("BTN_DOC_SEND");
 var atc_btn = document.getElementById("BTN_DOC_ATTACHMENTS");
 var atc_sub_btn = document.getElementById("BTN_ATTACH_ADD");
 
 // Get Span Close Variable
 var crt_span = document.getElementsByClassName("crt_close")[0];
+var edt_span = document.getElementsByClassName("edt_close")[0];
 var snd_span = document.getElementsByClassName("snd_close")[0];
 var atc_span = document.getElementsByClassName("atc_close")[0];
 var atc_sub_span = document.getElementsByClassName("atc_sub_close")[0];
@@ -54,6 +57,13 @@ if (crt_span) {
   }
 }
 
+if (edt_span) {
+  edt_span.onclick = function()
+  {
+  edt_modal.style.display = "none";
+  }
+}
+
 if (snd_span) {
   snd_span.onclick = function()
   {
@@ -81,6 +91,11 @@ window.onclick = function(event)
   if (event.target == crt_modal)
   {
     crt_modal.style.display = "none";
+  }
+
+  if (event.target == edt_modal)
+  {
+    edt_modal.style.display = "none";
   }
 
   if (event.target == snd_modal)
