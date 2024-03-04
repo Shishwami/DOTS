@@ -122,14 +122,7 @@
             <div>
 
             </div>
-            <div>
-                <label for="EDIT_DOC_NUM">Document Number:</label> <br>
-                <input type="text" name="DOC_NUM" id="EDIT_DOC_NUM" disabled>
-            </div>
-            <div>
-                <label for="EDIT_FULLNAME">Received By:</label> <br>
-                <input type="text" name="FULLNAME" id="EDIT_FULLNAME" disabled>
-            </div>
+            
             <div>
                 <label for="EDIT_DATE_TIME_RECEIVED">Date Received:</label> <br>
                 <input type="datetime-local" name="DATE_TIME_RECEIVED" id="EDIT_DATE_TIME_RECEIVED">
