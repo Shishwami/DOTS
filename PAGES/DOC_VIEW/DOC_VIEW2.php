@@ -12,8 +12,9 @@
     <link rel="stylesheet" href="../../CSS/FontAwesome/css/fontawesome.min.css">
     <title></title>
 </head>
+
 <body>
-    <?php include '../../DOTS_NAVBAR/DOTS_NAV.php';?>
+    <?php include '../../DOTS_NAVBAR/DOTS_NAV.php'; ?>
 
     <div class="container">
         <h1>Document View</h1>
@@ -21,7 +22,7 @@
 
             <div class="grid">
                 <div class="header">
-                    <input type="text"  class="search" name="searchBar" id="searchBar" placeholder="Search Document">
+                    <input type="text" class="search" name="searchBar" id="searchBar" placeholder="Search Document">
                     <div class="opt">
                         <button class="opt_btn crt" name="BTN_DOC_CREATE" id="BTN_DOC_CREATE">Create</button>
                     </div>
@@ -33,7 +34,7 @@
                             <tr></tr>
                         </thead>
                         <tbody>
-                            
+
                         </tbody>
                     </table>
                 </div>
@@ -45,20 +46,20 @@
                         <span class="crt_close">&times;</span>
                         <h1>Create</h1>
                     </div>
-                
+
                     <form class="form" action="submit" id="FORM_DOC_RECEIVE">
                         <div class="radio_btn">
                             <div class="btn1">
                                 <label class="radio_cnt" for="ACTION_ID_3">CREATE
-                                <input type="radio" name=ACTION_ID value='3' id="ACTION_ID_3">
-                                <span class="r_btn one"></span></label>
+                                    <input type="radio" name=ACTION_ID value='3' id="ACTION_ID_3">
+                                    <span class="r_btn one"></span></label>
                             </div>
-                             
+
                             <div class="btn2">
                                 <label class="radio_cnt" for="ACTION_ID_2">RECEIVE
-                                <input type="radio" name=ACTION_ID value='2' id="ACTION_ID_2" checked>
-                                <span class="r_btn two"></span>
-                                </label>  
+                                    <input type="radio" name=ACTION_ID value='2' id="ACTION_ID_2" checked>
+                                    <span class="r_btn two"></span>
+                                </label>
                             </div>
                         </div>
 
@@ -77,7 +78,8 @@
                             <div class=" box content_two">
                                 <div class="cnt1">
                                     <label for="CREATE_DATE_TIME_RECEIVED">Date Received:</label>
-                                    <input type="datetime-local" name="DATE_TIME_RECEIVED" id="CREATE_DATE_TIME_RECEIVED">
+                                    <input type="datetime-local" name="DATE_TIME_RECEIVED"
+                                        id="CREATE_DATE_TIME_RECEIVED">
                                 </div>
                                 <div class="cnt2">
                                     <label for="CREATE_LETTER_DATE">Letter Date:</label>
@@ -104,18 +106,18 @@
                                     <label for="CREATE_DOC_SUBJECT">Subject:</label>
                                     <textarea name="DOC_SUBJECT" id="CREATE_DOC_SUBJECT" cols="20" rows="5"></textarea>
                                 </div>
-                            
+
 
                                 <input type="text" name="DOC_STATUS" id="CREATE_DOC_STATUS" value="5" hidden>
                                 <input type="text" name="R_USER_ID" id="CREATE_R_USER_ID" hidden>
                                 <input type="text" name="R_DEPT_ID" id="CREATE_R_DEPT_ID" hidden>
                             </div>
                         </div>
-                    
+
                         <div class="submit">
                             <input type="submit" value="Submit">
                         </div>
-                        
+
                     </form>
                 </div>
             </div>
@@ -176,7 +178,7 @@
                         <span class="snd_close">&times;</span>
                         <h1>Send</h1>
                     </div>
-                
+
                     <form class="form" action="submit" name="FORM_DOC_SEND" id="FORM_DOC_SEND">
                         <div class="form_content">
                             <div class="box content_one">
@@ -236,7 +238,7 @@
                     </form>
                 </div>
             </div>
-            
+
             <div class="modal" id="atc_modal">
                 <div class="modal_content">
                     <div class="modal_banner">
@@ -248,9 +250,8 @@
                         <button class="atc_btn" id="BTN_ATTACH_ADD">Add Attachment</button>
 
                         <div class="attachments">
-                            <div class="descript">
-                                <div class="preview">
-                                    <div  id="ATTACH_RESULTS">
+                            <div class="preview">
+                                <div  id="ATTACH_RESULTS">
 
                                     </div>
                                 </div>
@@ -275,17 +276,20 @@
                                 </div>
 
                                 <div class="spacer">
-                                    <form class="atc_submodal" action="submit" method="POST" id="FORM_ATTACH_ADD" enctype="multipart/form-data">
+                                    <form class="atc_submodal" action="submit" method="POST" id="FORM_ATTACH_ADD"
+                                        enctype="multipart/form-data">
                                         <div class="row">
                                             <div class="desc">
                                                 <label for="ATTACH_DESCRIPTION">Description:</label>
-                                                <textarea name="DESCRIPTION" id="ATTACH_DESCRIPTION" cols="20" rows="3"></textarea>
+                                                <textarea name="DESCRIPTION" id="ATTACH_DESCRIPTION" cols="20"
+                                                    rows="3"></textarea>
                                             </div>
                                             <!-- <input type="text" name="DESCRIPTION" id="ATTACH_DESCRIPTION"> -->
                                             <!-- <input type="file" name="ATTACH_FILE" id="ATTACH_FILE"> -->
 
                                             <div class="imgbox">
-                                                <input type="file" name="ATTACH_FILE" id="ATTACH_FILE" accept="image/*" hidden>
+                                                <input type="file" name="ATTACH_FILE[]" id="ATTACH_FILE" multiple accept="image/*"
+                                                    hidden>
                                                 <div class="img-area" data-img="">
                                                     <i class='fa-solid fa-upload icon'></i>
                                                     <h3>Upload Image</h3>
@@ -294,7 +298,7 @@
                                                 <button class="select-image">Select Image</button>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="submit">
                                             <input type="submit" value="Submit">
                                         </div>
@@ -304,7 +308,7 @@
                                 </div>
                             </div>
                         </div>
-                                
+
                         <div>
                             <!-- input preview -->
                         </div>
@@ -332,11 +336,11 @@
 
     inputFile.addEventListener('change', function () {
         const image = this.files[0]
-        if(image.size < (10*1024*1024)) {
+        if (image.size < (10 * 1024 * 1024)) {
             const reader = new FileReader();
-            reader.onload = ()=> {
+            reader.onload = () => {
                 const allImg = imgArea.querySelectorAll('img');
-                allImg.forEach(item=> item.remove());
+                allImg.forEach(item => item.remove());
                 const imgUrl = reader.result;
                 const img = document.createElement('img');
                 img.src = imgUrl;

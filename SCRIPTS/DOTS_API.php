@@ -724,6 +724,10 @@ function getTableUser($inputs, $conn, $tableName)
                 "label" => "S"
             ],
             [
+                "className" => "btnE",
+                "label" => "E"
+            ],
+            [
                 "className" => "btnA",
                 "label" => "A"
             ]

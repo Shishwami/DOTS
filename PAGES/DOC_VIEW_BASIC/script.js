@@ -128,6 +128,11 @@ function setButtons(table) {
             setAttachBtn(this.dataset.i, this.dataset.d, this.dataset.r);
         });
     });
+    table.querySelectorAll('.btnE').forEach(function (button) {
+        button.addEventListener('mousedown', function () {
+            setEditBtn(this.dataset.i, this.dataset.d, this.dataset.r);
+        });
+    });
 }
 
 function setReceiveBtn(id, doc_num, route_num) {
@@ -390,6 +395,9 @@ function setAttachBtn(id, doc_num, route_num) {
     //open attachment modal
 
 
+}
+function setEditBtn(id,doc_num,route_num){
+    
 }
 function setTableAttachment() {
     const data = {

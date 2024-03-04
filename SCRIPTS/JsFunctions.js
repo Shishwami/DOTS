@@ -53,7 +53,6 @@ class JsFunctions {
                         button.title = "Edit";
                     }
 
-
                     // button.className = btn.className;
                     // button.id = `button-${item.ID}-${item.DOC_NUM}-${item.ROUTE_NUM}`;
                     button.dataset.i = item.ID;
