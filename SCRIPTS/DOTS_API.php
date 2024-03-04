@@ -54,6 +54,11 @@ try {
         case "GET_DOCUMENT":
             getDocument($inputs, $conn);
             break;
+        case 'EDIT_DOCUMENT':
+            editDocument($inputs, $conn);
+            break;
+
+
         case "GET_DOC_TYPE":
             getOptions('DOTS_DOC_TYPE', 'DOC_TYPE', $conn);
             break;
@@ -290,6 +295,28 @@ function getDocument($inputs, $conn)
     echo json_encode(
         $selectOutputData
     );
+
+}
+
+function editDocument($inputs, $conn)
+{
+    $queries = new Queries();
+
+    $docId = $inputs['DATA']['ID'];
+    unset($inputs['DATA']['ID']);
+
+    $updateDocData = [
+        'TABLE' => 'DOTS_DOCUMENT',
+        'DATA' => $inputs['DATA'],
+        'WHERE' => [
+            'ID' => $docId
+        ]
+    ];
+
+    $updateDocSql = $queries->updateQuery($updateDocData);
+    $updateDocResult = $conn->query($updateDocSql);
+
+    echo "UPDATE  $updateDocSql   ";
 
 }
 function getOptions($tableName, $columnName, $conn)
