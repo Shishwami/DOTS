@@ -158,7 +158,7 @@
                             </div>
                             <div class="body">
                                 <label for="EDIT_DOC_SUBJECT">Subject:</label>
-                                <textarea name="DOC_NOTES" id="EDIT_DOC_SUBJECT" cols="20" rows="5"></textarea>
+                                <textarea name="DOC_SUBJECT" id="EDIT_DOC_SUBJECT" cols="20" rows="5"></textarea>
                                 <!-- <input type="text" name="DOC_SUBJECT" id="EDIT_DOC_SUBJECT"> -->
                             </div>
                         </div>
