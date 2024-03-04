@@ -122,7 +122,7 @@
             <div>
 
             </div>
-            
+
             <div>
                 <label for="EDIT_DATE_TIME_RECEIVED">Date Received:</label> <br>
                 <input type="datetime-local" name="DATE_TIME_RECEIVED" id="EDIT_DATE_TIME_RECEIVED">
@@ -155,6 +155,7 @@
             <input type="text" name="R_DEPT_ID" id="EDIT_R_DEPT_ID" hidden>
 
             <input type="submit" value="Submit">
+            <input type="text" name="ID" id="EDIT_DOC_ID">
         </form>
     </div>
     <div>
