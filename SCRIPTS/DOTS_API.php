@@ -1047,8 +1047,8 @@ function sendDocFormUser($inputs, $conn)
     $insertMainLogData = [
         'TABLE' => 'DOTS_TRACKING',
         'DATA' => [
-            'DOC_NUM' => $insertOutboundData['DATA']["DOC_NUM"],
-            'ROUTE_NUM' => $insertOutboundData['DATA']["ROUTE_NUM"],
+            'DOC_NUM' => $selectOutboundRow['DATA']["DOC_NUM"],
+            'ROUTE_NUM' => $selectOutboundRow['DATA']["ROUTE_NUM"],
             'ACTION_ID' => 1,//ACTION_ID SEND
             'HRIS_ID' => $_SESSION['HRIS_ID'],
             'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
