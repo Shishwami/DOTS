@@ -35,7 +35,7 @@ class JsFunctions {
 
                 buttons.forEach(btn => {
                     const button = document.createElement('button');
-                    // button.innerText = btn.label;
+                    button.innerText = btn.label;
                     button.classList.add(btn.className);
                     if (btn.className == "btnS") {
                         button.classList.add('fa-regular', 'fa-paper-plane');
