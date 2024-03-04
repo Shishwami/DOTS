@@ -599,6 +599,10 @@ function getTableMain($inputs, $conn)
             "label" => "S"
         ],
         [
+            "className" => "btnE",
+            "label" => "E"
+        ],
+        [
             "className" => "btnA",
             "label" => "A"
         ]
