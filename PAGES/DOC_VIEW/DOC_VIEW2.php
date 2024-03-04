@@ -250,14 +250,15 @@
                         <button class="atc_btn" id="BTN_ATTACH_ADD">Add Attachment</button>
 
                         <div class="attachments">
-                            <div class="preview">
-                                <div  id="ATTACH_RESULTS">
+                            <div class="descript">
+                                <div class="preview">
+                                    <div  id="ATTACH_RESULTS">
 
                                     </div>
                                 </div>
 
                                 <div class="descbox">
-                                    <div>Description</div>
+                                    <div>Samting samting</div>
                                 </div>
                             </div>
 

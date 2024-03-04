@@ -666,11 +666,16 @@ body:before
     flex-direction: column;
 }
 
+.descbox
+{
+    margin-top: 1rem;
+}
+
 #atc_modal .preview
 {
     display: flex;
     flex-direction: column;
-    max-height: 350px;
+    max-height: 200px;
     /* max-width: 300px; */
     overflow-y: auto;
     margin-right: 1rem;
