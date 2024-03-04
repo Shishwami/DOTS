@@ -51,6 +51,9 @@ try {
             getAddressee($inputs, $conn);
             break;
 
+        case "GET_DOCUMENT":
+            getDocument($inputs, $conn);
+            break;
         case "GET_DOC_TYPE":
             getOptions('DOTS_DOC_TYPE', 'DOC_TYPE', $conn);
             break;
@@ -253,6 +256,41 @@ function getDocNum($inputs, $conn)
             'RESULT' => $doc_num
         )
     );
+}
+function getDocument($inputs, $conn)
+{
+
+    $queries = new Queries();
+
+    $selectDocData = [
+        'TABLE' => 'DOTS_DOCUMENT',
+        "WHERE" => [
+            'AND' => [
+                ['ID' => $inputs['DATA']['ID']]
+            ]
+        ],
+    ];
+
+    $selectDocSql = $queries->selectQuery($selectDocData);
+    $selectDocResult = $conn->query($selectDocSql);
+    $selectDocRow = $selectDocResult->fetch_assoc();
+
+    $php_timestamp = strtotime($selectDocRow['DATE_TIME_RECEIVED']);
+    $html_datetime_string = date('Y-m-d\TH:i', $php_timestamp);
+
+    $selectOutputData = [
+        'ID' => $selectDocRow['ID'],
+        'DATE_TIME_RECEIVED' => $html_datetime_string,
+        'LETTER_DATE' => $selectDocRow['LETTER_DATE'],
+        'DOC_TYPE_ID' => $selectDocRow['DOC_TYPE_ID'],
+        'S_OFFICE_ID' => $selectDocRow['S_OFFICE_ID'],
+        'DOC_SUBJECT' => $selectDocRow['DOC_SUBJECT'],
+    ];
+
+    echo json_encode(
+        $selectOutputData
+    );
+
 }
 function getOptions($tableName, $columnName, $conn)
 {
