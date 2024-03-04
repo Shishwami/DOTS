@@ -316,7 +316,11 @@ function editDocument($inputs, $conn)
     $updateDocSql = $queries->updateQuery($updateDocData);
     $updateDocResult = $conn->query($updateDocSql);
 
-    echo "UPDATE  $updateDocSql   ";
+    echo json_encode(
+        array(
+            'VALID' => $updateDocResult
+        )
+    );
 
 }
 function getOptions($tableName, $columnName, $conn)
