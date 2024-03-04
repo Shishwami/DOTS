@@ -24,9 +24,8 @@ const CREATE_R_USER_ID = FORM_DOC_RECEIVE.querySelector("#CREATE_R_USER_ID");
 const CREATE_R_DEPT_ID = FORM_DOC_RECEIVE.querySelector("#CREATE_R_DEPT_ID");
 //edit form
 const FORM_DOC_EDIT = document.getElementById("FORM_DOC_EDIT");
-const EDIT_DOC_NUM = FORM_DOC_EDIT.querySelector("#EDIT_DOC_NUM");
-const EDIT_FULLNAME = FORM_DOC_EDIT.querySelector("#EDIT_FULLNAME");
 const EDIT_DATE_TIME_RECEIVED = FORM_DOC_EDIT.querySelector("#EDIT_DATE_TIME_RECEIVED");
+const EDIT_DOC_ID = FORM_DOC_EDIT.querySelector("#EDIT_DOC_ID");
 const EDIT_LETTER_DATE = FORM_DOC_EDIT.querySelector("#EDIT_LETTER_DATE");
 const EDIT_DOC_TYPE = FORM_DOC_EDIT.querySelector("#EDIT_DOC_TYPE");
 const EDIT_DOC_OFFICE = FORM_DOC_EDIT.querySelector("#EDIT_DOC_OFFICE");
@@ -115,9 +114,11 @@ function initializeRECEIVE_FORM() {
 
     getData(_REQUEST.GET_DOC_TYPE, null, (result) => {
         JsFunctions.setSelect(CREATE_DOC_TYPE, result);
+        JsFunctions.setSelect(EDIT_DOC_TYPE, result);
     }, null);
     getData(_REQUEST.GET_DOC_OFFICE, null, (result) => {
         JsFunctions.setSelect(CREATE_DOC_OFFICE, result);
+        JsFunctions.setSelect(EDIT_DOC_OFFICE, result);
     }, null);
     getData(_REQUEST.GET_SESSION_NAME, null, (result) => {
         CREATE_FULLNAME.value = result;
@@ -378,12 +379,6 @@ function sendBtnEvent(id, doc_num, route_num) {
     SEND_DOC_NUM.value = doc_num;
     SEND_ROUTE_NUM.value = route_num;
 
-    // if (id != 0) {
-    //     SEND_DOC_NUM.value = doc_num;
-    //     SEND_ROUTE_NUM.value = route_num;
-    // } else {
-    //     alert("Please Select A Document");
-    // }
     if (snd_modal)
         snd_modal.style.display = "block";
 }
@@ -393,7 +388,22 @@ function clearValues() {
     SEND_DOC_NOTES.value = "";
     SEND_DOC_ADDRESSEE.value = "";
 }
-
+function setEditBtn(id, doc_num, route_num) {
+    const data = {
+        'REQUEST': _REQUEST.GET_DOCUMENT,
+        'DATA': {
+            'ID': id
+        }
+    }
+    MyAjax.createJSON((error, response) => {
+        EDIT_DOC_ID.value = response['ID'];
+        EDIT_DATE_TIME_RECEIVED.value = response['DATE_TIME_RECEIVED'];
+        EDIT_LETTER_DATE.value = response['LETTER_DATE'];
+        EDIT_DOC_TYPE.value = response['DOC_TYPE_ID'];
+        EDIT_DOC_OFFICE.value = response['S_OFFICE_ID'];
+        EDIT_DOC_SUBJECT.value = response['DOC_SUBJECT'];
+    }, data);
+}
 function setAttachBtn(id, doc_num, route_num) {
     ATTACH_DOC_NUM.value = doc_num;
     ATTACH_ROUTE_NUM.value = route_num;
@@ -501,10 +511,11 @@ function setButtons(table) {
         });
     });
 
-    // table.querySelectorAll('.btnE').forEach(function (button) {
-    //     button.addEventListener('click', function () {
-    //     });
-    // });
+    table.querySelectorAll('.btnE').forEach(function (button) {
+        button.addEventListener('click', function () {
+            setEditBtn(this.dataset.i, this.dataset.d, this.dataset.r);
+        });
+    });
 
     table.querySelectorAll('.btnA').forEach(function (button) {
         button.addEventListener('click', function () {
@@ -589,6 +600,28 @@ function setForms() {
             }
         };
         xhr.send(formData);
+    });
+
+    FORM_DOC_EDIT.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var data = {
+            REQUEST: _REQUEST.EDIT_DOCUMENT,
+            DATA: JsFunctions.FormToJson(FORM_DOC_EDIT),
+        }
+
+        MyAjax.createJSON((error, response) => {
+            if (error) {
+                alert(error);
+            } else {
+                var results = ""
+                if (response.VALID) {
+                    delete response.VALID;
+                } else {
+                    //response valid=false
+                }
+            }
+            setTable(searchBar.value.toUpperCase());
+        }, data);
     });
 
 }

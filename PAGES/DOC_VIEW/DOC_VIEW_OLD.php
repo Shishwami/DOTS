@@ -122,14 +122,7 @@
             <div>
 
             </div>
-            <div>
-                <label for="EDIT_DOC_NUM">Document Number:</label> <br>
-                <input type="text" name="DOC_NUM" id="EDIT_DOC_NUM" disabled>
-            </div>
-            <div>
-                <label for="EDIT_FULLNAME">Received By:</label> <br>
-                <input type="text" name="FULLNAME" id="EDIT_FULLNAME" disabled>
-            </div>
+
             <div>
                 <label for="EDIT_DATE_TIME_RECEIVED">Date Received:</label> <br>
                 <input type="datetime-local" name="DATE_TIME_RECEIVED" id="EDIT_DATE_TIME_RECEIVED">
@@ -158,10 +151,9 @@
             </div>
 
             <input type="text" name="DOC_STATUS" id="EDIT_DOC_STATUS" value="5" hidden>
-            <input type="text" name="R_USER_ID" id="EDIT_R_USER_ID" hidden>
-            <input type="text" name="R_DEPT_ID" id="EDIT_R_DEPT_ID" hidden>
 
             <input type="submit" value="Submit">
+            <input type="text" name="ID" id="EDIT_DOC_ID">
         </form>
     </div>
     <div>
