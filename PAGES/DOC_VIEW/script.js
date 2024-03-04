@@ -602,4 +602,26 @@ function setForms() {
         xhr.send(formData);
     });
 
+    FORM_DOC_EDIT.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var data = {
+            REQUEST: _REQUEST.EDIT_DOCUMENT,
+            DATA: JsFunctions.FormToJson(FORM_DOC_EDIT),
+        }
+
+        MyAjax.createJSON((error, response) => {
+            if (error) {
+                alert(error);
+            } else {
+                var results = ""
+                if (response.VALID) {
+                    delete response.VALID;
+                } else {
+                    //response valid=false
+                }
+            }
+            setTable(searchBar.value.toUpperCase());
+        }, data);
+    });
+
 }
