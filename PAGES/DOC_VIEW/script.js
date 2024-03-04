@@ -24,8 +24,6 @@ const CREATE_R_USER_ID = FORM_DOC_RECEIVE.querySelector("#CREATE_R_USER_ID");
 const CREATE_R_DEPT_ID = FORM_DOC_RECEIVE.querySelector("#CREATE_R_DEPT_ID");
 //edit form
 const FORM_DOC_EDIT = document.getElementById("FORM_DOC_EDIT");
-const EDIT_DOC_NUM = FORM_DOC_EDIT.querySelector("#EDIT_DOC_NUM");
-const EDIT_FULLNAME = FORM_DOC_EDIT.querySelector("#EDIT_FULLNAME");
 const EDIT_DATE_TIME_RECEIVED = FORM_DOC_EDIT.querySelector("#EDIT_DATE_TIME_RECEIVED");
 const EDIT_LETTER_DATE = FORM_DOC_EDIT.querySelector("#EDIT_LETTER_DATE");
 const EDIT_DOC_TYPE = FORM_DOC_EDIT.querySelector("#EDIT_DOC_TYPE");
