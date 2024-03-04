@@ -584,7 +584,6 @@ function setForms() {
         //     }
         // }, data);
 
-        var file = ATTACH_FILE.files[0];
         var formData = new FormData(this);
         // formData.append('file', file);
         // formData.append('DOC_NUM', ATTACH_DOC_NUM.value);
