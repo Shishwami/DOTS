@@ -35,14 +35,14 @@ class JsFunctions {
 
                 buttons.forEach(btn => {
                     const button = document.createElement('button');
-                    button.innerText = btn.label;
+                    // button.innerText = btn.label;
                     button.classList.add(btn.className);
                     if (btn.className == "btnS") {
                         button.classList.add('fa-regular', 'fa-paper-plane');
                         button.title = "Send";
                     } if (btn.className == "btnR") {
                         button.classList.add('fa-solid', 'fa-inbox');
-                        button.title = "Send";
+                        button.title = "Receive";
                     }
                     if (btn.className == "btnA") {
                         button.classList.add('fa-solid', 'fa-paperclip');

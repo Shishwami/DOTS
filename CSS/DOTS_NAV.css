@@ -30,11 +30,12 @@
     /* Content Page Container Global */
 
     /* Page Backgrounds */
-    --modal_bg: linear-gradient(to bottom, #d0efff, #ffffff);
+    --modal_bg: linear-gradient(to bottom, #f4fbff, #ffffff);
     --modal_banner_bg: linear-gradient(to bottom, #0003ae, #0088ff);
     --container_bg: linear-gradient(to bottom right, rgba(155, 215, 255, 0.5), rgba(0, 36, 102, 0.5));
     /* --form_bg: linear-gradient(to bottom, #f1e7f1, #ffffff); */
-    --form_bg: url(../CSS/Resources/City-of-Baguio-Logo\ Fill.png);
+    --form_bg: linear-gradient(to bottom, #e3f5ff, #ffffff);
+    --form_bg_logo: url(../CSS/Resources/City-of-Baguio-Logo\ Fill.png);
     --login_bg: url(../CSS/Resources/City-of-Baguio-Logo\ Fill.png);
 
     /* Font Color */
