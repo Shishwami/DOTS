@@ -32,7 +32,6 @@ const SEND_R_DEPT_ID = FORM_DOC_SEND.querySelector('#SEND_R_DEPT_ID');
 const FORM_DOC_CANCEL_S = document.getElementById("#FORM_DOC_CANCEL_S");
 
 
-
 const FORM_DOC_CANCEL_R = document.getElementById("#FORM_DOC_CANCEL_R");
 
 const RADIO_SEND = document.getElementById("RADIO_SEND");
