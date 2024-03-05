@@ -436,11 +436,12 @@ function cancelSend($inputs, $conn)
     $selectOutboundResult = $conn->query($selectOutboundSql);
     $selectOutboundRow = $selectOutboundResult->fetch_assoc();
 
-    if ($selectOutboundRow['ROUTED' == 1]) {
+    var_dump($selectOutboundRow);
+    if ($selectOutboundRow['ACTION_ID'] == 2) {
         //routed and sent and cannot be canceled 
-    } else if ($selectOutboundRow['ROUTED'] == 0) {
+        echo 'CAACNAOACASDASD CAUSE ';
+    } else if ($selectOutboundRow['ACTION_ID'] == 1) {
         //update the doc in inbound to be canceled
-        //update the doc in outbound to have no send data
 
 
         //update to canceled the doc in outbound
@@ -458,11 +459,17 @@ function cancelSend($inputs, $conn)
         $deleteDocSql = $queries->updateQuery($deleteDocData);
         $deleteDocResult = $conn->query($deleteDocSql);
 
+
+        //update the doc in outbound to have no send data
+
         $updateReceiveData = [
             'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
             'DATA' => [
-                'DATE_TIME_RECEIVED' => "NULL",
-                'ACTION_ID' => 1//ACTION_ID SENT
+                'DATE_TIME_SEND' => "NULL",
+                'R_DEPT_ID' => 0,
+                'R_USER_ID' => 0,
+                'PRPS_ID' => 0,
+                'ACTION_ID' => 2//ACTION_ID RECEIVED
             ],
             "WHERE" => [
                 'ID' => $id
