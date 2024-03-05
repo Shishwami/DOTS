@@ -21,13 +21,19 @@ const SEND_S_USER_ID = FORM_DOC_SEND.querySelector('#SEND_S_USER_ID');
 const SEND_S_DEPT_ID = FORM_DOC_SEND.querySelector('#SEND_S_DEPT_ID');
 const SEND_R_DEPT_ID = FORM_DOC_SEND.querySelector('#SEND_R_DEPT_ID');
 
-const FORM_DOC_EDIT = document.getElementById('FORM_DOC_EDIT');
-const EDIT_DATE_TIME_EDIT = FORM_DOC_EDIT.querySelector("#EDIT_DATE_TIME_EDIT");
-const EDIT_DOC_PRPS = FORM_DOC_EDIT.querySelector("#EDIT_DOC_PRPS");
-const EDIT_DOC_ID = FORM_DOC_EDIT.querySelector('#EDIT_DOC_ID');
-const EDIT_S_USER_ID = FORM_DOC_EDIT.querySelector('#EDIT_S_USER_ID');
-const EDIT_S_DEPT_ID = FORM_DOC_EDIT.querySelector('#EDIT_S_DEPT_ID');
-const EDIT_R_DEPT_ID = FORM_DOC_EDIT.querySelector('#EDIT_R_DEPT_ID');
+// const FORM_DOC_EDIT = document.getElementById('FORM_DOC_EDIT');
+// const EDIT_DATE_TIME_EDIT = FORM_DOC_EDIT.querySelector("#EDIT_DATE_TIME_EDIT");
+// const EDIT_DOC_PRPS = FORM_DOC_EDIT.querySelector("#EDIT_DOC_PRPS");
+// const EDIT_DOC_ID = FORM_DOC_EDIT.querySelector('#EDIT_DOC_ID');
+// const EDIT_S_USER_ID = FORM_DOC_EDIT.querySelector('#EDIT_S_USER_ID');
+// const EDIT_S_DEPT_ID = FORM_DOC_EDIT.querySelector('#EDIT_S_DEPT_ID');
+// const EDIT_R_DEPT_ID = FORM_DOC_EDIT.querySelector('#EDIT_R_DEPT_ID');
+
+const FORM_DOC_CANCEL_S = document.getElementById("#FORM_DOC_CANCEL_S");
+
+
+
+const FORM_DOC_CANCEL_R = document.getElementById("#FORM_DOC_CANCEL_R");
 
 const RADIO_SEND = document.getElementById("RADIO_SEND");
 const RADIO_RECEIVE = document.getElementById("RADIO_RECEIVE");
