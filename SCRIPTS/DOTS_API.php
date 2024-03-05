@@ -358,32 +358,50 @@ function cancelReceive($inputs, $conn)
     //get outboundid for deletion
     $selectReceiveData = [
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
-        "WHERE" => [
-            "AND" =>
-                [
-                    ['ID' => $docId]
-                ]
+        'WHERE' => [
+            'AND' => array(
+                array('ID' => $docId)
+            ),
         ]
     ];
-    $selectReceiveSql = $queries->updateQuery($selectReceiveData);
+    $selectReceiveSql = $queries->selectQuery($selectReceiveData);
     $selectReceiveResult = $conn->query($selectReceiveSql);
     $selectReceiveRow = $selectReceiveResult->fetch_assoc();
 
+    echo $selectReceiveRow['OUTBOUND_ID'];
+
+    //TODO if sent cannot be cancelled;
+    $selectInboundData = [
+        'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
+        'WHERE' => [
+            'ID' => $selectReceiveRow['OUTBOUND_ID']
+        ],
+    ];
+    $selectInboundSql = $queries->selectQuery($selectInboundData);
+    $selectInboundResult = $conn->query($selectInboundSql);
+    $selectInboundRow = $selectInboundResult->fetch_assoc();
     
+    if ($selectInboundRow['ROUTED'] == 1) {
+        //cannot canncel cause routed
+        echo "CAANOT CANCEL DOC CAUSE SENT";
+    } else {
+        //update to canceled the doc in outbound
+
+        $deleteDocData = [
+            'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
+            'DATA' => [
+                'ACTION_ID' => 5//canclled
+            ],
+            'WHERE' => [
+                'ID' => $selectReceiveRow['OUTBOUND_ID']
+            ],
+        ];
+
+        $deleteDocSql = $queries->updateQuery($deleteDocData);
+        $deleteDocResult = $conn->query($deleteDocSql);
+    }
 
 
-
-    // //delete the canceled doc in outbound
-    // $deleteDocData = [
-    //     'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
-    //     'WHERE' => [
-    //         'DOC_NUM' => $docNum,
-    //         'ROUTE_NUM' => $routeNum,
-    //     ],
-    // ];
-
-    // $deleteDocSql = $queries->deleteQuery($deleteDocData);
-    // $deleteDocResult = $conn->query($deleteDocSql);
 
     echo json_encode(
         array(
