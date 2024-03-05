@@ -248,6 +248,7 @@
 
                     <div class="spacer">
                         <button class="atc_btn" id="BTN_ATTACH_ADD">Add Attachment</button>
+                        <button class="ins_btn" id="BTN_ATTACH_INS">Inspect Image</button>
 
                         <div class="attachments">
                             <div class="descript">
@@ -266,6 +267,21 @@
                                 <div id="ATTACH_ZOOM">
                                     <!-- preview -->
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="modal" id="ins_submodal">
+                            <div class="modal_content">
+                                <div class="modal_banner">
+                                    <span class="ins_sub_close">&times;</span>
+                                    <h1>Attach</h1>
+                                </div>
+
+                                <div class="img-zoom-container">
+                                    <img id="myimage" src="../CSS/Resources/1120291.png" width="300" height="240">
+                                    <div id="myresult" class="img-zoom-result"></div>
+                                </div>
+
                             </div>
                         </div>
 
