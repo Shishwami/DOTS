@@ -1136,6 +1136,7 @@ function sendDocFormUser($inputs, $conn)
             'ID' => $inputs["DATA"]["ID"],
         ]
     ];
+    
     //insert to inbound /send
     $insertInboundData = [
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
