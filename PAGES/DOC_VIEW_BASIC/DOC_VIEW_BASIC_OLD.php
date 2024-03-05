@@ -137,10 +137,28 @@
     </form>
 
     <form action="submit" name="FORM_DOC_CANCEL_R" id="FORM_DOC_CANCEL_R">
-        <h1>CANCELATION FORM</h1>
+        <h1>CANCELATION FORM for Receive</h1>
+
+        <label for="CANCEL_R_NOTES">Notes:</label>
+        <textarea name="CANCEL_R_NOTES" id="CANCEL_R_NOTES" cols="30" rows="3"></textarea>
+
+        <label for="CANCEL_R_DEPT">
+            <input type="checkbox" name="CANCEL_R_DEPT" id="CANCEL_R_DEPT">
+            Check if the document was sent to the department
+        </label>
+
         <input type="submit" value="CANCEL">
+        <input type="text" id="CANCEL_R_ID">
     </form>
 
+    <form action="submit" name="FORM_DOC_CANCEL_R" id="FORM_DOC_CANCEL_R">
+        <h1>CANCELATION FORM for send</h1>
+
+        <label for="CANCEL_R_NOTES">Notes:</label>
+        <textarea name="CANCEL_R_NOTES" id="CANCEL_R_NOTES" cols="30" rows="3"></textarea>
+
+        <input type="submit" value="CANCEL">
+    </form>
 
     <div>
         <h2>ATTACHMENT MODAL</h2>
