@@ -335,12 +335,8 @@ function editDocument($inputs, $conn)
 
 function cancelReceive($inputs, $conn)
 {
-    $docId = $inputs['DATA']['ID'];
-    $docNum = $inputs['DATA']['DOC_NUM'];
-    $routeNum = $inputs['DATA']['ROUTE_NUM'];
+    $docId = $inputs['DATA']['CANCEL_R_ID'];
     $queries = new Queries();
-
-
 
     //get outboundid for deletion
     $selectReceiveData = [
@@ -355,9 +351,6 @@ function cancelReceive($inputs, $conn)
     $selectReceiveResult = $conn->query($selectReceiveSql);
     $selectReceiveRow = $selectReceiveResult->fetch_assoc();
 
-    echo $selectReceiveRow['OUTBOUND_ID'];
-
-    //TODO if sent cannot be cancelled;
     $selectInboundData = [
         'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
         'WHERE' => [
@@ -366,13 +359,14 @@ function cancelReceive($inputs, $conn)
             ]
         ],
     ];
+
     $selectInboundSql = $queries->selectQuery($selectInboundData);
     $selectInboundResult = $conn->query($selectInboundSql);
     $selectInboundRow = $selectInboundResult->fetch_assoc();
-    var_dump($selectInboundRow);
+
     if ($selectInboundRow['ROUTED'] == 1) {
         //cannot canncel cause routed
-        // echo "CAANOT C   ANCEL DOC CAUSE SENT";
+        echo "CAANOT C   ANCEL DOC CAUSE SENT";
     } else {
         //update to canceled the doc in outbound
 
