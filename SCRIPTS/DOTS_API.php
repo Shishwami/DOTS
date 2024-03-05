@@ -340,20 +340,7 @@ function cancelReceive($inputs, $conn)
     $routeNum = $inputs['DATA']['ROUTE_NUM'];
     $queries = new Queries();
 
-    $updateReceiveData = [
-        'TABLE' => 'DOTS_DOCUMENT_INBOUND',
-        'DATA' => [
-            'DATE_TIME_RECEIVED' => "NULL",
-            'ACTION_ID' => 1//ACTION_ID SENT
-        ],
-        "WHERE" => [
-            'ID' => $docId
-        ]
 
-    ];
-
-    $updateReceiveSql = $queries->updateQuery($updateReceiveData);
-    $updateReceiveResult = $conn->query($updateReceiveSql);
 
     //get outboundid for deletion
     $selectReceiveData = [
@@ -374,16 +361,18 @@ function cancelReceive($inputs, $conn)
     $selectInboundData = [
         'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
         'WHERE' => [
-            'ID' => $selectReceiveRow['OUTBOUND_ID']
+            "AND" => [
+                ['ID' => $selectReceiveRow['OUTBOUND_ID']]
+            ]
         ],
     ];
     $selectInboundSql = $queries->selectQuery($selectInboundData);
     $selectInboundResult = $conn->query($selectInboundSql);
     $selectInboundRow = $selectInboundResult->fetch_assoc();
-    
+    var_dump($selectInboundRow);
     if ($selectInboundRow['ROUTED'] == 1) {
         //cannot canncel cause routed
-        echo "CAANOT CANCEL DOC CAUSE SENT";
+        // echo "CAANOT C   ANCEL DOC CAUSE SENT";
     } else {
         //update to canceled the doc in outbound
 
@@ -399,6 +388,21 @@ function cancelReceive($inputs, $conn)
 
         $deleteDocSql = $queries->updateQuery($deleteDocData);
         $deleteDocResult = $conn->query($deleteDocSql);
+
+        $updateReceiveData = [
+            'TABLE' => 'DOTS_DOCUMENT_INBOUND',
+            'DATA' => [
+                'DATE_TIME_RECEIVED' => "NULL",
+                'ACTION_ID' => 1//ACTION_ID SENT
+            ],
+            "WHERE" => [
+                'ID' => $docId
+            ]
+
+        ];
+
+        $updateReceiveSql = $queries->updateQuery($updateReceiveData);
+        $updateReceiveResult = $conn->query($updateReceiveSql);
     }
 
 
