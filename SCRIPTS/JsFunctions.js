@@ -67,6 +67,10 @@ class JsFunctions {
                         button.disabled = true;
                         button.style.visibility = 'hidden';
                     }
+                    if (item.Action == "RECEIVE" && btn.className == "btnCS") {
+                        button.disabled = true;
+                        button.style.visibility = 'hidden';
+                    }
                     if (item.Action == "CANCELLED") {
                         button.disabled = true;
                         button.style.visibility = 'hidden';
