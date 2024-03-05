@@ -33,6 +33,8 @@ const EDIT_DOC_SUBJECT = FORM_DOC_EDIT.querySelector("#EDIT_DOC_SUBJECT");
 const EDIT_DOC_STATUS = FORM_DOC_EDIT.querySelector("#EDIT_DOC_STATUS");
 const EDIT_R_USER_ID = FORM_DOC_EDIT.querySelector("#EDIT_R_USER_ID");
 const EDIT_R_DEPT_ID = FORM_DOC_EDIT.querySelector("#EDIT_R_DEPT_ID");
+const EDIT_ACTION_ID_2 = FORM_DOC_EDIT.querySelector("#EDIT_ACTION_ID_2");
+const EDIT_ACTION_ID_3 = FORM_DOC_EDIT.querySelector("#EDIT_ACTION_ID_3");
 //SEND FORM
 const FORM_DOC_SEND = document.getElementById("FORM_DOC_SEND");
 const SEND_DOC_NUM = FORM_DOC_SEND.querySelector("#SEND_DOC_NUM");
@@ -55,7 +57,7 @@ const ATTACH_ZOOM = document.getElementById("ATTACH_ZOOM");
 
 const snd_modal = document.getElementById("snd_modal");
 const atc_modal = document.getElementById("atc_modal");
-
+const edt_modal = document.getElementById("edt_modal");
 
 InitializePAGE();
 
@@ -396,7 +398,8 @@ function setEditBtn(id, doc_num, route_num) {
         }
     };
 
-    edt_modal.style.display = "block";
+    if (edt_modal)
+        edt_modal.style.display = "block";
 
     MyAjax.createJSON((error, response) => {
         EDIT_DOC_ID.value = response['ID'];
@@ -405,6 +408,14 @@ function setEditBtn(id, doc_num, route_num) {
         EDIT_DOC_TYPE.value = response['DOC_TYPE_ID'];
         EDIT_DOC_OFFICE.value = response['S_OFFICE_ID'];
         EDIT_DOC_SUBJECT.value = response['DOC_SUBJECT'];
+
+
+        if (response['ACTION_ID'] == 2) {
+            EDIT_ACTION_ID_2.checked = true;
+        } else if (response['ACTION_ID'] == 3) {
+            EDIT_ACTION_ID_3.checked = true;
+        }
+
     }, data);
 }
 function setAttachBtn(id, doc_num, route_num) {
