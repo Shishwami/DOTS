@@ -356,17 +356,17 @@ function cancelReceive($inputs, $conn)
     $updateReceiveResult = $conn->query($updateReceiveSql);
 
 
-    //delete the canceled doc in outbound
-    $deleteDocData = [
-        'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
-        'WHERE' => [
-            'DOC_NUM' => $docNum,
-            'ROUTE_NUM' => $routeNum,
-        ],
-    ];
+    // //delete the canceled doc in outbound
+    // $deleteDocData = [
+    //     'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
+    //     'WHERE' => [
+    //         'DOC_NUM' => $docNum,
+    //         'ROUTE_NUM' => $routeNum,
+    //     ],
+    // ];
 
-    $deleteDocSql = $queries->deleteQuery($deleteDocData);
-    $deleteDocResult = $conn->query($deleteDocSql);
+    // $deleteDocSql = $queries->deleteQuery($deleteDocData);
+    // $deleteDocResult = $conn->query($deleteDocSql);
 
     echo json_encode(
         array(
@@ -925,6 +925,7 @@ function receiveDocUser($inputs, $conn)
 {
     $queries = new Queries();
     $valid = false;
+    $conn->begin_transaction();
 
     $updateData = array(
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
@@ -969,13 +970,16 @@ function receiveDocUser($inputs, $conn)
 
     //TODO validate if received
 
-    $updateDataSql = $queries->updateQuery($updateData);
     $insertDataSql = $queries->insertQuery($insertData);
-
-    $resultUpdate = $conn->query($updateDataSql);
     $insertUpdate = $conn->query($insertDataSql);
 
-    $conn->begin_transaction();
+    $lastId = $conn->insert_id;
+    $updateData['DATA']['OUTBOUND_ID'] = $lastId;
+
+    $updateDataSql = $queries->updateQuery($updateData);
+    $resultUpdate = $conn->query($updateDataSql);
+
+
 
     if ($resultUpdate && $insertUpdate) {
         $valid = true;
