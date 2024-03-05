@@ -136,42 +136,9 @@
         <input type="submit" value="Send">
     </form>
 
-    <form action="submit" name="FORM_DOC_EDIT" id="FORM_DOC_EDIT">
-        <h1>EDIT FORM</h1>
-        <div>
-            <label for="EDIT_DATE_TIME_EDIT">Date Sent:</label>
-            <input type="datetime-local" name="DATE_TIME_EDIT" id="EDIT_DATE_TIME_EDIT">
-        </div>
-        <div>
-            <label for="EDIT_DOC_PRPS">Documnet Purpose:</label>
-            <select name="PRPS_ID" id="EDIT_DOC_PRPS">
-                <option value="" disabled selected>Please Select Purpose</option>
-                <!-- to be filled using database -->
-            </select>
-        </div>
-        <div>
-            <label for="EDIT_R_DEPT_ID">Department:</label>
-            <select name="R_DEPT_ID" id="EDIT_R_DEPT_ID">
-                <option value="" disabled selected>Please Select Department</option>
-                <!-- to be filled using database -->
-            </select>
-        </div>
-        <div>
-            <label for="EDIT_DOC_ADDRESSEE">Addressee:</label>
-            <select name="R_USER_ID" id="EDIT_DOC_ADDRESSEE">
-                <option value="" disabled selected>Please Select Addressee</option>
-                <!-- to be filled using database -->
-            </select>
-        </div>
-
-        <div>
-            <label for="EDIT_DOC_NOTES">Notes:</label>
-            <input type="text" name="DOC_NOTES" id="EDIT_DOC_NOTES">
-        </div>
-
-        <input readonly type="text" name="ID" id="EDIT_DOC_ID">
-
-        <input type="submit" value="EDIT">
+    <form action="submit" name="FORM_DOC_CANCEL_R" id="FORM_DOC_CANCEL_R">
+        <h1>CANCELATION FORM</h1>
+        <input type="submit" value="CANCEL">
     </form>
 
 
