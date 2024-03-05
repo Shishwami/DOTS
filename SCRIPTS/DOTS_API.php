@@ -469,6 +469,7 @@ function cancelSend($inputs, $conn)
                 'R_DEPT_ID' => 0,
                 'R_USER_ID' => 0,
                 'PRPS_ID' => 0,
+                'ROUTED'=>0,
                 'ACTION_ID' => 2//ACTION_ID RECEIVED
             ],
             "WHERE" => [
