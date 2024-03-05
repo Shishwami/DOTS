@@ -60,12 +60,14 @@ class JsFunctions {
                     button.dataset.r = item.ROUTE_NUM;
 
                     if (item.Action == "RECEIVE" && btn.className == "btnR") {
-                        button.disabled = false;
+                        button.disabled = true;
                         button.style.visibility = 'hidden';
                     }
-
+                    if (item.Action == "SENT" && btn.className == "btnCR") {
+                        button.disabled = true;
+                        button.style.visibility = 'hidden';
+                    }
                     buttonCell.appendChild(button);
-
                 });
 
                 row.appendChild(buttonCell);
@@ -74,7 +76,9 @@ class JsFunctions {
             Object.entries(item).forEach(([key, value]) => {
                 if (key !== 'ID' && key !== 'DOC_NUM' && key !== 'ROUTE_NUM') {
                     const cell = document.createElement('td');
-                    cell.textContent = value;
+                    var fvalue = value;
+
+                    cell.textContent = fvalue;
                     row.appendChild(cell);
 
                     if (cell.textContent.toUpperCase().indexOf(filter) > -1) {

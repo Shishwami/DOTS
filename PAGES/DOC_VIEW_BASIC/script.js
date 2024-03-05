@@ -133,6 +133,11 @@ function setButtons(table) {
             setEditBtn(this.dataset.i, this.dataset.d, this.dataset.r);
         });
     });
+    table.querySelectorAll('.btnCR').forEach(function (button) {
+        button.addEventListener('mousedown', function () {
+            setCancelReceive(this.dataset.i, this.dataset.d, this.dataset.r);
+        });
+    });
 }
 
 function setReceiveBtn(id, doc_num, route_num) {
@@ -191,6 +196,21 @@ function setSendBtn(id, doc_num, route_num) {
     });
 
 }
+
+function setCancelReceive(id, doc_num, route_num) {
+    const data = {
+        REQUEST: _REQUEST.CANCEL_RECEIVE,
+        DATA: {
+            'ID': id
+        }
+    }
+
+    MyAjax.createJSON((error, response) => {
+        console.log(response);
+        setTable(searchBar.value.toUpperCase(), action_type);
+    }, data);
+}
+
 function setFormEvents() {
     FORM_DOC_RECEIVE.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -396,8 +416,8 @@ function setAttachBtn(id, doc_num, route_num) {
 
 
 }
-function setEditBtn(id,doc_num,route_num){
-    
+function setEditBtn(id, doc_num, route_num) {
+
 }
 function setTableAttachment() {
     const data = {

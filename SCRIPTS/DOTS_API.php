@@ -57,8 +57,9 @@ try {
         case 'EDIT_DOCUMENT':
             editDocument($inputs, $conn);
             break;
-
-
+        case 'CANCEL_RECEIVE':
+            cancelReceive($inputs, $conn);
+            break;
         case "GET_DOC_TYPE":
             getOptions('DOTS_DOC_TYPE', 'DOC_TYPE', $conn);
             break;
@@ -324,6 +325,34 @@ function editDocument($inputs, $conn)
     );
 
 }
+
+function cancelReceive($inputs, $conn)
+{
+    $id = $inputs['DATA']['ID'];
+
+    $queries = new Queries();
+
+    $updateReceiveData = [
+        'TABLE' => 'DOTS_DOCUMENT_INBOUND',
+        'DATA' => [
+            'DATE_TIME_RECEIVED' => "NULL",
+            'ACTION_ID' => 1//ACTION_ID SENT
+        ],
+        "WHERE" => [
+            'ID' => $id
+        ]
+
+    ];
+
+    $updateReceiveSql = $queries->updateQuery($updateReceiveData);
+    $updateReceiveResult = $conn->query($updateReceiveSql);
+    echo json_encode(
+        array(
+
+        )
+    );
+}
+
 function getOptions($tableName, $columnName, $conn)
 {
     $queries = new Queries();
@@ -706,6 +735,10 @@ function getTableUser($inputs, $conn, $tableName)
             [
                 "className" => "btnR",
                 "label" => "R"
+            ],
+            [
+                "className" => "btnCR",
+                "label" => "C"
             ]
         );
     }
@@ -833,9 +866,17 @@ function setupTable($result, $buttons, $tableName)
             $fValue = $value;
 
             if ($key == "Date Received" && $value != null) {
-                $fValue = formatDateTime($value);
+                if ($fValue == '0000-00-00 00:00:00') {
+                    $fValue = '';
+                } else {
+                    $fValue = formatDateTime($value);
+                }
             } else if ($key == "Date Sent" && $value != null) {
-                $fValue = formatDateTime($value);
+                if ($fValue == '0000-00-00 00:00:00') {
+                    $fValue = '';
+                } else {
+                    $fValue = formatDateTime($value);
+                }
             } else if ($key == "Letter Date") {
                 $fValue = formatDate($value);
             } else if ($key == "Date of Action") {
