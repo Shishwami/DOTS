@@ -148,7 +148,7 @@
         </label>
 
         <input type="submit" value="CANCEL">
-        <input type="text" id="CANCEL_R_ID">
+        <input type="text" name="CANCEL_R_ID" id="CANCEL_R_ID">
     </form>
 
     <form action="submit" name="FORM_DOC_CANCEL_S" id="FORM_DOC_CANCEL_S">
@@ -158,6 +158,7 @@
         <textarea name="CANCEL_S_NOTES" id="CANCEL_S_NOTES" cols="30" rows="3"></textarea>
 
         <input type="submit" value="CANCEL">
+        <input type="text" name="CANCEL_S_ID" id="CANCEL_S_ID">
     </form>
 
     <div>
