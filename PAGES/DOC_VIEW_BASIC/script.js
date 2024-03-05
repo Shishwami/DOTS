@@ -201,7 +201,9 @@ function setCancelReceive(id, doc_num, route_num) {
     const data = {
         REQUEST: _REQUEST.CANCEL_RECEIVE,
         DATA: {
-            'ID': id
+            'ID': id,
+            'ROUTE_NUM': route_num,
+            'DOC_NUM': doc_num
         }
     }
 
