@@ -28,11 +28,15 @@ const SEND_R_DEPT_ID = FORM_DOC_SEND.querySelector('#SEND_R_DEPT_ID');
 // const EDIT_S_USER_ID = FORM_DOC_EDIT.querySelector('#EDIT_S_USER_ID');
 // const EDIT_S_DEPT_ID = FORM_DOC_EDIT.querySelector('#EDIT_S_DEPT_ID');
 // const EDIT_R_DEPT_ID = FORM_DOC_EDIT.querySelector('#EDIT_R_DEPT_ID');
+const FORM_DOC_CANCEL_R = document.getElementById("#FORM_DOC_CANCEL_R");
+const CANCEL_R_NOTES = FORM_DOC_CANCEL_R.querySelector("#CANCEL_R_NOTES");
+
+
+
 
 const FORM_DOC_CANCEL_S = document.getElementById("#FORM_DOC_CANCEL_S");
 
 
-const FORM_DOC_CANCEL_R = document.getElementById("#FORM_DOC_CANCEL_R");
 
 const RADIO_SEND = document.getElementById("RADIO_SEND");
 const RADIO_RECEIVE = document.getElementById("RADIO_RECEIVE");
