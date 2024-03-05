@@ -128,11 +128,18 @@ class JsFunctions {
         mini.innerHTML = '';
         Object.entries(results).forEach(([key, item]) => {
             const url = `url(../${item['FILE_PATH']}${item['FILE_NAME']})`;
+            const url2 = `../../../${item['FILE_PATH']}${item['FILE_NAME']}`;
             const doc = document.createElement("div");
             doc.className = "ATTACH_MINI";
             doc.style.backgroundImage = url;
             doc.addEventListener('click', function () {
                 preview.style.backgroundImage = url;
+
+                const inspect_img = document.getElementById("myimage");
+                inspect_img.src = url2;
+                console.log(inspect_img);
+                console.log(preview);
+
             });
 
             // doc.addEventListener('mouseout', function () {

@@ -56,8 +56,8 @@
     --opt_btn: #0084ff;
     --opt_btn-hover: #17c900;
     --tbl_opt_btn-hover: #00afdb;
-    --modal_opt_btn: linear-gradient(to bottom, #0034c2, #006eff);
-    --modal_opt_btn-hover: linear-gradient(to top, #22043f, #7702d6);
+    --modal_opt_btn: #0099ff;
+    --modal_opt_btn-hover: #2ad400;
     --dlt_btn: linear-gradient(to bottom, #a10202, #ff0000);
     --dlt_btn-hover: linear-gradient(to top, #000b69, #0011ff);
     --modal_close: #ff0000;

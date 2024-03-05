@@ -279,7 +279,7 @@
 
                                 <div class="form">
                                     <div class="img-zoom-container">
-                                        <img id="myimage" class="img-preview" src="../CSS/Resources/1120291.png" width="300" height="240">
+                                        <img id="myimage" class="img-preview" src="" width="300" height="240">
                                         <div id="myresult" class="img-zoom-result"></div>
                                     </div>
                                 </div>
@@ -287,7 +287,7 @@
                             </div>
                         </div>
 
-                        <div class="moodal" id="atc_submodal">
+                        <div class="modal" id="atc_submodal">
                             <div class="modal_content">
                                 <div class="modal_banner">
                                     <span class="atc_sub_close">&times;</span>

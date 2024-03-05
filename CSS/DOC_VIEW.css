@@ -643,7 +643,7 @@ body:before
 #atc_modal .atc_btn,
 #atc_modal .ins_btn
 {
-    background-image: var(--modal_opt_btn);
+    background: var(--modal_opt_btn);
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 0.5rem;
@@ -659,7 +659,7 @@ body:before
 #atc_modal .atc_btn:hover,
 #atc_modal .ins_btn:hover
 {
-    background-image: var(--modal_opt_btn-hover);
+    background: var(--modal_opt_btn-hover);
 }
 
 #atc_modal .attachments
