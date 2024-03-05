@@ -402,7 +402,9 @@ function setEditBtn(id, doc_num, route_num) {
     const data = {
         'REQUEST': _REQUEST.GET_DOCUMENT,
         'DATA': {
-            'ID': id
+            'ID': id,
+            'DOC_NUM': doc_num,
+            'ROUTE_NUM': route_num,
         }
     };
 
