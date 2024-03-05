@@ -410,13 +410,24 @@ function cancelSend($inputs, $conn)
     $queries = new Queries();
     $id = $inputs['DATA']['CANCEL_S_ID'];
 
-    echo $id;
-
-    $selectOutboundData = [
+    //get outboundid for deletion
+    $selectReceiveData = [
         'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
         'WHERE' => [
+            'AND' => array(
+                array('ID' => $id)
+            ),
+        ]
+    ];
+    $selectReceiveSql = $queries->selectQuery($selectReceiveData);
+    $selectReceiveResult = $conn->query($selectReceiveSql);
+    $selectReceiveRow = $selectReceiveResult->fetch_assoc();
+
+    $selectOutboundData = [
+        'TABLE' => 'DOTS_DOCUMENT_INBOUND',
+        'WHERE' => [
             "AND" => [
-                ['ID' => $id]
+                ['ID' => $selectReceiveRow['INBOUND_ID']],
             ]
         ],
     ];
