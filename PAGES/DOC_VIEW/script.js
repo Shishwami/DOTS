@@ -10,6 +10,7 @@ const ATTACH_VIEW_MAIN = document.getElementById("ATTACH_VIEW_MAIN");
 //buttons
 const BTN_DOC_CREATE = document.getElementById("BTN_DOC_CREATE");
 const BTN_ATTACH_ADD = document.getElementById("BTN_ATTACH_ADD");
+const BTN_ATTACH_INS = document.getElementById("BTN_ATTACH_INS");
 //RECEIVE FORM
 const FORM_DOC_RECEIVE = document.getElementById("FORM_DOC_RECEIVE");
 const CREATE_DOC_NUM = FORM_DOC_RECEIVE.querySelector("#CREATE_DOC_NUM");
@@ -81,6 +82,11 @@ function InitializePAGE() {
 
     BTN_ATTACH_ADD.addEventListener("click", function () {
         ATTACH_FILE.value = null;
+        console.log("ASDADSADSADS");
+    });
+
+    BTN_ATTACH_INS.addEventListener("click", function () {
+        
         console.log("ASDADSADSADS");
     });
 }
