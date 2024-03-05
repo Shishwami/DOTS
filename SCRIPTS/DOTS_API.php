@@ -305,6 +305,8 @@ function editDocument($inputs, $conn)
     $queries = new Queries();
 
     $docId = $inputs['DATA']['ID'];
+    $docNum = $inputs['DATA']['DOC_NUM'];
+    $docRoute = $inputs['DATA']['DOC_ROUTE'];
     unset($inputs['DATA']['ID']);
 
     $updateDocData = [
@@ -318,6 +320,11 @@ function editDocument($inputs, $conn)
     $updateDocSql = $queries->updateQuery($updateDocData);
     $updateDocResult = $conn->query($updateDocSql);
 
+
+
+
+
+
     echo json_encode(
         array(
             'VALID' => $updateDocResult
@@ -328,8 +335,9 @@ function editDocument($inputs, $conn)
 
 function cancelReceive($inputs, $conn)
 {
-    $id = $inputs['DATA']['ID'];
-
+    $docId = $inputs['DATA']['ID'];
+    $docNum = $inputs['DATA']['DOC_NUM'];
+    $routeNum = $inputs['DATA']['ROUTE_NUM'];
     $queries = new Queries();
 
     $updateReceiveData = [
@@ -339,13 +347,27 @@ function cancelReceive($inputs, $conn)
             'ACTION_ID' => 1//ACTION_ID SENT
         ],
         "WHERE" => [
-            'ID' => $id
+            'ID' => $docId
         ]
 
     ];
 
     $updateReceiveSql = $queries->updateQuery($updateReceiveData);
     $updateReceiveResult = $conn->query($updateReceiveSql);
+
+
+    //delete the canceled doc in outbound
+    $deleteDocData = [
+        'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
+        'WHERE' => [
+            'DOC_NUM' => $docNum,
+            'ROUTE_NUM' => $routeNum,
+        ],
+    ];
+
+    $deleteDocSql = $queries->deleteQuery($deleteDocData);
+    $deleteDocResult = $conn->query($deleteDocSql);
+
     echo json_encode(
         array(
 
