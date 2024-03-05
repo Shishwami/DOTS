@@ -152,24 +152,24 @@ class Queries
     //         "condition_column": "condition_value"
     //     }
     // }';
-    // function deleteQuery($inputs)
-    // {
-    //     $tableName = $inputs['TABLE'];
-    //     $condition = $inputs['WHERE'];
+    function deleteQuery($inputs)
+    {
+        $tableName = $inputs['TABLE'];
+        $condition = $inputs['WHERE'];
 
-    //     $sql = "DELETE FROM $tableName";
+        $sql = "DELETE FROM $tableName";
 
-    //     $sql .= ' WHERE ';
+        $sql .= ' WHERE ';
 
-    //     $wherePairs = [];
-    //     foreach ($condition as $column => $value) {
-    //         $wherePairs[] = "$column = '$value'";
-    //     }
+        $wherePairs = [];
+        foreach ($condition as $column => $value) {
+            $wherePairs[] = "$column = '$value'";
+        }
 
-    //     $sql .= implode(' AND ', $wherePairs);
+        $sql .= implode(' AND ', $wherePairs);
 
-    //     $sql .= ";";
-    //     return $sql;
-    // }
+        $sql .= ";";
+        return $sql;
+    }
 }
 ?>
