@@ -1170,6 +1170,12 @@ function sendDocFormUser($inputs, $conn)
     $insertInboundSql = $queries->insertQuery($insertInboundData);
     $insertInboundResult = $conn->query($insertInboundSql);
 
+    $last_id = $conn->insert_id;
+    $updateOutboundData['DATA']["INBOUND_ID"] = $last_id;
+
+    $updateOutboundSql = $queries->updateQuery($updateOutboundData);
+    $updateOutboundResult = $conn->query($updateOutboundSql);
+
     echo json_encode(
         array(
             'VALID' => true,
