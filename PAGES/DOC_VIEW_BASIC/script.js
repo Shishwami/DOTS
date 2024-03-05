@@ -216,6 +216,10 @@ function setCancelReceive(id, doc_num, route_num) {
     CANCEL_R_ID.value = id;
 }
 
+function setCancelSend(id, doc_num, route_num) {
+    CANCEL_S_ID.value = id;
+}
+
 function setFormEvents() {
     FORM_DOC_RECEIVE.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -294,6 +298,20 @@ function setFormEvents() {
 
         const data = {
             REQUEST: _REQUEST.CANCEL_RECEIVE,
+            DATA: JsFunctions.FormToJson(this),
+        }
+
+        MyAjax.createJSON((error, response) => {
+            console.log(response);
+            setTable(searchBar.value.toUpperCase(), action_type);
+        }, data);
+
+    });
+    FORM_DOC_CANCEL_S.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const data = {
+            REQUEST: _REQUEST.CANCEL_SEND,
             DATA: JsFunctions.FormToJson(this),
         }
 
