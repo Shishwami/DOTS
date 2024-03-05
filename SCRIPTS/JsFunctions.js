@@ -131,7 +131,7 @@ class JsFunctions {
             const doc = document.createElement("div");
             doc.className = "ATTACH_MINI";
             doc.style.backgroundImage = url;
-            doc.addEventListener('mouseover', function () {
+            doc.addEventListener('click', function () {
                 preview.style.backgroundImage = url;
             });
 
