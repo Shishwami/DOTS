@@ -355,6 +355,23 @@ function cancelReceive($inputs, $conn)
     $updateReceiveSql = $queries->updateQuery($updateReceiveData);
     $updateReceiveResult = $conn->query($updateReceiveSql);
 
+    //get outboundid for deletion
+    $selectReceiveData = [
+        'TABLE' => 'DOTS_DOCUMENT_INBOUND',
+        "WHERE" => [
+            "AND" =>
+                [
+                    ['ID' => $docId]
+                ]
+        ]
+    ];
+    $selectReceiveSql = $queries->updateQuery($selectReceiveData);
+    $selectReceiveResult = $conn->query($selectReceiveSql);
+    $selectReceiveRow = $selectReceiveResult->fetch_assoc();
+
+    
+
+
 
     // //delete the canceled doc in outbound
     // $deleteDocData = [
