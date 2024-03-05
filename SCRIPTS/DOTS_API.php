@@ -285,6 +285,7 @@ function getDocument($inputs, $conn)
 
     $selectOutputData = [
         'ID' => $selectDocRow['ID'],
+        'ACTION_ID' => $selectDocRow['ACTION_ID'],
         'DATE_TIME_RECEIVED' => $html_datetime_string,
         'LETTER_DATE' => $selectDocRow['LETTER_DATE'],
         'DOC_TYPE_ID' => $selectDocRow['DOC_TYPE_ID'],
