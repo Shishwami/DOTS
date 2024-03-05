@@ -96,10 +96,10 @@ class JsFunctions {
                 }
             });
 
-
             if (found == 0) {
                 row.style.display = "none";
             }
+            
             tbody.appendChild(row);
         });
 
