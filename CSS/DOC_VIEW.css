@@ -637,6 +637,12 @@ body:before
 
 #atc_modal .atc_btn
 {
+    margin-right: 1rem;
+}
+
+#atc_modal .atc_btn,
+#atc_modal .ins_btn
+{
     background-image: var(--modal_opt_btn);
     padding: 0.5rem 1rem;
     border: none;
@@ -650,7 +656,8 @@ body:before
     margin-bottom: 1rem;
 }
 
-#atc_modal .atc_btn:hover
+#atc_modal .atc_btn:hover,
+#atc_modal .ins_btn:hover
 {
     background-image: var(--modal_opt_btn-hover);
 }
@@ -711,6 +718,35 @@ body:before
     background-size: contain;
     border: 1px black solid;
     border-radius: 10px;
+}
+
+#ins_submodal .img-zoom-container
+{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+}
+
+#ins_submodal .img-zoom-lens
+{
+    position: absolute;
+    border: 1px solid #aaaaaa;
+    /*set the size of the lens:*/
+    width: 100px;
+    height: 100px;
+}
+
+#ins_submodal .img-preview
+{
+    margin-right: 10px;
+}
+
+#ins_submodal .img-zoom-result
+{
+    border: 1px solid #d4d4d4;
+    /*set the size of the result div:*/
+    width: 500px;
+    height: 400px;
 }
 
 .row

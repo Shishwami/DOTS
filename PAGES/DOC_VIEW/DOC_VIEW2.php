@@ -277,9 +277,11 @@
                                     <h1>Inspect Image</h1>
                                 </div>
 
-                                <div class="img-zoom-container">
-                                    <img id="myimage" src="../CSS/Resources/1120291.png" width="300" height="240">
-                                    <div id="myresult" class="img-zoom-result"></div>
+                                <div class="form">
+                                    <div class="img-zoom-container">
+                                        <img id="myimage" class="img-preview" src="../CSS/Resources/1120291.png" width="300" height="240">
+                                        <div id="myresult" class="img-zoom-result"></div>
+                                    </div>
                                 </div>
 
                             </div>
@@ -341,8 +343,12 @@
 <script src="../../Modal/GenModal.js"></script>
 <script src="../../SCRIPTS/Constants.js"></script>
 <script src="./script.js" type="module"></script>
+<script src="inspect.js"></script>
 
 <script>
+    // Initiate zoom effect:
+    imageZoom("myimage", "myresult");
+
     const selectImage = document.querySelector('.select-image');
     const inputFile = document.querySelector('#ATTACH_FILE');
     const imgArea = document.querySelector('.img-area');
