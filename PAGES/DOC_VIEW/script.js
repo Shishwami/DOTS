@@ -86,11 +86,6 @@ function InitializePAGE() {
         ATTACH_FILE.value = null;
         console.log("ASDADSADSADS");
     });
-
-    BTN_ATTACH_INS.addEventListener("click", function () {
-        
-        console.log("ASDADSADSADS");
-    });
 }
 
 function initializeSEND_FORM() {

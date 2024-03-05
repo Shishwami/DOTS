@@ -274,7 +274,7 @@
                             <div class="modal_content">
                                 <div class="modal_banner">
                                     <span class="ins_sub_close">&times;</span>
-                                    <h1>Attach</h1>
+                                    <h1>Inspect Image</h1>
                                 </div>
 
                                 <div class="img-zoom-container">
@@ -285,7 +285,7 @@
                             </div>
                         </div>
 
-                        <div class="modal" id="atc_submodal">
+                        <div class="moodal" id="atc_submodal">
                             <div class="modal_content">
                                 <div class="modal_banner">
                                     <span class="atc_sub_close">&times;</span>
