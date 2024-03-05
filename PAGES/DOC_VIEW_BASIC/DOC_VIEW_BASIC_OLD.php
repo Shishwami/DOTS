@@ -151,11 +151,11 @@
         <input type="text" id="CANCEL_R_ID">
     </form>
 
-    <form action="submit" name="FORM_DOC_CANCEL_R" id="FORM_DOC_CANCEL_R">
+    <form action="submit" name="FORM_DOC_CANCEL_S" id="FORM_DOC_CANCEL_S">
         <h1>CANCELATION FORM for send</h1>
 
-        <label for="CANCEL_R_NOTES">Notes:</label>
-        <textarea name="CANCEL_R_NOTES" id="CANCEL_R_NOTES" cols="30" rows="3"></textarea>
+        <label for="CANCEL_S_NOTES">Notes:</label>
+        <textarea name="CANCEL_S_NOTES" id="CANCEL_S_NOTES" cols="30" rows="3"></textarea>
 
         <input type="submit" value="CANCEL">
     </form>
