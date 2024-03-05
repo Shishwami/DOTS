@@ -28,13 +28,14 @@ const SEND_R_DEPT_ID = FORM_DOC_SEND.querySelector('#SEND_R_DEPT_ID');
 // const EDIT_S_USER_ID = FORM_DOC_EDIT.querySelector('#EDIT_S_USER_ID');
 // const EDIT_S_DEPT_ID = FORM_DOC_EDIT.querySelector('#EDIT_S_DEPT_ID');
 // const EDIT_R_DEPT_ID = FORM_DOC_EDIT.querySelector('#EDIT_R_DEPT_ID');
-const FORM_DOC_CANCEL_R = document.getElementById("#FORM_DOC_CANCEL_R");
+const FORM_DOC_CANCEL_R = document.getElementById("FORM_DOC_CANCEL_R");
 const CANCEL_R_NOTES = FORM_DOC_CANCEL_R.querySelector("#CANCEL_R_NOTES");
+const CANCEL_R_DEPT = FORM_DOC_CANCEL_R.querySelector("CANCEL_R_DEPT");
+const CANCEL_R_ID = FORM_DOC_CANCEL_R.querySelector("#CANCEL_R_ID");
 
-
-
-
-const FORM_DOC_CANCEL_S = document.getElementById("#FORM_DOC_CANCEL_S");
+const FORM_DOC_CANCEL_S = document.getElementById("FORM_DOC_CANCEL_S");
+const CANCEL_S_NOTES = FORM_DOC_CANCEL_S.querySelector("#CANCEL_S_NOTES");
+const CANCEL_S_ID = FORM_DOC_CANCEL_S.querySelector("#CANCEL_S_ID");
 
 
 
@@ -147,6 +148,11 @@ function setButtons(table) {
             setCancelReceive(this.dataset.i, this.dataset.d, this.dataset.r);
         });
     });
+    table.querySelectorAll('.btnCS').forEach(function (button) {
+        button.addEventListener('mousedown', function () {
+            setCancelSend(this.dataset.i, this.dataset.d, this.dataset.r);
+        });
+    });
 }
 
 function setReceiveBtn(id, doc_num, route_num) {
@@ -207,19 +213,7 @@ function setSendBtn(id, doc_num, route_num) {
 }
 
 function setCancelReceive(id, doc_num, route_num) {
-    // const data = {
-    //     REQUEST: _REQUEST.CANCEL_RECEIVE,
-    //     DATA: {
-    //         'ID': id,
-    //         'ROUTE_NUM': route_num,
-    //         'DOC_NUM': doc_num
-    //     }
-    // }
-
-    // MyAjax.createJSON((error, response) => {
-    //     console.log(response);
-    //     setTable(searchBar.value.toUpperCase(), action_type);
-    // }, data);
+    CANCEL_R_ID.value = id;
 }
 
 function setFormEvents() {
@@ -294,6 +288,21 @@ function setFormEvents() {
     //     };
     //     xhr.send(formData);
     // });
+
+    FORM_DOC_CANCEL_R.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const data = {
+            REQUEST: _REQUEST.CANCEL_RECEIVE,
+            DATA: JsFunctions.FormToJson(this),
+        }
+
+        MyAjax.createJSON((error, response) => {
+            console.log(response);
+            setTable(searchBar.value.toUpperCase(), action_type);
+        }, data);
+
+    });
 
 }
 // function setRECEIVED_TIME(element) {
