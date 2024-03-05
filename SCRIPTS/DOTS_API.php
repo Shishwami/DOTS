@@ -60,6 +60,9 @@ try {
         case 'CANCEL_RECEIVE':
             cancelReceive($inputs, $conn);
             break;
+        case 'CANCEL_SEND':
+            cancelSend($inputs, $conn);
+            break;
         case "GET_DOC_TYPE":
             getOptions('DOTS_DOC_TYPE', 'DOC_TYPE', $conn);
             break;
@@ -320,11 +323,6 @@ function editDocument($inputs, $conn)
     $updateDocSql = $queries->updateQuery($updateDocData);
     $updateDocResult = $conn->query($updateDocSql);
 
-
-
-
-
-
     echo json_encode(
         array(
             'VALID' => $updateDocResult
@@ -399,7 +397,42 @@ function cancelReceive($inputs, $conn)
         $updateReceiveResult = $conn->query($updateReceiveSql);
     }
 
+    echo json_encode(
+        array(
 
+        )
+    );
+}
+
+
+function cancelSend($inputs, $conn)
+{
+    $queries = new Queries();
+    $id = $inputs['DATA']['CANCEL_S_ID'];
+
+    echo $id;
+
+    $selectOutboundData = [
+        'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
+        'WHERE' => [
+            "AND" => [
+                ['ID' => $id]
+            ]
+        ],
+    ];
+
+    $selectOutboundSql = $queries->selectQuery($selectOutboundData);
+    $selectOutboundResult = $conn->query($selectOutboundSql);
+    $selectOutboundRow = $selectOutboundResult->fetch_assoc();
+
+    var_dump($selectOutboundRow);
+
+    // if ($selectOutboundRow['ROUTED' == 1]) {
+    //     //routed and sent and cannot be canceled 
+    // } else if ($selectOutboundRow['ROUTED'] == 0) {
+    //     //update the doc in inbound to be canceled
+    //     //update the doc in outbound to have no send data
+    // }
 
     echo json_encode(
         array(
