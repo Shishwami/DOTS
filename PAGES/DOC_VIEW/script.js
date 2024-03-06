@@ -91,7 +91,7 @@ function InitializePAGE() {
     //TO BE REMOVED
     if (BTN_ATTACH_INS)
         BTN_ATTACH_INS.addEventListener("click", function () {
-
+            imageZoom("myimage", "myresult");
             console.log("ASDADSADSADS");
         });
 }
