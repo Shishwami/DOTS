@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 06/03/2024 08:53:37
+ Date: 07/03/2024 07:50:07
 */
 
 SET NAMES utf8mb4;
@@ -60,7 +60,7 @@ CREATE TABLE `dots_attachments`  (
   `FILE_PATH` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `FILE_NAME` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 49 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 67 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_attachments
@@ -113,6 +113,24 @@ INSERT INTO `dots_attachments` VALUES (45, 1982, 0, '', '../ATTACHMENTS/1982/0/'
 INSERT INTO `dots_attachments` VALUES (46, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e568f7c608e.jpg');
 INSERT INTO `dots_attachments` VALUES (47, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e568f7cce32.jpg');
 INSERT INTO `dots_attachments` VALUES (48, 1984, 1, '', '../ATTACHMENTS/1984/1/', '65e6b6ee7b838.jpg');
+INSERT INTO `dots_attachments` VALUES (49, 2013, 0, 'asdfg', '../ATTACHMENTS/2013/0/', '65e81d0186b71.jpg');
+INSERT INTO `dots_attachments` VALUES (50, 1987, 0, 'SESTESTRRTDS', '../ATTACHMENTS/1987/0/', '65e81d75c9f46.jpg');
+INSERT INTO `dots_attachments` VALUES (51, 1987, 0, 'SESTESTRRTDS', '../ATTACHMENTS/1987/0/', '65e81d75dc37d.jpg');
+INSERT INTO `dots_attachments` VALUES (52, 1987, 0, 'SESTESTRRTDS', '../ATTACHMENTS/1987/0/', '65e81d75eb0c2.jpg');
+INSERT INTO `dots_attachments` VALUES (53, 1987, 0, 'SESTESTRRTDS', '../ATTACHMENTS/1987/0/', '65e81d7600788.jpg');
+INSERT INTO `dots_attachments` VALUES (54, 1987, 0, 'SESTESTRRTDS', '../ATTACHMENTS/1987/0/', '65e81d760726c.jpg');
+INSERT INTO `dots_attachments` VALUES (55, 1987, 0, 'SESTESTRRTDS', '../ATTACHMENTS/1987/0/', '65e81d760dfde.jpg');
+INSERT INTO `dots_attachments` VALUES (56, 1987, 0, 'SESTESTRRTDS', '../ATTACHMENTS/1987/0/', '65e81d7617732.jpg');
+INSERT INTO `dots_attachments` VALUES (57, 1987, 0, 'SESTESTRRTDS', '../ATTACHMENTS/1987/0/', '65e81d762a678.jpg');
+INSERT INTO `dots_attachments` VALUES (58, 1987, 0, 'SESTESTRRTDS', '../ATTACHMENTS/1987/0/', '65e81d7637f10.jpg');
+INSERT INTO `dots_attachments` VALUES (59, 1987, 0, 'SESTESTRRTDS', '../ATTACHMENTS/1987/0/', '65e81d763ebfc.jpg');
+INSERT INTO `dots_attachments` VALUES (60, 1987, 0, 'SESTESTRRTDS', '../ATTACHMENTS/1987/0/', '65e81d764af24.jpg');
+INSERT INTO `dots_attachments` VALUES (61, 1987, 0, 'SESTESTRRTDS', '../ATTACHMENTS/1987/0/', '65e81d7673b85.jpg');
+INSERT INTO `dots_attachments` VALUES (62, 1987, 0, 'SESTESTRRTDS', '../ATTACHMENTS/1987/0/', '65e81d76956e3.jpg');
+INSERT INTO `dots_attachments` VALUES (63, 1987, 0, 'SESTESTRRTDS', '../ATTACHMENTS/1987/0/', '65e81d76ac82c.jpg');
+INSERT INTO `dots_attachments` VALUES (64, 1987, 0, 'SESTESTRRTDS', '../ATTACHMENTS/1987/0/', '65e81d76be0e2.jpg');
+INSERT INTO `dots_attachments` VALUES (65, 1987, 0, 'SESTESTRRTDS', '../ATTACHMENTS/1987/0/', '65e81d76c8eb3.jpg');
+INSERT INTO `dots_attachments` VALUES (66, 1987, 0, 'SESTESTRRTDS', '../ATTACHMENTS/1987/0/', '65e81d76cf98c.jpg');
 
 -- ----------------------------
 -- Table structure for dots_doc_action
@@ -266,11 +284,52 @@ CREATE TABLE `dots_document`  (
   `ACTION_ID` int NOT NULL,
   `ROUTED` int NOT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 42 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_document
 -- ----------------------------
+INSERT INTO `dots_document` VALUES (1, 1987, 0, 'asdasdasd', 3, '2024-03-06', '', 4, 0, 0, 0, 2, 27003, '2024-03-06 10:52:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (2, 1988, 0, 'asdasdasd', 2, '2024-03-06', '', 2, 0, 0, 0, 2, 27003, '2024-03-06 10:54:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (3, 1989, 0, '', 1, '2024-03-06', '', 1, 0, 0, 0, 0, 0, '2024-03-06 10:54:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (4, 1990, 0, '', 2, '2024-03-06', '', 3, 0, 0, 0, 0, 0, '2024-03-06 10:54:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (5, 1991, 0, 'asd', 1, '2024-03-06', '', 1, 0, 0, 0, 2, 27003, '2024-03-06 10:55:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (6, 1992, 0, 'asd', 1, '2024-03-06', '', 1, 0, 0, 0, 2, 27003, '2024-03-06 10:55:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (7, 1992, 1, 'asd', 1, '2024-03-06', '', 1, 0, 0, 0, 2, 27003, '2024-03-06 10:55:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (8, 1993, 0, '', 1, '2024-03-06', '', 3, 0, 0, 0, 2, 27003, '2024-03-06 12:58:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (9, 1994, 0, '', 1, '2024-03-06', '', 1, 0, 0, 0, 2, 27003, '2024-03-06 13:01:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (10, 1995, 0, '', 1, '2024-03-06', '', 4, 0, 0, 0, 2, 27003, '2024-03-06 13:01:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (11, 1996, 0, '', 0, '2024-03-06', '', 0, 0, 0, 0, 2, 27003, '2024-03-06 13:03:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (12, 1997, 0, '', 3, '2024-03-06', '', 1, 0, 0, 0, 2, 27003, '2024-03-06 13:04:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (13, 1998, 0, '', 0, '2024-03-06', '', 0, 0, 0, 0, 2, 27003, '2024-03-06 13:04:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (14, 1999, 0, '', 2, '2024-03-06', '', 2, 0, 0, 0, 2, 27003, '2024-03-06 13:04:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (15, 2000, 0, '', 1, '2024-03-06', '', 1, 0, 0, 0, 2, 27003, '2024-03-06 13:07:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (16, 2001, 0, '', 1, '2024-03-06', '', 1, 0, 0, 0, 2, 27003, '2024-03-06 13:09:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (17, 2002, 0, '', 0, '2024-03-06', '', 0, 0, 0, 0, 2, 27003, '2024-03-06 13:09:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (18, 2003, 0, '', 0, '2024-03-06', '', 0, 0, 0, 0, 2, 27003, '2024-03-06 13:09:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (19, 2004, 0, 'asdasd', 0, '2024-03-06', '', 0, 0, 0, 0, 2, 27003, '2024-03-06 13:10:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (20, 2005, 0, '', 3, '2024-03-06', '', 2, 0, 0, 0, 2, 27003, '2024-03-06 13:11:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (21, 2006, 0, '', 2, '2024-03-06', '', 3, 0, 0, 0, 2, 27003, '2024-03-06 13:15:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (22, 2007, 0, 'asdasdasdads', 0, '2024-03-06', '', 0, 0, 0, 0, 2, 27003, '2024-03-06 13:15:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (23, 2008, 0, '', 0, '2024-03-06', '', 0, 0, 0, 0, 2, 27003, '2024-03-06 13:15:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (24, 2009, 0, 'asd', 1, '2024-03-06', '', 3, 0, 0, 0, 2, 27003, '2024-03-06 13:16:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (25, 2010, 0, 'gdsgssggds', 3, '2024-03-06', '', 2, 0, 0, 0, 2, 27003, '2024-03-06 13:17:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (26, 2011, 0, 'asd', 2, '2024-03-06', '', 1, 0, 0, 0, 2, 27003, '2024-03-06 13:18:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (27, 2012, 0, 'jkb', 3, '2024-03-06', '', 2, 0, 0, 0, 2, 27003, '2024-03-06 13:28:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (28, 2012, 1, 'jkb', 3, '2024-03-06', '', 2, 0, 0, 0, 2, 27003, '2024-03-06 13:28:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (29, 2012, 2, 'jkb', 3, '2024-03-06', '', 2, 0, 0, 0, 2, 27003, '2024-03-06 13:28:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (30, 2012, 3, 'jkb', 3, '2024-03-06', '', 2, 0, 0, 0, 2, 27003, '2024-03-06 13:28:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (31, 2012, 4, 'jkb', 3, '2024-03-06', '', 2, 0, 0, 0, 2, 27003, '2024-03-06 13:28:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (32, 2012, 5, 'jkb', 3, '2024-03-06', '', 2, 0, 0, 0, 2, 27003, '2024-03-06 13:28:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (33, 2012, 6, 'jkb', 3, '2024-03-06', '', 2, 0, 0, 0, 2, 27003, '2024-03-06 13:28:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (34, 2012, 7, 'jkb', 3, '2024-03-06', '', 2, 0, 0, 0, 2, 27003, '2024-03-06 13:28:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (35, 2012, 8, 'jkb', 3, '2024-03-06', '', 2, 0, 0, 0, 2, 27003, '2024-03-06 13:28:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (36, 2012, 9, 'jkb', 3, '2024-03-06', '', 2, 0, 0, 0, 2, 27003, '2024-03-06 13:28:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (37, 2012, 10, 'jkb', 3, '2024-03-06', '', 2, 0, 0, 0, 2, 27003, '2024-03-06 13:28:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (38, 2012, 11, 'jkb', 3, '2024-03-06', '', 2, 0, 0, 0, 2, 27003, '2024-03-06 13:28:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (39, 2012, 12, 'jkb', 3, '2024-03-06', '', 2, 0, 0, 0, 2, 27003, '2024-03-06 13:28:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (40, 2012, 13, 'jkb', 3, '2024-03-06', '', 2, 0, 0, 0, 2, 27003, '2024-03-06 13:28:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (41, 2013, 0, 'asd', 2, '2024-03-06', '', 2, 0, 0, 0, 2, 27003, '2024-03-06 15:33:00.000000', 5, 2, 0);
 
 -- ----------------------------
 -- Table structure for dots_document_inbound
@@ -294,11 +353,27 @@ CREATE TABLE `dots_document_inbound`  (
   `ROUTED` tinyint(1) NOT NULL DEFAULT 1,
   `OUTBOUND_ID` int NULL DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_document_inbound
 -- ----------------------------
+INSERT INTO `dots_document_inbound` VALUES (1, 1992, 0, '', 0, 0, 27003, 2, 0, 0, 0, NULL, '2024-03-06 10:56:00', 1, 1, NULL);
+INSERT INTO `dots_document_inbound` VALUES (2, 1992, 1, '', 4, 0, 27003, 2, 0, 27003, 2, '2024-03-06 11:18:00', '2024-03-06 10:58:00', 2, 1, 1);
+INSERT INTO `dots_document_inbound` VALUES (3, 2012, 0, '', 1, 0, 27003, 2, 0, 31007, 1, NULL, '2024-03-06 13:34:00', 1, 1, NULL);
+INSERT INTO `dots_document_inbound` VALUES (4, 2012, 1, '', 0, 0, 27003, 2, 0, 0, 0, NULL, '2024-03-06 13:38:00', 1, 1, NULL);
+INSERT INTO `dots_document_inbound` VALUES (5, 2012, 2, 'asdfgh', 1, 0, 27003, 2, 0, 38004, 1, NULL, '2024-03-06 13:48:00', 1, 1, NULL);
+INSERT INTO `dots_document_inbound` VALUES (6, 2012, 3, 'asd', 1, 0, 27003, 2, 0, 25009, 1, NULL, '2024-03-06 13:56:00', 1, 1, NULL);
+INSERT INTO `dots_document_inbound` VALUES (7, 2012, 4, 'asd', 1, 0, 27003, 2, 0, 25009, 1, NULL, '2024-03-06 13:56:00', 1, 1, NULL);
+INSERT INTO `dots_document_inbound` VALUES (8, 2012, 5, 'asd', 1, 0, 27003, 2, 0, 25009, 1, NULL, '2024-03-06 13:56:00', 1, 1, NULL);
+INSERT INTO `dots_document_inbound` VALUES (9, 2012, 6, 'asd', 1, 0, 27003, 2, 0, 25009, 1, NULL, '2024-03-06 13:56:00', 1, 1, NULL);
+INSERT INTO `dots_document_inbound` VALUES (10, 2012, 7, 'asd', 1, 0, 27003, 2, 0, 25009, 1, NULL, '2024-03-06 13:56:00', 1, 1, NULL);
+INSERT INTO `dots_document_inbound` VALUES (11, 2012, 8, 'asd', 1, 0, 27003, 2, 0, 25009, 1, NULL, '2024-03-06 13:56:00', 1, 1, NULL);
+INSERT INTO `dots_document_inbound` VALUES (12, 2012, 9, 'asd', 1, 0, 27003, 2, 0, 25009, 1, NULL, '2024-03-06 13:56:00', 1, 1, NULL);
+INSERT INTO `dots_document_inbound` VALUES (13, 2012, 10, 'asd', 1, 0, 27003, 2, 0, 31007, 1, NULL, '2024-03-06 13:59:00', 1, 1, NULL);
+INSERT INTO `dots_document_inbound` VALUES (14, 2012, 11, '', 1, 0, 27003, 2, 0, 25009, 1, NULL, '2024-03-06 13:59:00', 1, 1, NULL);
+INSERT INTO `dots_document_inbound` VALUES (15, 2012, 12, '', 2, 0, 27003, 2, 0, 25009, 1, NULL, '2024-03-06 14:00:00', 1, 1, NULL);
+INSERT INTO `dots_document_inbound` VALUES (16, 2012, 13, '', 1, 0, 27003, 2, 0, 25009, 1, NULL, '2024-03-06 14:02:00', 1, 1, NULL);
 
 -- ----------------------------
 -- Table structure for dots_document_outbound
@@ -322,11 +397,12 @@ CREATE TABLE `dots_document_outbound`  (
   `ROUTED` tinyint(1) NOT NULL DEFAULT 1,
   `INBOUND_ID` int NULL DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_document_outbound
 -- ----------------------------
+INSERT INTO `dots_document_outbound` VALUES (1, 1992, 1, '', 0, 0, 27003, 2, 0, 0, 0, '2024-03-06 11:18:00', NULL, 2, 0, NULL);
 
 -- ----------------------------
 -- Table structure for dots_document_sub
@@ -367,7 +443,7 @@ CREATE TABLE `dots_num_sequence`  (
 -- ----------------------------
 -- Records of dots_num_sequence
 -- ----------------------------
-INSERT INTO `dots_num_sequence` VALUES (1, 1987);
+INSERT INTO `dots_num_sequence` VALUES (1, 2014);
 
 -- ----------------------------
 -- Table structure for dots_tracking
@@ -383,11 +459,69 @@ CREATE TABLE `dots_tracking`  (
   `NOTES_USER` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `NOTES_SERVER` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 59 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_tracking
 -- ----------------------------
+INSERT INTO `dots_tracking` VALUES (1, 1987, 0, 2, 27003, '2024-03-06 10:53:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (2, 1988, 0, 2, 27003, '2024-03-06 10:54:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (3, 1989, 0, 2, 27003, '2024-03-06 10:54:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (4, 1990, 0, 2, 27003, '2024-03-06 10:54:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (5, 1991, 0, 2, 27003, '2024-03-06 10:55:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (6, 1992, 0, 2, 27003, '2024-03-06 10:55:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (7, 1992, 0, 1, 27003, '2024-03-06 10:56:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (8, 1992, 1, 4, 27003, '2024-03-06 10:58:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (9, 1992, 1, 1, 27003, '2024-03-06 10:58:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (10, 1992, 1, 2, 27003, '2024-03-06 11:19:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (11, 1993, 0, 2, 27003, '2024-03-06 12:58:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (12, 1994, 0, 2, 27003, '2024-03-06 13:01:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (13, 1995, 0, 2, 27003, '2024-03-06 13:03:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (14, 1996, 0, 2, 27003, '2024-03-06 13:03:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (15, 1997, 0, 2, 27003, '2024-03-06 13:04:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (16, 1998, 0, 2, 27003, '2024-03-06 13:04:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (17, 1999, 0, 2, 27003, '2024-03-06 13:04:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (18, 2000, 0, 2, 27003, '2024-03-06 13:07:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (19, 2001, 0, 2, 27003, '2024-03-06 13:09:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (20, 2002, 0, 2, 27003, '2024-03-06 13:09:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (21, 2003, 0, 2, 27003, '2024-03-06 13:09:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (22, 2004, 0, 2, 27003, '2024-03-06 13:10:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (23, 2005, 0, 2, 27003, '2024-03-06 13:11:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (24, 2006, 0, 2, 27003, '2024-03-06 13:15:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (25, 2007, 0, 2, 27003, '2024-03-06 13:15:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (26, 2008, 0, 2, 27003, '2024-03-06 13:15:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (27, 2009, 0, 2, 27003, '2024-03-06 13:16:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (28, 2010, 0, 2, 27003, '2024-03-06 13:17:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (29, 2011, 0, 2, 27003, '2024-03-06 13:18:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (30, 2012, 0, 2, 27003, '2024-03-06 13:28:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (31, 2012, 0, 1, 27003, '2024-03-06 13:34:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (32, 2012, 1, 4, 27003, '2024-03-06 13:38:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (33, 2012, 1, 1, 27003, '2024-03-06 13:38:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (34, 2012, 2, 4, 27003, '2024-03-06 13:49:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (35, 2012, 2, 1, 27003, '2024-03-06 13:49:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (36, 2012, 3, 4, 27003, '2024-03-06 13:56:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (37, 2012, 3, 1, 27003, '2024-03-06 13:56:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (38, 2012, 4, 4, 27003, '2024-03-06 13:56:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (39, 2012, 4, 1, 27003, '2024-03-06 13:56:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (40, 2012, 5, 4, 27003, '2024-03-06 13:57:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (41, 2012, 5, 1, 27003, '2024-03-06 13:57:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (42, 2012, 6, 4, 27003, '2024-03-06 13:57:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (43, 2012, 6, 1, 27003, '2024-03-06 13:57:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (44, 2012, 7, 4, 27003, '2024-03-06 13:57:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (45, 2012, 7, 1, 27003, '2024-03-06 13:57:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (46, 2012, 8, 4, 27003, '2024-03-06 13:57:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (47, 2012, 8, 1, 27003, '2024-03-06 13:57:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (48, 2012, 9, 4, 27003, '2024-03-06 13:58:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (49, 2012, 9, 1, 27003, '2024-03-06 13:58:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (50, 2012, 10, 4, 27003, '2024-03-06 13:59:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (51, 2012, 10, 1, 27003, '2024-03-06 13:59:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (52, 2012, 11, 4, 27003, '2024-03-06 13:59:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (53, 2012, 11, 1, 27003, '2024-03-06 13:59:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (54, 2012, 12, 4, 27003, '2024-03-06 14:00:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (55, 2012, 12, 1, 27003, '2024-03-06 14:00:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (56, 2012, 13, 4, 27003, '2024-03-06 14:02:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (57, 2012, 13, 1, 27003, '2024-03-06 14:02:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (58, 2013, 0, 2, 27003, '2024-03-06 15:33:00', NULL, NULL);
 
 -- ----------------------------
 -- Triggers structure for table dots_document
