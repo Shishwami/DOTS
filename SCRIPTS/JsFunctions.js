@@ -141,7 +141,7 @@ class JsFunctions {
         mini.innerHTML = '';
         Object.entries(results).forEach(([key, item]) => {
             const url = `url(../${item['FILE_PATH']}${item['FILE_NAME']})`;
-            const url2 = `../../../${item['FILE_PATH']}${item['FILE_NAME']}`;
+            const url2 = `../${item['FILE_PATH']}${item['FILE_NAME']}`;
             const doc = document.createElement("div");
             doc.className = "ATTACH_MINI";
             doc.style.backgroundImage = url;
