@@ -583,9 +583,7 @@ function setForms() {
             } else {
                 if (response.VALID) {
 
-                    const fullname = CREATE_FULLNAME.value;
                     FORM_DOC_RECEIVE.reset();
-                    CREATE_FULLNAME.value = fullname;
                     if (crt_modal != undefined) {
                         crt_modal.style.display = "none";
                     }
