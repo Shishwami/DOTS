@@ -1087,6 +1087,10 @@ function receiveDocUser($inputs, $conn)
 
     var_dump($selectinboundRow);
 
+    if($selectinboundRow['ACTION_ID']==1){
+        echo "ALREADY RECIVED";
+    }
+
     //add log recieve by user
     $insertLogData = [
         'TABLE' => 'DOTS_TRACKING',
