@@ -1087,7 +1087,7 @@ function receiveDocUser($inputs, $conn)
 
     var_dump($selectinboundRow);
 
-    if($selectinboundRow['ACTION_ID']==1){
+    if ($selectinboundRow['ACTION_ID'] == 2) {
         echo "ALREADY RECIVED";
     }
 
