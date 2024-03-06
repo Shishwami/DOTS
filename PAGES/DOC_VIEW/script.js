@@ -354,7 +354,6 @@ function getData(requestType, additionalData, successCallback, failureCallback) 
 }
 function setCreateBtn() {
     BTN_DOC_CREATE.addEventListener('click', function (event) {
-
         getData(_REQUEST.GET_DATE, { 'DATE': 'DATE' }, (result) => {
             CREATE_LETTER_DATE.value = result;
         }, null);
@@ -362,10 +361,11 @@ function setCreateBtn() {
         getData(_REQUEST.GET_DATE, { 'DATE': 'DATE_TIME' }, (result) => {
             CREATE_DATE_TIME_RECEIVED.value = result;
         }, null);
-
         CREATE_DOC_SUBJECT.value = '';
         CREATE_DOC_TYPE.value = '';
         CREATE_DOC_OFFICE.value = '';
+
+        FORM_DOC_RECEIVE.querySelector('input[type=submit]').disabled = false;
     });
 }
 function sendBtnEvent(id, doc_num, route_num) {
@@ -564,6 +564,7 @@ function setForms() {
     FORM_DOC_RECEIVE.addEventListener('submit', function (e) {
         e.preventDefault();
         this.querySelector('input[type=submit]').disabled = true;
+
         var data = {
             REQUEST: _REQUEST.RECEIVE_DOC,
             DATA: JsFunctions.FormToJson(FORM_DOC_RECEIVE),
@@ -578,11 +579,15 @@ function setForms() {
                     const fullname = CREATE_FULLNAME.value;
                     FORM_DOC_RECEIVE.reset();
                     CREATE_FULLNAME.value = fullname;
+                    notify("success", response.MESSAGE);
+                    //close modal
+                    //focus table
+                    DOC_VIEW_MAIN.focus();
                 } else {
-                    //response valid=false
+                    notify("error", response.MESSAGE);
+                    this.querySelector('input[type=submit]').disabled = false;
                 }
             }
-
             console.log(response);
             setTable(searchBar.value.toUpperCase());
         }, data);
