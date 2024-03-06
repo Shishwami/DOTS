@@ -593,10 +593,7 @@ function sendDocForm($inputs, $conn)
             )
         ),
     );
-
-    $checkRoutedSql = $queries->selectQuery($checkRoutedData);
-    $checkRoutedResult = mysqli_query($conn, $checkRoutedSql);
-    $checkRoutedRow = $checkRoutedResult->fetch_assoc();
+    $checkRoutedRow = selectSingleRow($checkRoutedData);
 
     $updateDocumentData = array(
         'TABLE' => 'DOTS_DOCUMENT',
@@ -620,11 +617,7 @@ function sendDocForm($inputs, $conn)
             ],
             'ORDER_BY' => 'ROUTE_NUM DESC'
         ];
-
-        $selectDocumentSql = $queries->selectQuery($selectDocumentData);
-        $selectDocumentResult = $conn->query($selectDocumentSql);
-        $selectDocumentRow = $selectDocumentResult->fetch_assoc();
-
+        $selectDocumentRow = selectSingleRow($selectDocumentData);
         // var_dump($selectDocumentRow);
 
         //increase the routing number
@@ -640,10 +633,7 @@ function sendDocForm($inputs, $conn)
             'TABLE' => 'DOTS_DOCUMENT',
             'DATA' => $selectDocumentRow,
         ];
-
-        $insertDocumentSql = $queries->insertQuery($insertDocumentData);
-        $insertDocumentResult = $conn->query($insertDocumentSql);
-
+        insert($insertDocumentData);
         //add log duplicate main doc
         $insertDocumentLogData = [
             'TABLE' => 'DOTS_TRACKING',
@@ -655,19 +645,14 @@ function sendDocForm($inputs, $conn)
                 'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
             ]
         ];
-
-        $insertDocumentLogSql = $queries->insertQuery($insertDocumentLogData);
-        $insertDocumentLogResult = $conn->query($insertDocumentLogSql);
+        insert($insertDocumentLogData);
 
     } else if ($checkRoutedRow['ROUTED'] == 0) {
         $updateDocumentSql = $queries->updateQuery(($updateDocumentData));
         $updateDocumentResult = $conn->query($updateDocumentSql);
-
     }
     //insert to inbound
-    $insertInboundSql = $queries->insertQuery($insertInboundData);
-    $insertInboundResult = $conn->query($insertInboundSql);
-
+    insert($insertInboundData);
     //add log insert inbound 
     $insertInboundLogData = [
         'TABLE' => 'DOTS_TRACKING',
@@ -679,10 +664,7 @@ function sendDocForm($inputs, $conn)
             'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
         ]
     ];
-
-    $insertInboundLogSql = $queries->insertQuery($insertInboundLogData);
-    $insertInboundLogResult = $conn->query($insertInboundLogSql);
-
+    insert($insertInboundLogData);
 
     echo json_encode(
         array(
