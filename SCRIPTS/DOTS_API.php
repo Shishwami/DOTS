@@ -666,6 +666,7 @@ function sendDocForm($inputs, $conn)
     ];
     insert($insertInboundLogData);
 
+
     echo json_encode(
         array(
             'VALID' => $valid
@@ -686,13 +687,12 @@ function receiveDoc($inputs, $conn)
         'DOC_SUBJECT',
         'DOC_STATUS',
         'R_USER_ID',
-        'R_DEPT_ID',
-        'DOC_SUBJECT'
+        'R_DEPT_ID'
     ];
 
     $validated = validateInputs($requiredFields,$inputs);
 
-    if (!$validated&&$inputs!="") {
+    if (!$validated) {
         //notify user that a inputs is black or not set
         $message = "Please ensure all required fields are filled out.";
     } else {
