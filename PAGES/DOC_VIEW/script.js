@@ -375,6 +375,7 @@ function setCreateBtn() {
 function sendBtnEvent(id, doc_num, route_num) {
 
     clearValues();
+    SEND_DATE_TIME_SENT.focus();
 
     SEND_DOC_ADDRESSEE.innerHTML = "<option disabled selected>Select Addressee</option>";
 
@@ -562,7 +563,24 @@ function setForms() {
             DATA: data,
         }
         MyAjax.createJSON((error, response) => {
-            console.log(response);
+            if (error) {
+                notify("error", "SERVER CONNECTION ERROR");
+
+            } else {
+                if (response.VALID) {
+
+                    FORM_DOC_SEND.reset();
+                    if (snd_modal != undefined) {
+                        snd_modal.style.display = "none";
+                    }
+                    DOC_VIEW_MAIN.focus();
+                    notify("success", response.MESSAGE);
+
+                } else {
+                    notify("error", response.MESSAGE);
+                    this.querySelector('input[type=submit]').disabled = false;
+                }
+            }
             setTable(searchBar.value.toUpperCase());
         }, routedCheck);
     });
