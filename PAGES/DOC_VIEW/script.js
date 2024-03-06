@@ -59,6 +59,7 @@ const ATTACH_ZOOM = document.getElementById("ATTACH_ZOOM");
 const snd_modal = document.getElementById("snd_modal");
 const atc_modal = document.getElementById("atc_modal");
 const edt_modal = document.getElementById("edt_modal");
+const crt_modal = document.getElementById("crt_modal");
 
 InitializePAGE();
 
@@ -130,15 +131,7 @@ function initializeRECEIVE_FORM() {
         JsFunctions.setSelect(CREATE_DOC_OFFICE, result);
         JsFunctions.setSelect(EDIT_DOC_OFFICE, result);
     }, null);
-    getData(_REQUEST.GET_SESSION_NAME, null, (result) => {
-        CREATE_FULLNAME.value = result;
-    }, null);
-    getData(_REQUEST.GET_SESSION_HRIS_ID, null, (result) => {
-        CREATE_R_USER_ID.value = result;
-    }, null);
-    getData(_REQUEST.GET_SESSION_DEPT_ID, null, (result) => {
-        CREATE_R_DEPT_ID.value = result;
-    }, null);
+
 
 }
 // function setR_DEPT_ID() {
@@ -340,7 +333,9 @@ function getData(requestType, additionalData, successCallback, failureCallback) 
     MyAjax.createJSON((error, response) => {
         if (error) {
             if (failureCallback) failureCallback(error);
-            else alert(error);
+            else {
+                // alert(error);
+            }
         } else {
             if (response.VALID) {
                 delete response.VALID;
@@ -357,14 +352,23 @@ function setCreateBtn() {
         getData(_REQUEST.GET_DATE, { 'DATE': 'DATE' }, (result) => {
             CREATE_LETTER_DATE.value = result;
         }, null);
-
         getData(_REQUEST.GET_DATE, { 'DATE': 'DATE_TIME' }, (result) => {
             CREATE_DATE_TIME_RECEIVED.value = result;
+        }, null);
+        getData(_REQUEST.GET_SESSION_NAME, null, (result) => {
+            CREATE_FULLNAME.value = result;
+        }, null);
+        getData(_REQUEST.GET_SESSION_HRIS_ID, null, (result) => {
+            CREATE_R_USER_ID.value = result;
+        }, null);
+        getData(_REQUEST.GET_SESSION_DEPT_ID, null, (result) => {
+            CREATE_R_DEPT_ID.value = result;
         }, null);
         CREATE_DOC_SUBJECT.value = '';
         CREATE_DOC_TYPE.value = '';
         CREATE_DOC_OFFICE.value = '';
 
+        CREATE_DATE_TIME_RECEIVED.focus();
         FORM_DOC_RECEIVE.querySelector('input[type=submit]').disabled = false;
     });
 }
@@ -453,7 +457,7 @@ function setTableAttachment() {
 
     MyAjax.createJSON((error, response) => {
         if (error) {
-            alert(error);
+            // alert(error);
         } else {
             const prev = document.querySelector(".preview");
             if (prev) {
@@ -505,7 +509,7 @@ function setTable(filter) {
 
     MyAjax.createJSON((error, response) => {
         if (error) {
-            alert(error);
+            // alert(error);
         } else {
             if (response.VALID) {
             } else {
@@ -550,6 +554,8 @@ function setButtons(table) {
 function setForms() {
     FORM_DOC_SEND.addEventListener('submit', function (e) {
         e.preventDefault();
+        this.querySelector('input[type=submit]').disabled = true;
+
         var data = JsFunctions.FormToJson(FORM_DOC_SEND);
         var routedCheck = {
             REQUEST: _REQUEST.SEND_DOC_FORM,
@@ -572,28 +578,32 @@ function setForms() {
 
         MyAjax.createJSON((error, response) => {
             if (error) {
-                alert(error);
+                notify("error", "SERVER CONNECTION ERROR");
+
             } else {
                 if (response.VALID) {
-                    delete response.VALID;
+
                     const fullname = CREATE_FULLNAME.value;
                     FORM_DOC_RECEIVE.reset();
                     CREATE_FULLNAME.value = fullname;
-                    notify("success", response.MESSAGE);
-                    //close modal
-                    //focus table
+                    if (crt_modal != undefined) {
+                        crt_modal.style.display = "none";
+                    }
                     DOC_VIEW_MAIN.focus();
+                    notify("success", response.MESSAGE);
+
                 } else {
                     notify("error", response.MESSAGE);
                     this.querySelector('input[type=submit]').disabled = false;
                 }
             }
-            console.log(response);
             setTable(searchBar.value.toUpperCase());
         }, data);
     });
     FORM_ATTACH_ADD.addEventListener('submit', function (e) {
         e.preventDefault();
+        this.querySelector('input[type=submit]').disabled = true;
+
         var formData = new FormData(this);
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '../../SCRIPTS/FILE_UPLOAD.php', true);
@@ -615,7 +625,7 @@ function setForms() {
 
         MyAjax.createJSON((error, response) => {
             if (error) {
-                alert(error);
+                // alert(error);
             } else {
                 var results = ""
                 if (response.VALID) {
