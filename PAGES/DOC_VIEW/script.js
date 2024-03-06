@@ -563,6 +563,7 @@ function setForms() {
 
     FORM_DOC_RECEIVE.addEventListener('submit', function (e) {
         e.preventDefault();
+        this.querySelector('input[type=submit]').disabled = true;
         var data = {
             REQUEST: _REQUEST.RECEIVE_DOC,
             DATA: JsFunctions.FormToJson(FORM_DOC_RECEIVE),
@@ -572,13 +573,16 @@ function setForms() {
             if (error) {
                 alert(error);
             } else {
-                var results = ""
                 if (response.VALID) {
                     delete response.VALID;
                 } else {
                     //response valid=false
                 }
             }
+            const fullname = CREATE_FULLNAME.value;
+            FORM_DOC_RECEIVE.reset();
+            CREATE_FULLNAME.value = fullname;
+            console.log(response);
             setTable(searchBar.value.toUpperCase());
         }, data);
     });
