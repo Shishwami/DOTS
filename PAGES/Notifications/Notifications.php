@@ -1,6 +1,6 @@
 <body>
 
-    <div class="buttons">
+    <!-- <div class="buttons">
         <h1>Notifications</h1>
         <button onclick="notifySuccess()">
             Success
@@ -16,7 +16,7 @@
         </button>
         <button onclick="something('success','hahsidfhadshfsduifhs')">Something</button>
         <button onclick="something('success','haha mimi')">Something 3</button>
-    </div>
+    </div> -->
 
     <div id="notification-area">
     </div>
