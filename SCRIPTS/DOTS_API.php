@@ -1115,16 +1115,12 @@ function receiveDocUser($inputs, $conn)
     $updateDataSql = $queries->updateQuery($updateData);
     $resultUpdate = $conn->query($updateDataSql);
 
-
-
     if ($resultUpdate && $insertUpdate) {
         $valid = true;
         $conn->commit();
     } else {
         $conn->rollback();
     }
-
-    //TODO insert to logs
 
     echo json_encode(
         array(
