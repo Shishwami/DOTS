@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../../CSS/DOC_VIEW.css">
     <link rel="stylesheet" href="../../CSS/Modal.css">
     <link rel="stylesheet" href="../../CSS/DOTS_NAV.css">
+    <link rel="stylesheet" href="../../CSS/Notifications.css">
     <link rel="stylesheet" href="../../CSS/FontAwesome/css/all.css">
     <link rel="stylesheet" href="../../CSS/FontAwesome/css/fontawesome.css">
     <link rel="stylesheet" href="../../CSS/FontAwesome/css/fontawesome.min.css">
@@ -132,25 +133,25 @@
                     <form class="form" action="" id="FORM_DOC_EDIT">
                         <div class="content_one">
                             <div class="head">
-                                <label for="EDIT_DATE_TIME_RECEIVED">Date Received:</label> 
+                                <label for="EDIT_DATE_TIME_RECEIVED">Date Received:</label>
                                 <input type="datetime-local" name="DATE_TIME_RECEIVED" id="EDIT_DATE_TIME_RECEIVED">
                             </div>
                             <div class="head">
-                                <label for="EDIT_LETTER_DATE">Letter Date:</label> 
+                                <label for="EDIT_LETTER_DATE">Letter Date:</label>
                                 <input type="date" name="LETTER_DATE" id="EDIT_LETTER_DATE">
                             </div>
                         </div>
 
                         <div class="content_two">
                             <div class="body">
-                                <label for="EDIT_DOC_TYPE">Document Type:</label> 
+                                <label for="EDIT_DOC_TYPE">Document Type:</label>
                                 <select name="DOC_TYPE_ID" id="EDIT_DOC_TYPE">
                                     <option value="" disabled selected> Select Type</option>
                                     <!-- to be filled using database -->
                                 </select>
                             </div>
                             <div class="body">
-                                <label for="EDIT_DOC_OFFICE">Office/Agency</label> 
+                                <label for="EDIT_DOC_OFFICE">Office/Agency</label>
                                 <select name="S_OFFICE_ID" id="EDIT_DOC_OFFICE">
                                     <option value="" disabled selected> Select Office</option>
                                     <!-- to be filled using database -->
@@ -253,7 +254,7 @@
                         <div class="attachments">
                             <div class="descript">
                                 <div class="preview">
-                                    <div  id="ATTACH_RESULTS">
+                                    <div id="ATTACH_RESULTS">
 
                                     </div>
                                 </div>
@@ -307,8 +308,8 @@
                                             <!-- <input type="file" name="ATTACH_FILE" id="ATTACH_FILE"> -->
 
                                             <div class="imgbox">
-                                                <input type="file" name="ATTACH_FILE[]" id="ATTACH_FILE" multiple accept="image/*"
-                                                    hidden>
+                                                <input type="file" name="ATTACH_FILE[]" id="ATTACH_FILE" multiple
+                                                    accept="image/*" hidden>
                                                 <div class="img-area" data-img="">
                                                     <i class='fa-solid fa-upload icon'></i>
                                                     <h3>Upload Image</h3>
@@ -337,7 +338,9 @@
 
         </div>
     </div>
-    
+    <?php
+    include "../Notifications/Notifications.php";
+    ?>F
 </body>
 
 <script src="../../Modal/GenModal.js"></script>
