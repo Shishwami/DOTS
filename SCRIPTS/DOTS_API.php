@@ -746,7 +746,13 @@ function receiveDoc($inputs, $conn)
                 ],
             ];
             insert($insertLogData);
-            $message = "Document $selectDocumentRow[DOC_NUM]";
+            // var_dump($inputs);
+            if($inputs['DATA']['ACTION_ID']==2){
+                $message = "Document $selectDocumentRow[DOC_NUM] Received";
+            }
+            if($inputs['DATA']['ACTION_ID']==3){
+                $message = "Document $selectDocumentRow[DOC_NUM] Created";
+            }
         }
     }
     echo json_encode(
