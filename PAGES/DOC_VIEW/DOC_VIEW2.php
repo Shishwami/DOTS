@@ -350,7 +350,6 @@
 
 <script>
     // Initiate zoom effect:
-    imageZoom("myimage", "myresult");
 
     const selectImage = document.querySelector('.select-image');
     const inputFile = document.querySelector('#ATTACH_FILE');
@@ -358,6 +357,7 @@
 
     selectImage.addEventListener('click', function () {
         inputFile.click();
+        console.log("ASDOHIDSAIODASHIO");
     })
 
     inputFile.addEventListener('change', function () {
