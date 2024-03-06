@@ -686,12 +686,13 @@ function receiveDoc($inputs, $conn)
         'DOC_SUBJECT',
         'DOC_STATUS',
         'R_USER_ID',
-        'R_DEPT_ID'
+        'R_DEPT_ID',
+        'DOC_SUBJECT'
     ];
 
     $validated = validateInputs($requiredFields,$inputs);
 
-    if (!$validated) {
+    if (!$validated&&$inputs!="") {
         //notify user that a inputs is black or not set
         $message = "Please ensure all required fields are filled out.";
     } else {
