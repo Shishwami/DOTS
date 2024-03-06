@@ -1085,42 +1085,44 @@ function receiveDocUser($inputs, $conn)
     $selectinboundResult = $conn->query($selectinboundSql);
     $selectinboundRow = $selectinboundResult->fetch_assoc();
 
-    if ($selectinboundRow['ACTION_ID'] == 1) {
+    var_dump($selectinboundRow);
 
-        //add log recieve by user
-        $insertLogData = [
-            'TABLE' => 'DOTS_TRACKING',
-            'DATA' => [
-                'DOC_NUM' => $inputs['DATA']["DOC_NUM"],
-                'ROUTE_NUM' => $inputs['DATA']["ROUTE_NUM"],
-                'ACTION_ID' => 2,//ACTION_ID RECEIVE
-                'HRIS_ID' => $_SESSION['HRIS_ID'],
-                'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
-            ]
-        ];
+    //add log recieve by user
+    $insertLogData = [
+        'TABLE' => 'DOTS_TRACKING',
+        'DATA' => [
+            'DOC_NUM' => $inputs['DATA']["DOC_NUM"],
+            'ROUTE_NUM' => $inputs['DATA']["ROUTE_NUM"],
+            'ACTION_ID' => 2,//ACTION_ID RECEIVE
+            'HRIS_ID' => $_SESSION['HRIS_ID'],
+            'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
+        ]
+    ];
 
-        $insertLogSql = $queries->insertQuery($insertLogData);
-        $insertLogResult = $conn->query($insertLogSql);
+    $insertLogSql = $queries->insertQuery($insertLogData);
+    $insertLogResult = $conn->query($insertLogSql);
 
-        $insertDataSql = $queries->insertQuery($insertData);
-        $insertUpdate = $conn->query($insertDataSql);
+    //TODO validate if received
 
-        $lastId = $conn->insert_id;
-        $updateData['DATA']['OUTBOUND_ID'] = $lastId;
+    $insertDataSql = $queries->insertQuery($insertData);
+    $insertUpdate = $conn->query($insertDataSql);
 
-        $updateDataSql = $queries->updateQuery($updateData);
-        $resultUpdate = $conn->query($updateDataSql);
+    $lastId = $conn->insert_id;
+    $updateData['DATA']['OUTBOUND_ID'] = $lastId;
 
-        if ($resultUpdate && $insertUpdate) {
-            $valid = true;
-            $conn->commit();
-        } else {
-            $conn->rollback();
-        }
+    $updateDataSql = $queries->updateQuery($updateData);
+    $resultUpdate = $conn->query($updateDataSql);
+
+
+
+    if ($resultUpdate && $insertUpdate) {
+        $valid = true;
+        $conn->commit();
     } else {
-
-        //error already recived
+        $conn->rollback();
     }
+
+    //TODO insert to logs
 
     echo json_encode(
         array(
@@ -1177,10 +1179,10 @@ function sendDocFormUser($inputs, $conn)
             ),
         ),
     ];
-
     $selectOutboundSql = $queries->selectQuery($selectOutboundData);
     $selectOutboundResult = $conn->query($selectOutboundSql);
     $selectOutboundRow = $selectOutboundResult->fetch_assoc();
+
 
     if ($selectOutboundRow['ROUTED'] == 1) {
         //if routed duplicate in docmain & outbound
@@ -1240,11 +1242,10 @@ function sendDocFormUser($inputs, $conn)
         $insertOutboundSql = $queries->insertQuery($insertOutboundData);
         $insertOutboundResult = $conn->query($insertOutboundSql);
 
+    } else if ($selectOutboundRow['ROUTED'] == 0) {
+        $updateOutboundSql = $queries->updateQuery($updateOutboundData);
+        $updateOutboundResult = $conn->query($updateOutboundSql);
     }
-    //  else if ($selectOutboundRow['ROUTED'] == 0) {
-    //     $updateOutboundSql = $queries->updateQuery($updateOutboundData);
-    //     $updateOutboundResult = $conn->query($updateOutboundSql);
-    // }
 
     //add log outbound send
     $insertMainLogData = [
@@ -1268,7 +1269,6 @@ function sendDocFormUser($inputs, $conn)
     $last_id = $conn->insert_id;
     $updateOutboundData['DATA']["INBOUND_ID"] = $last_id;
 
-    //update outbound
     $updateOutboundSql = $queries->updateQuery($updateOutboundData);
     $updateOutboundResult = $conn->query($updateOutboundSql);
 
