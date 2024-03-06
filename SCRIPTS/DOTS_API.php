@@ -1073,8 +1073,19 @@ function receiveDocUser($inputs, $conn)
     //select the doc on inbound and check if it is already recieived
     //setup the data for select on inbound
     $selectinboundData = [
-        
+        'TABLE' => 'DOTS_DOCUMENT_INBOUND',
+        'WHERE' => [
+            'AND' => [
+                ['ID' => $inputs['DATA']['ID']]
+            ]
+        ]
     ];
+
+    $selectinboundSql = $queries->selectQuery(($selectinboundData));
+    $selectinboundResult = $conn->query($selectinboundSql);
+    $selectinboundRow = $selectinboundResult->fetch_assoc();
+
+    var_dump($selectinboundRow);
 
     //add log recieve by user
     $insertLogData = [
@@ -1142,7 +1153,7 @@ function sendDocFormUser($inputs, $conn)
             'ID' => $inputs["DATA"]["ID"],
         ]
     ];
-    
+
     //insert to inbound /send
     $insertInboundData = [
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
