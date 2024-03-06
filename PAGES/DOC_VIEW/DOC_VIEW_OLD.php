@@ -4,6 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../CSS/Notifications.css">
+    <link rel="stylesheet" href="../../CSS/FontAwesome/css/all.css">
+    <link rel="stylesheet" href="../../CSS/FontAwesome/css/fontawesome.css">
+    <link rel="stylesheet" href="../../CSS/FontAwesome/css/fontawesome.min.css">
     <title>Document</title>
 </head>
 <style>
@@ -107,9 +111,9 @@
                 <input type="text" name="DOC_SUBJECT" id="CREATE_DOC_SUBJECT">
             </div>
 
-            <input type="text" name="DOC_STATUS" id="CREATE_DOC_STATUS" value="5" >
-            <input type="text" name="R_USER_ID" id="CREATE_R_USER_ID" >
-            <input type="text" name="R_DEPT_ID" id="CREATE_R_DEPT_ID" >
+            <input type="text" name="DOC_STATUS" id="CREATE_DOC_STATUS" value="5">
+            <input type="text" name="R_USER_ID" id="CREATE_R_USER_ID">
+            <input type="text" name="R_DEPT_ID" id="CREATE_R_DEPT_ID">
 
             <input type="submit" value="Submit">
 
@@ -155,7 +159,7 @@
                 <input type="text" name="DOC_SUBJECT" id="EDIT_DOC_SUBJECT">
             </div>
 
-            <input type="text" name="DOC_STATUS" id="EDIT_DOC_STATUS" value="5" >
+            <input type="text" name="DOC_STATUS" id="EDIT_DOC_STATUS" value="5">
 
             <input type="submit" value="Submit">
             <input type="text" name="ID" id="EDIT_DOC_ID">
@@ -243,7 +247,9 @@
         </div>
 
     </div>
-
+    <?php
+    include "../Notifications/Notifications.php";
+    ?>
     <script src="../../SCRIPTS/Constants.js"></script>
     <script src="./script.js" type="module"></script>
 
