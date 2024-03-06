@@ -1043,7 +1043,7 @@ function receiveDocUser($inputs, $conn)
     $queries = new Queries();
     $valid = false;
     $conn->begin_transaction();
-    //set up data for update on inbound
+
     $updateData = array(
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
         'DATA' => array(
@@ -1056,7 +1056,7 @@ function receiveDocUser($inputs, $conn)
             'ID' => $inputs['DATA']['ID'],
         ),
     );
-    //set up data for insert in outbound
+
     $insertData = array(
         'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
         'DATA' => array(
