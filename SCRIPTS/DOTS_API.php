@@ -1296,6 +1296,9 @@ function getTableTracking($inputs, $conn)
                 IF(DOTS_ACCOUNT_INFO.DEPT_ID IS NOT NULL,CONCAT(DOTS_DOC_DEPT.DOC_DEPT,'-'), ' '), 
                 IFNULL(DOTS_ACCOUNT_INFO.FULL_NAME, ' ')) as 'Location'",
 
+            'NOTES_USER as User notes',
+            'NOTES_SERVER as Server Notes',
+
             'DATE_TIME_ACTION as `Date of Action`',
             'DOTS_DOC_ACTION.DOC_ACTION as `Action`',
         ],
