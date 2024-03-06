@@ -575,13 +575,14 @@ function setForms() {
             } else {
                 if (response.VALID) {
                     delete response.VALID;
+                    const fullname = CREATE_FULLNAME.value;
+                    FORM_DOC_RECEIVE.reset();
+                    CREATE_FULLNAME.value = fullname;
                 } else {
                     //response valid=false
                 }
             }
-            const fullname = CREATE_FULLNAME.value;
-            FORM_DOC_RECEIVE.reset();
-            CREATE_FULLNAME.value = fullname;
+
             console.log(response);
             setTable(searchBar.value.toUpperCase());
         }, data);
