@@ -102,7 +102,7 @@
             <input type="datetime-local" name="DATE_TIME_SEND" id="SEND_DATE_TIME_SEND">
         </div>
         <div>
-            <label for="SEND_DOC_PRPS">Documnet Purpose:</label>
+            <label for="SEND_DOC_PRPS">Document Purpose:</label>
             <select name="PRPS_ID" id="SEND_DOC_PRPS">
                 <option value="" disabled selected>Please Select Purpose</option>
                 <!-- to be filled using database -->

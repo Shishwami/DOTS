@@ -74,9 +74,16 @@
                             </div>   
 
                             <div class="form_body">
-                                <input type="text" name="ID" id="RECEIVE_DOC_ID" hidden>
+                                <!-- <input type="text" name="ID" id="RECEIVE_DOC_ID" hidden>
                                 <input type="text" name="ACTION_ID" id="RECEIVE_DOC_ACTION" value="2" hidden>
-                                <input type="text" name="R_USER_ID" id="RECEIVE_R_USER_ID" hidden>
+                                <input type="text" name="R_USER_ID" id="RECEIVE_R_USER_ID" hidden> -->
+
+                                <input readonly type="text" name="ID" id="RECEIVE_DOC_ID">
+                                <input readonly type="text" name="ACTION_ID" id="RECEIVE_DOC_ACTION" value="2">
+                                <input readonly type="text" name="R_USER_ID" id="RECEIVE_R_USER_ID">
+                                <input readonly type="text" name="DOC_NUM" id="RECEIVE_DOC_NUM">
+                                <input readonly type="text" name="R_DEPT_ID" id="RECEIVE_R_DEPT_ID">
+                                <input readonly type="text" name="ROUTE_NUM" id="RECEIVE_ROUTE_NUM">
                             </div>
 
                             <div class="form_sub">
@@ -100,8 +107,15 @@
                                 <input type="text" name="DOC_NUM" id="SEND_DOC_NUM" readonly>
                             </div>
                             <div class="head2">
-                                <label for="SEND_DATE_TIME_RECEIVED">Date Received:</label>
-                                <input type="datetime-local" name="DATE_TIME_RECEIVED" id="SEND_DATE_TIME_RECEIVED">
+                                <!-- <label for="SEND_DATE_TIME_RECEIVED">Date Received:</label>
+                                <input type="datetime-local" name="DATE_TIME_RECEIVED" id="SEND_DATE_TIME_RECEIVED"> -->
+
+                                <label for="SEND_ROUTE_NUM">Document Number:</label>
+                                <input type="text" name="ROUTE_NUM" id="SEND_ROUTE_NUM" readonly>
+                            </div>
+                            <div class="head3">
+                                <label for="SEND_DATE_TIME_SEND">Date Sent:</label>
+                                <input type="datetime-local" name="DATE_TIME_SEND" id="SEND_DATE_TIME_SEND">
                             </div>
                         </div>
                         <div class="form_body">
@@ -135,15 +149,104 @@
                         </div>
 
                         <div class="form_footer">
-                            <input type="text" name="ACTION_ID" id="SEND_DOC_ACTION" value="1" readonly hidden>
+                            <!-- <input type="text" name="ACTION_ID" id="SEND_DOC_ACTION" value="1" readonly hidden>
                             <input type="text" name="S_DEPT_ID" id="SEND_S_DEPT_ID" value="" readonly hidden>
-                            <input type="text" name="S_USER_ID" id="SEND_S_USER_ID" value="" readonly hidden>
+                            <input type="text" name="S_USER_ID" id="SEND_S_USER_ID" value="" readonly hidden> -->
+
+                            <input readonly type="text" name="ID" id="SEND_DOC_ID">
+                            <input readonly type="text" name="ACTION_ID" id="SEND_DOC_ACTION" value="1">
+                            <input readonly type="text" name="S_DEPT_ID" id="SEND_S_DEPT_ID" value="">
+                            <input readonly type="text" name="S_USER_ID" id="SEND_S_USER_ID" value="">
                         </div>
 
                         <div class="form_sub">
                             <input type="submit" value="Send">
                         </div>
                         </form>
+                    </div>
+                </div>
+
+                <div class="modal" id="r_cnl_modal">
+                    <div class="modal_content">
+                        <div class="modal_banner">
+                            <span class="r_cnl_close">&times;</span>
+                            <h1>Cancel</h1>
+                        </div>
+
+                        <form action="submit" name="FORM_DOC_CANCEL_R" id="FORM_DOC_CANCEL_R">
+                            <h1>CANCELLATION FORM for Receive</h1>
+
+                            <label for="CANCEL_R_NOTES">Notes:</label>
+                            <textarea name="CANCEL_R_NOTES" id="CANCEL_R_NOTES" cols="30" rows="3"></textarea>
+
+                            <label for="CANCEL_R_DEPT">
+                                <input type="checkbox" name="CANCEL_R_DEPT" id="CANCEL_R_DEPT">
+                                Check if the document was sent to the department
+                            </label>
+
+                            <input type="submit" value="CANCEL">
+                            <input type="text" name="CANCEL_R_ID" id="CANCEL_R_ID">
+                        </form>
+                    </div>
+                </div>
+
+                <div class="modal" id="s_cnl_modal">
+                    <div class="modal_content">
+                        <div class="modal_banner">
+                            <span class="s_cnl_close">&times;</span>
+                            <h1>Cancel</h1>
+                        </div>
+
+                        <form action="submit" name="FORM_DOC_CANCEL_S" id="FORM_DOC_CANCEL_S">
+                            <h1>CANCELLATION FORM for send</h1>
+
+                            <label for="CANCEL_S_NOTES">Notes:</label>
+                            <textarea name="CANCEL_S_NOTES" id="CANCEL_S_NOTES" cols="30" rows="3"></textarea>
+
+                            <input type="submit" value="CANCEL">
+                            <input type="text" name="CANCEL_S_ID" id="CANCEL_S_ID">
+                        </form>
+                    </div>
+                </div>
+
+                <div class="modal" id="atc_modal">
+                    <div class="modal_content">
+                        <div class="modal_banner">
+                            <span class="atc_close">&times;</span>
+                            <h1>Attach</h1>
+                        </div>
+
+                        <div>
+                            <button id="BTN_ATTACH_ADD">Add Attachment</button>
+                            <!-- <table id="ATTACH_VIEW_MAIN">
+                                <th>
+                                </th>
+                                <tbody>
+                                </tbody>
+                            </table> -->
+                            <div id="ATTACH_RESULTS">
+
+                            </div>
+                            <div id="ATTACH_ZOOM">
+                                <!-- preview -->
+                            </div>
+                            <div>
+                                <h1>ADD ATTACHMENT MODAL</h1>
+                                <form action="submit" method="POST" id="FORM_ATTACH_ADD" enctype="multipart/form-data">
+                                    <label for="ATTACH_DESCRIPTION">Description:</label>
+                                    <input type="text" name="DESCRIPTION" id="ATTACH_DESCRIPTION">
+                                    <input type="file" name="ATTACH_FILE" id="ATTACH_FILE">
+                                    <input type="submit" value="Submit">
+                                    <input type="text" name="DOC_NUM" id="ATTACH_DOC_NUM">
+                                    <input type="text" name="ROUTE_NUM" id="ATTACH_ROUTE_NUM">
+                                </form>
+
+                                <div>
+                                    <!-- input preview -->
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
