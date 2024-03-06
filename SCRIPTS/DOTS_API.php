@@ -1085,8 +1085,6 @@ function receiveDocUser($inputs, $conn)
     $selectinboundResult = $conn->query($selectinboundSql);
     $selectinboundRow = $selectinboundResult->fetch_assoc();
 
-    var_dump($selectinboundRow);
-
     if ($selectinboundRow['ACTION_ID'] == 2) {
         echo "ALREADY RECIVED";
     }
