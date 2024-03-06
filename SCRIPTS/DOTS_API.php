@@ -707,7 +707,7 @@ function receiveDoc($inputs, $conn)
         'R_DEPT_ID'
     ];
 
-    $validated = validateInputs($requiredFields);
+    $validated = validateInputs($requiredFields,$inputs);
 
     if (!$validated) {
         //notify user that a inputs is black or not set
@@ -1372,7 +1372,7 @@ function formatDate($dateString)
     return($date->format('n')) . "/" . $date->format('j') . "/" . $date->format('Y');
 }
 
-function validateInputs($requiredFields)
+function validateInputs($requiredFields,$inputs)
 {
     foreach ($requiredFields as $field) {
         if (!isset($inputs['DATA'][$field])) {
