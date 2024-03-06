@@ -107,9 +107,9 @@
                 <input type="text" name="DOC_SUBJECT" id="CREATE_DOC_SUBJECT">
             </div>
 
-            <input type="text" name="DOC_STATUS" id="CREATE_DOC_STATUS" value="5" hidden>
-            <input type="text" name="R_USER_ID" id="CREATE_R_USER_ID" hidden>
-            <input type="text" name="R_DEPT_ID" id="CREATE_R_DEPT_ID" hidden>
+            <input type="text" name="DOC_STATUS" id="CREATE_DOC_STATUS" value="5" >
+            <input type="text" name="R_USER_ID" id="CREATE_R_USER_ID" >
+            <input type="text" name="R_DEPT_ID" id="CREATE_R_DEPT_ID" >
 
             <input type="submit" value="Submit">
 
@@ -155,7 +155,7 @@
                 <input type="text" name="DOC_SUBJECT" id="EDIT_DOC_SUBJECT">
             </div>
 
-            <input type="text" name="DOC_STATUS" id="EDIT_DOC_STATUS" value="5" hidden>
+            <input type="text" name="DOC_STATUS" id="EDIT_DOC_STATUS" value="5" >
 
             <input type="submit" value="Submit">
             <input type="text" name="ID" id="EDIT_DOC_ID">
