@@ -545,7 +545,6 @@ function getAddressee($inputs, $conn)
     );
 
     $sql = $queries->selectQuery($data);
-    // echo $sql;
     $result = mysqli_query($conn, $sql);
 
     $formattedOptions = [];
@@ -693,55 +692,67 @@ function sendDocForm($inputs, $conn)
 }
 function receiveDoc($inputs, $conn)
 {
-    $queries = new Queries();
     $valid = false;
+    $message = "";
 
-    $insertDocumentData = array(
-        'TABLE' => 'DOTS_DOCUMENT',
-        'DATA' => $inputs['DATA'],
-    );
-    $insertDocumentSql = $queries->insertQuery($insertDocumentData);
-    $insertDocumentResult = $conn->query($insertDocumentSql);
+    $requiredFields = [
+        'ACTION_ID',
+        'DATE_TIME_RECEIVED',
+        'LETTER_DATE',
+        'DOC_TYPE_ID',
+        'S_OFFICE_ID',
+        'DOC_SUBJECT',
+        'DOC_STATUS',
+        'R_USER_ID',
+        'R_DEPT_ID'
+    ];
 
-    if ($insertDocumentResult) {
-        $valid = true;
+    $validated = validateInputs($requiredFields);
 
-        $lastId = $conn->insert_id;
-
-        //get doc_num, route_num and actionid
-        $selectDocumentData = [
+    if (!$validated) {
+        //notify user that a inputs is black or not set
+        $message = "Please ensure all required fields are filled out.";
+    } else {
+        $insertDocumentData = array(
             'TABLE' => 'DOTS_DOCUMENT',
-            'WHERE' => [
-                'AND' => [
-                    ['ID' => $lastId]
+            'DATA' => $inputs['DATA'],
+        );
+
+        if (!insert($insertDocumentData)) {
+            //insertion failed
+        } else {
+            $valid = true;
+            $lastId = $conn->insert_id; //id of the last inserted row
+            //get doc_num, route_num and actionid
+            $selectDocumentData = [
+                'TABLE' => 'DOTS_DOCUMENT',
+                'WHERE' => [
+                    'AND' => [
+                        ['ID' => $lastId]
+                    ]
                 ]
-            ]
-        ];
-
-        $selectDocumentSql = $queries->selectQuery($selectDocumentData);
-        $selectDocumentResult = $conn->query($selectDocumentSql);
-        $selectDocumentRow = $selectDocumentResult->fetch_assoc();
-
-        //add log create/ receive doc
-        $insertLogData = [
-            'TABLE' => 'DOTS_TRACKING',
-            'DATA' => [
-                'DOC_NUM' => $selectDocumentRow['DOC_NUM'],
-                'ROUTE_NUM' => $selectDocumentRow['ROUTE_NUM'],
-                'ACTION_ID' => $selectDocumentRow['ACTION_ID'],
-                'HRIS_ID' => $_SESSION['HRIS_ID'],
-                'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
-                // 'DATE_TIME_ACTION'=>$selectDocumentRow['DATE_TIME_RECEIVED'],
-            ],
-        ];
-
-        $insertLogSql = $queries->insertQuery($insertLogData);
-        $insertLogResult = $conn->query($insertLogSql);
-
+            ];
+            $selectDocumentRow = selectSingleRow($selectDocumentData);
+            //add log create/ receive doc
+            $insertLogData = [
+                'TABLE' => 'DOTS_TRACKING',
+                'DATA' => [
+                    'DOC_NUM' => $selectDocumentRow['DOC_NUM'],
+                    'ROUTE_NUM' => $selectDocumentRow['ROUTE_NUM'],
+                    'ACTION_ID' => $selectDocumentRow['ACTION_ID'],
+                    'HRIS_ID' => $_SESSION['HRIS_ID'],
+                    'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
+                    // 'DATE_TIME_ACTION'=>$selectDocumentRow['DATE_TIME_RECEIVED'],
+                ],
+            ];
+            insert($insertLogData);
+            $message = "Document $selectDocumentRow[DOC_NUM]";
+        }
     }
     echo json_encode(
         array(
-            'VALID' => $valid
+            'VALID' => $valid,
+            'MESSAGE' => $message,
         )
     );
 }
@@ -1359,5 +1370,39 @@ function formatDate($dateString)
 {
     $date = new DateTime($dateString);
     return($date->format('n')) . "/" . $date->format('j') . "/" . $date->format('Y');
+}
+
+function validateInputs($requiredFields)
+{
+    foreach ($requiredFields as $field) {
+        if (!isset($inputs['DATA'][$field])) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function insert($insertData)
+{
+    $queries = new Queries();
+    global $conn;
+
+    $insertSql = $queries->insertQuery($insertData);
+    $insertResult = $conn->query($insertSql);
+
+    return $insertResult;
+}
+
+function selectSingleRow($selectData)
+{
+    $queries = new Queries();
+    global $conn;
+
+    $selectSql = $queries->selectQuery($selectData);
+    $selectResult = $conn->query($selectSql);
+    $selectRow = $selectResult->fetch_assoc();
+
+    return $selectRow;
+
 }
 ?>
