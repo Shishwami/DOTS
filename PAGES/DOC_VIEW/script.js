@@ -137,24 +137,6 @@ function initializeRECEIVE_FORM() {
 
 
 }
-// function setLETTER_DATE() {
-//     var data = {
-//         REQUEST: _REQUEST.GET_DATE,
-//         DATE: "DATE"
-//     }
-
-//     MyAjax.createJSON((error, response) => {
-//         if (error) {
-//             alert(error);
-//         } else {
-//             if (response.VALID) {
-//                 delete response.VALID;
-//                 CREATE_LETTER_DATE.value = Object.values(response)[0];
-//             } else {
-//             }
-//         }
-//     }, data);
-// }
 // function getSessionName() {
 //     const data = {
 //         REQUEST: _REQUEST.GET_SESSION_NAME,
