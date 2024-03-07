@@ -384,7 +384,7 @@ function setCreateBtn() {
     });
 }
 function sendBtnEvent(id, doc_num, route_num) {
-        FORM_DOC_RECEIVE.querySelector('input[type=submit]').disabled = false;
+    FORM_DOC_RECEIVE.querySelector('input[type=submit]').disabled = false;
 
     clearValues();
     SEND_DATE_TIME_SENT.focus();
@@ -406,6 +406,7 @@ function sendBtnEvent(id, doc_num, route_num) {
     SEND_DOC_NUM.value = doc_num;
     SEND_ROUTE_NUM.value = route_num;
 
+    SEND_DATE_TIME_SENT.focus();
     FORM_DOC_SEND.querySelector('input[type=submit]').disabled = false;
 
     if (snd_modal)
@@ -426,11 +427,7 @@ function setEditBtn(id, doc_num, route_num) {
             'ROUTE_NUM': route_num,
         }
     };
-    FORM_DOC_EDIT.querySelector('input[type=submit]').disabled = false;
-
-    if (edt_modal)
-        edt_modal.style.display = "block";
-
+   
     MyAjax.createJSON((error, response) => {
         EDIT_DOC_ID.value = response['ID'];
         EDIT_DATE_TIME_RECEIVED.value = response['DATE_TIME_RECEIVED'];
@@ -445,7 +442,11 @@ function setEditBtn(id, doc_num, route_num) {
         } else if (response['ACTION_ID'] == 3) {
             EDIT_ACTION_ID_3.checked = true;
         }
+        EDIT_ACTION_ID_3.focus();
+        FORM_DOC_EDIT.querySelector('input[type=submit]').disabled = false;
 
+        if (edt_modal)
+            edt_modal.style.display = "block";
     }, data);
 }
 function setAttachBtn(id, doc_num, route_num) {
