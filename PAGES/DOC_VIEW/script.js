@@ -90,8 +90,7 @@ function InitializePAGE() {
         console.log("ASDADSADSADS");
     });
 
-    //TO BE REMOVED
-    if (BTN_ATTACH_INS)
+    if (BTN_ATTACH_INS) {
         BTN_ATTACH_INS.addEventListener("click", function () {
             var elements = document.getElementsByClassName('img-zoom-lens');
 
@@ -105,6 +104,7 @@ function InitializePAGE() {
             imageZoom("myimage", "myresult");
 
         });
+    }
 }
 
 function initializeSEND_FORM() {
@@ -407,10 +407,9 @@ function sendBtnEvent(id, doc_num, route_num) {
 
     if (snd_modal) {
         snd_modal.style.display = "block";
+        SEND_R_DEPT_ID.focus();
     }
 
-    SEND_DATE_TIME_SENT.focus();
-    CREATE_DATE_TIME_RECEIVED.focus();
 
 }
 function clearValues() {
@@ -437,7 +436,6 @@ function setEditBtn(id, doc_num, route_num) {
         EDIT_DOC_OFFICE.value = response['S_OFFICE_ID'];
         EDIT_DOC_SUBJECT.value = response['DOC_SUBJECT'];
 
-
         if (response['ACTION_ID'] == 2) {
             EDIT_ACTION_ID_2.checked = true;
         } else if (response['ACTION_ID'] == 3) {
@@ -448,6 +446,8 @@ function setEditBtn(id, doc_num, route_num) {
 
         if (edt_modal)
             edt_modal.style.display = "block";
+        EDIT_DATE_TIME_RECEIVED.focus();
+
     }, data);
 }
 function setAttachBtn(id, doc_num, route_num) {
