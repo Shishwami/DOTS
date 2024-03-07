@@ -184,7 +184,6 @@
                         </div>
 
                         <div class="content_three">
-                            <input type="text" name="DOC_STATUS" id="EDIT_DOC_STATUS" value="5" hidden>
                             <input type="submit" value="Submit">
                             <input type="text" name="ID" id="EDIT_DOC_ID" hidden>
                         </div>
