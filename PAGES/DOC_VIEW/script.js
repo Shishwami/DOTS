@@ -310,18 +310,6 @@ function setTable(filter) {
             if (response.VALID) {
             } else {
             }
-            // const thead = DOC_VIEW_MAIN.querySelector('thead');
-            // const tbody = DOC_VIEW_MAIN.querySelector('tbody');
-            // if (response.THEAD) {
-            //     thead.innerHTML = response.THEAD;
-            // } else {
-            //     thead.innerHTML = '';
-            // }
-            // if (response.TBODY) {
-            //     tbody.innerHTML = response.TBODY;
-            // } else {
-            //     tbody.innerHTML = '';
-            // }
             JsFunctions.updateTable(DOC_VIEW_MAIN, response.RESULT, response.BUTTONS, filter);
             setButtons(DOC_VIEW_MAIN);
 
