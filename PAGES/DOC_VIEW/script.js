@@ -305,7 +305,6 @@ function setTable(filter) {
 
     MyAjax.createJSON((error, response) => {
         if (error) {
-            // alert(error);
         } else {
             if (response.VALID) {
             } else {
