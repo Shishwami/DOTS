@@ -78,12 +78,12 @@
                                 <input type="text" name="ACTION_ID" id="RECEIVE_DOC_ACTION" value="2" hidden>
                                 <input type="text" name="R_USER_ID" id="RECEIVE_R_USER_ID" hidden> -->
 
-                                <input readonly type="text" name="ID" id="RECEIVE_DOC_ID">
-                                <input readonly type="text" name="ACTION_ID" id="RECEIVE_DOC_ACTION" value="2">
-                                <input readonly type="text" name="R_USER_ID" id="RECEIVE_R_USER_ID">
-                                <input readonly type="text" name="DOC_NUM" id="RECEIVE_DOC_NUM">
-                                <input readonly type="text" name="R_DEPT_ID" id="RECEIVE_R_DEPT_ID">
-                                <input readonly type="text" name="ROUTE_NUM" id="RECEIVE_ROUTE_NUM">
+                                <input hidden readonly type="text" name="ID" id="RECEIVE_DOC_ID">
+                                <input hidden readonly type="text" name="ACTION_ID" id="RECEIVE_DOC_ACTION" value="2">
+                                <input hidden readonly type="text" name="R_USER_ID" id="RECEIVE_R_USER_ID">
+                                <input hidden readonly type="text" name="DOC_NUM" id="RECEIVE_DOC_NUM">
+                                <input hidden readonly type="text" name="R_DEPT_ID" id="RECEIVE_R_DEPT_ID">
+                                <input hidden readonly type="text" name="ROUTE_NUM" id="RECEIVE_ROUTE_NUM">
                             </div>
 
                             <div class="form_sub">
@@ -153,10 +153,10 @@
                             <input type="text" name="S_DEPT_ID" id="SEND_S_DEPT_ID" value="" readonly hidden>
                             <input type="text" name="S_USER_ID" id="SEND_S_USER_ID" value="" readonly hidden> -->
 
-                            <input readonly type="text" name="ID" id="SEND_DOC_ID">
-                            <input readonly type="text" name="ACTION_ID" id="SEND_DOC_ACTION" value="1">
-                            <input readonly type="text" name="S_DEPT_ID" id="SEND_S_DEPT_ID" value="">
-                            <input readonly type="text" name="S_USER_ID" id="SEND_S_USER_ID" value="">
+                            <input hidden readonly type="text" name="ID" id="SEND_DOC_ID">
+                            <input hidden readonly type="text" name="ACTION_ID" id="SEND_DOC_ACTION" value="1">
+                            <input hidden readonly type="text" name="S_DEPT_ID" id="SEND_S_DEPT_ID" value="">
+                            <input hidden readonly type="text" name="S_USER_ID" id="SEND_S_USER_ID" value="">
                         </div>
 
                         <div class="form_sub">
@@ -170,11 +170,10 @@
                     <div class="modal_content">
                         <div class="modal_banner">
                             <span class="r_cnl_close">&times;</span>
-                            <h1>Cancel</h1>
+                            <h1>Cancellation Form</h1>
                         </div>
 
                         <form action="submit" name="FORM_DOC_CANCEL_R" id="FORM_DOC_CANCEL_R">
-                            <h1>CANCELLATION FORM for Receive</h1>
 
                             <label for="CANCEL_R_NOTES">Notes:</label>
                             <textarea name="CANCEL_R_NOTES" id="CANCEL_R_NOTES" cols="30" rows="3"></textarea>
@@ -194,11 +193,10 @@
                     <div class="modal_content">
                         <div class="modal_banner">
                             <span class="s_cnl_close">&times;</span>
-                            <h1>Cancel</h1>
+                            <h1>Cancellation Form</h1>
                         </div>
 
                         <form action="submit" name="FORM_DOC_CANCEL_S" id="FORM_DOC_CANCEL_S">
-                            <h1>CANCELLATION FORM for send</h1>
 
                             <label for="CANCEL_S_NOTES">Notes:</label>
                             <textarea name="CANCEL_S_NOTES" id="CANCEL_S_NOTES" cols="30" rows="3"></textarea>
