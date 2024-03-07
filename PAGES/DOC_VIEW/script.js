@@ -409,7 +409,7 @@ function sendBtnEvent(id, doc_num, route_num) {
         snd_modal.style.display = "block";
     }
 
-    SEND_R_DEPT_ID.focus();
+    SEND_DOC_NOTES.focus();
 }
 function clearValues() {
     SEND_DOC_PRPS.value = "";
