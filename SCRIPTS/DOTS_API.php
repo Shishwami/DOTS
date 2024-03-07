@@ -313,7 +313,6 @@ function editDocument($inputs, $conn)
     $requiredInputs = [
         "ACTION_ID",
         "DATE_TIME_RECEIVED",
-        "DOC_STATUS",
         "DOC_SUBJECT",
         "DOC_TYPE_ID",
         "ID",
