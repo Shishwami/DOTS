@@ -137,24 +137,6 @@ function initializeRECEIVE_FORM() {
 
 
 }
-// function getSessionDeptId() {
-//     const data = {
-//         REQUEST: _REQUEST.GET_SESSION_DEPT_ID,
-//     }
-//     MyAjax.createJSON((error, response) => {
-//         if (error) {
-//             return alert(error);
-//         }
-
-//         if (response.VALID) {
-//             delete response.VALID;
-//             var dept_id = Object.values(response)[0];
-//             CREATE_R_DEPT_ID.value = dept_id;
-//             SEND_S_DEPT_ID.value = dept_id;
-//             sessionStorage.setItem(DOTS_ACCOUNT_INFO.DEPT_ID, dept_id);
-//         }
-//     }, data);
-// }
 // function setDOC_PURPOSE() {
 //     var data = {
 //         REQUEST: _REQUEST.GET_DOC_PRPS,
