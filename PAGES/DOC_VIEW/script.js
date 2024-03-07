@@ -137,29 +137,6 @@ function initializeRECEIVE_FORM() {
 
 
 }
-// function setR_DEPT_ID() {
-//     SEND_R_DEPT_ID.addEventListener('change', function (e) {
-//         setADDRESSEE(this.value);
-//     });
-
-//     const data = {
-//         REQUEST: _REQUEST.GET_DEPT
-//     }
-
-//     MyAjax.createJSON((error, response) => {
-//         if (!error) {
-//             if (response.VALID) {
-//                 delete response.VALID;
-//                 var object = Object.values(response)[0];
-//                 SEND_R_DEPT_ID.innerHTML = object;
-//             } else {
-//                 alert(error);
-//             }
-//         } else {
-//             alert(error);
-//         }
-//     }, data);
-// }
 // function setDOC_OFFICE() {
 
 //     var data = {
