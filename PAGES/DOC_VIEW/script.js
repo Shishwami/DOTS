@@ -280,7 +280,7 @@ function setTableAttachment() {
 
     MyAjax.createJSON((error, response) => {
         if (error) {
-            // alert(error);
+
         } else {
             const prev = document.querySelector(".preview");
             if (prev) {
@@ -294,7 +294,6 @@ function setTableAttachment() {
             }
             console.log(response);
             JsFunctions.updateAttachments(ATTACH_RESULTS, response.RESULT, null, ATTACH_ZOOM);
-            // JsFunctions.updateTable(ATTACH_VIEW_MAIN, response.RESULT, response.BUTTONS, '');
         }
     }, data);
 }
