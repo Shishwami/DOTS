@@ -654,6 +654,8 @@ function setForms() {
             DATA: JsFunctions.FormToJson(FORM_DOC_EDIT),
         }
 
+        console.log(data);
+
         MyAjax.createJSON((error, response) => {
             if (error) {
                 // alert(error);
