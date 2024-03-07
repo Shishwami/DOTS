@@ -215,7 +215,7 @@
                         </div>
 
                         <div class="spacer">
-                            <button id="BTN_ATTACH_ADD">Add Attachment</button>
+                            <button  class="atc_btn" id="BTN_ATTACH_ADD">Add Attachment</button>
                             <button class="ins_btn" id="BTN_ATTACH_INS">Inspect Image</button>
                             <!-- <table id="ATTACH_VIEW_MAIN">
                                 <th>
