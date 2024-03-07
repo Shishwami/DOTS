@@ -228,6 +228,13 @@ function setCancelSend(id, doc_num, route_num) {
 
 }
 
+function setAttachBtn(id, doc_num, route_num) {
+    CANCEL_S_ID.value = id;
+
+    document.getElementById("atc_modal").style.display = "block";
+
+}
+
 function setFormEvents() {
     FORM_DOC_RECEIVE.addEventListener('submit', function (e) {
         e.preventDefault();
