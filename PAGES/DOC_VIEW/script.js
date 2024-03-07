@@ -93,11 +93,7 @@ function InitializePAGE() {
     if (BTN_ATTACH_INS) {
         BTN_ATTACH_INS.addEventListener("click", function () {
             var elements = document.getElementsByClassName('img-zoom-lens');
-
-            // Convert the HTMLCollection to an array to use array methods
             var elementsArray = Array.from(elements);
-
-            // Iterate over the array of elements and remove each one
             elementsArray.forEach(function (element) {
                 element.parentNode.removeChild(element);
             });
