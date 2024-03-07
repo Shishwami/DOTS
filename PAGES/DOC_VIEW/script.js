@@ -297,29 +297,6 @@ function setTableAttachment() {
         }
     }, data);
 }
-// function setADDRESSEE(DEPT_ID) {
-
-//     resetAddressee();
-
-//     const data = {
-//         REQUEST: _REQUEST.GET_ADDRESSEE,
-//         DEPT_ID: DEPT_ID
-//     }
-
-//     MyAjax.createJSON((error, response) => {
-//         if (!error) {
-//             if (response.VALID) {
-//                 delete response.VALID;
-//                 var object = Object.values(response)[0];
-//                 SEND_DOC_ADDRESSEE.innerHTML = object;
-//             } else {
-//             }
-//         } else {
-//             alert(error);
-//         }
-//     }, data);
-
-// }
 // function resetAddressee() {
 //     SEND_DOC_ADDRESSEE.innerHTML = "<option disabled selected>Select Addressee</option>";
 // }
