@@ -242,7 +242,6 @@ function setEditBtn(id, doc_num, route_num) {
         } else if (response['ACTION_ID'] == 3) {
             EDIT_ACTION_ID_3.checked = true;
         }
-        // EDIT_ACTION_ID_3.focus();
         FORM_DOC_EDIT.querySelector('input[type=submit]').disabled = false;
 
         if (edt_modal)
