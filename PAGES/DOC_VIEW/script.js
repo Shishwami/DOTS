@@ -211,8 +211,6 @@ function sendBtnEvent(id, doc_num, route_num) {
     if (snd_modal) {
         snd_modal.style.display = "block";
     }
-    // setTimeout(function () {
-    // }, 100);
     FORM_DOC_RECEIVE.querySelector('input[type=submit]').disabled = false;
 }
 function clearValues() {
