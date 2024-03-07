@@ -130,6 +130,15 @@
                         <h1>Edit</h1>
                     </div>
 
+                    <div>
+                        <div>
+                            <label for="EDIT_ACTION_ID_3">CREATE</label>
+                            <input type="radio" name=ACTION_ID value='3' id="EDIT_ACTION_ID_3">
+                            <label for="EDIT_ACTION_ID_2">RECEIVE</label>
+                            <input type="radio" name=ACTION_ID value='2' id="EDIT_ACTION_ID_2" checked>
+                        </div>
+                    </div>
+
                     <form class="form" action="" id="FORM_DOC_EDIT">
                         <div class="content_one">
                             <div class="head">

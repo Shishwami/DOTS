@@ -172,9 +172,9 @@ function setReceiveBtn(id, doc_num, route_num) {
     getData(_REQUEST.GET_SESSION_DEPT_ID, null, (result) => {
         RECEIVE_R_DEPT_ID.value = result;
     });
-
-
     //open modal
+    document.getElementById("rec_modal").style.display = "block";
+
 
 }
 function setSendBtn(id, doc_num, route_num) {
@@ -210,14 +210,22 @@ function setSendBtn(id, doc_num, route_num) {
         });
     });
 
+    document.getElementById("sent_modal").style.display = "block";
+
 }
 
 function setCancelReceive(id, doc_num, route_num) {
     CANCEL_R_ID.value = id;
+
+    document.getElementById("r_cnl_modal").style.display = "block";
+
 }
 
 function setCancelSend(id, doc_num, route_num) {
     CANCEL_S_ID.value = id;
+
+    document.getElementById("s_cnl_modal").style.display = "block";
+
 }
 
 function setFormEvents() {
