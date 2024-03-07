@@ -297,9 +297,6 @@ function setTableAttachment() {
         }
     }, data);
 }
-// function resetAddressee() {
-//     SEND_DOC_ADDRESSEE.innerHTML = "<option disabled selected>Select Addressee</option>";
-// }
 function setTable(filter) {
 
     const data2 = {
