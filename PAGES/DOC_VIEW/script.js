@@ -36,6 +36,8 @@ const EDIT_R_USER_ID = FORM_DOC_EDIT.querySelector("#EDIT_R_USER_ID");
 const EDIT_R_DEPT_ID = FORM_DOC_EDIT.querySelector("#EDIT_R_DEPT_ID");
 const EDIT_ACTION_ID_2 = FORM_DOC_EDIT.querySelector("#EDIT_ACTION_ID_2");
 const EDIT_ACTION_ID_3 = FORM_DOC_EDIT.querySelector("#EDIT_ACTION_ID_3");
+
+console.log(EDIT_ACTION_ID_2);
 //SEND FORM
 const FORM_DOC_SEND = document.getElementById("FORM_DOC_SEND");
 const SEND_DOC_NUM = FORM_DOC_SEND.querySelector("#SEND_DOC_NUM");
@@ -382,6 +384,7 @@ function setCreateBtn() {
     });
 }
 function sendBtnEvent(id, doc_num, route_num) {
+    FORM_DOC_RECEIVE.querySelector('input[type=submit]').disabled = false;
 
     clearValues();
     SEND_DATE_TIME_SENT.focus();
@@ -403,6 +406,9 @@ function sendBtnEvent(id, doc_num, route_num) {
     SEND_DOC_NUM.value = doc_num;
     SEND_ROUTE_NUM.value = route_num;
 
+    SEND_DATE_TIME_SENT.focus();
+    FORM_DOC_SEND.querySelector('input[type=submit]').disabled = false;
+
     if (snd_modal)
         snd_modal.style.display = "block";
 }
@@ -421,10 +427,7 @@ function setEditBtn(id, doc_num, route_num) {
             'ROUTE_NUM': route_num,
         }
     };
-
-    if (edt_modal)
-        edt_modal.style.display = "block";
-
+   
     MyAjax.createJSON((error, response) => {
         EDIT_DOC_ID.value = response['ID'];
         EDIT_DATE_TIME_RECEIVED.value = response['DATE_TIME_RECEIVED'];
@@ -439,12 +442,20 @@ function setEditBtn(id, doc_num, route_num) {
         } else if (response['ACTION_ID'] == 3) {
             EDIT_ACTION_ID_3.checked = true;
         }
+        EDIT_ACTION_ID_3.focus();
+        FORM_DOC_EDIT.querySelector('input[type=submit]').disabled = false;
 
+        if (edt_modal)
+            edt_modal.style.display = "block";
     }, data);
 }
 function setAttachBtn(id, doc_num, route_num) {
     ATTACH_DOC_NUM.value = doc_num;
     ATTACH_ROUTE_NUM.value = route_num;
+
+    //reset image
+    document.getElementById("ATTACH_ZOOM").style.backgroundImage = "";
+    document.getElementsByClassName("descbox")[0].querySelector('div').innerHTML = "";
 
     //update tbl
     setTableAttachment();
@@ -606,20 +617,46 @@ function setForms() {
         MyAjax.createJSON((error, response) => {
             if (error) {
                 notify("error", "SERVER CONNECTION ERROR");
-
             } else {
                 if (response.VALID) {
-
                     FORM_DOC_RECEIVE.reset();
                     if (crt_modal != undefined) {
                         crt_modal.style.display = "none";
                     }
-                    DOC_VIEW_MAIN.focus();
-                    notify("success", response.MESSAGE);
-
                 } else {
                     notify("error", response.MESSAGE);
                     this.querySelector('input[type=submit]').disabled = false;
+                }
+            }
+            setTable(searchBar.value.toUpperCase());
+        }, data);
+    });
+    FORM_DOC_EDIT.addEventListener('submit', function (e) {
+        e.preventDefault();
+        this.querySelector('input[type=submit]').disabled = true;
+
+        var data = {
+            REQUEST: _REQUEST.EDIT_DOCUMENT,
+            DATA: JsFunctions.FormToJson(FORM_DOC_EDIT),
+        }
+
+        console.log(data);
+
+        MyAjax.createJSON((error, response) => {
+            if (error) {
+                notify("error", "SERVER CONNECTION ERROR");
+            } else {
+                if (response.VALID) {
+                    FORM_DOC_EDIT.reset();
+                    if (edt_modal != undefined) {
+                        edt_modal.style.display = "none";
+                        DOC_VIEW_MAIN.focus();
+                        notify("success", response.MESSAGE);
+                    }
+                } else {
+                    notify("error", response.MESSAGE);
+                    this.querySelector('input[type=submit]').disabled = false;
+
                 }
             }
             setTable(searchBar.value.toUpperCase());
@@ -641,26 +678,6 @@ function setForms() {
         xhr.send(formData);
     });
 
-    FORM_DOC_EDIT.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var data = {
-            REQUEST: _REQUEST.EDIT_DOCUMENT,
-            DATA: JsFunctions.FormToJson(FORM_DOC_EDIT),
-        }
 
-        MyAjax.createJSON((error, response) => {
-            if (error) {
-                // alert(error);
-            } else {
-                var results = ""
-                if (response.VALID) {
-                    delete response.VALID;
-                } else {
-                    //response valid=false
-                }
-            }
-            setTable(searchBar.value.toUpperCase());
-        }, data);
-    });
 
 }
