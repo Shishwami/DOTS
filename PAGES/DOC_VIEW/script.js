@@ -137,22 +137,6 @@ function initializeRECEIVE_FORM() {
 
 
 }
-// function setRECEIVED_TIME(element) {
-//     var data = {
-//         REQUEST: _REQUEST.GET_DATE,
-//         DATE: "DATE_TIME"
-//     }
-
-//     MyAjax.createJSON((error, response) => {
-//         if (error) {
-//             alert(error);
-//         } else if (response.VALID) {
-//             delete response.VALID;
-//             element.value = Object.values(response)[0];
-//         }
-//     }, data);
-
-// }
 // function setLETTER_DATE() {
 //     var data = {
 //         REQUEST: _REQUEST.GET_DATE,
