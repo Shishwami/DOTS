@@ -309,6 +309,7 @@ function editDocument($inputs, $conn)
 {
     $queries = new Queries();
     $message = "";
+    $valid = false;
     $requiredInputs = [
         "ACTION_ID",
         "DATE_TIME_RECEIVED",
@@ -322,10 +323,12 @@ function editDocument($inputs, $conn)
 
     $validated = validateInputs($requiredInputs, $inputs);
 
-
     if (!$validated) {
         $message = "Please Fill up required Fields";
+    } else if ($inputs['DATA']['DOC_SUBJECT'] == "") {
+        $message = "Please Fill up required Fields";
     } else {
+        $valid = true;
         $docId = $inputs['DATA']['ID'];
         unset($inputs['DATA']['ID']);
 
@@ -345,7 +348,7 @@ function editDocument($inputs, $conn)
 
     echo json_encode(
         array(
-            'VALID' => $validated,
+            'VALID' => $valid,
             'MESSAGE' => $message
         )
     );
@@ -591,6 +594,7 @@ function sendDocForm($inputs, $conn)
     $queries = new Queries();
     $valid = false;
     $newRoutingNumber = 0;
+    $lastInboundId = 0;
     $message = "";
     $queryResults = [];
 
@@ -614,6 +618,10 @@ function sendDocForm($inputs, $conn)
     } else {
         $insertInboundData = [
             'TABLE' => 'DOTS_DOCUMENT_INBOUND',
+            'DATA' => $inputs['DATA'],
+        ];
+        $insertOutboundData = [
+            'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
             'DATA' => $inputs['DATA'],
         ];
 
@@ -660,6 +668,7 @@ function sendDocForm($inputs, $conn)
             $newRoutingNumber = intval($selectDocumentRow['ROUTE_NUM']) + 1;
             $selectDocumentRow['ROUTE_NUM'] = $newRoutingNumber;
             $insertInboundData['DATA']["ROUTE_NUM"] = $newRoutingNumber;
+            $insertOutboundData['DATA']["ROUTE_NUM"] = $newRoutingNumber;
 
             unset($selectDocumentRow['ID']);
 
@@ -691,6 +700,7 @@ function sendDocForm($inputs, $conn)
 
         $insertInboundSql = $queries->insertQuery($insertInboundData);
         $queryResults[] = $conn->query($insertInboundSql);
+        $lastInboundId = $conn->insert_id;
 
         $insertInboundLogData = [
             'TABLE' => 'DOTS_TRACKING',
@@ -702,6 +712,9 @@ function sendDocForm($inputs, $conn)
                 'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
             ]
         ];
+        $insertOutboundData['DATA']['INBOUND_ID'] = $lastInboundId;
+        $insertOutboundSql = $queries->insertQuery($insertOutboundData);
+        $queryResults[] = $conn->query($insertOutboundSql);
 
         $insertInboundLogSql = $queries->insertQuery($insertInboundLogData);
         $queryResults[] = $conn->query($insertInboundLogSql);
