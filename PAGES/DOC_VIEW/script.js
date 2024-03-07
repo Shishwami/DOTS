@@ -137,22 +137,6 @@ function initializeRECEIVE_FORM() {
 
 
 }
-// function setDOC_LOCATION() {
-
-//     const data = {
-//         REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
-//     }
-//     MyAjax.createJSON((error, response) => {
-//         if (!error) {
-//             if (response.VALID) {
-//                 delete response.VALID;
-//                 SEND_S_USER_ID.value = Object.values(response)[0];
-//             }
-//         } else {
-//             alert(error)
-//         }
-//     }, data);
-// }
 function getData(requestType, additionalData, successCallback, failureCallback) {
     const data = {
         REQUEST: requestType,
