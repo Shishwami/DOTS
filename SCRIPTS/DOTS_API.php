@@ -308,24 +308,45 @@ function getDocument($inputs, $conn)
 function editDocument($inputs, $conn)
 {
     $queries = new Queries();
-
-    $docId = $inputs['DATA']['ID'];
-        unset($inputs['DATA']['ID']);
-
-    $updateDocData = [
-        'TABLE' => 'DOTS_DOCUMENT',
-        'DATA' => $inputs['DATA'],
-        'WHERE' => [
-            'ID' => $docId
-        ]
+    $message = "";
+    $requiredInputs = [
+        "ACTION_ID",
+        "DATE_TIME_RECEIVED",
+        "DOC_STATUS",
+        "DOC_SUBJECT",
+        "DOC_TYPE_ID",
+        "ID",
+        "LETTER_DATE",
+        "S_OFFICE_ID",
     ];
 
-    $updateDocSql = $queries->updateQuery($updateDocData);
-    $updateDocResult = $conn->query($updateDocSql);
+    $validated = validateInputs($requiredInputs, $inputs);
+
+
+    if (!$validated) {
+        $message = "Please Fill up required Fields";
+    } else {
+        $docId = $inputs['DATA']['ID'];
+        unset($inputs['DATA']['ID']);
+
+        $updateDocData = [
+            'TABLE' => 'DOTS_DOCUMENT',
+            'DATA' => $inputs['DATA'],
+            'WHERE' => [
+                'ID' => $docId
+            ]
+        ];
+
+        $updateDocSql = $queries->updateQuery($updateDocData);
+        $updateDocResult = $conn->query($updateDocSql);
+
+        $message = "Document Updated";
+    }
 
     echo json_encode(
         array(
-            'VALID' => $updateDocResult
+            'VALID' => $validated,
+            'MESSAGE' => $message
         )
     );
 
@@ -573,7 +594,7 @@ function sendDocForm($inputs, $conn)
     $message = "";
     $queryResults = [];
 
-    $requiredFields=[
+    $requiredFields = [
         'DOC_NUM',
         'ROUTE_NUM',
         'DATE_TIME_SEND',
@@ -586,16 +607,16 @@ function sendDocForm($inputs, $conn)
         'S_USER_ID',
     ];
 
-    $validation = validateInputs($requiredFields,$inputs);
+    $validation = validateInputs($requiredFields, $inputs);
 
-    if(!$validation){
+    if (!$validation) {
         $message = "Please ensure all required fields are filled out.";
-    }else{
+    } else {
         $insertInboundData = [
             'TABLE' => 'DOTS_DOCUMENT_INBOUND',
             'DATA' => $inputs['DATA'],
         ];
-    
+
         $checkRoutedData = [
             'TABLE' => 'DOTS_DOCUMENT',
             'COLUMNS' => [
@@ -612,7 +633,7 @@ function sendDocForm($inputs, $conn)
             ],
         ];
         $checkRoutedRow = selectSingleRow($checkRoutedData);
-    
+
         $updateDocumentData = [
             'TABLE' => 'DOTS_DOCUMENT',
             'DATA' => [
@@ -623,7 +644,7 @@ function sendDocForm($inputs, $conn)
                 'ID' => $checkRoutedRow['ID']
             ],
         ];
-    
+
         if ($checkRoutedRow['ROUTED'] == 1) {
             $selectDocumentData = [
                 'TABLE' => 'DOTS_DOCUMENT',
@@ -635,21 +656,21 @@ function sendDocForm($inputs, $conn)
                 'ORDER_BY' => 'ROUTE_NUM DESC'
             ];
             $selectDocumentRow = selectSingleRow($selectDocumentData);
-    
+
             $newRoutingNumber = intval($selectDocumentRow['ROUTE_NUM']) + 1;
             $selectDocumentRow['ROUTE_NUM'] = $newRoutingNumber;
             $insertInboundData['DATA']["ROUTE_NUM"] = $newRoutingNumber;
-    
+
             unset($selectDocumentRow['ID']);
-    
+
             $insertDocumentData = [
                 'TABLE' => 'DOTS_DOCUMENT',
                 'DATA' => $selectDocumentRow,
             ];
-    
+
             $insertDocumentSql = $queries->insertQuery($insertDocumentData);
             $queryResults[] = $conn->query($insertDocumentSql);
-    
+
             $insertDocumentLogData = [
                 'TABLE' => 'DOTS_TRACKING',
                 'DATA' => [
@@ -660,17 +681,17 @@ function sendDocForm($inputs, $conn)
                     'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
                 ]
             ];
-    
+
             $insertDocumentLogSql = $queries->insertQuery($insertDocumentLogData);
             $queryResults[] = $conn->query($insertDocumentLogSql);
         } else if ($checkRoutedRow['ROUTED'] == 0) {
             $updateDocumentSql = $queries->updateQuery(($updateDocumentData));
             $queryResults[] = $conn->query($updateDocumentSql);
         }
-    
+
         $insertInboundSql = $queries->insertQuery($insertInboundData);
         $queryResults[] = $conn->query($insertInboundSql);
-    
+
         $insertInboundLogData = [
             'TABLE' => 'DOTS_TRACKING',
             'DATA' => [
@@ -681,24 +702,24 @@ function sendDocForm($inputs, $conn)
                 'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
             ]
         ];
-    
+
         $insertInboundLogSql = $queries->insertQuery($insertInboundLogData);
         $queryResults[] = $conn->query($insertInboundLogSql);
         // var_dump($queryResults);
 
         if (in_array(false, $queryResults)) {
             $valid = false;
-        }else{
+        } else {
             $valid = true;
         }
-    
+
         if ($valid) {
             $message = " $checkRoutedRow[DOC_NUM]-$newRoutingNumber Sent";
         } else {
             $message = "Failed Sending $checkRoutedRow[DOC_NUM]-$newRoutingNumber";
         }
     }
-        echo json_encode([
+    echo json_encode([
         'VALID' => $valid,
         "MESSAGE" => $message
     ]);
@@ -797,7 +818,6 @@ function getTableMain($inputs, $conn)
             'DOC_NUM',
             'ROUTE_NUM',
             'DOC_SUBJECT as `Subject`',
-            'DOC_NOTES `Notes`',
             'DOC_TYPE `Type`',
             'LETTER_DATE `Letter Date`',
 
