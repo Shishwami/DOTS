@@ -385,7 +385,7 @@ function setCreateBtn() {
 }
 function sendBtnEvent(id, doc_num, route_num) {
     FORM_DOC_RECEIVE.querySelector('input[type=submit]').disabled = false;
-
+    console.log("SEND BTN PRE");
 
     clearValues();
     SEND_DOC_ADDRESSEE.innerHTML = "<option disabled selected>Select Addressee</option>";
@@ -405,8 +405,13 @@ function sendBtnEvent(id, doc_num, route_num) {
     SEND_DOC_NUM.value = doc_num;
     SEND_ROUTE_NUM.value = route_num;
 
-    if (snd_modal)
+    if (snd_modal) {
         snd_modal.style.display = "block";
+    }
+
+    SEND_DATE_TIME_SENT.focus();
+    CREATE_DATE_TIME_RECEIVED.focus();
+
 }
 function clearValues() {
     SEND_DOC_PRPS.value = "";
