@@ -36,6 +36,8 @@ const EDIT_R_USER_ID = FORM_DOC_EDIT.querySelector("#EDIT_R_USER_ID");
 const EDIT_R_DEPT_ID = FORM_DOC_EDIT.querySelector("#EDIT_R_DEPT_ID");
 const EDIT_ACTION_ID_2 = FORM_DOC_EDIT.querySelector("#EDIT_ACTION_ID_2");
 const EDIT_ACTION_ID_3 = FORM_DOC_EDIT.querySelector("#EDIT_ACTION_ID_3");
+
+console.log(EDIT_ACTION_ID_2);
 //SEND FORM
 const FORM_DOC_SEND = document.getElementById("FORM_DOC_SEND");
 const SEND_DOC_NUM = FORM_DOC_SEND.querySelector("#SEND_DOC_NUM");
