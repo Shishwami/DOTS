@@ -446,6 +446,10 @@ function setAttachBtn(id, doc_num, route_num) {
     ATTACH_DOC_NUM.value = doc_num;
     ATTACH_ROUTE_NUM.value = route_num;
 
+    //reset image
+    document.getElementById("ATTACH_ZOOM").style.backgroundImage = "";
+    document.getElementsByClassName("descbox")[0].querySelector('div').innerHTML = "";
+
     //update tbl
     setTableAttachment();
 
