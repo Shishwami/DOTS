@@ -137,24 +137,6 @@ function initializeRECEIVE_FORM() {
 
 
 }
-// function setDOC_PURPOSE() {
-//     var data = {
-//         REQUEST: _REQUEST.GET_DOC_PRPS,
-//     }
-
-//     MyAjax.createJSON((error, response) => {
-//         if (!error) {
-//             if (response.VALID) {
-//                 delete response.VALID;
-//                 var object = Object.values(response)[0];
-//                 SEND_DOC_PRPS.innerHTML = object;
-//             } else {
-//             }
-//         } else {
-
-//         }
-//     }, data);
-// }
 // function setDOC_LOCATION() {
 
 //     const data = {
