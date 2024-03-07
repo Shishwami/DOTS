@@ -137,19 +137,6 @@ function initializeRECEIVE_FORM() {
 
 
 }
-// function setDOC_TYPE() {
-//     const data = {
-//         REQUEST: _REQUEST.GET_DOC_TYPE,
-//     }
-//     MyAjax.createJSON((error, response) => {
-//         if (error) {
-//             alert(error);
-//         } else if (response.VALID) {
-//             delete response.VALID;
-//             CREATE_DOC_TYPE.innerHTML = Object.values(response)[0];
-//         }
-//     }, data);
-// }
 // function setRECEIVED_TIME(element) {
 //     var data = {
 //         REQUEST: _REQUEST.GET_DATE,
