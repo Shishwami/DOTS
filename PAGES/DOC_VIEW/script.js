@@ -384,8 +384,6 @@ function setCreateBtn() {
     });
 }
 function sendBtnEvent(id, doc_num, route_num) {
-    FORM_DOC_RECEIVE.querySelector('input[type=submit]').disabled = false;
-    console.log("SEND BTN PRE");
 
     clearValues();
     SEND_DOC_ADDRESSEE.innerHTML = "<option disabled selected>Select Addressee</option>";
@@ -408,7 +406,7 @@ function sendBtnEvent(id, doc_num, route_num) {
     if (snd_modal) {
         snd_modal.style.display = "block";
     }
-
+    FORM_DOC_RECEIVE.querySelector('input[type=submit]').disabled = false;
     SEND_DOC_NOTES.focus();
 }
 function clearValues() {
