@@ -385,11 +385,15 @@ function setCreateBtn() {
 }
 function sendBtnEvent(id, doc_num, route_num) {
 
-    clearValues();
+    SEND_DOC_NUM.value = doc_num;
+    SEND_ROUTE_NUM.value = route_num;
+
+    // clearValues();
     SEND_DOC_ADDRESSEE.innerHTML = "<option disabled selected>Select Addressee</option>";
 
     getData(_REQUEST.GET_DATE, { 'DATE': 'DATE_TIME' }, (result) => {
         SEND_DATE_TIME_SENT.value = result;
+        SEND_DATE_TIME_SENT.focus();
     }, null);
 
     getData(_REQUEST.GET_SESSION_DEPT_ID, null, (result) => {
@@ -400,14 +404,14 @@ function sendBtnEvent(id, doc_num, route_num) {
         SEND_S_USER_ID.value = result;
     }, null);
 
-    SEND_DOC_NUM.value = doc_num;
-    SEND_ROUTE_NUM.value = route_num;
+ 
 
     if (snd_modal) {
         snd_modal.style.display = "block";
     }
+    // setTimeout(function () {
+    // }, 100);
     FORM_DOC_RECEIVE.querySelector('input[type=submit]').disabled = false;
-    SEND_DOC_NOTES.focus();
 }
 function clearValues() {
     SEND_DOC_PRPS.value = "";
