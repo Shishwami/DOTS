@@ -137,35 +137,6 @@ function initializeRECEIVE_FORM() {
 
 
 }
-// function setDOC_OFFICE() {
-
-//     var data = {
-//         REQUEST: _REQUEST.GET_DOC_OFFICE,
-//     }
-//     MyAjax.createJSON((error, response) => {
-//         if (error) {
-//             return alert(error);
-//         }
-//         if (response.VALID) {
-//             delete response.VALID;
-//             CREATE_DOC_OFFICE.innerHTML = Object.values(response)[0];
-//         }
-//     }, data);
-// }
-// function setDOC_NUM() {
-//     const data = {
-//         REQUEST: _REQUEST.GET_DOC_NUM
-//     }
-//     MyAjax.createJSON((error, response) => {
-//         if (!error && response.VALID) {
-//             delete response.VALID;
-//             const docNumber = Object.values(response)[0];
-//             CREATE_DOC_NUM.value = docNumber;
-//         } else {
-//             alert(error || "Error occurred while retrieving document number.");
-//         }
-//     }, data);
-// }
 // function setDOC_TYPE() {
 //     const data = {
 //         REQUEST: _REQUEST.GET_DOC_TYPE,
