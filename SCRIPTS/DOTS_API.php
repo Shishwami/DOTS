@@ -310,8 +310,6 @@ function editDocument($inputs, $conn)
     $queries = new Queries();
 
     $docId = $inputs['DATA']['ID'];
-    $docNum = $inputs['DATA']['DOC_NUM'];
-    $docRoute = $inputs['DATA']['DOC_ROUTE'];
     unset($inputs['DATA']['ID']);
 
     $updateDocData = [
