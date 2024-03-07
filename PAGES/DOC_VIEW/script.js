@@ -137,26 +137,6 @@ function initializeRECEIVE_FORM() {
 
 
 }
-// function getSessionName() {
-//     const data = {
-//         REQUEST: _REQUEST.GET_SESSION_NAME,
-//     }
-//     MyAjax.createJSON((error, response) => {
-//         if (error) {
-//             alert(error);
-//         } else {
-//             if (response.VALID
-//             ) {
-//                 delete response.VALID;
-//                 var name = Object.values(response)[0];
-//                 CREATE_FULLNAME.value = name;
-//                 sessionStorage.setItem(DOTS_ACCOUNT_INFO.FULL_NAME, name);
-//             } else {
-//                 //error message
-//             }
-//         }
-//     }, data);
-// }
 // function getSessionHrisId() {
 //     const data = {
 //         REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
