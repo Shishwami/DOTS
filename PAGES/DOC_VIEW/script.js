@@ -70,7 +70,6 @@ function InitializePAGE() {
     //TODO too add in btn event listeners
     initializeSEND_FORM();
     initializeRECEIVE_FORM();
-    // getSessionDeptId();
     setCreateBtn();
     setTable("");
 
@@ -81,7 +80,6 @@ function InitializePAGE() {
     setInterval(function () {
         setTable(searchBar.value.toUpperCase());
     }, _RESET_TIME);
-
 
     setForms();
 
@@ -98,10 +96,9 @@ function InitializePAGE() {
                 element.parentNode.removeChild(element);
             });
 
+            //reset inputs
             FORM_ATTACH_ADD.reset();
-
             imageZoom("myimage", "myresult");
-
         });
     }
 }
