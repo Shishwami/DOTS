@@ -1,3 +1,9 @@
+const ins_submodal = document.getElementById("ins_submodal");
+const atc_submodal = document.getElementById("atc_submodal");
+
+const ins_sub_btn = document.getElementById("BTN_ATTACH_INS");
+const atc_sub_btn = document.getElementById("BTN_ATTACH_ADD");
+
 const rec_span = document.getElementsByClassName("rec_close")[0];
 const sent_span = document.getElementsByClassName("sent_close")[0];
 const r_cnl_span = document.getElementsByClassName("r_cnl_close")[0];
@@ -5,6 +11,20 @@ const s_cnl_span = document.getElementsByClassName("s_cnl_close")[0];
 const atc_span = document.getElementsByClassName("atc_close")[0];
 const ins_sub_span = document.getElementsByClassName("ins_sub_close")[0];
 const atc_sub_span = document.getElementsByClassName("atc_sub_close")[0];
+
+if (ins_sub_btn) {
+  ins_sub_btn.onclick = function()
+  {
+  ins_submodal.style.display = "block";
+  }
+}
+
+if (atc_sub_btn) {
+  atc_sub_btn.onclick = function()
+  {
+  atc_submodal.style.display = "block";
+  }
+}
 
 if (rec_span) {
   rec_span.onclick = function () {
