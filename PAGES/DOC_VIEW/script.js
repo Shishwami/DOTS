@@ -137,25 +137,6 @@ function initializeRECEIVE_FORM() {
 
 
 }
-// function getSessionHrisId() {
-//     const data = {
-//         REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
-//     }
-//     MyAjax.createJSON((error, response) => {
-//         if (error) {
-//             alert(error);
-//         } else {
-//             if (response.VALID) {
-//                 delete response.VALID;
-//                 var id = Object.values(response)[0];
-//                 CREATE_R_USER_ID.value = id;
-//                 sessionStorage.setItem(DOTS_ACCOUNT_INFO.HRIS_ID, id);
-//             } else {
-//                 //error message
-//             }
-//         }
-//     }, data);
-// }
 // function getSessionDeptId() {
 //     const data = {
 //         REQUEST: _REQUEST.GET_SESSION_DEPT_ID,
