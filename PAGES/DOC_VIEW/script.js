@@ -400,7 +400,7 @@ function sendBtnEvent(id, doc_num, route_num) {
         SEND_S_USER_ID.value = result;
     }, null);
 
- 
+
 
     if (snd_modal) {
         snd_modal.style.display = "block";
@@ -454,7 +454,8 @@ function setAttachBtn(id, doc_num, route_num) {
     //reset image
     document.getElementById("ATTACH_ZOOM").style.backgroundImage = "";
     document.getElementsByClassName("descbox")[0].querySelector('div').innerHTML = "";
-
+    document.getElementById("myresult").style.backgroundImage = "";
+    document.getElementById("myimage").src = "";
     //update tbl
     setTableAttachment();
 
