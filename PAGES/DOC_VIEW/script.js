@@ -104,7 +104,6 @@ function InitializePAGE() {
 }
 
 function initializeSEND_FORM() {
-    // setR_DEPT_ID();
     getData(_REQUEST.GET_DEPT, null, (result) => {
         JsFunctions.setSelect(SEND_R_DEPT_ID, result);
         SEND_R_DEPT_ID.addEventListener('change', () => {
@@ -114,12 +113,9 @@ function initializeSEND_FORM() {
             }, null);
         });
     }, null);
-    // setDOC_PURPOSE();
     getData(_REQUEST.GET_DOC_PRPS, null, (result) => {
         JsFunctions.setSelect(SEND_DOC_PRPS, result);
     }, null);
-    // setDOC_LOCATION();
-    // setRECEIVED_TIME(SEND_DATE_TIME_SENT);
 }
 
 function initializeRECEIVE_FORM() {
