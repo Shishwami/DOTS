@@ -439,7 +439,4 @@ function setForms() {
         };
         xhr.send(formData);
     });
-
-
-
 }
