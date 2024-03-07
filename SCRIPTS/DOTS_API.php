@@ -1372,6 +1372,7 @@ function getTableAttachment($inputs, $conn)
             "CASE WHEN ROUTE_NUM = 0 THEN DOC_NUM 
             ELSE CONCAT(DOC_NUM,\"-\",ROUTE_NUM) 
             END AS `No.`",
+            'DESCRIPTION',
             'FILE_PATH',
             'FILE_NAME',
         ],
