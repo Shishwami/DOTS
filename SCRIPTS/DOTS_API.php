@@ -310,7 +310,7 @@ function editDocument($inputs, $conn)
     $queries = new Queries();
 
     $docId = $inputs['DATA']['ID'];
-    unset($inputs['DATA']['ID']);
+        unset($inputs['DATA']['ID']);
 
     $updateDocData = [
         'TABLE' => 'DOTS_DOCUMENT',
