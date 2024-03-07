@@ -384,6 +384,7 @@ function setCreateBtn() {
     });
 }
 function sendBtnEvent(id, doc_num, route_num) {
+        FORM_DOC_RECEIVE.querySelector('input[type=submit]').disabled = false;
 
     clearValues();
     SEND_DATE_TIME_SENT.focus();
@@ -405,6 +406,8 @@ function sendBtnEvent(id, doc_num, route_num) {
     SEND_DOC_NUM.value = doc_num;
     SEND_ROUTE_NUM.value = route_num;
 
+    FORM_DOC_SEND.querySelector('input[type=submit]').disabled = false;
+
     if (snd_modal)
         snd_modal.style.display = "block";
 }
@@ -423,6 +426,7 @@ function setEditBtn(id, doc_num, route_num) {
             'ROUTE_NUM': route_num,
         }
     };
+    FORM_DOC_EDIT.querySelector('input[type=submit]').disabled = false;
 
     if (edt_modal)
         edt_modal.style.display = "block";
@@ -612,20 +616,46 @@ function setForms() {
         MyAjax.createJSON((error, response) => {
             if (error) {
                 notify("error", "SERVER CONNECTION ERROR");
-
             } else {
                 if (response.VALID) {
-
                     FORM_DOC_RECEIVE.reset();
                     if (crt_modal != undefined) {
                         crt_modal.style.display = "none";
                     }
-                    DOC_VIEW_MAIN.focus();
-                    notify("success", response.MESSAGE);
-
                 } else {
                     notify("error", response.MESSAGE);
                     this.querySelector('input[type=submit]').disabled = false;
+                }
+            }
+            setTable(searchBar.value.toUpperCase());
+        }, data);
+    });
+    FORM_DOC_EDIT.addEventListener('submit', function (e) {
+        e.preventDefault();
+        this.querySelector('input[type=submit]').disabled = true;
+
+        var data = {
+            REQUEST: _REQUEST.EDIT_DOCUMENT,
+            DATA: JsFunctions.FormToJson(FORM_DOC_EDIT),
+        }
+
+        console.log(data);
+
+        MyAjax.createJSON((error, response) => {
+            if (error) {
+                notify("error", "SERVER CONNECTION ERROR");
+            } else {
+                if (response.VALID) {
+                    FORM_DOC_EDIT.reset();
+                    if (edt_modal != undefined) {
+                        edt_modal.style.display = "none";
+                        DOC_VIEW_MAIN.focus();
+                        notify("success", response.MESSAGE);
+                    }
+                } else {
+                    notify("error", response.MESSAGE);
+                    this.querySelector('input[type=submit]').disabled = false;
+
                 }
             }
             setTable(searchBar.value.toUpperCase());
@@ -647,28 +677,6 @@ function setForms() {
         xhr.send(formData);
     });
 
-    FORM_DOC_EDIT.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var data = {
-            REQUEST: _REQUEST.EDIT_DOCUMENT,
-            DATA: JsFunctions.FormToJson(FORM_DOC_EDIT),
-        }
 
-        console.log(data);
-
-        MyAjax.createJSON((error, response) => {
-            if (error) {
-                // alert(error);
-            } else {
-                var results = ""
-                if (response.VALID) {
-                    delete response.VALID;
-                } else {
-                    //response valid=false
-                }
-            }
-            setTable(searchBar.value.toUpperCase());
-        }, data);
-    });
 
 }
