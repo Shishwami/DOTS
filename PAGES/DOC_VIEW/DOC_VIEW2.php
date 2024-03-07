@@ -266,8 +266,8 @@
                     </div>
 
                     <div class="spacer">
-                        <button class="atc_btn" id="BTN_ATTACH_ADD">Add Attachment</button>
-                        <button class="ins_btn" id="BTN_ATTACH_INS">Inspect Image</button>
+                        <button type="button" class="atc_btn" id="BTN_ATTACH_ADD">Add Attachment</button>
+                        <button type="button" class="ins_btn" id="BTN_ATTACH_INS">Inspect Image</button>
 
                         <div class="attachments">
                             <div class="descript">
@@ -333,7 +333,7 @@
                                                     <h3>Upload Image</h3>
                                                     <p>Image size must be less than <span>10MB</span></p>
                                                 </div>
-                                                <button class="select-image">Select Image</button>
+                                                <button type="button" class="select-image">Select Image</button>
                                             </div>
                                         </div>
 
