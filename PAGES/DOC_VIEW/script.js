@@ -97,6 +97,9 @@ function InitializePAGE() {
             elementsArray.forEach(function (element) {
                 element.parentNode.removeChild(element);
             });
+
+            FORM_ATTACH_ADD.reset();
+
             imageZoom("myimage", "myresult");
 
         });
