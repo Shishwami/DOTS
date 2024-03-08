@@ -198,6 +198,7 @@ function setSendBtn(id, doc_num, route_num) {
         });
     });
 
+    FORM_DOC_SEND.querySelector('input[type=submit]').disabled = false;
     document.getElementById("sent_modal").style.display = "block";
 
 }
@@ -240,6 +241,7 @@ function setFormEvents() {
     });
     FORM_DOC_SEND.addEventListener('submit', function (e) {
         e.preventDefault();
+        this.querySelector('input[type=submit]').disabled = true;
 
         const data = {
             REQUEST: _REQUEST.SEND_DOC_USER,
