@@ -241,7 +241,7 @@ function setFormEvents() {
         MyAjax.createJSON((error, response) => {
             if (response.VALID) {
                 notify('success', response.MESSAGE);
-                if(rec_modal){
+                if (rec_modal) {
                     rec_modal.style.display = "none";
                 }
             } else {
@@ -300,43 +300,6 @@ function setFormEvents() {
     });
 
 }
-// function setRECEIVED_TIME(element) {
-//     var data = {
-//         REQUEST: _REQUEST.GET_DATE,
-//         DATE: "DATE_TIME"
-//     }
-
-//     MyAjax.createJSON((error, response) => {
-//         if (error) {
-//             alert(error);
-//         } else {
-//             if (response.VALID) {
-//                 delete response.VALID;
-//                 element.value = Object.values(response)[0];
-//             } else {
-//                 console.log(response);
-//             }
-//         }
-//     }, data);
-// }
-// function setDOC_PURPOSEselect() {
-
-//     var data = {
-//         REQUEST: _REQUEST.GET_DOC_PRPS,
-//     }
-
-//     MyAjax.createJSON((error, response) => {
-//         if (!error) {
-//             if (response.VALID) {
-//                 delete response.VALID;
-//                 SEND_DOC_PRPS.innerHTML = Object.values(response)[0];
-//             } else {
-//             }
-//         } else {
-
-//         }
-//     }, data);
-// }
 function setSession() {
     getSessionDeptId();
     getSessionHrisId();
