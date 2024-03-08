@@ -368,12 +368,7 @@ function cancelReceive($inputs, $conn)
             ),
         ]
     ];
-
-
-
-    $selectReceiveSql = $queries->selectQuery($selectReceiveData);
-    $selectReceiveResult = $conn->query($selectReceiveSql);
-    $selectReceiveRow = $selectReceiveResult->fetch_assoc();
+    $selectReceiveRow = selectSingleRow($selectReceiveData);
 
     $selectInboundData = [
         'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
@@ -383,8 +378,6 @@ function cancelReceive($inputs, $conn)
             ]
         ],
     ];
-
-
 
     $selectInboundSql = $queries->selectQuery($selectInboundData);
     $selectInboundResult = $conn->query($selectInboundSql);
@@ -1118,7 +1111,7 @@ function receiveDocUser($inputs, $conn)
 {
     $queries = new Queries();
     $valid = false;
-    $conn->begin_transaction();
+    $message = "";
 
     $updateData = array(
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
@@ -1162,45 +1155,42 @@ function receiveDocUser($inputs, $conn)
     $selectinboundRow = $selectinboundResult->fetch_assoc();
 
     if ($selectinboundRow['ACTION_ID'] == 2) {
-        echo "ALREADY RECIVED";
-    }
-
-    //add log recieve by user
-    $insertLogData = [
-        'TABLE' => 'DOTS_TRACKING',
-        'DATA' => [
-            'DOC_NUM' => $inputs['DATA']["DOC_NUM"],
-            'ROUTE_NUM' => $inputs['DATA']["ROUTE_NUM"],
-            'ACTION_ID' => 2,//ACTION_ID RECEIVE
-            'HRIS_ID' => $_SESSION['HRIS_ID'],
-            'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
-        ]
-    ];
-
-    $insertLogSql = $queries->insertQuery($insertLogData);
-    $insertLogResult = $conn->query($insertLogSql);
-
-    //TODO validate if received
-
-    $insertDataSql = $queries->insertQuery($insertData);
-    $insertUpdate = $conn->query($insertDataSql);
-
-    $lastId = $conn->insert_id;
-    $updateData['DATA']['OUTBOUND_ID'] = $lastId;
-
-    $updateDataSql = $queries->updateQuery($updateData);
-    $resultUpdate = $conn->query($updateDataSql);
-
-    if ($resultUpdate && $insertUpdate) {
-        $valid = true;
-        $conn->commit();
+        $message = "Document Already Received";
     } else {
-        $conn->rollback();
+        $valid = true;
+        $message = "Document Received";
+
+        //add log recieve by user
+        $insertLogData = [
+            'TABLE' => 'DOTS_TRACKING',
+            'DATA' => [
+                'DOC_NUM' => $inputs['DATA']["DOC_NUM"],
+                'ROUTE_NUM' => $inputs['DATA']["ROUTE_NUM"],
+                'ACTION_ID' => 2,//ACTION_ID RECEIVE
+                'HRIS_ID' => $_SESSION['HRIS_ID'],
+                'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
+            ]
+        ];
+
+        $insertLogSql = $queries->insertQuery($insertLogData);
+        $insertLogResult = $conn->query($insertLogSql);
+
+        $insertDataSql = $queries->insertQuery($insertData);
+        $insertUpdate = $conn->query($insertDataSql);
+
+        $lastId = $conn->insert_id;
+        $updateData['DATA']['OUTBOUND_ID'] = $lastId;
+
+        $updateDataSql = $queries->updateQuery($updateData);
+        $resultUpdate = $conn->query($updateDataSql);
+
     }
+
 
     echo json_encode(
         array(
             'VALID' => $valid,
+            'MESSAGE' => $message,
         )
     );
 }
