@@ -368,6 +368,9 @@ function cancelReceive($inputs, $conn)
             ),
         ]
     ];
+
+
+
     $selectReceiveSql = $queries->selectQuery($selectReceiveData);
     $selectReceiveResult = $conn->query($selectReceiveSql);
     $selectReceiveRow = $selectReceiveResult->fetch_assoc();
@@ -380,6 +383,8 @@ function cancelReceive($inputs, $conn)
             ]
         ],
     ];
+
+
 
     $selectInboundSql = $queries->selectQuery($selectInboundData);
     $selectInboundResult = $conn->query($selectInboundSql);
@@ -415,6 +420,10 @@ function cancelReceive($inputs, $conn)
             ]
 
         ];
+
+        if (isset($inputs['DATA']['CANCEL_R_DEPT'])) {
+            $updateReceiveData['DATA']['R_USER_ID'] = 0;
+        }
 
         $updateReceiveSql = $queries->updateQuery($updateReceiveData);
         $updateReceiveResult = $conn->query($updateReceiveSql);
@@ -603,7 +612,6 @@ function sendDocForm($inputs, $conn)
         'DATE_TIME_SEND',
         'PRPS_ID',
         'R_DEPT_ID',
-        'R_USER_ID',
         'DOC_NOTES',
         'ACTION_ID',
         'S_DEPT_ID',
