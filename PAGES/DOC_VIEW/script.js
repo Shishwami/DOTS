@@ -211,7 +211,7 @@ function sendBtnEvent(id, doc_num, route_num) {
     if (snd_modal) {
         snd_modal.style.display = "block";
     }
-    FORM_DOC_RECEIVE.querySelector('input[type=submit]').disabled = false;
+    FORM_DOC_SEND.querySelector('input[type=submit]').disabled = false;
 }
 function clearValues() {
     SEND_DOC_PRPS.value = "";
