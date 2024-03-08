@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 08/03/2024 10:39:57
+ Date: 08/03/2024 11:52:50
 */
 
 SET NAMES utf8mb4;
@@ -218,11 +218,18 @@ CREATE TABLE `dots_document`  (
   `ACTION_ID` int NOT NULL,
   `ROUTED` int NOT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_document
 -- ----------------------------
+INSERT INTO `dots_document` VALUES (1, 1988, 0, '1', 2, '2024-03-08', '', 2, 0, 0, 0, 2, 27003, '2024-03-08 11:44:00.000000', 5, 2, 0);
+INSERT INTO `dots_document` VALUES (2, 1989, 0, '2', 1, '2024-03-08', '', 3, 0, 0, 0, 2, 27003, '2024-03-08 11:44:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (3, 1989, 1, '2', 1, '2024-03-08', '', 3, 0, 0, 0, 2, 27003, '2024-03-08 11:44:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (4, 1989, 2, '2', 1, '2024-03-08', '', 3, 0, 0, 0, 2, 27003, '2024-03-08 11:44:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (5, 1989, 3, '2', 1, '2024-03-08', '', 3, 0, 0, 0, 2, 27003, '2024-03-08 11:44:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (6, 1989, 4, '2', 1, '2024-03-08', '', 3, 0, 0, 0, 2, 27003, '2024-03-08 11:44:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (7, 1989, 5, '2', 1, '2024-03-08', '', 3, 0, 0, 0, 2, 27003, '2024-03-08 11:44:00.000000', 1, 2, 1);
 
 -- ----------------------------
 -- Table structure for dots_document_inbound
@@ -246,11 +253,17 @@ CREATE TABLE `dots_document_inbound`  (
   `ROUTED` tinyint(1) NOT NULL DEFAULT 1,
   `OUTBOUND_ID` int NULL DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_document_inbound
 -- ----------------------------
+INSERT INTO `dots_document_inbound` VALUES (1, 1989, 0, '12', 1, 0, 27003, 2, 0, 27003, 2, '2024-03-08 11:45:00', '2024-03-08 11:45:00', 2, 1, 2);
+INSERT INTO `dots_document_inbound` VALUES (2, 1989, 1, '123', 1, 0, 27003, 2, 0, 27003, 2, NULL, '2024-03-08 11:45:00', 1, 1, NULL);
+INSERT INTO `dots_document_inbound` VALUES (3, 1989, 2, '', 1, 0, 27003, 2, 0, 32001, 2, NULL, '2024-03-08 11:45:00', 1, 1, NULL);
+INSERT INTO `dots_document_inbound` VALUES (4, 1989, 3, 'last note', 2, 0, 27003, 2, 0, 25009, 1, NULL, '2024-03-08 11:49:00', 1, 1, NULL);
+INSERT INTO `dots_document_inbound` VALUES (5, 1989, 4, 'last nore', 2, 0, 27003, 2, 0, 25009, 1, NULL, '2024-03-08 11:49:00', 1, 1, NULL);
+INSERT INTO `dots_document_inbound` VALUES (6, 1989, 5, 'noasdajw', 2, 0, 27003, 2, 0, 25009, 1, NULL, '2024-03-08 11:49:00', 1, 1, NULL);
 
 -- ----------------------------
 -- Table structure for dots_document_outbound
@@ -274,11 +287,15 @@ CREATE TABLE `dots_document_outbound`  (
   `ROUTED` tinyint(1) NOT NULL DEFAULT 1,
   `INBOUND_ID` int NULL DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_document_outbound
 -- ----------------------------
+INSERT INTO `dots_document_outbound` VALUES (1, 1989, 0, '12', 1, 0, 27003, 2, 0, 27003, 2, NULL, '2024-03-08 11:45:00', 1, 1, 1);
+INSERT INTO `dots_document_outbound` VALUES (2, 1989, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-03-08 11:45:00', NULL, 2, 0, NULL);
+INSERT INTO `dots_document_outbound` VALUES (3, 1989, 1, '12', 1, 0, 27003, 2, 0, 27003, 2, '0000-00-00 00:00:00', '2024-03-08 11:45:00', 1, 1, 2);
+INSERT INTO `dots_document_outbound` VALUES (4, 1989, 2, '12', 1, 0, 27003, 2, 0, 27003, 2, '0000-00-00 00:00:00', '2024-03-08 11:45:00', 1, 1, 3);
 
 -- ----------------------------
 -- Table structure for dots_document_sub
@@ -319,7 +336,7 @@ CREATE TABLE `dots_num_sequence`  (
 -- ----------------------------
 -- Records of dots_num_sequence
 -- ----------------------------
-INSERT INTO `dots_num_sequence` VALUES (1, 1988);
+INSERT INTO `dots_num_sequence` VALUES (1, 1990);
 
 -- ----------------------------
 -- Table structure for dots_tracking
@@ -332,12 +349,22 @@ CREATE TABLE `dots_tracking`  (
   `ACTION_ID` int NULL DEFAULT NULL,
   `HRIS_ID` int NULL DEFAULT NULL,
   `DATE_TIME_ACTION` datetime NULL DEFAULT NULL,
+  `NOTE_USER` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `NOTE_SERVER` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_tracking
 -- ----------------------------
+INSERT INTO `dots_tracking` VALUES (1, 1988, 0, 2, 27003, '2024-03-08 11:44:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (2, 1989, 0, 2, 27003, '2024-03-08 11:45:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (3, 1989, 0, 1, 27003, '2024-03-08 11:45:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (4, 1989, 0, 2, 27003, '2024-03-08 11:45:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (5, 1989, 1, 4, 27003, '2024-03-08 11:45:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (6, 1989, 1, 1, 27003, '2024-03-08 11:45:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (7, 1989, 2, 4, 27003, '2024-03-08 11:45:00', NULL, NULL);
+INSERT INTO `dots_tracking` VALUES (8, 1989, 2, 1, 27003, '2024-03-08 11:45:00', NULL, NULL);
 
 -- ----------------------------
 -- Triggers structure for table dots_document
