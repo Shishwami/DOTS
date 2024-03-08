@@ -358,7 +358,7 @@
     </div>
     <?php
     include "../Notifications/Notifications.php";
-    ?>F
+    ?>
 </body>
 
 <script src="../../Modal/GenModal.js"></script>
@@ -375,7 +375,6 @@
 
     selectImage.addEventListener('click', function () {
         inputFile.click();
-        console.log("ASDOHIDSAIODASHIO");
     })
 
     inputFile.addEventListener('change', function () {
