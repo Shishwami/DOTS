@@ -268,17 +268,24 @@ body:before
 
 .db_table tbody tr td:first-child
 {
-    /* display: inline-flex; */
-    /* width: 250px; */
-    border-top: none;
+    /* border-top: none;
     border-left: none;
-    border-right: none;
+    border-right: none; */
     border-bottom: 1px solid #000000;
 }
 
 .db_table tbody tr:last-child td:first-child
 {
     border-bottom: none;
+}
+
+.btn_container
+{
+    background: #0071ff;
+    display: flex;
+    padding: 5px;
+}
+.btn_container button{
 }
 
 .db_table tr:nth-child(even)
