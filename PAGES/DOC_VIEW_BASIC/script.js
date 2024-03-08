@@ -58,10 +58,6 @@ let action_type = "receive";
 
 setSession();
 setFormEvents();
-// setDOC_PURPOSEselect();
-// setRECEIVED_TIME(SEND_DATE_TIME_SEND); move to send
-// setDOC_LOCATION();
-// getSessionDeptId();
 
 setTable("", action_type);
 
