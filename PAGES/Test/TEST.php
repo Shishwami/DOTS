@@ -14,9 +14,13 @@
 </head>
 <body>
 
-    <div class="img-zoom-container">
-    <img id="myimage" src="../CSS/Resources/1120291.png" width="300" height="240">
-    <div id="myresult" class="img-zoom-result"></div>
+    <div class="container">
+        <div class="content1">
+            <button>sdfs</button>
+            <button>sdfs</button>
+            <button>sdfs</button>
+        </div>
+        <div class="content2"></div>
     </div>
 
 </body>

@@ -271,6 +271,8 @@ body:before
     /* border-top: none;
     border-left: none;
     border-right: none; */
+    display: flex;
+    flex-direction: column;
     border-bottom: 1px solid #000000;
 }
 
@@ -279,13 +281,18 @@ body:before
     border-bottom: none;
 }
 
+.for
+{
+    background: #444444;
+    height: 50px;
+    width: 50px;
+}
+
 .btn_container
 {
     background: #0071ff;
     display: flex;
     padding: 5px;
-}
-.btn_container button{
 }
 
 .db_table tr:nth-child(even)
@@ -339,7 +346,7 @@ body:before
     margin: 0 3px;
 }
 
-.btnR:hover, .btnS:hover, .btnA:hover
+.btnR:hover, .btnS:hover, .btnA:hover, .btnCR:hover, .btnCS:hover
 {
     background: var(--tbl_opt_btn-hover);
     color: #ffffff;
