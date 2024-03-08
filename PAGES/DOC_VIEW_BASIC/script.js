@@ -265,49 +265,6 @@ function setFormEvents() {
         }, data);
 
     });
-    // FORM_ATTACH_ADD.addEventListener('submit', function (e) {
-    //     e.preventDefault();
-    //     // var data = {
-    //     //     REQUEST: _REQUEST.ATTACH_ADD,
-    //     //     // ...JsFunctions.FormToJson(FORM_ATTACH_ADD),
-    //     // }
-
-    //     // var file = ATTACH_FILE.files[0];
-    //     // var formData = new FormData();
-    //     // formData.append('ATTACH_FILE', file);
-    //     // console.log(ATTACH_FILE.value);
-    //     // data['DATA'] = new FormData(this);
-    //     // data['DATA'] = JSON.stringify(data['DATA']);
-    //     // console.log(data);
-
-    //     // MyAjax.createJSON((error, response) => {
-    //     //     if (error) {
-    //     //         alert(error);
-    //     //     } else {
-    //     //         if (response.VALID) {
-    //     //         } else {
-    //     //             //response valid=false
-    //     //         }
-    //     //     }
-    //     // }, data);
-
-    //     var file = ATTACH_FILE.files[0];
-    //     var formData = new FormData(this);
-    //     // formData.append('file', file);
-    //     // formData.append('DOC_NUM', ATTACH_DOC_NUM.value);
-    //     // formData.append('ROUTE_NUM', ATTACH_ROUTE_NUM.value);
-
-    //     var xhr = new XMLHttpRequest();
-    //     xhr.open('POST', '../../SCRIPTS/FILE_UPLOAD.php', true);
-
-    //     xhr.onreadystatechange = function () {
-    //         if (xhr.readyState == 4 && xhr.status == 200) {
-    //             console.log(xhr.responseText);
-    //             setTableAttachment();
-    //         }
-    //     };
-    //     xhr.send(formData);
-    // });
 
     FORM_DOC_CANCEL_R.addEventListener('submit', function (e) {
         e.preventDefault();
