@@ -174,18 +174,24 @@
                             <h1>Cancellation Form</h1>
                         </div>
 
-                        <form action="submit" name="FORM_DOC_CANCEL_R" id="FORM_DOC_CANCEL_R">
+                        <form class="form" action="submit" name="FORM_DOC_CANCEL_R" id="FORM_DOC_CANCEL_R">
 
-                            <label for="CANCEL_R_NOTES">Notes:</label>
-                            <textarea name="CANCEL_R_NOTES" id="CANCEL_R_NOTES" cols="30" rows="3"></textarea>
+                            <div class="content_one">
+                                <label for="CANCEL_R_NOTES">Notes:</label>
+                                <textarea name="CANCEL_R_NOTES" id="CANCEL_R_NOTES" cols="20" rows="5"></textarea>
+                            </div>
 
-                            <label for="CANCEL_R_DEPT">
-                                <input type="checkbox" name="CANCEL_R_DEPT" id="CANCEL_R_DEPT">
-                                Check if the document was sent to the department
-                            </label>
+                            <div class="content_two">
+                                <label for="CANCEL_R_DEPT">
+                                    <input type="checkbox" name="CANCEL_R_DEPT" id="CANCEL_R_DEPT">
+                                    Check if the document was sent to the department
+                                </label>
+                            </div>
 
-                            <input type="submit" value="CANCEL">
-                            <input type="text" name="CANCEL_R_ID" id="CANCEL_R_ID">
+                            <div class="content_three">
+                                <input type="submit" value="CANCEL">
+                                <input hidden type="text" name="CANCEL_R_ID" id="CANCEL_R_ID">
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -197,18 +203,24 @@
                             <h1>Cancellation Form</h1>
                         </div>
 
-                        <form action="submit" name="FORM_DOC_CANCEL_S" id="FORM_DOC_CANCEL_S">
+                        <form class="form" action="submit" name="FORM_DOC_CANCEL_S" id="FORM_DOC_CANCEL_S">
 
-                            <label for="CANCEL_S_NOTES">Notes:</label>
-                            <textarea name="CANCEL_S_NOTES" id="CANCEL_S_NOTES" cols="30" rows="3"></textarea>
+                            <div class="content_one">
+                                <label for="CANCEL_S_NOTES">Notes:</label>
+                                <textarea name="CANCEL_S_NOTES" id="CANCEL_S_NOTES" cols="20" rows="5"></textarea>
+                            </div>
 
-                            <input type="submit" value="CANCEL">
-                            <input type="text" name="CANCEL_S_ID" id="CANCEL_S_ID">
+                            <div class="content_two">
+                                <div>
+                                <input type="submit" value="CANCEL">
+                                </div>
+                                <input hidden type="text" name="CANCEL_S_ID" id="CANCEL_S_ID">
+                            </div>
                         </form>
                     </div>
                 </div>
 
-                <div class="modal" id="atc_modal">
+                <div class="moodal" id="atc_modal">
                     <div class="modal_content">
                         <div class="modal_banner">
                             <span class="atc_close">&times;</span>
@@ -245,7 +257,7 @@
                                 </div>
                             </div>
 
-                            <div class="modal" id="ins_submodal">
+                            <div class="moodal" id="ins_submodal">
                                 <div class="modal_content">
                                     <div class="modal_banner">
                                         <span class="ins_sub_close">&times;</span>
@@ -262,7 +274,7 @@
                                 </div>
                             </div>
 
-                            <div class="modal" id="atc_submodal">
+                            <div class="moodal" id="atc_submodal">
                                 <div class="modal_content">
                                     <div class="modal_banner">
                                         <span class="atc_sub_close">&times;</span>
