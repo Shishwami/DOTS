@@ -205,7 +205,7 @@ function setSendBtn(id, doc_num, route_num) {
 
 function setCancelReceive(id, doc_num, route_num) {
     CANCEL_R_ID.value = id;
-
+    CANCEL_R_NOTES.value = "";
     document.getElementById("r_cnl_modal").style.display = "block";
 
 }
@@ -276,7 +276,11 @@ function setFormEvents() {
 
         MyAjax.createJSON((error, response) => {
             if (response.VALID) {
+                DOC_VIEW_BASIC.focus();
                 notify('success', response.MESSAGE);
+                if(r_cnl_modal!=undefined){
+                    r_cnl_modal.style.display = "none";
+                }
             } else {
                 notify('error', response.MESSAGE);
             }
