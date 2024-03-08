@@ -39,12 +39,12 @@ const S_BTN = document.getElementById('S_BTN');
 const hrisId = sessionStorage.getItem(DOTS_ACCOUNT_INFO.HRIS_ID);
 let action_type = "receive";
 
-// const FORM_ATTACH_ADD = document.getElementById("FORM_ATTACH_ADD");
-// const ATTACH_DOC_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_DOC_NUM');
-// const ATTACH_ROUTE_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_ROUTE_NUM');
-// const ATTACH_FILE = document.getElementById("ATTACH_FILE");
-// const ATTACH_RESULTS = document.getElementById("ATTACH_RESULTS");
-// const ATTACH_ZOOM = document.getElementById("ATTACH_ZOOM");
+const FORM_ATTACH_ADD = document.getElementById("FORM_ATTACH_ADD");
+const ATTACH_DOC_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_DOC_NUM');
+const ATTACH_ROUTE_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_ROUTE_NUM');
+const ATTACH_FILE = document.getElementById("ATTACH_FILE");
+const ATTACH_RESULTS = document.getElementById("ATTACH_RESULTS");
+const ATTACH_ZOOM = document.getElementById("ATTACH_ZOOM");
 
 setSession();
 setFormEvents();
