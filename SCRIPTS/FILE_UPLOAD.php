@@ -4,6 +4,8 @@ include './DB_Connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['ATTACH_FILE'])) {
     $queries = new Queries();
+    $message = "";
+    $valid = false;
 
     $config = parse_ini_file('config.ini', true);
     $uploadDirectory = $config['directories']['upload_directory'];
@@ -39,14 +41,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['ATTACH_FILE'])) {
 
             $insertSql = $queries->insertQuery($insertData);
             if (mysqli_query($conn, $insertSql)) {
-                echo "File uploaded successfully.";
+                $valid = true;
+                $message = "File uploaded successfully.";
             } else {
                 echo "Error: " . $query . "<br>" . mysqli_error($conn);
             }
         } else {
-            echo "Sorry, there was an error uploading your file.";
+            $message = "Sorry, there was an error uploading your file.";
         }
     }
+    echo json_encode(
+        array(
+            'VALID'=>$valid,
+            'MESSAGE'=>$message,
+        )
+    );
 } else {
     echo "Invalid request.";
 }
