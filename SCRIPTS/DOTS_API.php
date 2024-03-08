@@ -358,6 +358,7 @@ function cancelReceive($inputs, $conn)
 {
     $docId = $inputs['DATA']['CANCEL_R_ID'];
     $queries = new Queries();
+    $message = "";
 
     //get outboundid for deletion
     $selectReceiveData = [
@@ -379,13 +380,11 @@ function cancelReceive($inputs, $conn)
         ],
     ];
 
-    $selectInboundSql = $queries->selectQuery($selectInboundData);
-    $selectInboundResult = $conn->query($selectInboundSql);
-    $selectInboundRow = $selectInboundResult->fetch_assoc();
+    $selectInboundRow = selectSingleRow($selectInboundData);
 
     if ($selectInboundRow['ROUTED'] == 1) {
         //cannot canncel cause routed
-        echo "CAANOT C   ANCEL DOC CAUSE SENT";
+        $meassage = "Document already sent; cancellation not possible";
     } else {
         //update to canceled the doc in outbound
 
