@@ -268,8 +268,8 @@ body:before
 
 .db_table tbody tr td:first-child
 {
-    display: flex;
-    width: fit-content;
+    /* display: inline-flex; */
+    /* width: 250px; */
     border-top: none;
     border-left: none;
     border-right: none;
@@ -459,6 +459,26 @@ body:before
     margin-top: 1rem;
 }
 
+#s_cnl_modal .content_two input
+{
+    background-image: var(--cnl_btn);
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0.1rem;
+    color: var(--font_white);
+    cursor: pointer;
+}
+
+#s_cnl_modal .content_two input:hover
+{
+    background-image: var(--cnl_btn-hover);
+    color: var(--font_black);
+    font-weight: 600;
+}
+
 #s_cnl_modal textarea,
 #s_cnl_modal input
 {
@@ -466,7 +486,62 @@ body:before
     border-radius: 0.5rem;
 }
 
+#r_cnl_modal form
+{
+    margin-top: -2rem;
+}
 
+#r_cnl_modal label
+{
+    font-size: 15px;
+    font-weight: 600;
+}
+
+#r_cnl_modal textarea,
+#r_cnl_modal input
+{
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+#r_cnl_modal .content_one
+{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+#r_cnl_modal .content_two
+{
+    margin-top: 1rem;
+    text-align: center;
+}
+
+#r_cnl_modal .content_three
+{
+    margin-top: 1rem;
+    text-align: center;
+}
+
+#r_cnl_modal .content_three input
+{
+    background-image: var(--cnl_btn);
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0.1rem;
+    color: var(--font_white);
+    cursor: pointer;
+}
+
+#r_cnl_modal .content_three input:hover
+{
+    background-image: var(--cnl_btn-hover);
+    color: var(--font_black);
+    font-weight: 600;
+}
 
 .spacer
 {
@@ -766,6 +841,11 @@ body:before
 /* CSS Responsiveness */
 @media screen and (max-width:900px)
 {
+    /* .db_table tbody tr td:first-child
+    {
+        width: 300px;
+    } */
+
     .tbl_form
     {
         font-size: 0.7rem;
@@ -787,6 +867,16 @@ body:before
     .form_head input
     {
         margin-top: 0.5rem;
+    }
+
+    #s_cnl_modal .content_two input
+    {
+        font-size: 0.7rem;
+    }
+
+    #r_cnl_modal .content_three input
+    {
+        font-size: 0.7rem;
     }
 }
 
@@ -827,6 +917,16 @@ body:before
     .tbl_form input[type=submit]
     {
         padding: 0.3rem;
+        font-size: 0.5rem;
+    }
+
+    #s_cnl_modal .content_two input
+    {
+        font-size: 0.5rem;
+    }
+
+    #r_cnl_modal .content_three input
+    {
         font-size: 0.5rem;
     }
 }
