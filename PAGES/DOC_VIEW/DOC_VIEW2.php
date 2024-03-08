@@ -386,6 +386,7 @@
                 allImg.forEach(item => item.remove());
                 const imgUrl = reader.result;
                 const img = document.createElement('img');
+                img.id = "upload_preview";
                 img.src = imgUrl;
                 imgArea.appendChild(img);
                 imgArea.classList.add('active');
