@@ -169,7 +169,8 @@ function setSendBtn(id, doc_num, route_num) {
     SEND_DOC_ID.value = id;
     SEND_DOC_NUM.value = doc_num;
     SEND_ROUTE_NUM.value = route_num;
-
+    SEND_DOC_NOTES.value = "";
+    SEND_DOC_ADDRESSEE.innerHTML = "<select name=R_USER_ID id=END_DOC_ADDRESSEE><option disabled selected>Select Addressee</option></select>";
 
     getData(_REQUEST.GET_DATE, { DATE: "DATE_TIME" }, (result) => {
         SEND_DATE_TIME_SEND.value = result;
@@ -247,6 +248,17 @@ function setFormEvents() {
 
         MyAjax.createJSON((error, response) => {
             console.log(response);
+            if (response.VALID) {
+                if (sent_modal != undefined) {
+                    sent_modal.style.display = "none";
+                }
+                DOC_VIEW_BASIC.focus();
+                notify("success", response.MESSAGE);
+
+            } else {
+                notify("error", response.MESSAGE);
+                this.querySelector('input[type=submit]').disabled = false;
+            }
             setTable(searchBar.value.toUpperCase(), action_type);
         }, data);
 
