@@ -1275,6 +1275,11 @@ function sendDocFormUser($inputs, $conn)
         $insertInboundData['DATA']['ROUTE_NUM'] = $newRouteNumber;
         $selectMainDataRow['ROUTE_NUM'] = $newRouteNumber;
 
+        $insertInboundSql = $queries->insertQuery($insertInboundData);
+        $insertInboundResult = $conn->query($insertInboundSql);
+
+        $last_id = $conn->insert_id;
+
         //add to doc main
         unset($selectMainDataRow['ID']);
         $insertMainData = [
@@ -1293,6 +1298,7 @@ function sendDocFormUser($inputs, $conn)
                 'ROUTE_NUM' => $insertMainData['DATA']["ROUTE_NUM"],
                 'ACTION_ID' => 4,//ACTION_ID DUPLICATE
                 'HRIS_ID' => $_SESSION['HRIS_ID'],
+                'NOTE_USER' => $inputs['DATA']['DOC_NOTES'],
                 'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
             ],
         ];
@@ -1308,6 +1314,7 @@ function sendDocFormUser($inputs, $conn)
             'DATA' => $selectOutboundRow
         ];
         $insertOutboundData["DATA"]['DATE_TIME_SEND'] = $inputs['DATA']['DATE_TIME_SEND'];
+        $insertOutboundData['DATA']["INBOUND_ID"] = $last_id;
 
         $insertOutboundSql = $queries->insertQuery($insertOutboundData);
         $insertOutboundResult = $conn->query($insertOutboundSql);
@@ -1325,6 +1332,7 @@ function sendDocFormUser($inputs, $conn)
             'ROUTE_NUM' => $selectOutboundRow["ROUTE_NUM"],
             'ACTION_ID' => 1,//ACTION_ID SEND
             'HRIS_ID' => $_SESSION['HRIS_ID'],
+            'NOTE_USER' => $inputs['DATA']['DOC_NOTES'],
             'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
         ],
     ];
@@ -1333,14 +1341,11 @@ function sendDocFormUser($inputs, $conn)
     $insertMainLogResult = $conn->query($insertMainLogSql);
 
     //insert to inbound
-    $insertInboundSql = $queries->insertQuery($insertInboundData);
-    $insertInboundResult = $conn->query($insertInboundSql);
 
-    $last_id = $conn->insert_id;
-    $updateOutboundData['DATA']["INBOUND_ID"] = $last_id;
+    // $updateOutboundData['DATA']["INBOUND_ID"] = $last_id;
 
-    $updateOutboundSql = $queries->updateQuery($updateOutboundData);
-    $updateOutboundResult = $conn->query($updateOutboundSql);
+    // $updateOutboundSql = $queries->updateQuery($updateOutboundData);
+    // $updateOutboundResult = $conn->query($updateOutboundSql);
 
     echo json_encode(
         array(
