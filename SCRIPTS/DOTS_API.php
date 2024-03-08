@@ -361,66 +361,70 @@ function cancelReceive($inputs, $conn)
     $valid = false;
     $message = "";
 
-    //get outboundid for deletion
-    $selectReceiveData = [
-        'TABLE' => 'DOTS_DOCUMENT_INBOUND',
-        'WHERE' => [
-            'AND' => array(
-                array('ID' => $docId)
-            ),
-        ]
-    ];
-    $selectReceiveRow = selectSingleRow($selectReceiveData);
-
-    $selectInboundData = [
-        'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
-        'WHERE' => [
-            "AND" => [
-                ['ID' => $selectReceiveRow['OUTBOUND_ID']]
-            ]
-        ],
-    ];
-
-    $selectInboundRow = selectSingleRow($selectInboundData);
-
-    if ($selectInboundRow['ROUTED'] == 1) {
-        //cannot canncel cause routed
-        $meassage = "Document already sent; cancellation not possible";
+    if ($inputs['DATA']['CANCEL_R_NOTES'] == "") {
+        $message = "Please Fill up notes";
     } else {
-        //update to canceled the doc in outbound
-        $valid = true;
-        $message = "Cancellation successful";
-        $deleteDocData = [
-            'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
-            'DATA' => [
-                'ACTION_ID' => 5//canclled
-            ],
-            'WHERE' => [
-                'ID' => $selectReceiveRow['OUTBOUND_ID']
-            ],
-        ];
 
-        $deleteDocSql = $queries->updateQuery($deleteDocData);
-        $deleteDocResult = $conn->query($deleteDocSql);
-
-        $updateReceiveData = [
+        //get outboundid for deletion
+        $selectReceiveData = [
             'TABLE' => 'DOTS_DOCUMENT_INBOUND',
-            'DATA' => [
-                'DATE_TIME_RECEIVED' => "NULL",
-                'ACTION_ID' => 1//ACTION_ID SENT
-            ],
-            "WHERE" => [
-                'ID' => $docId
+            'WHERE' => [
+                'AND' => array(
+                    array('ID' => $docId)
+                ),
             ]
+        ];
+        $selectReceiveRow = selectSingleRow($selectReceiveData);
 
+        $selectInboundData = [
+            'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
+            'WHERE' => [
+                "AND" => [
+                    ['ID' => $selectReceiveRow['OUTBOUND_ID']]
+                ]
+            ],
         ];
 
-        if (isset($inputs['DATA']['CANCEL_R_DEPT'])) {
-            $updateReceiveData['DATA']['R_USER_ID'] = 0;
-        }
+        $selectInboundRow = selectSingleRow($selectInboundData);
 
-        $updateReceiveSql = $queries->updateQuery($updateReceiveData);
-        $updateReceiveResult = $conn->query($updateReceiveSql);
+        if ($selectInboundRow['ROUTED'] == 1) {
+            //cannot canncel cause routed
+            $meassage = "Document already sent; cancellation not possible";
+        } else {
+            //update to canceled the doc in outbound
+            $valid = true;
+            $message = "Receiving of document cancellation successful.";
+            $deleteDocData = [
+                'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
+                'DATA' => [
+                    'ACTION_ID' => 5//canclled
+                ],
+                'WHERE' => [
+                    'ID' => $selectReceiveRow['OUTBOUND_ID']
+                ],
+            ];
+
+            $deleteDocSql = $queries->updateQuery($deleteDocData);
+            $deleteDocResult = $conn->query($deleteDocSql);
+
+            $updateReceiveData = [
+                'TABLE' => 'DOTS_DOCUMENT_INBOUND',
+                'DATA' => [
+                    'DATE_TIME_RECEIVED' => "NULL",
+                    'ACTION_ID' => 1//ACTION_ID SENT
+                ],
+                "WHERE" => [
+                    'ID' => $docId
+                ]
+            ];
+
+            if (isset($inputs['DATA']['CANCEL_R_DEPT'])) {
+                $updateReceiveData['DATA']['R_USER_ID'] = 0;
+            }
+
+            $updateReceiveSql = $queries->updateQuery($updateReceiveData);
+            $updateReceiveResult = $conn->query($updateReceiveSql);
+        }
     }
 
     echo json_encode(
@@ -436,83 +440,83 @@ function cancelSend($inputs, $conn)
 {
     $queries = new Queries();
     $id = $inputs['DATA']['CANCEL_S_ID'];
+    $valid = false;
+    $message = "";
 
-    //get outboundid for deletion
-    $selectReceiveData = [
-        'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
-        'WHERE' => [
-            'AND' => array(
-                array('ID' => $id)
-            ),
-        ]
-    ];
-    $selectReceiveSql = $queries->selectQuery($selectReceiveData);
-    $selectReceiveResult = $conn->query($selectReceiveSql);
-    $selectReceiveRow = $selectReceiveResult->fetch_assoc();
-
-    $selectOutboundData = [
-        'TABLE' => 'DOTS_DOCUMENT_INBOUND',
-        'WHERE' => [
-            "AND" => [
-                ['ID' => $selectReceiveRow['INBOUND_ID']],
-            ]
-        ],
-    ];
-
-    $selectOutboundSql = $queries->selectQuery($selectOutboundData);
-    $selectOutboundResult = $conn->query($selectOutboundSql);
-    $selectOutboundRow = $selectOutboundResult->fetch_assoc();
-
-    var_dump($selectOutboundRow);
-    if ($selectOutboundRow['ACTION_ID'] == 2) {
-        //routed and sent and cannot be canceled 
-        echo 'CAACNAOACASDASD CAUSE ';
-    } else if ($selectOutboundRow['ACTION_ID'] == 1) {
-        //update the doc in inbound to be canceled
-
-
-        //update to canceled the doc in outbound
-
-        $deleteDocData = [
-            'TABLE' => 'DOTS_DOCUMENT_INBOUND',
-            'DATA' => [
-                'ACTION_ID' => 5//canclled
-            ],
-            'WHERE' => [
-                'ID' => $selectReceiveRow['INBOUND_ID']
-            ],
-        ];
-
-        $deleteDocSql = $queries->updateQuery($deleteDocData);
-        $deleteDocResult = $conn->query($deleteDocSql);
-
-
-        //update the doc in outbound to have no send data
-
-        $updateReceiveData = [
+    if ($inputs['DATA']['CANCEL_S_NOTES'] == "") {
+        $message = "Please Fill up Notes";
+    } else {
+        $valid = true;
+        $message = "Sending has been canceled.";
+        //get outboundid for deletion
+        $selectReceiveData = [
             'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
-            'DATA' => [
-                'DATE_TIME_SEND' => "NULL",
-                'R_DEPT_ID' => 0,
-                'R_USER_ID' => 0,
-                'PRPS_ID' => 0,
-                'ROUTED' => 0,
-                'ACTION_ID' => 2//ACTION_ID RECEIVED
-            ],
-            "WHERE" => [
-                'ID' => $id
+            'WHERE' => [
+                'AND' => array(
+                    array('ID' => $id)
+                ),
             ]
+        ];
+        $selectReceiveSql = $queries->selectQuery($selectReceiveData);
+        $selectReceiveResult = $conn->query($selectReceiveSql);
+        $selectReceiveRow = $selectReceiveResult->fetch_assoc();
 
+        $selectOutboundData = [
+            'TABLE' => 'DOTS_DOCUMENT_INBOUND',
+            'WHERE' => [
+                "AND" => [
+                    ['ID' => $selectReceiveRow['INBOUND_ID']],
+                ]
+            ],
         ];
 
-        $updateReceiveSql = $queries->updateQuery($updateReceiveData);
-        $updateReceiveResult = $conn->query($updateReceiveSql);
+        $selectOutboundSql = $queries->selectQuery($selectOutboundData);
+        $selectOutboundResult = $conn->query($selectOutboundSql);
+        $selectOutboundRow = $selectOutboundResult->fetch_assoc();
 
+        if ($selectOutboundRow['ACTION_ID'] == 2) {
+            //routed and sent and cannot be canceled 
+            echo 'CAACNAOACASDASD CAUSE ';
+        } else if ($selectOutboundRow['ACTION_ID'] == 1) {
+            //update the doc in inbound to be canceled
+            //update to canceled the doc in outbound
+
+            $deleteDocData = [
+                'TABLE' => 'DOTS_DOCUMENT_INBOUND',
+                'DATA' => [
+                    'ACTION_ID' => 5//canclled
+                ],
+                'WHERE' => [
+                    'ID' => $selectReceiveRow['INBOUND_ID']
+                ],
+            ];
+            $deleteDocSql = $queries->updateQuery($deleteDocData);
+            $deleteDocResult = $conn->query($deleteDocSql);
+
+            //update the doc in outbound to have no send data
+            $updateReceiveData = [
+                'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
+                'DATA' => [
+                    'DATE_TIME_SEND' => "NULL",
+                    'R_DEPT_ID' => 0,
+                    'R_USER_ID' => 0,
+                    'PRPS_ID' => 0,
+                    'ROUTED' => 0,
+                    'ACTION_ID' => 2//ACTION_ID RECEIVED
+                ],
+                "WHERE" => [
+                    'ID' => $id
+                ]
+            ];
+
+            $updateReceiveSql = $queries->updateQuery($updateReceiveData);
+            $updateReceiveResult = $conn->query($updateReceiveSql);
+        }
     }
-
     echo json_encode(
         array(
-
+            'VALID'=>$valid,
+            'MESSAGE'=>$message
         )
     );
 }
