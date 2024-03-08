@@ -443,6 +443,8 @@ function cancelSend($inputs, $conn)
     $valid = false;
     $message = "";
 
+    var_dump($inputs);
+
     if ($inputs['DATA']['CANCEL_S_NOTES'] == "") {
         $message = "Please Fill up Notes";
     } else {
