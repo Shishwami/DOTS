@@ -21,13 +21,6 @@ const SEND_S_USER_ID = FORM_DOC_SEND.querySelector('#SEND_S_USER_ID');
 const SEND_S_DEPT_ID = FORM_DOC_SEND.querySelector('#SEND_S_DEPT_ID');
 const SEND_R_DEPT_ID = FORM_DOC_SEND.querySelector('#SEND_R_DEPT_ID');
 
-// const FORM_DOC_EDIT = document.getElementById('FORM_DOC_EDIT');
-// const EDIT_DATE_TIME_EDIT = FORM_DOC_EDIT.querySelector("#EDIT_DATE_TIME_EDIT");
-// const EDIT_DOC_PRPS = FORM_DOC_EDIT.querySelector("#EDIT_DOC_PRPS");
-// const EDIT_DOC_ID = FORM_DOC_EDIT.querySelector('#EDIT_DOC_ID');
-// const EDIT_S_USER_ID = FORM_DOC_EDIT.querySelector('#EDIT_S_USER_ID');
-// const EDIT_S_DEPT_ID = FORM_DOC_EDIT.querySelector('#EDIT_S_DEPT_ID');
-// const EDIT_R_DEPT_ID = FORM_DOC_EDIT.querySelector('#EDIT_R_DEPT_ID');
 const FORM_DOC_CANCEL_R = document.getElementById("FORM_DOC_CANCEL_R");
 const CANCEL_R_NOTES = FORM_DOC_CANCEL_R.querySelector("#CANCEL_R_NOTES");
 const CANCEL_R_DEPT = FORM_DOC_CANCEL_R.querySelector("CANCEL_R_DEPT");
@@ -36,8 +29,6 @@ const CANCEL_R_ID = FORM_DOC_CANCEL_R.querySelector("#CANCEL_R_ID");
 const FORM_DOC_CANCEL_S = document.getElementById("FORM_DOC_CANCEL_S");
 const CANCEL_S_NOTES = FORM_DOC_CANCEL_S.querySelector("#CANCEL_S_NOTES");
 const CANCEL_S_ID = FORM_DOC_CANCEL_S.querySelector("#CANCEL_S_ID");
-
-
 
 const RADIO_SEND = document.getElementById("RADIO_SEND");
 const RADIO_RECEIVE = document.getElementById("RADIO_RECEIVE");
@@ -48,20 +39,15 @@ const S_BTN = document.getElementById('S_BTN');
 const hrisId = sessionStorage.getItem(DOTS_ACCOUNT_INFO.HRIS_ID);
 let action_type = "receive";
 
-// const FORM_ATTACH_ADD = document.getElementById("FORM_ATTACH_ADD");
-// const ATTACH_DOC_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_DOC_NUM');
-// const ATTACH_ROUTE_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_ROUTE_NUM');
-// const ATTACH_FILE = document.getElementById("ATTACH_FILE");
-// const ATTACH_RESULTS = document.getElementById("ATTACH_RESULTS");
-// const ATTACH_ZOOM = document.getElementById("ATTACH_ZOOM");
-
+const FORM_ATTACH_ADD = document.getElementById("FORM_ATTACH_ADD");
+const ATTACH_DOC_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_DOC_NUM');
+const ATTACH_ROUTE_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_ROUTE_NUM');
+const ATTACH_FILE = document.getElementById("ATTACH_FILE");
+const ATTACH_RESULTS = document.getElementById("ATTACH_RESULTS");
+const ATTACH_ZOOM = document.getElementById("ATTACH_ZOOM");
 
 setSession();
 setFormEvents();
-// setDOC_PURPOSEselect();
-// setRECEIVED_TIME(SEND_DATE_TIME_SEND); move to send
-// setDOC_LOCATION();
-// getSessionDeptId();
 
 setTable("", action_type);
 
@@ -241,6 +227,9 @@ function setFormEvents() {
         MyAjax.createJSON((error, response) => {
             if (response.VALID) {
                 notify('success', response.MESSAGE);
+                if (rec_modal) {
+                    rec_modal.style.display = "none";
+                }
             } else {
                 notify('error', response.MESSAGE);
             }
@@ -262,49 +251,6 @@ function setFormEvents() {
         }, data);
 
     });
-    // FORM_ATTACH_ADD.addEventListener('submit', function (e) {
-    //     e.preventDefault();
-    //     // var data = {
-    //     //     REQUEST: _REQUEST.ATTACH_ADD,
-    //     //     // ...JsFunctions.FormToJson(FORM_ATTACH_ADD),
-    //     // }
-
-    //     // var file = ATTACH_FILE.files[0];
-    //     // var formData = new FormData();
-    //     // formData.append('ATTACH_FILE', file);
-    //     // console.log(ATTACH_FILE.value);
-    //     // data['DATA'] = new FormData(this);
-    //     // data['DATA'] = JSON.stringify(data['DATA']);
-    //     // console.log(data);
-
-    //     // MyAjax.createJSON((error, response) => {
-    //     //     if (error) {
-    //     //         alert(error);
-    //     //     } else {
-    //     //         if (response.VALID) {
-    //     //         } else {
-    //     //             //response valid=false
-    //     //         }
-    //     //     }
-    //     // }, data);
-
-    //     var file = ATTACH_FILE.files[0];
-    //     var formData = new FormData(this);
-    //     // formData.append('file', file);
-    //     // formData.append('DOC_NUM', ATTACH_DOC_NUM.value);
-    //     // formData.append('ROUTE_NUM', ATTACH_ROUTE_NUM.value);
-
-    //     var xhr = new XMLHttpRequest();
-    //     xhr.open('POST', '../../SCRIPTS/FILE_UPLOAD.php', true);
-
-    //     xhr.onreadystatechange = function () {
-    //         if (xhr.readyState == 4 && xhr.status == 200) {
-    //             console.log(xhr.responseText);
-    //             setTableAttachment();
-    //         }
-    //     };
-    //     xhr.send(formData);
-    // });
 
     FORM_DOC_CANCEL_R.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -340,43 +286,6 @@ function setFormEvents() {
     });
 
 }
-// function setRECEIVED_TIME(element) {
-//     var data = {
-//         REQUEST: _REQUEST.GET_DATE,
-//         DATE: "DATE_TIME"
-//     }
-
-//     MyAjax.createJSON((error, response) => {
-//         if (error) {
-//             alert(error);
-//         } else {
-//             if (response.VALID) {
-//                 delete response.VALID;
-//                 element.value = Object.values(response)[0];
-//             } else {
-//                 console.log(response);
-//             }
-//         }
-//     }, data);
-// }
-// function setDOC_PURPOSEselect() {
-
-//     var data = {
-//         REQUEST: _REQUEST.GET_DOC_PRPS,
-//     }
-
-//     MyAjax.createJSON((error, response) => {
-//         if (!error) {
-//             if (response.VALID) {
-//                 delete response.VALID;
-//                 SEND_DOC_PRPS.innerHTML = Object.values(response)[0];
-//             } else {
-//             }
-//         } else {
-
-//         }
-//     }, data);
-// }
 function setSession() {
     getSessionDeptId();
     getSessionHrisId();
