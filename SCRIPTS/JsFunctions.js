@@ -35,7 +35,7 @@ class JsFunctions {
 
                 buttons.forEach(btn => {
                     const button = document.createElement('button');
-                    button.innerText = btn.label;
+                    // button.innerText = btn.label;
                     button.classList.add(btn.className);
                     if (btn.className == "btnS") {
                         button.classList.add('fa-regular', 'fa-paper-plane');
@@ -52,6 +52,11 @@ class JsFunctions {
                         button.classList.add('fa-solid', 'fa-pen-to-square');
                         button.title = "Edit";
                     }
+                    if (btn.className == "btnCR"||btn.className == "btnCS") {
+                        button.classList.add('fa-solid', 'fa-ban');
+                        button.title = "Cancel";
+                    }
+            
 
                     // button.className = btn.className;
                     // button.id = `button-${item.ID}-${item.DOC_NUM}-${item.ROUTE_NUM}`;
