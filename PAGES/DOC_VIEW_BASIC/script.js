@@ -241,6 +241,9 @@ function setFormEvents() {
         MyAjax.createJSON((error, response) => {
             if (response.VALID) {
                 notify('success', response.MESSAGE);
+                if(rec_modal){
+                    rec_modal.style.display = "none";
+                }
             } else {
                 notify('error', response.MESSAGE);
             }
