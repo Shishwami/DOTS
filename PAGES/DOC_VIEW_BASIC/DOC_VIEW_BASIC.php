@@ -220,7 +220,7 @@
                     </div>
                 </div>
 
-                <div class="moodal" id="atc_modal">
+                <div class="modal" id="atc_modal">
                     <div class="modal_content">
                         <div class="modal_banner">
                             <span class="atc_close">&times;</span>
@@ -257,7 +257,7 @@
                                 </div>
                             </div>
 
-                            <div class="moodal" id="ins_submodal">
+                            <div class="modal" id="ins_submodal">
                                 <div class="modal_content">
                                     <div class="modal_banner">
                                         <span class="ins_sub_close">&times;</span>
@@ -274,7 +274,7 @@
                                 </div>
                             </div>
 
-                            <div class="moodal" id="atc_submodal">
+                            <div class="modal" id="atc_submodal">
                                 <div class="modal_content">
                                     <div class="modal_banner">
                                         <span class="atc_sub_close">&times;</span>
