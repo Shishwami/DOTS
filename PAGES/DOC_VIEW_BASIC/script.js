@@ -165,6 +165,7 @@ function setReceiveBtn(id, doc_num, route_num) {
 
     getData(_REQUEST.GET_DATE, { DATE: "DATE_TIME" }, (result) => {
         RECEIVE_DATE_TIME_RECEIVED.value = result;
+        RECEIVE_DATE_TIME_RECEIVED.focus();
     });
     getData(_REQUEST.GET_SESSION_HRIS_ID, null, (result) => {
         RECEIVE_R_USER_ID.value = result;
@@ -238,7 +239,11 @@ function setFormEvents() {
         }
 
         MyAjax.createJSON((error, response) => {
-            console.log(response);
+            if (response.VALID) {
+                notify('success', response.MESSAGE);
+            } else {
+                notify('error', response.MESSAGE);
+            }
             setTable(searchBar.value.toUpperCase(), action_type);
         }, data);
 
@@ -310,7 +315,11 @@ function setFormEvents() {
         }
 
         MyAjax.createJSON((error, response) => {
-            console.log(response);
+            if (response.VALID) {
+                notify('success', response.MESSAGE);
+            } else {
+                notify('error', response.MESSAGE);
+            }
             setTable(searchBar.value.toUpperCase(), action_type);
         }, data);
 
