@@ -1413,8 +1413,8 @@ function getTableAttachment($inputs, $conn)
         'WHERE' => $inputs['WHERE']
     ];
     $selectTableSql = $queries->selectQuery($data);
+    // echo $selectTableSql;
     $result = mysqli_query($conn, $selectTableSql);
-
     setupTable($result, null, $tableName);
 }
 function formatDateTime($dateString)
