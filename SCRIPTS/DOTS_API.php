@@ -949,7 +949,11 @@ function getTableUser($inputs, $conn, $tableName)
             [
                 "className" => "btnCR",
                 "label" => "C"
-            ]
+            ],
+            [
+                "className" => "btnA",
+                "label" => "A"
+            ],
         );
     }
     if ($tableName == "DOTS_DOCUMENT_OUTBOUND") {
