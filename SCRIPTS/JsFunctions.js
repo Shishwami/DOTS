@@ -33,6 +33,9 @@ class JsFunctions {
             if (buttons != undefined) {
                 const buttonCell = document.createElement('td');
                 const div = document.createElement('div');
+
+                const div2 = document.createElement('div');
+                div2.className = "for";
                 div.className = "btn_container";
 
                 buttons.forEach(btn => {
@@ -84,8 +87,11 @@ class JsFunctions {
                     }
                     
                     div.appendChild(button);
+                    
                 });
+                div.appendChild(div2);
 
+                // row.appendChild(div2);
                 row.appendChild(div);
             }
 
