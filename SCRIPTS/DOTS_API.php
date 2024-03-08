@@ -358,6 +358,7 @@ function cancelReceive($inputs, $conn)
 {
     $docId = $inputs['DATA']['CANCEL_R_ID'];
     $queries = new Queries();
+    $valid = false;
     $message = "";
 
     //get outboundid for deletion
@@ -387,7 +388,8 @@ function cancelReceive($inputs, $conn)
         $meassage = "Document already sent; cancellation not possible";
     } else {
         //update to canceled the doc in outbound
-
+        $valid = true;
+        $message = "Cancellation successful";
         $deleteDocData = [
             'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
             'DATA' => [
@@ -423,7 +425,8 @@ function cancelReceive($inputs, $conn)
 
     echo json_encode(
         array(
-
+            "VALID" => $valid,
+            "MESSAGE" => $message
         )
     );
 }
