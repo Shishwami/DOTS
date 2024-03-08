@@ -385,6 +385,8 @@ function setForms() {
                     if (crt_modal != undefined) {
                         crt_modal.style.display = "none";
                     }
+                    notify("success", response.MESSAGE);
+
                 } else {
                     notify("error", response.MESSAGE);
                     this.querySelector('input[type=submit]').disabled = false;
