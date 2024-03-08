@@ -32,6 +32,9 @@ class JsFunctions {
 
             if (buttons != undefined) {
                 const buttonCell = document.createElement('td');
+                const div = document.createElement('div');
+
+                div.style.display="flex";
 
                 buttons.forEach(btn => {
                     const button = document.createElement('button');
@@ -81,7 +84,7 @@ class JsFunctions {
                         button.style.visibility = 'hidden';
                     }
                     
-                    buttonCell.appendChild(button);
+                    div.appendChild(button);
                 });
 
                 row.appendChild(buttonCell);

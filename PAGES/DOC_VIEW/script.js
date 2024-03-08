@@ -86,6 +86,16 @@ function InitializePAGE() {
 
     BTN_ATTACH_ADD.addEventListener("click", function () {
         ATTACH_FILE.value = null;
+
+        if (document.getElementById("upload_preview") != undefined) {
+            document.getElementById("upload_preview").remove();
+        }
+
+        //reset inputs
+        FORM_ATTACH_ADD.reset();
+        FORM_ATTACH_ADD.querySelector('input[type=submit]').disabled = false;
+
+
         console.log("ASDADSADSADS");
     });
 
@@ -93,16 +103,15 @@ function InitializePAGE() {
         BTN_ATTACH_INS.addEventListener("click", function () {
             var elements = document.getElementsByClassName('img-zoom-lens');
             var elementsArray = Array.from(elements);
+
             elementsArray.forEach(function (element) {
                 element.parentNode.removeChild(element);
             });
 
-            //reset inputs
-            FORM_ATTACH_ADD.reset();
-            FORM_ATTACH_ADD.querySelector('input[type=submit]').disabled = false;
             imageZoom("myimage", "myresult");
         });
     }
+
 }
 
 function initializeSEND_FORM() {
@@ -169,6 +178,7 @@ function setCreateBtn() {
         }, null);
         getData(_REQUEST.GET_DATE, { 'DATE': 'DATE_TIME' }, (result) => {
             CREATE_DATE_TIME_RECEIVED.value = result;
+            CREATE_DATE_TIME_RECEIVED.focus();
         }, null);
         getData(_REQUEST.GET_SESSION_NAME, null, (result) => {
             CREATE_FULLNAME.value = result;
@@ -183,7 +193,6 @@ function setCreateBtn() {
         CREATE_DOC_TYPE.value = '';
         CREATE_DOC_OFFICE.value = '';
 
-        CREATE_DATE_TIME_RECEIVED.focus();
         FORM_DOC_RECEIVE.querySelector('input[type=submit]').disabled = false;
     });
 }
