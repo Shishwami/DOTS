@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 06/03/2024 08:16:03
+ Date: 08/03/2024 10:39:57
 */
 
 SET NAMES utf8mb4;
@@ -60,59 +60,11 @@ CREATE TABLE `dots_attachments`  (
   `FILE_PATH` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `FILE_NAME` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 49 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_attachments
 -- ----------------------------
-INSERT INTO `dots_attachments` VALUES (1, 0, 0, '', '../ATTACHMENTS///', '0.jpg');
-INSERT INTO `dots_attachments` VALUES (2, 1972, 0, '', '../ATTACHMENTS/1972/0/', '65e5433f049f9.jpg');
-INSERT INTO `dots_attachments` VALUES (3, 1972, 0, '', '../ATTACHMENTS/1972/0/', '65e5433f26018.jpg');
-INSERT INTO `dots_attachments` VALUES (4, 1972, 0, '', '../ATTACHMENTS/1972/0/', '65e5433f31522.jpg');
-INSERT INTO `dots_attachments` VALUES (5, 1972, 0, '', '../ATTACHMENTS/1972/0/', '65e5433f49346.jpg');
-INSERT INTO `dots_attachments` VALUES (6, 1972, 0, '', '../ATTACHMENTS/1972/0/', '65e5433f4f226.jpg');
-INSERT INTO `dots_attachments` VALUES (7, 1972, 0, '', '../ATTACHMENTS/1972/0/', '65e5433f56c1c.jpg');
-INSERT INTO `dots_attachments` VALUES (8, 1972, 0, '', '../ATTACHMENTS/1972/0/', '65e5433f5cb32.jpg');
-INSERT INTO `dots_attachments` VALUES (9, 1972, 0, '', '../ATTACHMENTS/1972/0/', '65e5433f6a633.jpg');
-INSERT INTO `dots_attachments` VALUES (10, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e5637edf423.jpg');
-INSERT INTO `dots_attachments` VALUES (11, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e563836ed6d.jpg');
-INSERT INTO `dots_attachments` VALUES (12, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e5654311621.jpg');
-INSERT INTO `dots_attachments` VALUES (13, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e5654323e9a.jpg');
-INSERT INTO `dots_attachments` VALUES (14, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e5654337a3d.jpg');
-INSERT INTO `dots_attachments` VALUES (15, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e56543465d4.jpg');
-INSERT INTO `dots_attachments` VALUES (16, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e565434d56a.jpg');
-INSERT INTO `dots_attachments` VALUES (17, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e5654354bab.jpg');
-INSERT INTO `dots_attachments` VALUES (18, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e565435aefe.jpg');
-INSERT INTO `dots_attachments` VALUES (19, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e5654365a74.jpg');
-INSERT INTO `dots_attachments` VALUES (20, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e565436d178.jpg');
-INSERT INTO `dots_attachments` VALUES (21, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e565437339f.jpg');
-INSERT INTO `dots_attachments` VALUES (22, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e565437aa4b.jpg');
-INSERT INTO `dots_attachments` VALUES (23, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e5654380c59.jpg');
-INSERT INTO `dots_attachments` VALUES (24, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e56868c826c.jpg');
-INSERT INTO `dots_attachments` VALUES (25, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e56868e25ef.jpg');
-INSERT INTO `dots_attachments` VALUES (26, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e56868ea391.jpg');
-INSERT INTO `dots_attachments` VALUES (27, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e56868f17ca.jpg');
-INSERT INTO `dots_attachments` VALUES (28, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e5686909113.jpg');
-INSERT INTO `dots_attachments` VALUES (29, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e5686919977.jpg');
-INSERT INTO `dots_attachments` VALUES (30, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e5686926d4c.jpg');
-INSERT INTO `dots_attachments` VALUES (31, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e568692e1f6.jpg');
-INSERT INTO `dots_attachments` VALUES (32, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e5686934702.jpg');
-INSERT INTO `dots_attachments` VALUES (33, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e568693bb11.jpg');
-INSERT INTO `dots_attachments` VALUES (34, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e5686941ffe.jpg');
-INSERT INTO `dots_attachments` VALUES (35, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e56869493da.jpg');
-INSERT INTO `dots_attachments` VALUES (36, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e568f73d567.jpg');
-INSERT INTO `dots_attachments` VALUES (37, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e568f74c414.jpg');
-INSERT INTO `dots_attachments` VALUES (38, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e568f754169.jpg');
-INSERT INTO `dots_attachments` VALUES (39, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e568f75b103.jpg');
-INSERT INTO `dots_attachments` VALUES (40, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e568f761a74.jpg');
-INSERT INTO `dots_attachments` VALUES (41, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e568f768a6f.jpg');
-INSERT INTO `dots_attachments` VALUES (42, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e568f76f42d.jpg');
-INSERT INTO `dots_attachments` VALUES (43, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e568f789203.jpg');
-INSERT INTO `dots_attachments` VALUES (44, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e568f79f468.jpg');
-INSERT INTO `dots_attachments` VALUES (45, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e568f7be07f.jpg');
-INSERT INTO `dots_attachments` VALUES (46, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e568f7c608e.jpg');
-INSERT INTO `dots_attachments` VALUES (47, 1982, 0, '', '../ATTACHMENTS/1982/0/', '65e568f7cce32.jpg');
-INSERT INTO `dots_attachments` VALUES (48, 1984, 1, '', '../ATTACHMENTS/1984/1/', '65e6b6ee7b838.jpg');
 
 -- ----------------------------
 -- Table structure for dots_doc_action
@@ -367,7 +319,7 @@ CREATE TABLE `dots_num_sequence`  (
 -- ----------------------------
 -- Records of dots_num_sequence
 -- ----------------------------
-INSERT INTO `dots_num_sequence` VALUES (1, 1987);
+INSERT INTO `dots_num_sequence` VALUES (1, 1988);
 
 -- ----------------------------
 -- Table structure for dots_tracking
