@@ -430,7 +430,7 @@ function setForms() {
                     }
                 } else {
                     notify("error", response.MESSAGE);
-                    this.querySelector('input[type=submit]').disabled = false;
+                    FORM_DOC_EDIT.querySelector('input[type=submit]').disabled = false;
                 }
             }
             setTable(searchBar.value.toUpperCase());
@@ -454,7 +454,7 @@ function setForms() {
                         notify("success", response.MESSAGE);
                     }
                 } else {
-                    this.querySelector('input[type=submit]').disabled = false;
+                    FORM_ATTACH_ADD.querySelector('input[type=submit]').disabled = false;
                 }
                 setTableAttachment();
             }
