@@ -57,6 +57,7 @@ const ATTACH_ROUTE_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_ROUTE_NUM');
 const ATTACH_FILE = document.getElementById("ATTACH_FILE");
 const ATTACH_RESULTS = document.getElementById("ATTACH_RESULTS");
 const ATTACH_ZOOM = document.getElementById("ATTACH_ZOOM");
+const ATTACH_DESC = FORM_ATTACH_ADD.querySelector("#ATTACH_DESCRIPTION");
 
 const snd_modal = document.getElementById("snd_modal");
 const atc_modal = document.getElementById("atc_modal");
@@ -92,7 +93,7 @@ function InitializePAGE() {
         }
 
         //reset inputs
-        FORM_ATTACH_ADD.reset();
+        ATTACH_DESC.value = "";
         FORM_ATTACH_ADD.querySelector('input[type=submit]').disabled = false;
 
 
@@ -297,10 +298,8 @@ function setTableAttachment() {
             if (prev) {
                 if (response.VALID) {
                     prev.style.visibility = "visible";
-
                 } else {
                     prev.style.visibility = "hidden";
-
                 }
             }
             console.log(response);
@@ -448,7 +447,6 @@ function setForms() {
                 var response = JSON.parse(xhr.responseText);
                 if (response.VALID) {
                     if (atc_submodal != undefined) {
-                        FORM_ATTACH_ADD.reset();
                         atc_submodal.style.display = "none";
                         DOC_VIEW_MAIN.focus();
                         notify("success", response.MESSAGE);
