@@ -360,7 +360,6 @@ function setForms() {
 
             } else {
                 if (response.VALID) {
-
                     FORM_DOC_SEND.reset();
                     if (snd_modal != undefined) {
                         snd_modal.style.display = "none";
