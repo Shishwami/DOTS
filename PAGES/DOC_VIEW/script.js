@@ -85,7 +85,6 @@ function InitializePAGE() {
 
     BTN_ATTACH_ADD.addEventListener("click", function () {
         ATTACH_FILE.value = null;
-        console.log("ASDADSADSADS");
     });
 
     if (BTN_ATTACH_INS) {

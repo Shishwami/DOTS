@@ -17,6 +17,11 @@ body
     overflow-x: hidden;
 }
 
+textarea
+{
+    resize: none;
+}
+
 /* Page Background */
 body:before 
 {
@@ -261,6 +266,21 @@ body:before
     background-color: var(--tr_light);
 }
 
+.db_table tbody tr td:first-child
+{
+    display: flex;
+    width: fit-content;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #000000;
+}
+
+.db_table tbody tr:last-child td:first-child
+{
+    border-bottom: none;
+}
+
 .db_table tr:nth-child(even)
 {
     background-color: var(--tr_dark);
@@ -411,6 +431,39 @@ body:before
 .form_sub input:hover
 {
     background: var(--submit_btn-hover); 
+}
+
+#s_cnl_modal form
+{
+    margin-top: -2rem;
+}
+
+#s_cnl_modal label
+{
+    font-size: 15px;
+    font-weight: 600;
+}
+
+#s_cnl_modal .content_one
+{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+#s_cnl_modal .content_two
+{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+#s_cnl_modal textarea,
+#s_cnl_modal input
+{
+    padding: 0.5rem;
+    border-radius: 0.5rem;
 }
 
 
