@@ -340,8 +340,8 @@
                                         <div class="submit">
                                             <input type="submit" value="Submit">
                                         </div>
-                                        <input type="text" name="DOC_NUM" id="ATTACH_DOC_NUM" hidden readonly>
-                                        <input type="text" name="ROUTE_NUM" id="ATTACH_ROUTE_NUM" hidden readonly>
+                                        <input type="text" name="DOC_NUM" id="ATTACH_DOC_NUM"  readonly>
+                                        <input type="text" name="ROUTE_NUM" id="ATTACH_ROUTE_NUM"  readonly>
                                     </form>
                                 </div>
                             </div>
