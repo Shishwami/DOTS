@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 11/03/2024 09:19:26
+ Date: 11/03/2024 10:38:32
 */
 
 SET NAMES utf8mb4;
@@ -319,7 +319,7 @@ CREATE TABLE `dots_num_sequence`  (
 -- ----------------------------
 -- Records of dots_num_sequence
 -- ----------------------------
-INSERT INTO `dots_num_sequence` VALUES (1, 1993);
+INSERT INTO `dots_num_sequence` VALUES (1, 1994);
 
 -- ----------------------------
 -- Table structure for dots_tracking
