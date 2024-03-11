@@ -1531,9 +1531,15 @@ function getTableTracking($inputs, $conn)
                 'TYPE' => 'LEFT'
             ]
         ],
+        "WHERE"=>[
+            'AND'=>[
+                ["DOC_NUM" => $inputs['DATA']['DOC_NUM']],
+                ["ROUTE_NUM" => $inputs['DATA']['ROUTE_NUM']],
+            ]
+        ],
         'SORT_BY' => 'DOC_NUM DESC'
     ];
-
+    
     $selectTableSql = $queries->selectQuery($selectTableData);
     $selectTableResult = $conn->query($selectTableSql);
     setupTable($selectTableResult, null, 'DOTS_TRACKING');
