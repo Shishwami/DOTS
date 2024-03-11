@@ -104,7 +104,7 @@ function InitializePAGE() {
         BTN_ATTACH_INS.addEventListener("click", function () {
             var elements = document.getElementsByClassName('img-zoom-lens');
             var elementsArray = Array.from(elements);
-            
+
             elementsArray.forEach(function (element) {
                 element.parentNode.removeChild(element);
             });
@@ -173,29 +173,33 @@ function getData(requestType, additionalData, successCallback, failureCallback) 
     }, data);
 }
 function setCreateBtn() {
-    BTN_DOC_CREATE.addEventListener('click', function (event) {
-        getData(_REQUEST.GET_DATE, { 'DATE': 'DATE' }, (result) => {
-            CREATE_LETTER_DATE.value = result;
-        }, null);
-        getData(_REQUEST.GET_DATE, { 'DATE': 'DATE_TIME' }, (result) => {
-            CREATE_DATE_TIME_RECEIVED.value = result;
-            CREATE_DATE_TIME_RECEIVED.focus();
-        }, null);
-        getData(_REQUEST.GET_SESSION_NAME, null, (result) => {
-            CREATE_FULLNAME.value = result;
-        }, null);
-        getData(_REQUEST.GET_SESSION_HRIS_ID, null, (result) => {
-            CREATE_R_USER_ID.value = result;
-        }, null);
-        getData(_REQUEST.GET_SESSION_DEPT_ID, null, (result) => {
-            CREATE_R_DEPT_ID.value = result;
-        }, null);
-        CREATE_DOC_SUBJECT.value = '';
-        CREATE_DOC_TYPE.value = '';
-        CREATE_DOC_OFFICE.value = '';
+    try {
+        BTN_DOC_CREATE.addEventListener('click', function (event) {
+            getData(_REQUEST.GET_DATE, { 'DATE': 'DATE' }, (result) => {
+                CREATE_LETTER_DATE.value = result;
+            }, null);
+            getData(_REQUEST.GET_DATE, { 'DATE': 'DATE_TIME' }, (result) => {
+                CREATE_DATE_TIME_RECEIVED.value = result;
+                CREATE_DATE_TIME_RECEIVED.focus();
+            }, null);
+            getData(_REQUEST.GET_SESSION_NAME, null, (result) => {
+                CREATE_FULLNAME.value = result;
+            }, null);
+            getData(_REQUEST.GET_SESSION_HRIS_ID, null, (result) => {
+                CREATE_R_USER_ID.value = result;
+            }, null);
+            getData(_REQUEST.GET_SESSION_DEPT_ID, null, (result) => {
+                CREATE_R_DEPT_ID.value = result;
+            }, null);
+            CREATE_DOC_SUBJECT.value = '';
+            CREATE_DOC_TYPE.value = '';
+            CREATE_DOC_OFFICE.value = '';
 
-        FORM_DOC_RECEIVE.querySelector('input[type=submit]').disabled = false;
-    });
+            FORM_DOC_RECEIVE.querySelector('input[type=submit]').disabled = false;
+        });
+    }catch(Exception){
+
+    }
 }
 function sendBtnEvent(id, doc_num, route_num) {
 
