@@ -183,16 +183,23 @@ body:before
 .db_table tbody tr td:first-child
 {
     display: flex;
-    width: fit-content;
+    /* width: fit-content;
     border-top: none;
     border-left: none;
-    border-right: none;
+    border-right: none; */
     border-bottom: 1px solid #000000;
 }
 
 .db_table tbody tr:last-child td:first-child
 {
     border-bottom: none;
+}
+
+.btn_container
+{
+    display: flex;
+    padding:10px;
+    margin: auto;
 }
 
 .db_table tr:nth-child(even)
@@ -232,16 +239,18 @@ body:before
 
 .btnS, .btnA, .btnE
 {
-    /* background: var(--opt_btn); */
+    background: var(--tbl_opt_btn);
     padding: 0.4rem 0.5rem;
     border: none;
     border-radius: 0.5rem;
-    font-size: 18px;
+    font-size: 20px;
     color: var(--blue);
     cursor: pointer;
     letter-spacing: 0.1rem;
     text-transform: uppercase;
     margin: 0 3px;
+    height: 40px;
+    width: 40px;
 }
 
 .btnS:hover, .btnA:hover, .btnE:hover
