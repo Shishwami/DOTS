@@ -316,15 +316,6 @@ function editDocument($inputs, $conn)
         );
         exit;
     }
-    if ($inputs['DATA']['DOC_SUBJECT'] == "") {
-        echo json_encode(
-            array(
-                'VALID' => $valid,
-                'MESSAGE' => "Please Fill up required Fields",
-            )
-        );
-        exit;
-    }
     if ($_SESSION['DOTS_PRIV'] < 3) {
         echo json_encode(
             array(
@@ -334,7 +325,7 @@ function editDocument($inputs, $conn)
         );
         exit;
     }
-    
+
     $valid = true;
     $docId = $inputs['DATA']['ID'];
     unset($inputs['DATA']['ID']);
@@ -1180,42 +1171,42 @@ function setupTable($result, $buttons, $tableName)
 {
     $valid = false;
     $formattedResult = [];
-    if($result!="")
-    foreach ($result as $row) {
-        $formattedRow = [];
-        foreach ($row as $key => $value) {
+    if ($result != "")
+        foreach ($result as $row) {
+            $formattedRow = [];
+            foreach ($row as $key => $value) {
 
-            $fValue = $value;
+                $fValue = $value;
 
-            if ($key == "Date Received" && $value != null) {
-                if ($fValue == '0000-00-00 00:00:00') {
-                    $fValue = '';
-                } else {
+                if ($key == "Date Received" && $value != null) {
+                    if ($fValue == '0000-00-00 00:00:00') {
+                        $fValue = '';
+                    } else {
+                        $fValue = formatDateTime($value);
+                    }
+                } else if ($key == "Date Sent" && $value != null) {
+                    if ($fValue == '0000-00-00 00:00:00') {
+                        $fValue = '';
+                    } else {
+                        $fValue = formatDateTime($value);
+                    }
+                } else if ($key == "Date of Server" && $value != null) {
+                    if ($fValue == '0000-00-00 00:00:00') {
+                        $fValue = '';
+                    } else {
+                        $fValue = formatDateTime($value);
+                    }
+                } else if ($key == "Letter Date") {
+                    $fValue = formatDate($value);
+                } else if ($key == "Date of Action") {
                     $fValue = formatDateTime($value);
                 }
-            } else if ($key == "Date Sent" && $value != null) {
-                if ($fValue == '0000-00-00 00:00:00') {
-                    $fValue = '';
-                } else {
-                    $fValue = formatDateTime($value);
-                }
-            } else if ($key == "Date of Server" && $value != null) {
-                if ($fValue == '0000-00-00 00:00:00') {
-                    $fValue = '';
-                } else {
-                    $fValue = formatDateTime($value);
-                }
-            } else if ($key == "Letter Date") {
-                $fValue = formatDate($value);
-            } else if ($key == "Date of Action") {
-                $fValue = formatDateTime($value);
+
+                $valid = true;
+                $formattedRow[$key] = $fValue;
             }
-
-            $valid = true;
-            $formattedRow[$key] = $fValue;
+            $formattedResult[] = $formattedRow;
         }
-        $formattedResult[] = $formattedRow;
-    }
 
     echo json_encode(
         array(
@@ -1615,7 +1606,7 @@ function formatDate($dateString)
 function validateInputs($requiredFields, $inputs)
 {
     foreach ($requiredFields as $field) {
-        if (!isset($inputs['DATA'][$field])) {
+        if (!isset($inputs['DATA'][$field]) || $inputs['DATA'][$field] == "") {
             return false;
         }
     }
