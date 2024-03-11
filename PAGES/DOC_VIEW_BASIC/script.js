@@ -316,7 +316,30 @@ function setFormEvents() {
         }, data);
 
     });
+    FORM_ATTACH_ADD.addEventListener('submit', function (e) {
+        e.preventDefault();
+        this.querySelector('input[type=submit]').disabled = true;
 
+        var formData = new FormData(this);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '../../SCRIPTS/FILE_UPLOAD.php', true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.VALID) {
+                    if (atc_submodal != undefined) {
+                        atc_submodal.style.display = "none";
+                        DOC_VIEW_BASIC.focus();
+                        notify("success", response.MESSAGE);
+                    }
+                } else {
+                    FORM_ATTACH_ADD.querySelector('input[type=submit]').disabled = false;
+                }
+                setTableAttachment();
+            }
+        };
+        xhr.send(formData);
+    });
 }
 function setSession() {
     getSessionDeptId();
