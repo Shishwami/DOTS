@@ -341,7 +341,7 @@
                             <span class="track_close">&times;</span>
                             <h1>Document Tracking</h1>
 
-                            <table>
+                            <table id="DOC_VIEW_TRACKING">
                                 <thead>
                                     <th></th>
                                 </thead>
