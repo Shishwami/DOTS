@@ -301,7 +301,7 @@
                                                         <h3>Upload Image</h3>
                                                         <p>Image size must be less than <span>10MB</span></p>
                                                     </div>
-                                                    <button class="select-image">Select Image</button>
+                                                    <button type="button" class="select-image">Select Image</button>
                                                 </div>
                                             </div>
 
