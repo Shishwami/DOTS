@@ -663,6 +663,27 @@ function sendDocForm($inputs, $conn)
                 'ID' => $checkRoutedRow['ID']
             ],
         ];
+        $selectReceiverData = [
+            'TABLE' => 'DOTS_ACCOUNT_INFO',
+            'COLUMNS' => [
+                "DOTS_ACCOUNT_INFO.FULL_NAME",
+                "DOTS_DOC_DEPT.DOC_DEPT"
+            ],
+            'JOIN' => [
+                [
+                    'table' => 'DOTS_DOC_DEPT',
+                    'ON' => ['DOTS_DOC_DEPT.ID = DOTS_ACCOUNT_INFO.DEPT_ID'],
+                    'TYPE'=>'LEFT',
+                ],
+            ],
+            'WHERE' => [
+                'AND' => [
+                    ['HRIS_ID' => $inputs['DATA']['R_USER_ID']],
+                    ['DEPT_ID' => $inputs['DATA']['R_DEPT_ID']],
+                ]
+            ],
+        ];
+        $selectReceiverRow = selectSingleRow($selectReceiverData);
 
         if ($checkRoutedRow['ROUTED'] == 1) {
             $selectDocumentData = [
@@ -698,9 +719,14 @@ function sendDocForm($inputs, $conn)
                     'DOC_NUM' => $checkRoutedRow['DOC_NUM'],
                     'ROUTE_NUM' => $newRoutingNumber,
                     'ACTION_ID' => 4,//Duplicate action_id
-                    'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
+                    'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
+                    'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_SEND'],
+                    'NOTE_SERVER' => 'Document already routed, Document has been duplicated',
                 ]
             ];
+            if (isset($inputs['DATA']['DOC_NOTES'])) {
+                $insertDocumentLogData['DATA']['NOTE_USER'] = $inputs['DATA']['DOC_NOTES'];
+            }
 
             $insertDocumentLogSql = $queries->insertQuery($insertDocumentLogData);
             $queryResults[] = $conn->query($insertDocumentLogSql);
@@ -720,9 +746,14 @@ function sendDocForm($inputs, $conn)
                 'DOC_NUM' => $checkRoutedRow['DOC_NUM'],
                 'ROUTE_NUM' => $newRoutingNumber,
                 'ACTION_ID' => 1,//sent action_id
-                'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
+                'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
+                'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_SEND'],
+                'NOTE_SERVER' => "Document Sent to $selectReceiverRow[DOC_DEPT]-$selectReceiverRow[FULL_NAME]",
             ]
         ];
+        if (isset($inputs['DATA']['DOC_NOTES'])) {
+            $insertInboundLogData['DATA']['NOTE_USER'] = $inputs['DATA']['DOC_NOTES'];
+        }
         $insertOutboundData['DATA']['INBOUND_ID'] = $lastInboundId;
         $insertOutboundSql = $queries->insertQuery($insertOutboundData);
         $queryResults[] = $conn->query($insertOutboundSql);
@@ -738,7 +769,7 @@ function sendDocForm($inputs, $conn)
         }
 
         if ($valid) {
-            $message = " $checkRoutedRow[DOC_NUM]-$newRoutingNumber Sent";
+            $message = " $checkRoutedRow[DOC_NUM]-$newRoutingNumber Sent to $selectReceiverRow[DOC_DEPT]-$selectReceiverRow[FULL_NAME]";
         } else {
             $message = "Failed Sending $checkRoutedRow[DOC_NUM]-$newRoutingNumber";
         }
@@ -805,8 +836,9 @@ function receiveDoc($inputs, $conn)
                     'ROUTE_NUM' => $selectDocumentRow['ROUTE_NUM'],
                     'ACTION_ID' => $selectDocumentRow['ACTION_ID'],
                     'HRIS_ID' => $_SESSION['HRIS_ID'],
-                    'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
-                    // 'DATE_TIME_ACTION'=>$selectDocumentRow['DATE_TIME_RECEIVED'],
+                    'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
+                    'NOTE_SERVER' => "Document Created/Received at the receiving station",
+                    'DATE_TIME_ACTION' => $selectDocumentRow['DATE_TIME_RECEIVED'],
                 ],
             ];
             insert($insertLogData);
@@ -923,6 +955,10 @@ function getTableMain($inputs, $conn)
         [
             "className" => "btnA",
             "label" => "A"
+        ],
+        [
+            "className" => "btnT",
+            "label" => "T"
         ]
     );
     setupTable($result, $buttons, $tableName);
@@ -1100,6 +1136,12 @@ function setupTable($result, $buttons, $tableName)
                 } else {
                     $fValue = formatDateTime($value);
                 }
+            } else if ($key == "Date of Server" && $value != null) {
+                if ($fValue == '0000-00-00 00:00:00') {
+                    $fValue = '';
+                } else {
+                    $fValue = formatDateTime($value);
+                }
             } else if ($key == "Letter Date") {
                 $fValue = formatDate($value);
             } else if ($key == "Date of Action") {
@@ -1183,7 +1225,9 @@ function receiveDocUser($inputs, $conn)
                 'ROUTE_NUM' => $inputs['DATA']["ROUTE_NUM"],
                 'ACTION_ID' => 2,//ACTION_ID RECEIVE
                 'HRIS_ID' => $_SESSION['HRIS_ID'],
-                'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
+                'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_RECEIVED'],
+                'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
+                'NOTE_SERVER'=> "Document Received by the user",
             ]
         ];
 
@@ -1330,7 +1374,9 @@ function sendDocFormUser($inputs, $conn)
                     'ACTION_ID' => 4,//ACTION_ID DUPLICATE
                     'HRIS_ID' => $_SESSION['HRIS_ID'],
                     'NOTE_USER' => $inputs['DATA']['DOC_NOTES'],
-                    'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
+                    'NOTE_SERVER' =>"Document already routed, Document has been duplicated",
+                    'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_SEND'],
+                    'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
                 ],
             ];
 
@@ -1372,19 +1418,15 @@ function sendDocFormUser($inputs, $conn)
                 'ACTION_ID' => 1,//ACTION_ID SEND
                 'HRIS_ID' => $_SESSION['HRIS_ID'],
                 'NOTE_USER' => $inputs['DATA']['DOC_NOTES'],
-                'DATE_TIME_ACTION' => date("Y-m-d\TH:i"),
+                'NOTE_SERVER' =>"Document Sent to",
+                'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_SEND'],
+                'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
             ],
         ];
 
         $insertMainLogSql = $queries->insertQuery($insertMainLogData);
         $insertMainLogResult = $conn->query($insertMainLogSql);
 
-        //insert to inbound
-
-        // $updateOutboundData['DATA']["INBOUND_ID"] = $last_id;
-
-        // $updateOutboundSql = $queries->updateQuery($updateOutboundData);
-        // $updateOutboundResult = $conn->query($updateOutboundSql);
     }
     echo json_encode(
         array(
@@ -1409,10 +1451,11 @@ function getTableTracking($inputs, $conn)
                 IF(DOTS_ACCOUNT_INFO.DEPT_ID IS NOT NULL,CONCAT(DOTS_DOC_DEPT.DOC_DEPT,'-'), ' '), 
                 IFNULL(DOTS_ACCOUNT_INFO.FULL_NAME, ' ')) as 'Location'",
 
-            'NOTES_USER as `User notes`',
-            'NOTES_SERVER as `Server Notes`',
+            'NOTE_USER as `User notes`',
+            'NOTE_SERVER as `Server Notes`',
 
             'DATE_TIME_ACTION as `Date of Action`',
+            'DATE_TIME_SERVER as `Date of Server`',
             'DOTS_DOC_ACTION.DOC_ACTION as `Action`',
         ],
         'JOIN' => [
