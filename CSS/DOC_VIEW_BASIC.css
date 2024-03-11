@@ -281,18 +281,20 @@ body:before
     border-bottom: none;
 }
 
-.for
+/* .for
 {
-    background: #444444;
+    background: #ff0c0c;
     height: 50px;
     width: 50px;
-}
+    visibility: hidden;
+} */
 
 .btn_container
 {
     background: #0071ff;
     display: flex;
     padding: 5px;
+    margin: 10px 0;
 }
 
 .db_table tr:nth-child(even)
@@ -343,7 +345,9 @@ body:before
     cursor: pointer;
     letter-spacing: 0.1rem;
     text-transform: uppercase;
-    margin: 0 3px;
+    margin: auto 3px;
+    height: 35px;
+    width: 35px;
 }
 
 .btnR:hover, .btnS:hover, .btnA:hover, .btnCR:hover, .btnCS:hover

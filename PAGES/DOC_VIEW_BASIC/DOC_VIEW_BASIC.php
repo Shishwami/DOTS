@@ -301,7 +301,7 @@
                                                         <h3>Upload Image</h3>
                                                         <p>Image size must be less than <span>10MB</span></p>
                                                     </div>
-                                                    <button class="select-image">Select Image</button>
+                                                    <button type="button" class="select-image">Select Image</button>
                                                 </div>
                                             </div>
 
@@ -346,6 +346,39 @@
 <script src="../../Modal/Vbasic.js"></script>
 <script src="../../SCRIPTS/Constants.js"></script>
 <script src="./script.js" type="module"></script>
+
+<script>
+    // Initiate zoom effect:
+
+    const selectImage = document.querySelector('.select-image');
+    const inputFile = document.querySelector('#ATTACH_FILE');
+    const imgArea = document.querySelector('.img-area');
+
+    selectImage.addEventListener('click', function () {
+        inputFile.click();
+    })
+
+    inputFile.addEventListener('change', function () {
+        const image = this.files[0]
+        if (image.size < (10 * 1024 * 1024)) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const allImg = imgArea.querySelectorAll('img');
+                allImg.forEach(item => item.remove());
+                const imgUrl = reader.result;
+                const img = document.createElement('img');
+                img.id = "upload_preview";
+                img.src = imgUrl;
+                imgArea.appendChild(img);
+                imgArea.classList.add('active');
+                imgArea.dataset.img = image.name;
+            }
+            reader.readAsDataURL(image);
+        } else {
+            alert("Image size more than 10MB");
+        }
+    })
+</script>
 
 <!-- <script>
     var form_head = document.getElementsByClassName("form_head");

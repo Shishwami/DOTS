@@ -14,13 +14,15 @@
 </head>
 <body>
 
-    <div class="container">
-        <div class="content1">
-            <button>sdfs</button>
-            <button>sdfs</button>
-            <button>sdfs</button>
-        </div>
+    <div class="btn container">
+        
         <div class="content2"></div>
+        
+            <button>sdfs</button>
+            <button>sdfs</button>
+            <button>sdfs</button>
+       
+        
     </div>
 
 </body>
