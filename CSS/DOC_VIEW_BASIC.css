@@ -272,7 +272,6 @@ body:before
     border-left: none;
     border-right: none; */
     display: flex;
-    flex-direction: column;
     border-bottom: 1px solid #000000;
 }
 
@@ -291,10 +290,9 @@ body:before
 
 .btn_container
 {
-    background: #0071ff;
     display: flex;
-    padding: 5px;
-    margin: 10px 0;
+    padding:10px;
+    margin: auto;
 }
 
 .db_table tr:nth-child(even)
@@ -307,7 +305,7 @@ body:before
     background-color: #00bd19
 }
 
-.tbl_btn button
+/* .tbl_btn button
 {
     margin-right: 1rem;
     font-size: 1rem;
@@ -332,22 +330,22 @@ body:before
     color: var(--font_dbl);
     background: var(--dbl_btn) !important;
     cursor: default;
-}
+} */
 
 .btnR, .btnS, .btnA, .btnCR, .btnCS
 {
-    /* background-image: var(--opt_btn); */
+    background: var(--tbl_opt_btn);
     padding: 0.4rem 0.5rem;
     border: none;
     border-radius: 0.5rem;
-    font-size: 18px;
+    font-size: 20px;
     color: var(--blue);
     cursor: pointer;
     letter-spacing: 0.1rem;
     text-transform: uppercase;
     margin: auto 3px;
-    height: 35px;
-    width: 35px;
+    height: 40px;
+    width: 40px;
 }
 
 .btnR:hover, .btnS:hover, .btnA:hover, .btnCR:hover, .btnCS:hover
