@@ -360,7 +360,24 @@ if (session_status() === PHP_SESSION_NONE) {
                 </div>
             </div>
 
-            dfghjg
+            <div class="modal" id="track_modal">
+                <div class="modal_content">
+                    <div class="modal_banner">
+                        <span class="track_close">&times;</span>
+                        <h1>Document Tracking</h1>
+
+                        <table id="DOC_VIEW_TRACKING">
+                            <thead>
+                                <th></th>
+                            </thead>
+                            <tbody>
+                                <tr></tr>
+                                <tr></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>

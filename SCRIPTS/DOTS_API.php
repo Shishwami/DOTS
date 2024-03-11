@@ -1180,6 +1180,7 @@ function setupTable($result, $buttons, $tableName)
 {
     $valid = false;
     $formattedResult = [];
+    if($result!="")
     foreach ($result as $row) {
         $formattedRow = [];
         foreach ($row as $key => $value) {

@@ -332,7 +332,7 @@ body:before
     cursor: default;
 } */
 
-.btnR, .btnS, .btnA, .btnCR, .btnCS
+.btnR, .btnS, .btnA, .btnCR, .btnCS, .btnT
 {
     background: var(--tbl_opt_btn);
     padding: 0.4rem 0.5rem;
@@ -348,7 +348,7 @@ body:before
     width: 40px;
 }
 
-.btnR:hover, .btnS:hover, .btnA:hover, .btnCR:hover, .btnCS:hover
+.btnR:hover, .btnS:hover, .btnA:hover, .btnCR:hover, .btnCS:hover, .btnT:hover
 {
     background: var(--tbl_opt_btn-hover);
     color: #ffffff;
