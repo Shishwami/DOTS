@@ -212,9 +212,10 @@ function setCancelReceive(id, doc_num, route_num) {
 
 function setCancelSend(id, doc_num, route_num) {
     CANCEL_S_ID.value = id;
+    CANCEL_S_NOTES.value = "";
 
     document.getElementById("s_cnl_modal").style.display = "block";
-
+    FORM_DOC_CANCEL_S.querySelector("input[type=submit]").disabled = false;
 }
 
 function setFormEvents() {
@@ -268,6 +269,7 @@ function setFormEvents() {
 
     FORM_DOC_CANCEL_R.addEventListener('submit', function (e) {
         e.preventDefault();
+        this.querySelector("input[type=submit]").disabled = true;
 
         const data = {
             REQUEST: _REQUEST.CANCEL_RECEIVE,
@@ -278,11 +280,13 @@ function setFormEvents() {
             if (response.VALID) {
                 DOC_VIEW_BASIC.focus();
                 notify('success', response.MESSAGE);
-                if(r_cnl_modal!=undefined){
+                if (r_cnl_modal != undefined) {
                     r_cnl_modal.style.display = "none";
                 }
             } else {
                 notify('error', response.MESSAGE);
+                this.querySelector("input[type=submit]").disabled = false;
+
             }
             setTable(searchBar.value.toUpperCase(), action_type);
         }, data);
@@ -290,14 +294,24 @@ function setFormEvents() {
     });
     FORM_DOC_CANCEL_S.addEventListener('submit', function (e) {
         e.preventDefault();
-
+        this.querySelector("input[type=submit]").disabled = true;
         const data = {
             REQUEST: _REQUEST.CANCEL_SEND,
             DATA: JsFunctions.FormToJson(this),
         }
 
         MyAjax.createJSON((error, response) => {
-            console.log(response);
+            if (response.VALID) {
+                DOC_VIEW_BASIC.focus();
+                notify('success', response.MESSAGE);
+                if (s_cnl_modal != undefined) {
+                    s_cnl_modal.style.display = "none";
+                }
+            } else {
+                notify('error', response.MESSAGE);
+                this.querySelector("input[type=submit]").disabled = false;
+
+            }
             setTable(searchBar.value.toUpperCase(), action_type);
         }, data);
 
