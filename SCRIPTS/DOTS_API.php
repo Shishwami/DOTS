@@ -424,6 +424,22 @@ function cancelReceive($inputs, $conn)
 
             $updateReceiveSql = $queries->updateQuery($updateReceiveData);
             $updateReceiveResult = $conn->query($updateReceiveSql);
+
+            //add to logs
+            $insertRCancelToLogsData = [
+                'TABLE' => 'DOTS_TRACKING',
+                'DATA' => [
+                    'DOC_NUM' => $selectReceiveRow["DOC_NUM"],
+                    'ROUTE_NUM' => $selectReceiveRow["ROUTE_NUM"],
+                    'ACTION_ID' => 5,//ACTION_ID RECEIVE
+                    'HRIS_ID' => $_SESSION['HRIS_ID'],
+                    // 'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_RECEIVED'],
+                    'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
+                    'NOTE_USER' => $inputs['DATA']['CANCEL_R_NOTES'],
+                    'NOTE_SERVER' => "Receiving canceled by user",
+                ]
+            ];
+            $insertRCancelToLogsResult = insert($insertRCancelToLogsData);
         }
     }
 
@@ -515,7 +531,22 @@ function cancelSend($inputs, $conn)
             $updateReceiveSql = $queries->updateQuery($updateReceiveData);
             $updateReceiveResult = $conn->query($updateReceiveSql);
 
-            //TODO add to logs
+            // add to logs
+
+            $insertSCancelToLogsData = [
+                'TABLE' => 'DOTS_TRACKING',
+                'DATA' => [
+                    'DOC_NUM' => $selectReceiveRow["DOC_NUM"],
+                    'ROUTE_NUM' => $selectReceiveRow["ROUTE_NUM"],
+                    'ACTION_ID' => 5,//ACTION_ID RECEIVE
+                    'HRIS_ID' => $_SESSION['HRIS_ID'],
+                    // 'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_RECEIVED'],
+                    'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
+                    'NOTE_USER' => $inputs['DATA']['CANCEL_S_NOTES'],
+                    'NOTE_SERVER' => "Sending Document canceled by sender",
+                ]
+            ];
+            $insertSCancelToLogsResult = insert($insertSCancelToLogsData);
         }
     }
     echo json_encode(
@@ -673,7 +704,7 @@ function sendDocForm($inputs, $conn)
                 [
                     'table' => 'DOTS_DOC_DEPT',
                     'ON' => ['DOTS_DOC_DEPT.ID = DOTS_ACCOUNT_INFO.DEPT_ID'],
-                    'TYPE'=>'LEFT',
+                    'TYPE' => 'LEFT',
                 ],
             ],
             'WHERE' => [
@@ -1227,7 +1258,7 @@ function receiveDocUser($inputs, $conn)
                 'HRIS_ID' => $_SESSION['HRIS_ID'],
                 'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_RECEIVED'],
                 'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
-                'NOTE_SERVER'=> "Document Received by the user",
+                'NOTE_SERVER' => "Document Received by the user",
             ]
         ];
 
@@ -1281,6 +1312,7 @@ function sendDocFormUser($inputs, $conn)
     } else {
         $valid = true;
         $message = "Document Sent";
+
         //update outbound 
         $updateOutboundData = [
             'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
@@ -1329,6 +1361,28 @@ function sendDocFormUser($inputs, $conn)
         $selectOutboundResult = $conn->query($selectOutboundSql);
         $selectOutboundRow = $selectOutboundResult->fetch_assoc();
 
+        $selectReceiverData = [
+            'TABLE' => 'DOTS_ACCOUNT_INFO',
+            'COLUMNS' => [
+                "DOTS_ACCOUNT_INFO.FULL_NAME",
+                "DOTS_DOC_DEPT.DOC_DEPT"
+            ],
+            'JOIN' => [
+                [
+                    'table' => 'DOTS_DOC_DEPT',
+                    'ON' => ['DOTS_DOC_DEPT.ID = DOTS_ACCOUNT_INFO.DEPT_ID'],
+                    'TYPE' => 'LEFT',
+                ],
+            ],
+            'WHERE' => [
+                'AND' => [
+                    ['HRIS_ID' => $inputs['DATA']['R_USER_ID']],
+                    ['DEPT_ID' => $inputs['DATA']['R_DEPT_ID']],
+                ]
+            ],
+        ];
+        $selectReceiverRow = selectSingleRow($selectReceiverData);
+
         if ($selectOutboundRow['ROUTED'] == 1) {
             //if routed duplicate in docmain & outbound
             $selectMainData = [
@@ -1374,7 +1428,7 @@ function sendDocFormUser($inputs, $conn)
                     'ACTION_ID' => 4,//ACTION_ID DUPLICATE
                     'HRIS_ID' => $_SESSION['HRIS_ID'],
                     'NOTE_USER' => $inputs['DATA']['DOC_NOTES'],
-                    'NOTE_SERVER' =>"Document already routed, Document has been duplicated",
+                    'NOTE_SERVER' => "Document already routed, Document has been duplicated",
                     'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_SEND'],
                     'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
                 ],
@@ -1418,7 +1472,7 @@ function sendDocFormUser($inputs, $conn)
                 'ACTION_ID' => 1,//ACTION_ID SEND
                 'HRIS_ID' => $_SESSION['HRIS_ID'],
                 'NOTE_USER' => $inputs['DATA']['DOC_NOTES'],
-                'NOTE_SERVER' =>"Document Sent to",
+                'NOTE_SERVER' => "Document Sent to $selectReceiverRow[DOC_DEPT]-$selectReceiverRow[FULL_NAME]",
                 'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_SEND'],
                 'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
             ],
@@ -1513,7 +1567,7 @@ function formatDateTime($dateString)
     $minutes = $date->format('i');
     $ampm = $hours >= 12 ? 'pm' : 'am';
     $strTime = $hours . ':' . $minutes . ' ' . $ampm;
-    return $date->format('n/j/Y') . "  " . $strTime;
+    return $date->format('D, m/j/Y') . "  " . $strTime;
 }
 
 function formatDate($dateString)
