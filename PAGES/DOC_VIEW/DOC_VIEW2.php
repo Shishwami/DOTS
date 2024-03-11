@@ -31,9 +31,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 <div class="header">
                     <input type="text" class="search" name="searchBar" id="searchBar" placeholder="Search Document">
                     <div class="opt">
-                        <?php if ($_SESSION['DOTS_PRIV'] >= 3): ?>
-                            <button class="opt_btn crt" name="BTN_DOC_CREATE" id="BTN_DOC_CREATE">Create</button>
-                        <?php endif; ?>
+                        <button class="opt_btn crt" name="BTN_DOC_CREATE" id="BTN_DOC_CREATE">Create</button>
                     </div>
                 </div>
 
