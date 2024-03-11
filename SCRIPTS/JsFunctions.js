@@ -57,11 +57,16 @@ class JsFunctions {
                         button.classList.add('fa-solid', 'fa-pen-to-square');
                         button.title = "Edit";
                     }
-                    if (btn.className == "btnCR"||btn.className == "btnCS") {
+                    if (btn.className == "btnCR" || btn.className == "btnCS") {
                         button.classList.add('fa-solid', 'fa-ban');
                         button.title = "Cancel";
                     }
-            
+                    if (btn.className == "btnT") {
+                        button.classList.add('fa-solid', 'fa-pen-to-square');
+                        button.title = "Edit";
+                    }
+
+
 
                     // button.className = btn.className;
                     // button.id = `button-${item.ID}-${item.DOC_NUM}-${item.ROUTE_NUM}`;
@@ -85,9 +90,9 @@ class JsFunctions {
                         button.disabled = true;
                         button.style.visibility = 'hidden';
                     }
-                    
+
                     div.appendChild(button);
-                    
+
                 });
                 div.appendChild(div2);
 
@@ -112,7 +117,7 @@ class JsFunctions {
             if (found == 0) {
                 row.style.display = "none";
             }
-            
+
             tbody.appendChild(row);
         });
 
@@ -167,7 +172,7 @@ class JsFunctions {
                 inspect_img.src = url2;
                 console.log(inspect_img);
                 console.log(preview);
-                
+
 
             });
 
