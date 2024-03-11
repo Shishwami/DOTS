@@ -67,6 +67,20 @@ RADIO_RECEIVE.addEventListener('change', function () {
     setACTION_TYPE(this);
 
 });
+
+if (BTN_ATTACH_INS) {
+    BTN_ATTACH_INS.addEventListener("click", function () {
+        var elements = document.getElementsByClassName('img-zoom-lens');
+        var elementsArray = Array.from(elements);
+
+        elementsArray.forEach(function (element) {
+            element.parentNode.removeChild(element);
+        });
+
+        imageZoom("myimage", "myresult");
+    });
+}
+
 function setACTION_TYPE(element) {
     action_type = element.value;
     setTable(searchBar.value.toUpperCase(), action_type);
