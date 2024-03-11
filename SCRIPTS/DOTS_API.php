@@ -20,7 +20,6 @@ try {
 
     date_default_timezone_set("Asia/Manila");
 
-
     switch ($REQUEST) {
         case 'USER_LOGIN':
             userLogin($inputs, $conn);
@@ -155,20 +154,6 @@ function userLogin($inputs, $conn)
         foreach ($row as $key => $value) {
             $_SESSION[$key] = $value;
         }
-
-        // if($_SESSION['DOTS_PRIV'] == 0){
-        //     //
-        // }
-
-        // if($_SESSION['DOTS_PRIV'] == 1){
-        //     //
-        // }
-
-        // if($_SESSION['DOTS_PRIV'] == 2){
-        //     //
-        // }
-
-
 
     } else {
         $response['MESSAGE'] = 'Invalid Username or Password';
@@ -323,31 +308,55 @@ function editDocument($inputs, $conn)
     $validated = validateInputs($requiredInputs, $inputs);
 
     if (!$validated) {
-        $message = "Please Fill up required Fields";
-    } else if ($inputs['DATA']['DOC_SUBJECT'] == "") {
-        $message = "Please Fill up required Fields";
-    } else {
-        $valid = true;
-        $docId = $inputs['DATA']['ID'];
-        unset($inputs['DATA']['ID']);
-
-        $updateDocData = [
-            'TABLE' => 'DOTS_DOCUMENT',
-            'DATA' => $inputs['DATA'],
-            'WHERE' => [
-                'ID' => $docId
-            ]
-        ];
-
-        $updateDocSql = $queries->updateQuery($updateDocData);
-        $updateDocResult = $conn->query($updateDocSql);
-
-        $message = "Document Updated";
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'MESSAGE' => "Please Fill up required Fields",
+            )
+        );
+        exit;
     }
+    if ($inputs['DATA']['DOC_SUBJECT'] == "") {
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'MESSAGE' => "Please Fill up required Fields",
+            )
+        );
+        exit;
+    }
+    if ($_SESSION['DOTS_PRIV'] < 3) {
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'MESSAGE' => "Not enough privilege to perform this action",
+            )
+        );
+        exit;
+    }
+    
+    $valid = true;
+    $docId = $inputs['DATA']['ID'];
+    unset($inputs['DATA']['ID']);
+
+    $updateDocData = [
+        'TABLE' => 'DOTS_DOCUMENT',
+        'DATA' => $inputs['DATA'],
+        'WHERE' => [
+            'ID' => $docId
+        ]
+    ];
+
+    $updateDocSql = $queries->updateQuery($updateDocData);
+    $updateDocResult = $conn->query($updateDocSql);
+
+    $message = "Document Updated";
+
+    //TODO add log to edit
 
     echo json_encode(
         array(
-            'VALID' => $valid,
+            'VALID' => $updateDocResult,
             'MESSAGE' => $message
         )
     );
@@ -995,7 +1004,7 @@ function getTableMain($inputs, $conn)
 
     if ($_SESSION['DOTS_PRIV'] == 0) {
         $buttons = [];
-    } else if ($_SESSION['DOTS_PRIV'] == 1||$_SESSION['DOTS_PRIV'] == 2) {
+    } else if ($_SESSION['DOTS_PRIV'] == 1 || $_SESSION['DOTS_PRIV'] == 2) {
         $buttons = [
             [
                 "className" => "btnT",
