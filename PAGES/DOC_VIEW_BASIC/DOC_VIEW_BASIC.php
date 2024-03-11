@@ -340,13 +340,14 @@
                         <div class="modal_banner">
                             <span class="track_close">&times;</span>
                             <h1>Document Tracking</h1>
+                        </div>
 
-                            <table id="DOC_VIEW_TRACKING">
+                        <div class="form">
+                            <table class="track" id="DOC_VIEW_TRACKING">
                                 <thead>
                                     <th></th>
                                 </thead>
                                 <tbody>
-                                    <tr></tr>
                                     <tr></tr>
                                 </tbody>
                             </table>

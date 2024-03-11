@@ -45,8 +45,8 @@
 /* Modal Form Styles */
 .form
 {
-     /* background-image: var(--form_bg);
-    border: 1px solid var(--border_black); */
+     /* background-image: var(--form_bg); */
+    /* border: 1px solid var(--border_black); */
     margin: auto;
     border-radius: 0.5rem;
     width: 90%;

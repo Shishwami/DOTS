@@ -22,6 +22,7 @@ var snd_span = document.getElementsByClassName("snd_close")[0];
 var atc_span = document.getElementsByClassName("atc_close")[0];
 var ins_sub_span = document.getElementsByClassName("ins_sub_close")[0];
 var atc_sub_span = document.getElementsByClassName("atc_sub_close")[0];
+const track_span = document.getElementsByClassName("track_close")[0];
 
 // // Open Modal Function
 if (crt_btn) {
@@ -56,6 +57,12 @@ if (atc_sub_btn) {
   atc_sub_btn.onclick = function()
   {
   atc_submodal.style.display = "block";
+  }
+}
+
+if (track_span) {
+  track_span.onclick = function () {
+    track_modal.style.display = "none";
   }
 }
 
@@ -133,6 +140,10 @@ window.onclick = function(event)
   if (event.target == atc_submodal)
   {
     atc_submodal.style.display = "none";
+  }
+
+  if (event.target == track_modal) {
+    track_modal.style.display = "none";
   }
 }
 
