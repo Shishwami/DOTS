@@ -46,6 +46,8 @@ const ATTACH_FILE = document.getElementById("ATTACH_FILE");
 const ATTACH_RESULTS = document.getElementById("ATTACH_RESULTS");
 const ATTACH_ZOOM = document.getElementById("ATTACH_ZOOM");
 
+const track_modal = document.getElementById("track_modal");
+
 setSession();
 setFormEvents();
 
@@ -238,8 +240,27 @@ function setCancelSend(id, doc_num, route_num) {
     FORM_DOC_CANCEL_S.querySelector("input[type=submit]").disabled = false;
 }
 function setTrackingTable(id, doc_num, route_num) {
+    const data = {
+        REQUEST: _REQUEST.GET_TABLE_TRACKING,
+        DATA:{
+            DOC_NUM: doc_num,
+            ROUTE_NUM: route_num
+        }
+    };
+
+    MyAjax.createJSON((error, response) => {
+        track_modal.style.display = "block";
+
+        if (response.VALID) {
+        } else {
+
+        }
+        JsFunctions.updateTable(DOC_VIEW_TRACKING,response.RESULT,null,searchBar.value.toUpperCase());
+        setTable(searchBar.value.toUpperCase(), action_type);
+    }, data);
 
 }
+
 function setFormEvents() {
     FORM_DOC_RECEIVE.addEventListener('submit', function (e) {
         e.preventDefault();
