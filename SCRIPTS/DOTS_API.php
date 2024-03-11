@@ -992,13 +992,24 @@ function getTableMain($inputs, $conn)
             "label" => "T"
         ]
     );
+
+    if ($_SESSION['DOTS_PRIV'] == 0) {
+        $buttons = [];
+    } else if ($_SESSION['DOTS_PRIV'] == 1||$_SESSION['DOTS_PRIV'] == 2) {
+        $buttons = [
+            [
+                "className" => "btnT",
+                "label" => "T"
+            ]
+        ];
+    }
     setupTable($result, $buttons, $tableName);
 }
 
 function getTableUser($inputs, $conn, $tableName)
 {
     $queries = new Queries();
-
+    $dots_priv = $_SESSION['DOTS_PRIV'];
     $buttons = [];
 
     $WHERE = [];
@@ -1012,22 +1023,20 @@ function getTableUser($inputs, $conn, $tableName)
                 array("$tableName.R_USER_ID" => '0'),
             ),
         ];
-        if ($_SESSION['']) {
-            $buttons = array(
-                [
-                    "className" => "btnR",
-                    "label" => "R"
-                ],
-                [
-                    "className" => "btnCR",
-                    "label" => "C"
-                ],
-                [
-                    "className" => "btnA",
-                    "label" => "A"
-                ],
-            );
-        }
+        $buttons = array(
+            [
+                "className" => "btnR",
+                "label" => "R"
+            ],
+            [
+                "className" => "btnCR",
+                "label" => "C"
+            ],
+            [
+                "className" => "btnA",
+                "label" => "A"
+            ],
+        );
     }
     if ($tableName == "DOTS_DOCUMENT_OUTBOUND") {
         $WHERE[] = [
@@ -1054,6 +1063,9 @@ function getTableUser($inputs, $conn, $tableName)
             ]
         );
     }
+
+
+
 
     $data = array(
         'TABLE' => "$tableName",
@@ -1138,10 +1150,21 @@ function getTableUser($inputs, $conn, $tableName)
     while ($row = mysqli_fetch_assoc($result)) {
         $resultAsArray[] = $row;
     }
-
-    $buttons[] = [
-        'className' => 'btnT'
-    ];
+    // var_dump($_SESSION);
+    if ($_SESSION['DOTS_PRIV'] == 0) {
+        $buttons = [];
+    } else if ($_SESSION['DOTS_PRIV'] == 1) {
+        $buttons = [];
+        $buttons[] = [
+            'className' => 'btnT',
+            'label' => 'T'
+        ];
+    } else {
+        $buttons[] = [
+            'className' => 'btnT',
+            'label' => 'T'
+        ];
+    }
     setupTable($resultAsArray, $buttons, $tableName);
 }
 function setupTable($result, $buttons, $tableName)
