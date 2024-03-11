@@ -140,11 +140,6 @@ function setButtons(table) {
             setAttachBtn(this.dataset.i, this.dataset.d, this.dataset.r);
         });
     });
-    table.querySelectorAll('.btnE').forEach(function (button) {
-        button.addEventListener('mousedown', function () {
-            setEditBtn(this.dataset.i, this.dataset.d, this.dataset.r);
-        });
-    });
     table.querySelectorAll('.btnCR').forEach(function (button) {
         button.addEventListener('mousedown', function () {
             setCancelReceive(this.dataset.i, this.dataset.d, this.dataset.r);
@@ -468,6 +463,7 @@ function getSessionDeptId() {
 // }
 
 function setAttachBtn(id, doc_num, route_num) {
+    //set hidden inputs 
     ATTACH_DOC_NUM.value = doc_num;
     ATTACH_ROUTE_NUM.value = route_num;
 
@@ -475,14 +471,10 @@ function setAttachBtn(id, doc_num, route_num) {
     setTableAttachment();
 
     //open attachment modal
-
     document.getElementById("atc_modal").style.display = "block";
 
 }
 
-function setEditBtn(id, doc_num, route_num) {
-
-}
 function setTableAttachment() {
     const data = {
         REQUEST: _REQUEST.GET_TABLE_ATTACHMENT,
