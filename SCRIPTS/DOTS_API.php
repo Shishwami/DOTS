@@ -999,12 +999,7 @@ function getTableUser($inputs, $conn, $tableName)
 {
     $queries = new Queries();
 
-    $buttons = array(
-        [
-            "className" => "btnS",
-            "label" => "S"
-        ]
-    );
+    $buttons = [];
 
     $WHERE = [];
     if ($tableName == "DOTS_DOCUMENT_INBOUND") {
@@ -1017,20 +1012,22 @@ function getTableUser($inputs, $conn, $tableName)
                 array("$tableName.R_USER_ID" => '0'),
             ),
         ];
-        $buttons = array(
-            [
-                "className" => "btnR",
-                "label" => "R"
-            ],
-            [
-                "className" => "btnCR",
-                "label" => "C"
-            ],
-            [
-                "className" => "btnA",
-                "label" => "A"
-            ],
-        );
+        if ($_SESSION['']) {
+            $buttons = array(
+                [
+                    "className" => "btnR",
+                    "label" => "R"
+                ],
+                [
+                    "className" => "btnCR",
+                    "label" => "C"
+                ],
+                [
+                    "className" => "btnA",
+                    "label" => "A"
+                ],
+            );
+        }
     }
     if ($tableName == "DOTS_DOCUMENT_OUTBOUND") {
         $WHERE[] = [
@@ -1142,8 +1139,8 @@ function getTableUser($inputs, $conn, $tableName)
         $resultAsArray[] = $row;
     }
 
-    $buttons[] =[
-        'className'=>'btnT'
+    $buttons[] = [
+        'className' => 'btnT'
     ];
     setupTable($resultAsArray, $buttons, $tableName);
 }
@@ -1182,8 +1179,6 @@ function setupTable($result, $buttons, $tableName)
             }
 
             $valid = true;
-
-
             $formattedRow[$key] = $fValue;
         }
         $formattedResult[] = $formattedRow;
@@ -1531,15 +1526,15 @@ function getTableTracking($inputs, $conn)
                 'TYPE' => 'LEFT'
             ]
         ],
-        "WHERE"=>[
-            'AND'=>[
+        "WHERE" => [
+            'AND' => [
                 ["DOC_NUM" => $inputs['DATA']['DOC_NUM']],
                 ["ROUTE_NUM" => $inputs['DATA']['ROUTE_NUM']],
             ]
         ],
         'SORT_BY' => 'DOC_NUM DESC'
     ];
-    
+
     $selectTableSql = $queries->selectQuery($selectTableData);
     $selectTableResult = $conn->query($selectTableSql);
     setupTable($selectTableResult, null, 'DOTS_TRACKING');
