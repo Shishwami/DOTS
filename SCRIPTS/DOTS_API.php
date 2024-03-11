@@ -386,10 +386,10 @@ function cancelReceive($inputs, $conn)
         ];
 
         $selectInboundRow = selectSingleRow($selectInboundData);
-
+        // var_dump($selectInboundRow);
         if ($selectInboundRow['ROUTED'] == 1) {
             //cannot canncel cause routed
-            $meassage = "Document already sent; cancellation not possible";
+            $message = "Document already sent; cancellation not possible";
         } else {
             //update to canceled the doc in outbound
             $valid = true;
@@ -447,8 +447,6 @@ function cancelSend($inputs, $conn)
     if ($inputs['DATA']['CANCEL_S_NOTES'] == "") {
         $message = "Please Fill up Notes";
     } else {
-        $valid = true;
-        $message = "Sending has been canceled.";
         //get outboundid for deletion
         $selectReceiveData = [
             'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
@@ -474,11 +472,15 @@ function cancelSend($inputs, $conn)
         $selectOutboundSql = $queries->selectQuery($selectOutboundData);
         $selectOutboundResult = $conn->query($selectOutboundSql);
         $selectOutboundRow = $selectOutboundResult->fetch_assoc();
-
+        // echo $selectOutboundSql;
+        // var_dump($selectOutboundRow);
         if ($selectOutboundRow['ACTION_ID'] == 2) {
             //routed and sent and cannot be canceled 
-            echo 'CAACNAOACASDASD CAUSE ';
+            $message = "Sending cannot be canceled, Document Already Received by the other User";
+
         } else if ($selectOutboundRow['ACTION_ID'] == 1) {
+            $valid = true;
+            $message = "Sending has been canceled.";
             //update the doc in inbound to be canceled
             //update to canceled the doc in outbound
 
@@ -518,8 +520,8 @@ function cancelSend($inputs, $conn)
     }
     echo json_encode(
         array(
-            'VALID'=>$valid,
-            'MESSAGE'=>$message
+            'VALID' => $valid,
+            'MESSAGE' => $message
         )
     );
 }
@@ -1212,6 +1214,7 @@ function sendDocFormUser($inputs, $conn)
     $queries = new Queries();
     $newRouteNumber = 0;
     $insertOutboundData = [];
+    $message = "";
     //update outbound 
     $updateOutboundData = [
         'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
@@ -1259,7 +1262,6 @@ function sendDocFormUser($inputs, $conn)
     $selectOutboundSql = $queries->selectQuery($selectOutboundData);
     $selectOutboundResult = $conn->query($selectOutboundSql);
     $selectOutboundRow = $selectOutboundResult->fetch_assoc();
-
 
     if ($selectOutboundRow['ROUTED'] == 1) {
         //if routed duplicate in docmain & outbound
@@ -1327,6 +1329,14 @@ function sendDocFormUser($inputs, $conn)
         $insertOutboundResult = $conn->query($insertOutboundSql);
 
     } else if ($selectOutboundRow['ROUTED'] == 0) {
+
+
+        $insertInboundSql = $queries->insertQuery($insertInboundData);
+        $insertInboundResult = $conn->query($insertInboundSql);
+
+        $last_id = $conn->insert_id;
+
+        $updateOutboundData['DATA']['INBOUND_ID'] = $last_id;
         $updateOutboundSql = $queries->updateQuery($updateOutboundData);
         $updateOutboundResult = $conn->query($updateOutboundSql);
     }
