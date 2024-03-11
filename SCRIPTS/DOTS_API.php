@@ -1142,7 +1142,9 @@ function getTableUser($inputs, $conn, $tableName)
         $resultAsArray[] = $row;
     }
 
-
+    $buttons[] =[
+        'className'=>'btnT'
+    ];
     setupTable($resultAsArray, $buttons, $tableName);
 }
 function setupTable($result, $buttons, $tableName)
