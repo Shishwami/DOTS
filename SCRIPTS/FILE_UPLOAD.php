@@ -12,6 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['ATTACH_FILE'])) {
 
     $doc_num = $_POST['DOC_NUM'];
     $route_num = $_POST['ROUTE_NUM'];
+    $desc = $_POST['DESCRIPTION'];
+
     
     $targetDir = "$uploadDirectory/$doc_num/$route_num/";
     // Create the target directory if it doesn't exist
