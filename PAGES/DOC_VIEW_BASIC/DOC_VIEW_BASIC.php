@@ -346,6 +346,7 @@
 <script src="../../Modal/Vbasic.js"></script>
 <script src="../../SCRIPTS/Constants.js"></script>
 <script src="./script.js" type="module"></script>
+<script src="inspect.js"></script>
 
 <script>
     // Initiate zoom effect:
