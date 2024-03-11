@@ -1,3 +1,9 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,7 +31,9 @@
                 <div class="header">
                     <input type="text" class="search" name="searchBar" id="searchBar" placeholder="Search Document">
                     <div class="opt">
-                        <button class="opt_btn crt" name="BTN_DOC_CREATE" id="BTN_DOC_CREATE">Create</button>
+                        <?php if ($_SESSION['DOTS_PRIV'] >= 3): ?>
+                            <button class="opt_btn crt" name="BTN_DOC_CREATE" id="BTN_DOC_CREATE">Create</button>
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -340,8 +348,8 @@
                                         <div class="submit">
                                             <input type="submit" value="Submit">
                                         </div>
-                                        <input type="text" name="DOC_NUM" id="ATTACH_DOC_NUM"  readonly>
-                                        <input type="text" name="ROUTE_NUM" id="ATTACH_ROUTE_NUM"  readonly>
+                                        <input type="text" name="DOC_NUM" id="ATTACH_DOC_NUM" readonly>
+                                        <input type="text" name="ROUTE_NUM" id="ATTACH_ROUTE_NUM" readonly>
                                     </form>
                                 </div>
                             </div>
