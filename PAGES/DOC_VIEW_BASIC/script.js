@@ -153,6 +153,11 @@ function setButtons(table) {
             setCancelSend(this.dataset.i, this.dataset.d, this.dataset.r);
         });
     });
+    table.querySelectorAll('.btnT').forEach(function (button) {
+        button.addEventListener('mousedown', function () {
+            setTrackingTable(this.dataset.i, this.dataset.d, this.dataset.r);
+        });
+    });
 }
 
 function setReceiveBtn(id, doc_num, route_num) {
@@ -232,7 +237,9 @@ function setCancelSend(id, doc_num, route_num) {
     document.getElementById("s_cnl_modal").style.display = "block";
     FORM_DOC_CANCEL_S.querySelector("input[type=submit]").disabled = false;
 }
+function setTrackingTable(id, doc_num, route_num) {
 
+}
 function setFormEvents() {
     FORM_DOC_RECEIVE.addEventListener('submit', function (e) {
         e.preventDefault();
