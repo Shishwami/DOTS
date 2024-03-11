@@ -237,7 +237,7 @@ body:before
     background: var(--opt_btn-hover); 
 }
 
-.btnS, .btnA, .btnE
+.btnS, .btnA, .btnE, .btnT
 {
     background: var(--tbl_opt_btn);
     padding: 0.4rem 0.5rem;
@@ -253,7 +253,7 @@ body:before
     width: 40px;
 }
 
-.btnS:hover, .btnA:hover, .btnE:hover
+.btnS:hover, .btnA:hover, .btnE:hover, .btnT:hover
 {
     background: var(--tbl_opt_btn-hover);
     color: #ffffff;

@@ -62,8 +62,8 @@ class JsFunctions {
                         button.title = "Cancel";
                     }
                     if (btn.className == "btnT") {
-                        button.classList.add('fa-solid', 'fa-pen-to-square');
-                        button.title = "Edit";
+                        button.classList.add('fa-solid', 'fa-location-pin');
+                        button.title = "Tracking";
                     }
 
 
