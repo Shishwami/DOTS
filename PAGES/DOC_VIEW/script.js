@@ -104,7 +104,7 @@ function InitializePAGE() {
         BTN_ATTACH_INS.addEventListener("click", function () {
             var elements = document.getElementsByClassName('img-zoom-lens');
             var elementsArray = Array.from(elements);
-
+            
             elementsArray.forEach(function (element) {
                 element.parentNode.removeChild(element);
             });
