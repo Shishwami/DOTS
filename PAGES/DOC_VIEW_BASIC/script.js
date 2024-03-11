@@ -206,6 +206,7 @@ function setSendBtn(id, doc_num, route_num) {
 function setCancelReceive(id, doc_num, route_num) {
     CANCEL_R_ID.value = id;
     CANCEL_R_NOTES.value = "";
+    FORM_DOC_CANCEL_R.querySelector('input[type=submit]').disabled = false;
     document.getElementById("r_cnl_modal").style.display = "block";
 
 }
