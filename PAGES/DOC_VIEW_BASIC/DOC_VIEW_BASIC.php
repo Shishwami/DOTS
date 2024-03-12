@@ -343,7 +343,8 @@
                         </div>
 
                         <div class="form">
-                            <table class="track" id="DOC_VIEW_TRACKING">
+                            <div class="track">
+                            <table  class="track_table" id="DOC_VIEW_TRACKING">
                                 <thead>
                                     <th></th>
                                 </thead>
@@ -351,6 +352,7 @@
                                     <tr></tr>
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 
 /* Regulation */
 *
@@ -249,20 +251,26 @@ body:before
 
 .db_table th
 {
+    font-size: 15px;
+    font-weight: 600;
+    font-family: "Montserrat", sans-serif !important;
     border: 1px solid #000000;
     padding: 5px;
+    background: rgba(0, 162, 255, 0.7);
+    color: #ffffff; 
 }
 
 .db_table td
 {
+    font-family: "Montserrat", sans-serif !important;
     border: 1px solid #000000;
     padding: 5px;
-    width: 200px;
     margin: 0;
 }
 
 .db_table tr
 {
+    font-family: "Montserrat", sans-serif !important;
     background-color: var(--tr_light);
 }
 
@@ -853,10 +861,61 @@ body:before
 #track_modal .track
 {
     margin-top: -2rem;
-    background: #00bd19;
-    max-height: 50px;
+    max-height: 450px;
+    overflow: auto;
 }
 
+#track_modal .modal_content
+{
+    width: 95%;
+}
+
+#track_modal .form
+{
+    width: 95%;
+    padding: 1rem 0;
+}
+
+#track_modal .track_table
+{
+    border-collapse: collapse;
+}
+
+#track_modal .track_table th
+{
+    font-size: 15px;
+    font-weight: 600;
+    font-family: "Montserrat", sans-serif !important;
+    border: 1px solid #000000;
+    padding: 5px;
+    background: rgba(0, 162, 255, 0.7);
+    color: #ffffff;
+}
+
+#track_modal .track_table td
+{
+    font-family: "Montserrat", sans-serif !important;
+    border: 1px solid #000000;
+    padding: 5px;
+    margin: 0;
+}
+
+#track_modal .track_table tr
+{
+    font-family: "Montserrat", sans-serif !important;
+    background-color: var(--tr_light);
+}
+
+#track_modal .track_table tr:nth-child(even)
+{
+    background-color: var(--tr_dark);
+}
+
+
+#track_modal .track_table tr td:first-child
+{
+
+}
 
 
 /* CSS Responsiveness */
