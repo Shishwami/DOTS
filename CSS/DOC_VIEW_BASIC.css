@@ -863,6 +863,7 @@ body:before
     margin-top: -2rem;
     max-height: 450px;
     overflow: auto;
+    padding: 15px 0;
 }
 
 #track_modal .modal_content
@@ -880,6 +881,7 @@ body:before
 {
     border-collapse: collapse;
     font-size: 13px;
+    margin: 0 auto;
 }
 
 #track_modal .track_table th
@@ -914,9 +916,9 @@ body:before
 }
 
 
-#track_modal .track_table tr td:first-child
+#track_modal .track_table tbody tr:hover
 {
-
+    background-color: #00bd19
 }
 
 
