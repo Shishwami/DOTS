@@ -830,7 +830,7 @@ function sendDocForm($inputs, $conn)
         ];
 
         $insertDocumentSql = $queries->insertQuery($insertDocumentData);
-        $insertDocumentResult = $conn->queryinsertDocumentSql;
+        $insertDocumentResult = $conn->query($insertDocumentSql);
         $results[] = !is_null($insertDocumentResult);
 
         $insertDocumentLogData = [
