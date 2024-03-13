@@ -293,13 +293,13 @@ function editDocument($inputs, $conn)
     $valid = false;
     $results = [];
     $requiredInputs = [
-        "ACTION_ID",
-        "DATE_TIME_RECEIVED",
-        "DOC_SUBJECT",
-        "DOC_TYPE_ID",
-        "ID",
-        "LETTER_DATE",
-        "S_OFFICE_ID",
+        "ACTION_ID" => "Action",
+        "DATE_TIME_RECEIVED" => 'Date Received',
+        "DOC_SUBJECT" => 'Subject',
+        "DOC_TYPE_ID" => 'Document Type',
+        "ID" => "ID",
+        "LETTER_DATE" => 'Letter Date',
+        "S_OFFICE_ID" => "Office",
     ];
 
     if (!validateInputs($requiredInputs, $inputs)) {
@@ -333,8 +333,52 @@ function editDocument($inputs, $conn)
     ];
     $selectDocResult = selectSingleRow($selectDocData);
 
-    var_dump($selectDocResult);
-    var_dump($inputs['DATA']);
+    $selectDeptData = [
+        'TABLE' => 'DOTS_DOC_DEPT',
+    ];
+    $selectDeptSql = $queries->selectQuery($selectDeptData);
+    $selectDeptResult = $conn->query($selectDeptSql);
+    $selectDeptRows = resultsToArray($selectDeptResult);
+
+    $selectDocTypeData = [
+        'TABLE' => 'DOTS_DOC_TYPE',
+    ];
+    $selectDocTypeSql = $queries->selectQuery($selectDocTypeData);
+    $selectDocTypeResult = $conn->query($selectDocTypeSql);
+    $selectDocTypeRows = resultsToArray($selectDocTypeResult);
+
+    $notEqualKeys = [];
+    foreach ($requiredInputs as $key => $val) {
+        $newInputs = $inputs['DATA'][$key];
+        $oldInputs = $selectDocResult[$key];
+        if ($key == "DATE_TIME_RECEIVED") {
+            $timestamp = strtotime($newInputs);
+            $newInputs = date("Y-m-d H:i:s", $timestamp);
+        }
+        if ($key == "DOC_TYPE_ID") {
+            $newInputs = getValueFromId($newInputs, $selectDocTypeRows, "DOC_TYPE");
+            $oldInputs = getValueFromId($oldInputs, $selectDocTypeRows, "DOC_TYPE");
+        }
+        if ($key == "S_OFFICE_ID") {
+            $newInputs = getValueFromId($newInputs, $selectDeptRows, "DOC_DEPT");
+            $oldInputs = getValueFromId($oldInputs, $selectDeptRows, "DOC_DEPT");
+        }
+        if ($key == "ACTION_ID") {
+            $inputMapping = [
+                2 => "CREATE",
+                3 => "RECEIVED",
+            ];
+
+            $oldInputs = $inputMapping[$oldInputs] ?? $oldInputs;
+
+            $newInputs = $inputMapping[$newInputs] ?? $newInputs;
+
+        }
+        if ($newInputs !== $oldInputs) {
+            $notEqualKeys[] = "$val($oldInputs = $newInputs)";
+        }
+    }
+    $server_notes = implode(" , ", $notEqualKeys);
 
     $updateDocData = [
         'TABLE' => 'DOTS_DOCUMENT',
@@ -360,7 +404,7 @@ function editDocument($inputs, $conn)
             'DATE_TIME_ACTION' => $selectDocResult['DATE_TIME_RECEIVED'],
             'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
             // 'NOTE_USER' => $inputs['DATA']['CANCEL_R_NOTES'],
-            'NOTE_SERVER' => "Document Edited by user",
+            'NOTE_SERVER' => "$server_notes",
         ]
     ];
     $insertDocLogResult = insert($insertDocLogData);
@@ -390,6 +434,8 @@ function editDocument($inputs, $conn)
             )
         );
     }
+
+
 }
 
 function cancelReceive($inputs, $conn)
@@ -410,7 +456,15 @@ function cancelReceive($inputs, $conn)
         );
         exit;
     }
-
+    if ($_SESSION['DOTS_PRIV'] < 1) {
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'MESSAGE' => "Not enough privilege to perform this action",
+            )
+        );
+        exit;
+    }
     $conn->begin_transaction();
 
     //get outboundid for deletion
@@ -534,6 +588,15 @@ function cancelSend($inputs, $conn)
                 'VALID' => $valid,
                 'MESSAGE' => "Please Fill up notes"
             ]
+        );
+        exit;
+    }
+    if ($_SESSION['DOTS_PRIV'] < 1) {
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'MESSAGE' => "Not enough privilege to perform this action",
+            )
         );
         exit;
     }
@@ -750,6 +813,15 @@ function sendDocForm($inputs, $conn)
         );
         exit;
     }
+    if ($_SESSION['DOTS_PRIV'] < 3) {
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'MESSAGE' => "Not enough privilege to perform this action",
+            )
+        );
+        exit;
+    }
 
 
     $conn->begin_transaction();
@@ -933,6 +1005,16 @@ function receiveDoc($inputs, $conn)
                 'VALID' => $valid,
                 'MESSAGE' => "Please ensure all required fields are filled out."
             ]
+        );
+        exit;
+    }
+
+    if ($_SESSION['DOTS_PRIV'] < 2) {
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'MESSAGE' => "Not enough privilege to perform this action",
+            )
         );
         exit;
     }
@@ -1372,7 +1454,15 @@ function receiveDocUser($inputs, $conn)
         );
         exit;
     }
-
+    if ($_SESSION['DOTS_PRIV'] < 2) {
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'MESSAGE' => "Not enough privilege to perform this action",
+            )
+        );
+        exit;
+    }
     $conn->begin_transaction();
 
     //add log recieve by user
@@ -1438,6 +1528,16 @@ function sendDocFormUser($inputs, $conn)
         'S_DEPT_ID',
         'S_USER_ID',
     ];
+
+    if ($_SESSION['DOTS_PRIV'] < 2) {
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'MESSAGE' => "Not enough privilege to perform this action",
+            )
+        );
+        exit;
+    }
 
     $validated = validateInputs($requiredInputs, $inputs);
     if (!$validated) {
@@ -1626,6 +1726,17 @@ function getTableTracking($inputs, $conn)
 {
     $queries = new Queries();
 
+
+    if ($_SESSION['DOTS_PRIV'] < 1) {
+        echo json_encode(
+            array(
+                'VALID' => false,
+                'MESSAGE' => "Not enough privilege to perform this action",
+            )
+        );
+        exit;
+    }
+
     $selectTableData = [
         'TABLE' => 'DOTS_TRACKING',
         'COLUMNS' => [
@@ -1679,6 +1790,16 @@ function getTableAttachment($inputs, $conn)
 {
     $queries = new Queries();
 
+
+    if ($_SESSION['DOTS_PRIV'] < 3) {
+        echo json_encode(
+            array(
+                'VALID' => false,
+                'MESSAGE' => "Not enough privilege to perform this action",
+            )
+        );
+        exit;
+    }
     $tableName = 'DOTS_ATTACHMENTS';
 
     $data = [
@@ -1714,6 +1835,25 @@ function formatDate($dateString)
     $date = new DateTime($dateString);
     return($date->format('n')) . "/" . $date->format('j') . "/" . $date->format('Y');
 }
+function resultsToArray($results)
+{
+    $rows = [];
+    while ($row = mysqli_fetch_assoc($results)) {
+        $rows[] = $row;
+    }
+    return $rows;
+}
+function getValueFromId($id, $array, $columnName)
+{
+    $value = "";
+    foreach ($array as $item) {
+        if ($item['ID'] == $id) {
+            $value = $item[$columnName];
+            break;
+        }
+    }
+    return $value;
+}
 function formatDocumentNumber($doc_num, $route_num)
 {
     $formattedDocumentNumber = "$doc_num-$route_num";
@@ -1732,7 +1872,7 @@ function checkArray($array)
 }
 function validateInputs($requiredFields, $inputs)
 {
-    foreach ($requiredFields as $field) {
+    foreach ($requiredFields as $field => $val) {
         if (!isset($inputs['DATA'][$field]) || $inputs['DATA'][$field] == "") {
             return false;
         }
