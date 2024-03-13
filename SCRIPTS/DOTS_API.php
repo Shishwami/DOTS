@@ -869,9 +869,11 @@ function sendDocForm($inputs, $conn)
             'NOTE_SERVER' => "Document Sent to $selectReceiverRow[DOC_DEPT]-$selectReceiverRow[FULL_NAME]",
         ]
     ];
+
     if (isset($inputs['DATA']['DOC_NOTES'])) {
         $insertInboundLogData['DATA']['NOTE_USER'] = $inputs['DATA']['DOC_NOTES'];
     }
+    
     $insertOutboundData['DATA']['INBOUND_ID'] = $lastInboundId;
     $results[] = insert($insertOutboundData);
     $results[] = insert($insertInboundLogData);
