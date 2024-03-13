@@ -723,8 +723,7 @@ function sendDocForm($inputs, $conn)
     $valid = false;
     $newRoutingNumber = 0;
     $lastInboundId = 0;
-    $message = "";
-    $queryResults = [];
+    $results = [];
 
     $requiredFields = [
         'DOC_NUM',
@@ -738,11 +737,11 @@ function sendDocForm($inputs, $conn)
         'S_USER_ID',
     ];
 
-    if(validateInputs($requiredFields, $inputs)){
+    if (!validateInputs($requiredFields, $inputs)) {
         echo json_encode(
             [
-                'VALID'=>$valid,
-                'MESSAGE'=>"Please Fill up Required Fields"
+                'VALID' => $valid,
+                'MESSAGE' => "Please Fill up Required Fields"
             ]
         );
         exit;
@@ -784,6 +783,7 @@ function sendDocForm($inputs, $conn)
             'ID' => $checkRoutedRow['ID']
         ],
     ];
+
     $selectReceiverData = [
         'TABLE' => 'DOTS_ACCOUNT_INFO',
         'COLUMNS' => [
@@ -817,21 +817,18 @@ function sendDocForm($inputs, $conn)
             'ORDER_BY' => 'ROUTE_NUM DESC'
         ];
         $selectDocumentRow = selectSingleRow($selectDocumentData);
+        unset($selectDocumentRow['ID']);
 
         $newRoutingNumber = intval($selectDocumentRow['ROUTE_NUM']) + 1;
         $selectDocumentRow['ROUTE_NUM'] = $newRoutingNumber;
         $insertInboundData['DATA']["ROUTE_NUM"] = $newRoutingNumber;
         $insertOutboundData['DATA']["ROUTE_NUM"] = $newRoutingNumber;
 
-        unset($selectDocumentRow['ID']);
-
         $insertDocumentData = [
             'TABLE' => 'DOTS_DOCUMENT',
             'DATA' => $selectDocumentRow,
         ];
-
-        $insertDocumentSql = $queries->insertQuery($insertDocumentData);
-        $queryResults[] = $conn->query($insertDocumentSql);
+        $results[] = insert($insertDocumentData);
 
         $insertDocumentLogData = [
             'TABLE' => 'DOTS_TRACKING',
@@ -849,15 +846,13 @@ function sendDocForm($inputs, $conn)
             $insertDocumentLogData['DATA']['NOTE_USER'] = $inputs['DATA']['DOC_NOTES'];
         }
 
-        $insertDocumentLogSql = $queries->insertQuery($insertDocumentLogData);
-        $queryResults[] = $conn->query($insertDocumentLogSql);
+        $results[] = insert($insertDocumentLogData);
     } else if ($checkRoutedRow['ROUTED'] == 0) {
         $updateDocumentSql = $queries->updateQuery(($updateDocumentData));
-        $queryResults[] = $conn->query($updateDocumentSql);
+        $results[] = $conn->query($updateDocumentSql);
     }
 
-    $insertInboundSql = $queries->insertQuery($insertInboundData);
-    $queryResults[] = $conn->query($insertInboundSql);
+    $results[] = insert($insertInboundData);
     $lastInboundId = $conn->insert_id;
 
     $insertInboundLogData = [
@@ -876,24 +871,27 @@ function sendDocForm($inputs, $conn)
         $insertInboundLogData['DATA']['NOTE_USER'] = $inputs['DATA']['DOC_NOTES'];
     }
     $insertOutboundData['DATA']['INBOUND_ID'] = $lastInboundId;
-    $insertOutboundSql = $queries->insertQuery($insertOutboundData);
-    $queryResults[] = $conn->query($insertOutboundSql);
+    $results[] = insert($insertOutboundData);
+    $results[] = insert($insertInboundLogData);
 
-    $insertInboundLogSql = $queries->insertQuery($insertInboundLogData);
-    $queryResults[] = $conn->query($insertInboundLogSql);
-    // var_dump($queryResults);
-
-    $valid = checkArray($queryResults);
-
-    if ($valid) {
-        $message = " $checkRoutedRow[DOC_NUM]-$newRoutingNumber Sent to $selectReceiverRow[DOC_DEPT]-$selectReceiverRow[FULL_NAME]";
-    } else {
-        $message = "Failed Sending $checkRoutedRow[DOC_NUM]-$newRoutingNumber";
+    $formattedDocumentNumber = "$checkRoutedRow[DOC_NUM]-$newRoutingNumber";
+    if ($newRoutingNumber == 0) {
+        $formattedDocumentNumber = "$checkRoutedRow[DOC_NUM]";
     }
-    echo json_encode([
-        'VALID' => $valid,
-        "MESSAGE" => $message
-    ]);
+
+    $valid = checkArray($results);
+    if ($valid) {
+        echo json_encode([
+            'VALID' => $valid,
+            "MESSAGE" => "$formattedDocumentNumber Sent to $selectReceiverRow[DOC_DEPT]-$selectReceiverRow[FULL_NAME]",
+        ]);
+    } else {
+        echo json_encode([
+            'VALID' => $valid,
+            "MESSAGE" => "Failed Sending $formattedDocumentNumber",
+        ]);
+    }
+
 }
 
 function receiveDoc($inputs, $conn)
