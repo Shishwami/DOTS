@@ -723,7 +723,8 @@ function sendDocForm($inputs, $conn)
     $valid = false;
     $newRoutingNumber = 0;
     $lastInboundId = 0;
-    $results = [];
+    $message = "";
+    $queryResults = [];
 
     $requiredFields = [
         'DOC_NUM',
@@ -737,15 +738,15 @@ function sendDocForm($inputs, $conn)
         'S_USER_ID',
     ];
 
-    if (!validateInputs($requiredFields, $inputs)) {
-        echo json_encode([
-            'VALID' => $valid,
-            'MESSAGE' => "Please ensure all required fields are filled out."
-        ]);
+    if(validateInputs($requiredFields, $inputs)){
+        echo json_encode(
+            [
+                'VALID'=>$valid,
+                'MESSAGE'=>"Please Fill up Required Fields"
+            ]
+        );
         exit;
     }
-
-    $conn->begin_transaction();
 
     $insertInboundData = [
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
@@ -755,6 +756,7 @@ function sendDocForm($inputs, $conn)
         'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
         'DATA' => $inputs['DATA'],
     ];
+
     $checkRoutedData = [
         'TABLE' => 'DOTS_DOCUMENT',
         'COLUMNS' => [
@@ -782,7 +784,6 @@ function sendDocForm($inputs, $conn)
             'ID' => $checkRoutedRow['ID']
         ],
     ];
-
     $selectReceiverData = [
         'TABLE' => 'DOTS_ACCOUNT_INFO',
         'COLUMNS' => [
@@ -821,6 +822,7 @@ function sendDocForm($inputs, $conn)
         $selectDocumentRow['ROUTE_NUM'] = $newRoutingNumber;
         $insertInboundData['DATA']["ROUTE_NUM"] = $newRoutingNumber;
         $insertOutboundData['DATA']["ROUTE_NUM"] = $newRoutingNumber;
+
         unset($selectDocumentRow['ID']);
 
         $insertDocumentData = [
@@ -829,8 +831,7 @@ function sendDocForm($inputs, $conn)
         ];
 
         $insertDocumentSql = $queries->insertQuery($insertDocumentData);
-        $insertDocumentResult = $conn->query($insertDocumentSql);
-        $results[] = !is_null($insertDocumentResult);
+        $queryResults[] = $conn->query($insertDocumentSql);
 
         $insertDocumentLogData = [
             'TABLE' => 'DOTS_TRACKING',
@@ -849,20 +850,14 @@ function sendDocForm($inputs, $conn)
         }
 
         $insertDocumentLogSql = $queries->insertQuery($insertDocumentLogData);
-        $insertDocumentLogResult = $conn->query($insertDocumentLogSql);
-        $results[] = !is_null($insertDocumentLogResult);
-
-    } else {
-        $updateDocumentSql = $queries->updateQuery($updateDocumentData);
-        $updateDocumentResult = $conn->query($updateDocumentSql);
-        echo "UPDATED $updateDocumentSql";
-
-        $results[] = !is_null($updateDocumentResult);
+        $queryResults[] = $conn->query($insertDocumentLogSql);
+    } else if ($checkRoutedRow['ROUTED'] == 0) {
+        $updateDocumentSql = $queries->updateQuery(($updateDocumentData));
+        $queryResults[] = $conn->query($updateDocumentSql);
     }
 
     $insertInboundSql = $queries->insertQuery($insertInboundData);
-    $insertInboundResults = $conn->query($insertInboundSql);
-    $results[] = !is_null($insertInboundResults);
+    $queryResults[] = $conn->query($insertInboundSql);
     $lastInboundId = $conn->insert_id;
 
     $insertInboundLogData = [
@@ -882,36 +877,23 @@ function sendDocForm($inputs, $conn)
     }
     $insertOutboundData['DATA']['INBOUND_ID'] = $lastInboundId;
     $insertOutboundSql = $queries->insertQuery($insertOutboundData);
-    $insertOutboundResult = $conn->query($insertOutboundSql);
-    $results[] = !is_null($insertOutboundResult);
+    $queryResults[] = $conn->query($insertOutboundSql);
 
     $insertInboundLogSql = $queries->insertQuery($insertInboundLogData);
-    $insertInboundLogResult = $conn->query($insertInboundLogSql);
-    $results[] = !is_null($insertInboundLogResult);
+    $queryResults[] = $conn->query($insertInboundLogSql);
+    // var_dump($queryResults);
 
-    $valid = checkArray($results);
-
-
-    // if ($valid) {
-    //     $message = "$checkRoutedRow[DOC_NUM]-$newRoutingNumber Sent to $selectReceiverRow[DOC_DEPT]-$selectReceiverRow[FULL_NAME]";
-    // } else {
-    //     $message = "Failed Sending $checkRoutedRow[DOC_NUM]-$newRoutingNumber";
-    // }
-
+    $valid = checkArray($queryResults);
 
     if ($valid) {
-        echo json_encode([
-            'VALID' => $valid,
-            "MESSAGE" => "$checkRoutedRow[DOC_NUM]-$newRoutingNumber Sent to $selectReceiverRow[DOC_DEPT]-$selectReceiverRow[FULL_NAME]"
-        ]);
+        $message = " $checkRoutedRow[DOC_NUM]-$newRoutingNumber Sent to $selectReceiverRow[DOC_DEPT]-$selectReceiverRow[FULL_NAME]";
     } else {
-        echo json_encode([
-            'VALID' => $valid,
-            "MESSAGE" => "Failed Sending $checkRoutedRow[DOC_NUM]-$newRoutingNumber"
-        ]);
+        $message = "Failed Sending $checkRoutedRow[DOC_NUM]-$newRoutingNumber";
     }
-
-
+    echo json_encode([
+        'VALID' => $valid,
+        "MESSAGE" => $message
+    ]);
 }
 
 function receiveDoc($inputs, $conn)
@@ -1627,7 +1609,7 @@ function getTableTracking($inputs, $conn)
             "CONCAT(
                 IF(DOTS_ACCOUNT_INFO.OFFICE_ID IS NOT NULL,CONCAT(DOTS_ACCOUNT_INFO.OFFICE_ID,'-'), ' '),' ', 
                 IF(DOTS_ACCOUNT_INFO.DEPT_ID IS NOT NULL,CONCAT(DOTS_DOC_DEPT.DOC_DEPT,'-'), ' '), 
-                IFNULL(DOTS_ACCOUNT_INFO.FULL_NAME, ' ')) as 'Operator'",
+                IFNULL(DOTS_ACCOUNT_INFO.FULL_NAME, ' ')) as 'Location'",
 
             'NOTE_USER as `User notes`',
             'NOTE_SERVER as `Server Notes`',
