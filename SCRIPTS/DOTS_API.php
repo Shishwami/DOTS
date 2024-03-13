@@ -1308,7 +1308,7 @@ function receiveDocUser($inputs, $conn)
 {
     $queries = new Queries();
     $valid = false;
-    $message = "";
+    $results=[];
 
     $updateData = array(
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
@@ -1375,6 +1375,7 @@ function receiveDocUser($inputs, $conn)
 
     $insertLogSql = $queries->insertQuery($insertLogData);
     $insertLogResult = $conn->query($insertLogSql);
+
 
     $insertDataSql = $queries->insertQuery($insertData);
     $insertUpdate = $conn->query($insertDataSql);
