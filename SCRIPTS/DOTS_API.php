@@ -848,8 +848,7 @@ function sendDocForm($inputs, $conn)
 
         $results[] = insert($insertDocumentLogData);
     } else if ($checkRoutedRow['ROUTED'] == 0) {
-        $updateDocumentSql = $queries->updateQuery(($updateDocumentData));
-        $results[] = $conn->query($updateDocumentSql);
+        $results[] = update(($updateDocumentData));
     }
 
     $results[] = insert($insertInboundData);
@@ -891,7 +890,6 @@ function sendDocForm($inputs, $conn)
             "MESSAGE" => "Failed Sending $formattedDocumentNumber",
         ]);
     }
-
 }
 
 function receiveDoc($inputs, $conn)
@@ -1712,6 +1710,15 @@ function insert($insertData)
     $insertResult = $conn->query($insertSql);
 
     return $insertResult;
+}
+function update($updateData){
+    $queries = new Queries();
+    global $conn;
+
+    $updateSql = $queries->insertQuery($updateData);
+    $updateResult = $conn->query($updateSql);
+
+    return $updateResult;
 }
 
 function selectSingleRow($selectData)
