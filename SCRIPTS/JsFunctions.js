@@ -116,6 +116,7 @@ class JsFunctions {
                         cell.style.backgroundColor = "#ffa600";
                         cell.style.color = "#ffffff";
                         cell.style.fontSize = "15px";
+                        // row.style.display = "none";
                     }
 
                     if(fvalue == "EDITED"){
