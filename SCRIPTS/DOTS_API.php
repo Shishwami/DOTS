@@ -876,14 +876,10 @@ function sendDocForm($inputs, $conn)
     $results[] = insert($insertOutboundData);
     $results[] = insert($insertInboundLogData);
 
-    $formattedDocumentNumber = "$checkRoutedRow[DOC_NUM]-$newRoutingNumber";
-    if ($newRoutingNumber == 0) {
-        $formattedDocumentNumber = "$checkRoutedRow[DOC_NUM]";
-    }
-
     $valid = checkArray($results);
     if ($valid) {
         $conn->commit();
+        $formattedDocumentNumber = formatDocumentNumber($checkRoutedRow['DOC_NUM'], $newRoutingNumber);
         echo json_encode([
             'VALID' => $valid,
             "MESSAGE" => "$formattedDocumentNumber Sent to $selectReceiverRow[DOC_DEPT]-$selectReceiverRow[FULL_NAME]",
@@ -892,7 +888,7 @@ function sendDocForm($inputs, $conn)
         $conn->rollback();
         echo json_encode([
             'VALID' => $valid,
-            "MESSAGE" => "Failed Sending $formattedDocumentNumber",
+            "MESSAGE" => "SERVER ERROR",
         ]);
     }
 }
@@ -960,11 +956,7 @@ function receiveDoc($inputs, $conn)
     ];
     $results[] = insert($insertLogData);
 
-    $formattedDocumentNumber = "$selectDocumentRow[DOC_NUM]-$selectDocumentRow[ROUTE_NUM]";
-    if ($selectDocumentRow['ROUTE_NUM'] == 0) {
-        $formattedDocumentNumber = "$selectDocumentRow[DOC_NUM]";
-    }
-
+    $formattedDocumentNumber = formatDocumentNumber($selectDocumentRow['DOC_NUM'],$selectDocumentRow['ROUTE_NUM']);
     $formattedMessage = "";
     if ($inputs['DATA']['ACTION_ID'] == 2) {
         $formattedMessage = "Document $formattedDocumentNumber Received";
@@ -1308,7 +1300,7 @@ function receiveDocUser($inputs, $conn)
 {
     $queries = new Queries();
     $valid = false;
-    $results=[];
+    $results = [];
 
     $updateData = array(
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
@@ -1380,13 +1372,26 @@ function receiveDocUser($inputs, $conn)
     $updateData['DATA']['OUTBOUND_ID'] = $lastId;
     $results[] = update($updateData);
 
+    $valid = checkArray($results);
+    if ($valid) {
+        $conn->commit();
+        $formattedDocumentNumber = formatDocumentNumber($inputs['DATA']["DOC_NUM"], $inputs['DATA']["ROUTE_NUM"]);
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'MESSAGE' => "Document $formattedDocumentNumber Received",
+            )
+        );
+    } else {
+        $conn->rollback();
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'MESSAGE' => "SERVER ERROR",
+            )
+        );
+    }
 
-    echo json_encode(
-        array(
-            'VALID' => $valid,
-            'MESSAGE' => $message,
-        )
-    );
 }
 function sendDocFormUser($inputs, $conn)
 {
@@ -1684,6 +1689,14 @@ function formatDate($dateString)
 {
     $date = new DateTime($dateString);
     return($date->format('n')) . "/" . $date->format('j') . "/" . $date->format('Y');
+}
+function formatDocumentNumber($doc_num, $route_num)
+{
+    $formattedDocumentNumber = "$doc_num-$route_num";
+    if ($route_num == 0) {
+        $formattedDocumentNumber = "$doc_num";
+    }
+    return $formattedDocumentNumber;
 }
 function checkArray($array)
 {
