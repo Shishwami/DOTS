@@ -723,8 +723,6 @@ function sendDocForm($inputs, $conn)
     $valid = false;
     $newRoutingNumber = 0;
     $lastInboundId = 0;
-    $message = "";
-    $queryResults = [];
     $results = [];
 
     $requiredFields = [
@@ -744,6 +742,7 @@ function sendDocForm($inputs, $conn)
             'VALID' => $valid,
             'MESSAGE' => "Please ensure all required fields are filled out."
         ]);
+        exit;
     }
 
     $conn->begin_transaction();
@@ -856,6 +855,8 @@ function sendDocForm($inputs, $conn)
     } else {
         $updateDocumentSql = $queries->updateQuery($updateDocumentData);
         $updateDocumentResult = $conn->query($updateDocumentSql);
+        echo "UPDATED $updateDocumentSql";
+
         $results[] = !is_null($updateDocumentResult);
     }
 
