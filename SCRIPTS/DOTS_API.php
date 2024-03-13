@@ -579,7 +579,7 @@ function cancelSend($inputs, $conn)
     $valid = false;
     $results = [];
     $requiredFields = [
-        'CANCEL_R_NOTES'
+        'CANCEL_S_NOTES'
     ];
 
     if (!validateInputs($requiredFields, $inputs)) {
@@ -1328,8 +1328,6 @@ function getTableUser($inputs, $conn, $tableName)
     );
     $data['WHERE'] = $WHERE[0];
 
-    // var_dump ($data);
-
     $selectTableSql = $queries->selectQuery($data);
     $result = mysqli_query($conn, $selectTableSql);
     $resultAsArray = array();
@@ -1337,21 +1335,11 @@ function getTableUser($inputs, $conn, $tableName)
     while ($row = mysqli_fetch_assoc($result)) {
         $resultAsArray[] = $row;
     }
-    // var_dump($_SESSION);
-    if ($_SESSION['DOTS_PRIV'] == 0) {
-        $buttons = [];
-    } else if ($_SESSION['DOTS_PRIV'] == 1) {
-        $buttons = [];
-        $buttons[] = [
-            'className' => 'btnT',
-            'label' => 'T'
-        ];
-    } else {
-        $buttons[] = [
-            'className' => 'btnT',
-            'label' => 'T'
-        ];
-    }
+
+    $buttons[] = [
+        'className' => 'btnT',
+        'label' => 'T'
+    ];
     setupTable($resultAsArray, $buttons, $tableName);
 }
 function setupTable($result, $buttons, $tableName)
@@ -1825,7 +1813,6 @@ function getTableAttachment($inputs, $conn)
 {
     $queries = new Queries();
 
-
     if ($_SESSION['DOTS_PRIV'] < 3) {
         echo json_encode(
             array(
@@ -1834,7 +1821,7 @@ function getTableAttachment($inputs, $conn)
             )
         );
         exit;
-    }
+    }   
     $tableName = 'DOTS_ATTACHMENTS';
 
     $data = [
