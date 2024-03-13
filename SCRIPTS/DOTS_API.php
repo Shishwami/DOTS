@@ -933,6 +933,7 @@ function sendDocForm($inputs, $conn)
     }
 
     $results[] = insert($insertInboundData);
+    var_dump($insertInboundData);
     $lastInboundId = $conn->insert_id;
 
     $formattedDocumentNumber = formatDocumentNumber($checkRoutedRow['DOC_NUM'], $newRoutingNumber);
@@ -1255,7 +1256,7 @@ function getTableUser($inputs, $conn, $tableName)
 
             "$tableName.DOC_NUM",
             "$tableName.ROUTE_NUM",
-            "DOTS_DOCUMENT.DOC_SUBJECT",
+            "DOTS_DOCUMENT.DOC_SUBJECT as `Subject`",
             "$tableName.DOC_NOTES as `Notes`",
             "DOTS_DOC_PRPS.DOC_PRPS `Purpose`",
 
@@ -1269,7 +1270,7 @@ function getTableUser($inputs, $conn, $tableName)
             "IF(R_DEPT.DOC_DEPT IS NOT NULL,CONCAT(R_DEPT.DOC_DEPT,'-'), ' '), " .
             "IFNULL(R_FULL_NAME.FULL_NAME, ' ')) as 'Receiver'",
 
-            "$tableName.DATE_TIME_RECEIVED as `Date Received`",
+            // "$tableName.DATE_TIME_RECEIVED as `Date Received`",
             "$tableName.DATE_TIME_SEND as `Date Sent`",
             "DOTS_DOC_ACTION.DOC_ACTION as `Action`",
         ),
