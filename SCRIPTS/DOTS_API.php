@@ -1782,7 +1782,7 @@ function getTableTracking($inputs, $conn)
             "CONCAT(
                 IF(DOTS_ACCOUNT_INFO.OFFICE_ID IS NOT NULL,CONCAT(DOTS_ACCOUNT_INFO.OFFICE_ID,'-'), ' '),' ', 
                 IF(DOTS_ACCOUNT_INFO.DEPT_ID IS NOT NULL,CONCAT(DOTS_DOC_DEPT.DOC_DEPT,'-'), ' '), 
-                IFNULL(DOTS_ACCOUNT_INFO.FULL_NAME, ' ')) as 'Location'",
+                IFNULL(DOTS_ACCOUNT_INFO.FULL_NAME, ' ')) as 'Operator'",
 
             'NOTE_USER as `User notes`',
             'NOTE_SERVER as `Server Notes`',
