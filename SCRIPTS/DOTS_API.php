@@ -116,16 +116,13 @@ try {
 }
 function userLogin($inputs, $conn)
 {
-    $queries = new Queries();
     $valid = false;
+    $message = "";
 
-    $response = [];
+    $username = $inputs['WHERE']['USERNAME'];
+    $password = $inputs['WHERE']['PASSWORD'];
 
-    $whereData = $inputs['WHERE'];
-    $username = $whereData['USERNAME'];
-    $password = $whereData['PASSWORD'];
-
-    $data = array(
+    $selectUserData = array(
         'TABLE' => 'DOTS_ACCOUNT_INFO',
         'COLUMNS' => array(
             'HRIS_ID',
@@ -144,23 +141,22 @@ function userLogin($inputs, $conn)
         ),
     );
 
-    $selectSql = $queries->selectQuery($data);
-    $result = mysqli_query($conn, $selectSql);
-
-    if (mysqli_num_rows($result) == 1) {
+    $selectUserRow = selectSingleRow($selectUserData);
+    if (empty($selectUserRow)) {
+        $message = "Invalid Username or Password.";
+    } else {
         $valid = true;
-        $row = mysqli_fetch_assoc($result);
-
-        foreach ($row as $key => $value) {
+        $message = "Redirecting";
+        foreach ($selectUserRow as $key => $value) {
             $_SESSION[$key] = $value;
         }
-
-    } else {
-        $response['MESSAGE'] = 'Invalid Username or Password';
     }
 
-    $response["VALID"] = $valid;
-    echo json_encode($response);
+    echo json_encode([
+        'VALID' => $valid,
+        'MESSAGE' => $message,
+    ]);
+
 }
 function get_Date($inputs)
 {
@@ -295,6 +291,7 @@ function editDocument($inputs, $conn)
     $queries = new Queries();
     $message = "";
     $valid = false;
+    $results = [];
     $requiredInputs = [
         "ACTION_ID",
         "DATE_TIME_RECEIVED",
@@ -305,9 +302,7 @@ function editDocument($inputs, $conn)
         "S_OFFICE_ID",
     ];
 
-    $validated = validateInputs($requiredInputs, $inputs);
-
-    if (!$validated) {
+    if (!validateInputs($requiredInputs, $inputs)) {
         echo json_encode(
             array(
                 'VALID' => $valid,
@@ -326,127 +321,196 @@ function editDocument($inputs, $conn)
         exit;
     }
 
-    $valid = true;
-    $docId = $inputs['DATA']['ID'];
-    unset($inputs['DATA']['ID']);
+    $conn->begin_transaction();
 
     $updateDocData = [
         'TABLE' => 'DOTS_DOCUMENT',
         'DATA' => $inputs['DATA'],
         'WHERE' => [
-            'ID' => $docId
+            'ID' => $inputs['DATA']['ID']
         ]
     ];
 
+    $selectDocData = [
+        'TABLE' => 'DOTS_DOCUMENT',
+        'WHERE' => [
+            'AND' => [
+                ["ID" => $inputs['DATA']['ID']]
+            ]
+        ]
+    ];
+    $selectDocResult = selectSingleRow($selectDocData);
+
+    if ($selectDocResult['ROUTE_NUM'] == 0) {
+        $message = "Document $selectDocResult[DOC_NUM] Updated";
+    } else {
+        $message = "Document $selectDocResult[DOC_NUM]-$selectDocResult[ROUTE_NUM] Updated";
+    }
+
+    $insertDocLogData = [
+        'TABLE' => 'DOTS_TRACKING',
+        'DATA' => [
+            'DOC_NUM' => $selectDocResult["DOC_NUM"],
+            'ROUTE_NUM' => $selectDocResult["ROUTE_NUM"],
+            'HRIS_ID' => $_SESSION['HRIS_ID'],
+            'ACTION_ID' => 6,//ACTION_ID EDIT
+            'DATE_TIME_ACTION' => $selectDocResult['DATE_TIME_RECEIVED'],
+            'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
+            // 'NOTE_USER' => $inputs['DATA']['CANCEL_R_NOTES'],
+            'NOTE_SERVER' => "Receiving canceled by user",
+        ]
+    ];
+    $insertDocLogResult = insert($insertDocLogData);
+
+    unset($inputs['DATA']['ID']);
     $updateDocSql = $queries->updateQuery($updateDocData);
     $updateDocResult = $conn->query($updateDocSql);
 
-    $message = "Document Updated";
+    $results[] = !is_null($insertDocLogResult);
+    $results[] = !is_null($updateDocResult);
 
-    //TODO add log to edit
-
-    echo json_encode(
-        array(
-            'VALID' => $updateDocResult,
-            'MESSAGE' => $message
-        )
-    );
-
+    $valid = checkArray($results);
+    if ($valid) {
+        $conn->commit();
+        echo json_encode(
+            array(
+                'VALID' => $updateDocResult,
+                'MESSAGE' => $message
+            )
+        );
+    } else {
+        $conn->rollback();
+        echo json_encode(
+            array(
+                'VALID' => $updateDocResult,
+                'MESSAGE' => "SERVER ERROR"
+            )
+        );
+    }
 }
 
 function cancelReceive($inputs, $conn)
 {
-    $docId = $inputs['DATA']['CANCEL_R_ID'];
     $queries = new Queries();
     $valid = false;
-    $message = "";
+    $results = [];
+    $requiredFields = [
+        'CANCEL_R_NOTES'
+    ];
 
-    if ($inputs['DATA']['CANCEL_R_NOTES'] == "") {
-        $message = "Please Fill up notes";
-    } else {
-
-        //get outboundid for deletion
-        $selectReceiveData = [
-            'TABLE' => 'DOTS_DOCUMENT_INBOUND',
-            'WHERE' => [
-                'AND' => array(
-                    array('ID' => $docId)
-                ),
+    if (!validateInputs($requiredFields, $inputs)) {
+        echo json_encode(
+            [
+                'VALID' => $valid,
+                'MESSAGE' => "Please Fill up notes"
             ]
-        ];
-        $selectReceiveRow = selectSingleRow($selectReceiveData);
+        );
+        exit;
+    }
 
-        $selectInboundData = [
-            'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
-            'WHERE' => [
-                "AND" => [
-                    ['ID' => $selectReceiveRow['OUTBOUND_ID']]
-                ]
-            ],
-        ];
+    $conn->begin_transaction();
 
-        $selectInboundRow = selectSingleRow($selectInboundData);
-        // var_dump($selectInboundRow);
-        if ($selectInboundRow['ROUTED'] == 1) {
-            //cannot canncel cause routed
-            $message = "Document already sent; cancellation not possible";
-        } else {
-            //update to canceled the doc in outbound
-            $valid = true;
-            $message = "Receiving of document cancellation successful.";
-            $deleteDocData = [
-                'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
-                'DATA' => [
-                    'ACTION_ID' => 5//canclled
-                ],
-                'WHERE' => [
-                    'ID' => $selectReceiveRow['OUTBOUND_ID']
-                ],
-            ];
+    //get outboundid for deletion
+    $selectReceiveData = [
+        'TABLE' => 'DOTS_DOCUMENT_INBOUND',
+        'WHERE' => [
+            'AND' => array(
+                array('ID' => $inputs['DATA']['CANCEL_R_ID'])
+            ),
+        ]
+    ];
+    $selectReceiveRow = selectSingleRow($selectReceiveData);
 
-            $deleteDocSql = $queries->updateQuery($deleteDocData);
-            $deleteDocResult = $conn->query($deleteDocSql);
+    $selectInboundData = [
+        'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
+        'WHERE' => [
+            "AND" => [
+                ['ID' => $selectReceiveRow['OUTBOUND_ID']]
+            ]
+        ],
+    ];
+    $selectInboundRow = selectSingleRow($selectInboundData);
 
-            $updateReceiveData = [
-                'TABLE' => 'DOTS_DOCUMENT_INBOUND',
-                'DATA' => [
-                    'DATE_TIME_RECEIVED' => "NULL",
-                    'ACTION_ID' => 1//ACTION_ID SENT
-                ],
-                "WHERE" => [
-                    'ID' => $docId
-                ]
-            ];
+    if ($selectInboundRow['ROUTED'] == 1) {
+        echo json_encode(
+            [
+                'VALID' => $valid,
+                'MESSAGE' => "Document already sent; cancellation not possible"
+            ]
+        );
+        exit;
+    }
 
-            if (isset($inputs['DATA']['CANCEL_R_DEPT'])) {
-                $updateReceiveData['DATA']['R_USER_ID'] = 0;
-            }
+    //update to canceled the doc in outbound
+    // $message = "Receiving of document cancellation successful.";
+    $deleteDocData = [
+        'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
+        'DATA' => [
+            'ACTION_ID' => 5//canclled
+        ],
+        'WHERE' => [
+            'ID' => $selectReceiveRow['OUTBOUND_ID']
+        ],
+    ];
 
-            $updateReceiveSql = $queries->updateQuery($updateReceiveData);
-            $updateReceiveResult = $conn->query($updateReceiveSql);
+    $deleteDocSql = $queries->updateQuery($deleteDocData);
+    $deleteDocResult = $conn->query($deleteDocSql);
+    $results[] = !is_null($deleteDocResult);
 
-            //add to logs
-            $insertRCancelToLogsData = [
-                'TABLE' => 'DOTS_TRACKING',
-                'DATA' => [
-                    'DOC_NUM' => $selectReceiveRow["DOC_NUM"],
-                    'ROUTE_NUM' => $selectReceiveRow["ROUTE_NUM"],
-                    'ACTION_ID' => 5,//ACTION_ID RECEIVE
-                    'HRIS_ID' => $_SESSION['HRIS_ID'],
-                    // 'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_RECEIVED'],
-                    'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
-                    'NOTE_USER' => $inputs['DATA']['CANCEL_R_NOTES'],
-                    'NOTE_SERVER' => "Receiving canceled by user",
-                ]
-            ];
-            $insertRCancelToLogsResult = insert($insertRCancelToLogsData);
-        }
+    $updateReceiveData = [
+        'TABLE' => 'DOTS_DOCUMENT_INBOUND',
+        'DATA' => [
+            'DATE_TIME_RECEIVED' => "NULL",
+            'ACTION_ID' => 1//ACTION_ID SENT
+        ],
+        "WHERE" => [
+            'ID' => $inputs['DATA']['CANCEL_R_ID']
+        ]
+    ];
+
+    if (isset($inputs['DATA']['CANCEL_R_DEPT'])) {
+        $updateReceiveData['DATA']['R_USER_ID'] = 0;
+    }
+
+    $updateReceiveSql = $queries->updateQuery($updateReceiveData);
+    $updateReceiveResult = $conn->query($updateReceiveSql);
+    $results[] = !is_null($updateReceiveResult);
+
+    //add to logs
+    $insertRCancelToLogsData = [
+        'TABLE' => 'DOTS_TRACKING',
+        'DATA' => [
+            'DOC_NUM' => $selectReceiveRow["DOC_NUM"],
+            'ROUTE_NUM' => $selectReceiveRow["ROUTE_NUM"],
+            'ACTION_ID' => 5,//ACTION_ID RECEIVE
+            'HRIS_ID' => $_SESSION['HRIS_ID'],
+            // 'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_RECEIVED'],
+            'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
+            'NOTE_USER' => $inputs['DATA']['CANCEL_R_NOTES'],
+            'NOTE_SERVER' => "Receiving canceled by user",
+        ]
+    ];
+    $insertRCancelToLogsResult = insert($insertRCancelToLogsData);
+    $results[] = !is_null($insertRCancelToLogsResult);
+
+    $valid = checkArray($results);
+    if ($valid) {
+        $conn->commit();
+    } else {
+        $conn->rollback();
+        echo json_encode(
+            array(
+                "VALID" => $valid,
+                "MESSAGE" => "SERVER ERROR"
+            )
+        );
+        exit;
     }
 
     echo json_encode(
         array(
             "VALID" => $valid,
-            "MESSAGE" => $message
+            "MESSAGE" => "Receiving of document cancellation successful."
         )
     );
 }
@@ -455,106 +519,127 @@ function cancelReceive($inputs, $conn)
 function cancelSend($inputs, $conn)
 {
     $queries = new Queries();
-    $id = $inputs['DATA']['CANCEL_S_ID'];
     $valid = false;
-    $message = "";
+    $results = [];
+    $requiredFields = [
+        'CANCEL_R_NOTES'
+    ];
 
-
-    if ($inputs['DATA']['CANCEL_S_NOTES'] == "") {
-        $message = "Please Fill up Notes";
-    } else {
-        //get outboundid for deletion
-        $selectReceiveData = [
-            'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
-            'WHERE' => [
-                'AND' => array(
-                    array('ID' => $id)
-                ),
+    if (!validateInputs($requiredFields, $inputs)) {
+        echo json_encode(
+            [
+                'VALID' => $valid,
+                'MESSAGE' => "Please Fill up notes"
             ]
-        ];
-        $selectReceiveSql = $queries->selectQuery($selectReceiveData);
-        $selectReceiveResult = $conn->query($selectReceiveSql);
-        $selectReceiveRow = $selectReceiveResult->fetch_assoc();
-
-        $selectOutboundData = [
-            'TABLE' => 'DOTS_DOCUMENT_INBOUND',
-            'WHERE' => [
-                "AND" => [
-                    ['ID' => $selectReceiveRow['INBOUND_ID']],
-                ]
-            ],
-        ];
-
-        $selectOutboundSql = $queries->selectQuery($selectOutboundData);
-        $selectOutboundResult = $conn->query($selectOutboundSql);
-        $selectOutboundRow = $selectOutboundResult->fetch_assoc();
-        // echo $selectOutboundSql;
-        // var_dump($selectOutboundRow);
-        if ($selectOutboundRow['ACTION_ID'] == 2) {
-            //routed and sent and cannot be canceled 
-            $message = "Sending cannot be canceled, Document Already Received by the other User";
-
-        } else if ($selectOutboundRow['ACTION_ID'] == 1) {
-            $valid = true;
-            $message = "Sending has been canceled.";
-            //update the doc in inbound to be canceled
-            //update to canceled the doc in outbound
-
-            $deleteDocData = [
-                'TABLE' => 'DOTS_DOCUMENT_INBOUND',
-                'DATA' => [
-                    'ACTION_ID' => 5//canclled
-                ],
-                'WHERE' => [
-                    'ID' => $selectReceiveRow['INBOUND_ID']
-                ],
-            ];
-            $deleteDocSql = $queries->updateQuery($deleteDocData);
-            $deleteDocResult = $conn->query($deleteDocSql);
-
-            //update the doc in outbound to have no send data
-            $updateReceiveData = [
-                'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
-                'DATA' => [
-                    'DATE_TIME_SEND' => "NULL",
-                    'R_DEPT_ID' => 0,
-                    'R_USER_ID' => 0,
-                    'PRPS_ID' => 0,
-                    'ROUTED' => 0,
-                    'ACTION_ID' => 2//ACTION_ID RECEIVED
-                ],
-                "WHERE" => [
-                    'ID' => $id
-                ]
-            ];
-
-            $updateReceiveSql = $queries->updateQuery($updateReceiveData);
-            $updateReceiveResult = $conn->query($updateReceiveSql);
-
-            // add to logs
-
-            $insertSCancelToLogsData = [
-                'TABLE' => 'DOTS_TRACKING',
-                'DATA' => [
-                    'DOC_NUM' => $selectReceiveRow["DOC_NUM"],
-                    'ROUTE_NUM' => $selectReceiveRow["ROUTE_NUM"],
-                    'ACTION_ID' => 5,//ACTION_ID RECEIVE
-                    'HRIS_ID' => $_SESSION['HRIS_ID'],
-                    // 'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_RECEIVED'],
-                    'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
-                    'NOTE_USER' => $inputs['DATA']['CANCEL_S_NOTES'],
-                    'NOTE_SERVER' => "Sending Document canceled by sender",
-                ]
-            ];
-            $insertSCancelToLogsResult = insert($insertSCancelToLogsData);
-        }
+        );
+        exit;
     }
-    echo json_encode(
-        array(
-            'VALID' => $valid,
-            'MESSAGE' => $message
-        )
-    );
+
+    $conn->begin_transaction();
+
+    //get outboundid for deletion
+    $selectReceiveData = [
+        'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
+        'WHERE' => [
+            'AND' => array(
+                array('ID' => $inputs['DATA']['CANCEL_S_ID'])
+            ),
+        ]
+    ];
+    $selectReceiveRow = selectSingleRow($selectReceiveData);
+
+    $selectOutboundData = [
+        'TABLE' => 'DOTS_DOCUMENT_INBOUND',
+        'WHERE' => [
+            "AND" => [
+                ['ID' => $selectReceiveRow['INBOUND_ID']],
+            ]
+        ],
+    ];
+    $selectOutboundRow = selectSingleRow($selectOutboundData);
+
+    if ($selectOutboundRow['ACTION_ID'] == 2) {
+        //routed and sent; and cannot be canceled 
+        echo json_encode(
+            [
+                'VALID' => $valid,
+                'MESSAGE' => "Sending cannot be canceled, Document Already Received by the other User"
+            ]
+        );
+        exit;
+    }
+
+    //update the doc in inbound to be canceled
+    //update to cancelled the doc in outbound
+
+    $deleteDocData = [
+        'TABLE' => 'DOTS_DOCUMENT_INBOUND',
+        'DATA' => [
+            'ACTION_ID' => 5//canclled
+        ],
+        'WHERE' => [
+            'ID' => $selectReceiveRow['INBOUND_ID']
+        ],
+    ];
+    $deleteDocSql = $queries->updateQuery($deleteDocData);
+    $deleteDocResult = $conn->query($deleteDocSql);
+    $results[] = !is_null($deleteDocResult);
+
+    //update the doc in outbound to have no send data
+    $updateReceiveData = [
+        'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
+        'DATA' => [
+            'DATE_TIME_SEND' => "NULL",
+            'R_DEPT_ID' => 0,
+            'R_USER_ID' => 0,
+            'PRPS_ID' => 0,
+            'ROUTED' => 0,
+            'ACTION_ID' => 2//ACTION_ID RECEIVED
+        ],
+        "WHERE" => [
+            'ID' => $inputs['DATA']['CANCEL_S_ID']
+        ]
+    ];
+    $updateReceiveSql = $queries->updateQuery($updateReceiveData);
+    $updateReceiveResult = $conn->query($updateReceiveSql);
+    $results[] = !is_null($updateReceiveResult);
+
+    // add to logs
+
+    $insertSCancelToLogsData = [
+        'TABLE' => 'DOTS_TRACKING',
+        'DATA' => [
+            'DOC_NUM' => $selectReceiveRow["DOC_NUM"],
+            'ROUTE_NUM' => $selectReceiveRow["ROUTE_NUM"],
+            'ACTION_ID' => 5,//ACTION_ID RECEIVE
+            'HRIS_ID' => $_SESSION['HRIS_ID'],
+            // 'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_RECEIVED'],
+            'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
+            'NOTE_USER' => $inputs['DATA']['CANCEL_S_NOTES'],
+            'NOTE_SERVER' => "Sending Document canceled by sender",
+        ]
+    ];
+    $insertSCancelToLogsResult = insert($insertSCancelToLogsData);
+    $results[] = !is_null($insertSCancelToLogsResult);
+
+    $valid = checkArray($results);
+    if ($valid) {
+        $conn->commit();
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'MESSAGE' => "Sending has been canceled."
+            )
+        );
+    } else {
+        $conn->rollback();
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'MESSAGE' => "SERVER ERROR"
+            )
+        );
+    }
 }
 
 function getOptions($tableName, $columnName, $conn)
@@ -833,7 +918,7 @@ function receiveDoc($inputs, $conn)
 
     // var_dump($inputs);
     if (!$validated) {
-        //notify user that a inputs is black or not set
+        //notify user that a inputs is blank or not set
         $message = "Please ensure all required fields are filled out.";
     } else if ($inputs['DATA']['DOC_SUBJECT'] == "") {
         //notify user that a inputs is black or not set
@@ -1602,7 +1687,14 @@ function formatDate($dateString)
     $date = new DateTime($dateString);
     return($date->format('n')) . "/" . $date->format('j') . "/" . $date->format('Y');
 }
-
+function checkArray($array)
+{
+    if (in_array(false, $array, true)) {
+        return false;
+    } else {
+        return true;
+    }
+}
 function validateInputs($requiredFields, $inputs)
 {
     foreach ($requiredFields as $field) {
