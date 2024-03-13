@@ -71,7 +71,7 @@ class JsFunctions {
                     button.dataset.d = item.DOC_NUM;
                     button.dataset.r = item.ROUTE_NUM;
 
-                    if (item.Action == "RECEIVE" && btn.className == "btnR") {
+                    if (item.Action == "RECEIVED" && btn.className == "btnR") {
                         button.disabled = true;
                         button.style.visibility = 'hidden';
                     }
@@ -79,7 +79,7 @@ class JsFunctions {
                         button.disabled = true;
                         button.style.visibility = 'hidden';
                     }
-                    if (item.Action == "RECEIVE" && btn.className == "btnCS") {
+                    if (item.Action == "RECEIVED" && btn.className == "btnCS") {
                         button.disabled = true;
                         button.style.visibility = 'hidden';
                     }
