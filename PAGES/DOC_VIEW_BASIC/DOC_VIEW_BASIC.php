@@ -344,7 +344,7 @@
 
                         <div class="form">
                             <div class="track">
-                            <table  class="track_table" id="DOC_VIEW_TRACKING">
+                            <table class="track_table" id="DOC_VIEW_TRACKING">
                                 <thead>
                                     <th></th>
                                 </thead>

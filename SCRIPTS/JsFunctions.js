@@ -102,22 +102,33 @@ class JsFunctions {
 
                     if(fvalue == "RECEIVED"){
                         cell.style.backgroundColor = "#006eff";
+                        cell.style.color = "#ffffff";
+                        cell.style.fontSize = "15px";
                     }
 
                     if(fvalue == "SENT"){
                         cell.style.backgroundColor = "#23d100";
+                        cell.style.color = "#ffffff";
+                        cell.style.fontSize = "15px";
                     }
 
                     if(fvalue == "CANCELLED"){
                         cell.style.backgroundColor = "#ffa600";
+                        cell.style.color = "#ffffff";
+                        cell.style.fontSize = "15px";
                     }
 
-                    if(fvalue == "EDIT"){
-                        cell.style.backgroundColor = "black";
+                    if(fvalue == "EDITED"){
+                        cell.style.backgroundColor = "#e736ff";
+                        cell.style.color = "#ffffff";
+                        cell.style.fontSize = "15px";
                     }
 
-                    cell.style.color = "#ffffff";
-                    cell.style.fontSize = "15px";
+                    if(fvalue == "DUPLICATED"){
+                        cell.style.backgroundColor = "#790000";
+                        cell.style.color = "#ffffff";
+                        cell.style.fontSize = "15px";
+                    }
 
                     cell.textContent = fvalue;
                     row.appendChild(cell);

@@ -279,6 +279,29 @@ function setAttachBtn(id, doc_num, route_num) {
         atc_modal.style.display = "block";
 
 }
+
+function setTrackingTable(id, doc_num, route_num) {
+    const data = {
+        REQUEST: _REQUEST.GET_TABLE_TRACKING,
+        DATA:{
+            DOC_NUM: doc_num,
+            ROUTE_NUM: route_num
+        }
+    };
+
+    MyAjax.createJSON((error, response) => {
+        track_modal.style.display = "block";
+
+        if (response.VALID) {
+        } else {
+
+        }
+        JsFunctions.updateTable(DOC_VIEW_TRACKING,response.RESULT,null,searchBar.value.toUpperCase());
+        setTable(searchBar.value.toUpperCase(), action_type);
+    }, data);
+
+}
+
 function setTableAttachment() {
     const data = {
         REQUEST: _REQUEST.GET_TABLE_ATTACHMENT,
@@ -341,6 +364,11 @@ function setButtons(table) {
     table.querySelectorAll('.btnA').forEach(function (button) {
         button.addEventListener('click', function () {
             setAttachBtn(this.dataset.i, this.dataset.d, this.dataset.r);
+        });
+    });
+    table.querySelectorAll('.btnT').forEach(function (button) {
+        button.addEventListener('mousedown', function () {
+            setTrackingTable(this.dataset.i, this.dataset.d, this.dataset.r);
         });
     });
 }

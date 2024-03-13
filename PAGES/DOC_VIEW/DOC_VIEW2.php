@@ -368,14 +368,16 @@ if (session_status() === PHP_SESSION_NONE) {
                     </div>
 
                     <div class="form">
-                        <table class="track" id="DOC_VIEW_TRACKING">
-                            <thead>
-                                <th></th>
-                            </thead>
-                            <tbody>
-                                <tr></tr>
-                            </tbody>
-                        </table>
+                        <div class="track">
+                            <table class="track_table" id="DOC_VIEW_TRACKING">
+                                <thead>
+                                    <th></th>
+                                </thead>
+                                <tbody>
+                                    <tr></tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
