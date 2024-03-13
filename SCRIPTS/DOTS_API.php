@@ -724,6 +724,7 @@ function sendDocForm($inputs, $conn)
     $newRoutingNumber = 0;
     $lastInboundId = 0;
     $results = [];
+    $r_user_id = 0;
 
     $requiredFields = [
         'DOC_NUM',
@@ -749,6 +750,10 @@ function sendDocForm($inputs, $conn)
 
 
     $conn->begin_transaction();
+
+    if (isset($inputs['DATA']['R_USER_ID'])) {
+        $r_user_id = $inputs['DATA']['R_USER_ID'];
+    }
 
     $insertInboundData = [
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
@@ -802,7 +807,7 @@ function sendDocForm($inputs, $conn)
         ],
         'WHERE' => [
             'AND' => [
-                ['HRIS_ID' => $inputs['DATA']['R_USER_ID']],
+                ['HRIS_ID' => $r_user_id],
                 ['DEPT_ID' => $inputs['DATA']['R_DEPT_ID']],
             ]
         ],
@@ -857,6 +862,13 @@ function sendDocForm($inputs, $conn)
     $results[] = insert($insertInboundData);
     $lastInboundId = $conn->insert_id;
 
+    $formattedDocumentNumber = formatDocumentNumber($checkRoutedRow['DOC_NUM'], $newRoutingNumber);
+    $dept_id = $inputs['DATA']['R_DEPT_ID'];
+    $note_server = "Document $formattedDocumentNumber sent to $dept_id";
+    if (!is_null($selectReceiverRow)) {
+        $note_server = "$selectReceiverRow[DOC_DEPT]-$selectReceiverRow[FULL_NAME]";
+    }
+
     $insertInboundLogData = [
         'TABLE' => 'DOTS_TRACKING',
         'DATA' => [
@@ -866,14 +878,14 @@ function sendDocForm($inputs, $conn)
             'ACTION_ID' => 1,//sent action_id
             'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
             'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_SEND'],
-            'NOTE_SERVER' => "Document Sent to $selectReceiverRow[DOC_DEPT]-$selectReceiverRow[FULL_NAME]",
+            'NOTE_SERVER' => $note_server,
         ]
     ];
 
     if (isset($inputs['DATA']['DOC_NOTES'])) {
         $insertInboundLogData['DATA']['NOTE_USER'] = $inputs['DATA']['DOC_NOTES'];
     }
-    
+
     $insertOutboundData['DATA']['INBOUND_ID'] = $lastInboundId;
     $results[] = insert($insertOutboundData);
     $results[] = insert($insertInboundLogData);
@@ -881,10 +893,9 @@ function sendDocForm($inputs, $conn)
     $valid = checkArray($results);
     if ($valid) {
         $conn->commit();
-        $formattedDocumentNumber = formatDocumentNumber($checkRoutedRow['DOC_NUM'], $newRoutingNumber);
         echo json_encode([
             'VALID' => $valid,
-            "MESSAGE" => "$formattedDocumentNumber Sent to $selectReceiverRow[DOC_DEPT]-$selectReceiverRow[FULL_NAME]",
+            "MESSAGE" => $note_server,
         ]);
     } else {
         $conn->rollback();
@@ -958,7 +969,7 @@ function receiveDoc($inputs, $conn)
     ];
     $results[] = insert($insertLogData);
 
-    $formattedDocumentNumber = formatDocumentNumber($selectDocumentRow['DOC_NUM'],$selectDocumentRow['ROUTE_NUM']);
+    $formattedDocumentNumber = formatDocumentNumber($selectDocumentRow['DOC_NUM'], $selectDocumentRow['ROUTE_NUM']);
     $formattedMessage = "";
     if ($inputs['DATA']['ACTION_ID'] == 2) {
         $formattedMessage = "Document $formattedDocumentNumber Received";
