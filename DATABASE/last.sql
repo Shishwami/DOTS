@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 11/03/2024 16:00:11
+ Date: 13/03/2024 09:07:38
 */
 
 SET NAMES utf8mb4;
@@ -82,16 +82,17 @@ CREATE TABLE `dots_doc_action`  (
   `ID` int NOT NULL AUTO_INCREMENT,
   `DOC_ACTION` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_doc_action
 -- ----------------------------
 INSERT INTO `dots_doc_action` VALUES (1, 'SENT');
-INSERT INTO `dots_doc_action` VALUES (2, 'RECEIVE');
-INSERT INTO `dots_doc_action` VALUES (3, 'CREATE');
-INSERT INTO `dots_doc_action` VALUES (4, 'DUPLICATE');
+INSERT INTO `dots_doc_action` VALUES (2, 'RECEIVED');
+INSERT INTO `dots_doc_action` VALUES (3, 'CREATED');
+INSERT INTO `dots_doc_action` VALUES (4, 'DUPLICATED');
 INSERT INTO `dots_doc_action` VALUES (5, 'CANCELLED');
+INSERT INTO `dots_doc_action` VALUES (6, 'EDITED');
 
 -- ----------------------------
 -- Table structure for dots_doc_dept
@@ -233,7 +234,7 @@ CREATE TABLE `dots_document`  (
 -- ----------------------------
 INSERT INTO `dots_document` VALUES (1, 1994, 0, 'asd', 1, '2024-03-11', '', 1, 0, 0, 0, 2, 27003, '2024-03-11 10:38:00.000000', 5, 2, 0);
 INSERT INTO `dots_document` VALUES (2, 1995, 0, 'asd', 1, '2024-03-11', '', 1, 0, 0, 0, 2, 27003, '2024-03-11 10:41:00.000000', 5, 2, 0);
-INSERT INTO `dots_document` VALUES (3, 1996, 0, 'asd', 2, '2024-03-11', '', 1, 0, 0, 0, 2, 27003, '2024-03-11 10:43:00.000000', 1, 2, 1);
+INSERT INTO `dots_document` VALUES (3, 1996, 0, 'asdasda', 2, '2024-03-11', '', 1, 0, 0, 0, 2, 27003, '2024-03-11 10:43:00.000000', 1, 2, 1);
 INSERT INTO `dots_document` VALUES (4, 1996, 1, 'asd', 2, '2024-03-11', '', 1, 0, 0, 0, 2, 27003, '2024-03-11 10:43:00.000000', 1, 2, 1);
 INSERT INTO `dots_document` VALUES (5, 1996, 2, 'asd', 2, '2024-03-11', '', 1, 0, 0, 0, 2, 27003, '2024-03-11 10:43:00.000000', 1, 2, 1);
 INSERT INTO `dots_document` VALUES (6, 1996, 3, 'asd', 2, '2024-03-11', '', 1, 0, 0, 0, 2, 27003, '2024-03-11 10:43:00.000000', 1, 2, 1);
@@ -278,12 +279,12 @@ CREATE TABLE `dots_document_inbound`  (
   `ROUTED` tinyint(1) NOT NULL DEFAULT 1,
   `OUTBOUND_ID` int NULL DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_document_inbound
 -- ----------------------------
-INSERT INTO `dots_document_inbound` VALUES (1, 1996, 0, '123123123', 2, 0, 27003, 2, 0, 27003, 2, '2024-03-11 11:16:00', '2024-03-11 10:46:00', 2, 1, 16);
+INSERT INTO `dots_document_inbound` VALUES (1, 1996, 0, '123123123', 2, 0, 27003, 2, 0, 27003, 2, '0000-00-00 00:00:00', '2024-03-11 10:46:00', 5, 1, 30);
 INSERT INTO `dots_document_inbound` VALUES (2, 1996, 1, 'asd', 2, 0, 27003, 2, 0, 27003, 2, NULL, '2024-03-11 10:46:00', 1, 1, NULL);
 INSERT INTO `dots_document_inbound` VALUES (3, 1996, 2, 'asdasdasdasd', 2, 0, 27003, 2, 0, 40008, 2, NULL, '2024-03-11 10:54:00', 1, 1, NULL);
 INSERT INTO `dots_document_inbound` VALUES (4, 1996, 3, 'asdasdad1231', 2, 0, 27003, 2, 0, 27003, 2, NULL, '2024-03-11 10:53:00', 1, 1, NULL);
@@ -306,6 +307,10 @@ INSERT INTO `dots_document_inbound` VALUES (20, 1996, 18, 'asdasd', 2, 0, 27003,
 INSERT INTO `dots_document_inbound` VALUES (21, 1996, 19, ' asdasd', 2, 0, 27003, 2, 0, 36006, 4, NULL, '2024-03-11 11:48:00', 1, 1, NULL);
 INSERT INTO `dots_document_inbound` VALUES (22, 1996, 20, 'asdasd', 2, 0, 27003, 2, 0, 32001, 2, NULL, '2024-03-11 11:49:00', 1, 1, NULL);
 INSERT INTO `dots_document_inbound` VALUES (23, 1996, 21, 'asd', 2, 0, 27003, 2, 0, 40008, 2, NULL, '2024-03-11 11:50:00', 1, 1, NULL);
+INSERT INTO `dots_document_inbound` VALUES (24, 1996, 0, 'asd', 1, 0, 27003, 2, 0, 27003, 2, '2024-03-13 08:41:00', '2024-03-13 08:40:00', 2, 1, 32);
+INSERT INTO `dots_document_inbound` VALUES (25, 1996, 0, 'asd', 2, 0, 27003, 2, 0, 34010, 3, NULL, '2024-03-13 08:41:00', 1, 1, NULL);
+INSERT INTO `dots_document_inbound` VALUES (26, 1996, 0, 'asdasdasdasdqweqweqe', 3, 0, 27003, 2, 0, 27003, 2, '2024-03-13 08:42:00', '2024-03-13 08:42:00', 2, 1, 33);
+INSERT INTO `dots_document_inbound` VALUES (27, 1996, 0, 'asasdad', 2, 0, 27003, 2, 0, 40008, 2, NULL, '2024-03-13 08:42:00', 1, 1, NULL);
 
 -- ----------------------------
 -- Table structure for dots_document_outbound
@@ -329,12 +334,12 @@ CREATE TABLE `dots_document_outbound`  (
   `ROUTED` tinyint(1) NOT NULL DEFAULT 1,
   `INBOUND_ID` int NULL DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_document_outbound
 -- ----------------------------
-INSERT INTO `dots_document_outbound` VALUES (1, 1996, 0, '123123123', 2, 0, 27003, 2, 0, 27003, 2, NULL, '2024-03-11 10:46:00', 1, 1, 1);
+INSERT INTO `dots_document_outbound` VALUES (1, 1996, 0, 'asd', 1, 0, 27003, 2, 0, 27003, 2, NULL, '2024-03-13 08:40:00', 1, 1, 24);
 INSERT INTO `dots_document_outbound` VALUES (2, 1996, 1, 'asd', 2, 0, 27003, 2, 0, 27003, 2, NULL, '2024-03-11 10:46:00', 1, 1, 2);
 INSERT INTO `dots_document_outbound` VALUES (3, 1996, 2, 'asdasdasdasd', 2, 0, 27003, 2, 0, 40008, 2, NULL, '2024-03-11 10:54:00', 1, 1, 3);
 INSERT INTO `dots_document_outbound` VALUES (4, 1996, 3, 'asdasdad1231', 2, 0, 27003, 2, 0, 27003, 2, NULL, '2024-03-11 10:53:00', 1, 1, 4);
@@ -349,7 +354,7 @@ INSERT INTO `dots_document_outbound` VALUES (12, 1996, 11, 'asdasd', 3, 0, 27003
 INSERT INTO `dots_document_outbound` VALUES (13, 1996, 12, ' asdadasd', 2, 0, 27003, 2, 0, 25009, 1, NULL, '2024-03-11 11:12:00', 1, 1, 13);
 INSERT INTO `dots_document_outbound` VALUES (14, 1996, 13, 'log test', 2, 0, 27003, 2, 0, 31007, 1, NULL, '2024-03-11 11:13:00', 1, 1, 14);
 INSERT INTO `dots_document_outbound` VALUES (15, 1996, 6, '', 0, 0, 27003, 2, 0, 0, 0, '2024-03-11 11:14:00', NULL, 5, 0, NULL);
-INSERT INTO `dots_document_outbound` VALUES (16, 1996, 0, '1234', 2, 0, 27003, 2, 0, 27003, 2, '2024-03-11 11:16:00', '2024-03-11 11:31:00', 1, 1, 17);
+INSERT INTO `dots_document_outbound` VALUES (16, 1996, 0, '1234', 2, 0, 27003, 2, 0, 27003, 2, '2024-03-11 11:16:00', '2024-03-11 11:31:00', 5, 1, 17);
 INSERT INTO `dots_document_outbound` VALUES (17, 1996, 14, '123123123', 0, 0, 27003, 2, 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 2, 0, 15);
 INSERT INTO `dots_document_outbound` VALUES (18, 1996, 15, '123123123', 0, 0, 27003, 2, 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 2, 0, 16);
 INSERT INTO `dots_document_outbound` VALUES (19, 1996, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-03-11 11:31:00', NULL, 5, 0, NULL);
@@ -363,6 +368,10 @@ INSERT INTO `dots_document_outbound` VALUES (26, 1996, 18, '123123123', 2, 0, 27
 INSERT INTO `dots_document_outbound` VALUES (27, 1996, 19, '123123123', 2, 0, 27003, 2, 0, 27003, 2, '0000-00-00 00:00:00', '2024-03-11 11:48:00', 1, 1, 21);
 INSERT INTO `dots_document_outbound` VALUES (28, 1996, 20, '123123123', 2, 0, 27003, 2, 0, 27003, 2, '0000-00-00 00:00:00', '2024-03-11 11:49:00', 1, 1, 22);
 INSERT INTO `dots_document_outbound` VALUES (29, 1996, 21, '123123123', 2, 0, 27003, 2, 0, 27003, 2, '0000-00-00 00:00:00', '2024-03-11 11:50:00', 1, 1, 23);
+INSERT INTO `dots_document_outbound` VALUES (30, 1996, 0, '', 0, 0, 27003, 2, 0, 0, 0, '2024-03-13 08:40:00', NULL, 5, 0, NULL);
+INSERT INTO `dots_document_outbound` VALUES (31, 1996, 0, 'asd', 2, 0, 27003, 2, 0, 34010, 3, '2024-03-13 08:41:00', '2024-03-13 08:41:00', 5, 1, 25);
+INSERT INTO `dots_document_outbound` VALUES (32, 1996, 0, 'asdasdasdasdqweqweqe', 3, 0, 27003, 2, 0, 27003, 2, '2024-03-13 08:41:00', '2024-03-13 08:42:00', 1, 1, 26);
+INSERT INTO `dots_document_outbound` VALUES (33, 1996, 0, 'asasdad', 2, 0, 27003, 2, 0, 40008, 2, '2024-03-13 08:42:00', '2024-03-13 08:42:00', 1, 1, 27);
 
 -- ----------------------------
 -- Table structure for dots_document_sub
@@ -420,7 +429,7 @@ CREATE TABLE `dots_tracking`  (
   `NOTE_SERVER` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `DATE_TIME_SERVER` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 85 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_tracking
@@ -485,6 +494,28 @@ INSERT INTO `dots_tracking` VALUES (57, 1996, 20, 4, 27003, '2024-03-11 11:49:00
 INSERT INTO `dots_tracking` VALUES (58, 1996, 20, 1, 27003, '2024-03-11 11:49:00', 'asdasd', 'Document Sent to L&D-Mia Elizabeth Johnson', '2024-03-11 11:49:00');
 INSERT INTO `dots_tracking` VALUES (59, 1996, 21, 4, 27003, '2024-03-11 11:50:00', 'asd', 'Document already routed, Document has been duplicated', '2024-03-11 11:50:00');
 INSERT INTO `dots_tracking` VALUES (60, 1996, 21, 1, 27003, '2024-03-11 11:50:00', 'asd', 'Document Sent to L&D-Max Alexander Fischer', '2024-03-11 11:50:00');
+INSERT INTO `dots_tracking` VALUES (61, 0, 0, NULL, 27003, '2024-03-11 10:43:00', NULL, 'Receiving canceled by user', '2024-03-13 08:06:00');
+INSERT INTO `dots_tracking` VALUES (62, 0, 0, NULL, 27003, '2024-03-11 10:43:00', NULL, 'Receiving canceled by user', '2024-03-13 08:06:00');
+INSERT INTO `dots_tracking` VALUES (63, 0, 0, NULL, 27003, '2024-03-11 10:43:00', NULL, 'Receiving canceled by user', '2024-03-13 08:06:00');
+INSERT INTO `dots_tracking` VALUES (64, 0, 0, NULL, 27003, '2024-03-11 10:43:00', NULL, 'Receiving canceled by user', '2024-03-13 08:07:00');
+INSERT INTO `dots_tracking` VALUES (65, 0, 0, NULL, 27003, '2024-03-11 10:43:00', NULL, 'Receiving canceled by user', '2024-03-13 08:08:00');
+INSERT INTO `dots_tracking` VALUES (66, 1996, 0, NULL, 27003, '2024-03-11 10:43:00', NULL, 'Receiving canceled by user', '2024-03-13 08:11:00');
+INSERT INTO `dots_tracking` VALUES (67, 1996, 1, NULL, 27003, '2024-03-11 10:43:00', NULL, 'Receiving canceled by user', '2024-03-13 08:11:00');
+INSERT INTO `dots_tracking` VALUES (68, 1996, 0, NULL, 27003, '2024-03-11 10:43:00', NULL, 'Receiving canceled by user', '2024-03-13 08:16:00');
+INSERT INTO `dots_tracking` VALUES (71, 1996, 0, 6, 27003, '2024-03-11 10:43:00', NULL, 'Receiving canceled by user', '2024-03-13 08:28:00');
+INSERT INTO `dots_tracking` VALUES (72, 1996, 0, 6, 27003, '2024-03-11 10:43:00', NULL, 'Receiving canceled by user', '2024-03-13 08:33:00');
+INSERT INTO `dots_tracking` VALUES (73, 1996, 0, 5, 27003, '0000-00-00 00:00:00', 'asdasd', 'Receiving canceled by user', '2024-03-13 08:39:00');
+INSERT INTO `dots_tracking` VALUES (74, 1996, 0, 2, 27003, '2024-03-13 08:40:00', NULL, 'Document Received by the user', '2024-03-13 08:40:00');
+INSERT INTO `dots_tracking` VALUES (75, 1996, 0, 5, 27003, NULL, 'asd', 'Receiving canceled by user', '2024-03-13 08:40:00');
+INSERT INTO `dots_tracking` VALUES (76, 1996, 0, 5, 27003, NULL, 'asd', 'Sending Document canceled by sender', '2024-03-13 08:40:00');
+INSERT INTO `dots_tracking` VALUES (77, 1996, 0, 1, 27003, '2024-03-13 08:40:00', 'asd', 'Document Sent to L&D-Sarah Grace Lee', '2024-03-13 08:40:00');
+INSERT INTO `dots_tracking` VALUES (78, 1996, 0, 2, 27003, '2024-03-13 08:41:00', NULL, 'Document Received by the user', '2024-03-13 08:41:00');
+INSERT INTO `dots_tracking` VALUES (79, 1996, 0, 1, 27003, '2024-03-13 08:41:00', 'asd', 'Document Sent to PIAD-Daniel Thomas White', '2024-03-13 08:41:00');
+INSERT INTO `dots_tracking` VALUES (80, 1996, 0, 5, 27003, NULL, 'asd', 'Receiving canceled by user', '2024-03-13 08:41:00');
+INSERT INTO `dots_tracking` VALUES (81, 1996, 0, 2, 27003, '2024-03-13 08:41:00', NULL, 'Document Received by the user', '2024-03-13 08:41:00');
+INSERT INTO `dots_tracking` VALUES (82, 1996, 0, 1, 27003, '2024-03-13 08:42:00', 'asdasdasdasdqweqweqe', 'Document Sent to L&D-Sarah Grace Lee', '2024-03-13 08:42:00');
+INSERT INTO `dots_tracking` VALUES (83, 1996, 0, 2, 27003, '2024-03-13 08:42:00', NULL, 'Document Received by the user', '2024-03-13 08:42:00');
+INSERT INTO `dots_tracking` VALUES (84, 1996, 0, 1, 27003, '2024-03-13 08:42:00', 'asasdad', 'Document Sent to L&D-Max Alexander Fischer', '2024-03-13 08:42:00');
 
 -- ----------------------------
 -- Triggers structure for table dots_document
