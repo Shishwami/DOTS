@@ -845,7 +845,6 @@ function sendDocForm($inputs, $conn)
         if (isset($inputs['DATA']['DOC_NOTES'])) {
             $insertDocumentLogData['DATA']['NOTE_USER'] = $inputs['DATA']['DOC_NOTES'];
         }
-
         $results[] = insert($insertDocumentLogData);
     } else if ($checkRoutedRow['ROUTED'] == 0) {
         $results[] = update(($updateDocumentData));
