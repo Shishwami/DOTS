@@ -302,7 +302,7 @@ function editDocument($inputs, $conn)
         "S_OFFICE_ID" => "Office",
     ];
 
-    if (!validateInputs($requiredInputs, $inputs)) {
+    if (!validateInputsEdit($requiredInputs, $inputs)) {
         echo json_encode(
             array(
                 'VALID' => $valid,
@@ -1513,7 +1513,12 @@ function sendDocFormUser($inputs, $conn)
     $newRouteNumber = 0;
     $insertOutboundData = [];
     $valid = false;
-    $results=[];
+    $results = [];
+
+    $r_user_id = 0;
+    if (isset($inputs['DATA']['R_USER_ID'])) {
+        $r_user_id = $inputs['DATA']['R_USER_ID'];
+    }
 
     $requiredFields = [
         'DOC_NUM',
@@ -1521,7 +1526,6 @@ function sendDocFormUser($inputs, $conn)
         'DATE_TIME_SEND',
         'PRPS_ID',
         'R_DEPT_ID',
-        'R_USER_ID',
         'DOC_NOTES',
         'ID',
         'ACTION_ID',
@@ -1557,7 +1561,6 @@ function sendDocFormUser($inputs, $conn)
             'ROUTED' => '1',
             'PRPS_ID' => $inputs['DATA']['PRPS_ID'],
             'DOC_NOTES' => $inputs['DATA']['DOC_NOTES'],
-            'R_USER_ID' => $inputs['DATA']['R_USER_ID'],
             'R_DEPT_ID' => $inputs['DATA']['R_DEPT_ID'],
             'S_USER_ID' => $inputs['DATA']['S_USER_ID'],
             'S_DEPT_ID' => $inputs['DATA']['S_DEPT_ID'],
@@ -1568,6 +1571,9 @@ function sendDocFormUser($inputs, $conn)
             'ID' => $inputs["DATA"]["ID"],
         ]
     ];
+    if (isset($inputs['DATA']['R_USER_ID'])) {
+        $updateOutboundData['DATA']['R_USER_ID'] = $inputs['DATA']['R_USER_ID'];
+    }
 
     //insert to inbound /send
     $insertInboundData = [
@@ -1576,7 +1582,6 @@ function sendDocFormUser($inputs, $conn)
             'DOC_NUM' => $inputs['DATA']['DOC_NUM'],
             'PRPS_ID' => $inputs['DATA']['PRPS_ID'],
             'DOC_NOTES' => $inputs['DATA']['DOC_NOTES'],
-            'R_USER_ID' => $inputs['DATA']['R_USER_ID'],
             'R_DEPT_ID' => $inputs['DATA']['R_DEPT_ID'],
             'S_USER_ID' => $inputs['DATA']['S_USER_ID'],
             'S_DEPT_ID' => $inputs['DATA']['S_DEPT_ID'],
@@ -1584,6 +1589,9 @@ function sendDocFormUser($inputs, $conn)
             'ACTION_ID' => "1",
         ],
     ];
+    if (isset($inputs['DATA']['R_USER_ID'])) {
+        $insertInboundData['DATA']['R_USER_ID'] = $inputs['DATA']['R_USER_ID'];
+    }
 
     //check if routed
     $selectOutboundData = [
@@ -1611,11 +1619,14 @@ function sendDocFormUser($inputs, $conn)
         ],
         'WHERE' => [
             'AND' => [
-                ['HRIS_ID' => $inputs['DATA']['R_USER_ID']],
                 ['DEPT_ID' => $inputs['DATA']['R_DEPT_ID']],
             ]
         ],
     ];
+    if (isset($inputs['DATA']['R_USER_ID'])) {
+        $selectReceiverData['WHERE']['AND'][]['HRIS_ID'] = $inputs['DATA']['R_USER_ID'];
+    }
+
     $selectReceiverRow = selectSingleRow($selectReceiverData);
 
     if ($selectOutboundRow['ROUTED'] == 1) {
@@ -1640,7 +1651,7 @@ function sendDocFormUser($inputs, $conn)
         $last_id = $conn->insert_id;
 
         //add to doc main
-        unset($selectMainDataRow['ID']);
+        unset($selectMainRow['ID']);
         $insertMainData = [
             'TABLE' => 'DOTS_DOCUMENT',
             'DATA' => $selectMainRow,
@@ -1673,20 +1684,41 @@ function sendDocFormUser($inputs, $conn)
         $insertOutboundData["DATA"]['DATE_TIME_SEND'] = $inputs['DATA']['DATE_TIME_SEND'];
         $insertOutboundData['DATA']["INBOUND_ID"] = $last_id;
 
-        $insertOutboundSql = $queries->insertQuery($insertOutboundData);
-        $insertOutboundResult = $conn->query($insertOutboundSql);
+        $results[] = insert($insertOutboundData);
 
     } else if ($selectOutboundRow['ROUTED'] == 0) {
-
-
-        $insertInboundSql = $queries->insertQuery($insertInboundData);
-        $insertInboundResult = $conn->query($insertInboundSql);
-
+        $results[] = insert($insertInboundData);
         $last_id = $conn->insert_id;
 
         $updateOutboundData['DATA']['INBOUND_ID'] = $last_id;
-        $updateOutboundSql = $queries->updateQuery($updateOutboundData);
-        $updateOutboundResult = $conn->query($updateOutboundSql);
+        $results[] = update($updateOutboundData);
+    }
+
+    $selectReceiverData = [
+        'TABLE' => 'DOTS_ACCOUNT_INFO',
+        'WHERE' => [
+            'AND' => [
+                ['HRIS_ID' => $r_user_id],
+            ]
+        ],
+    ];
+    $selectReceiverRow = selectSingleRow($selectReceiverData);
+    $selectDeptData = [
+        'TABLE' => 'DOTS_DOC_DEPT',
+        'WHERE' => [
+            'AND' => [
+                ['ID' => $inputs['DATA']['R_DEPT_ID']],
+            ]
+        ],
+    ];
+    $selectDeptRow = selectSingleRow($selectDeptData);
+
+    $formattedDocumentNumber = formatDocumentNumber($selectOutboundRow['DOC_NUM'], $newRouteNumber);
+    $note_server = "Document $formattedDocumentNumber sent to ";
+    if (!is_null($selectReceiverRow)) {
+        $note_server .= "$selectDeptRow[DOC_DEPT]-$selectReceiverRow[FULL_NAME]";
+    } else {
+        $note_server .= "$selectDeptRow[DOC_DEPT]";
     }
 
     //add log outbound send
@@ -1698,21 +1730,31 @@ function sendDocFormUser($inputs, $conn)
             'ACTION_ID' => 1,//ACTION_ID SEND
             'HRIS_ID' => $_SESSION['HRIS_ID'],
             'NOTE_USER' => $inputs['DATA']['DOC_NOTES'],
-            'NOTE_SERVER' => "Document Sent to $selectReceiverRow[DOC_DEPT]-$selectReceiverRow[FULL_NAME]",
+            'NOTE_SERVER' => $note_server,
             'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_SEND'],
             'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
         ],
     ];
+    $results[] = insert($insertMainLogData);
 
-    $insertMainLogSql = $queries->insertQuery($insertMainLogData);
-    $insertMainLogResult = $conn->query($insertMainLogSql);
-
-    echo json_encode(
-        array(
-            'VALID' => $valid,
-            'MESSAGE' => $message,
-        )
-    );
+    $valid = checkArray($results);
+    if ($valid) {
+        $conn->commit();
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'MESSAGE' => $note_server,
+            )
+        );
+    } else {
+        $conn->rollback();
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'MESSAGE' => "SERVER ERROR",
+            )
+        );
+    }
 }
 function getTableTracking($inputs, $conn)
 {
@@ -1863,6 +1905,15 @@ function checkArray($array)
     }
 }
 function validateInputs($requiredFields, $inputs)
+{
+    foreach ($requiredFields as $field) {
+        if (!isset($inputs['DATA'][$field]) || $inputs['DATA'][$field] == "") {
+            return false;
+        }
+    }
+    return true;
+}
+function validateInputsEdit($requiredFields, $inputs)
 {
     foreach ($requiredFields as $field => $val) {
         if (!isset($inputs['DATA'][$field]) || $inputs['DATA'][$field] == "") {

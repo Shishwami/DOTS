@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 11/03/2024 10:38:32
+ Date: 13/03/2024 15:32:11
 */
 
 SET NAMES utf8mb4;
@@ -37,9 +37,9 @@ CREATE TABLE `dots_account_info`  (
 -- ----------------------------
 -- Records of dots_account_info
 -- ----------------------------
-INSERT INTO `dots_account_info` VALUES (25009, 'Aisha Priya Patel', 'APP', NULL, 1, 'aishappatel', '', 1, NULL);
-INSERT INTO `dots_account_info` VALUES (27003, 'Sarah Grace Lee', 'SGL', NULL, 2, 'sarahglee', '', 2, NULL);
-INSERT INTO `dots_account_info` VALUES (29005, 'Emily Mei Chen', 'EMC', NULL, 3, 'emilymchen', '', 3, NULL);
+INSERT INTO `dots_account_info` VALUES (25009, 'Aisha Priya Patel', 'APP', NULL, 1, 'aishappatel', '', 1, 1);
+INSERT INTO `dots_account_info` VALUES (27003, 'Sarah Grace Lee', 'SGL', NULL, 2, 'sarahglee', '', 2, 3);
+INSERT INTO `dots_account_info` VALUES (29005, 'Emily Mei Chen', 'EMC', NULL, 3, 'emilymchen', '', 3, 2);
 INSERT INTO `dots_account_info` VALUES (31007, 'Sophia Fatima Khan', 'SFK', NULL, 1, 'sophiafkhan', '', 4, NULL);
 INSERT INTO `dots_account_info` VALUES (32001, 'Mia Elizabeth Johnson', 'MEJ', NULL, 2, 'miaejohnson', '', 4, NULL);
 INSERT INTO `dots_account_info` VALUES (34010, 'Daniel Thomas White', 'DTW', NULL, 3, 'danieltwhite', '', 5, NULL);
@@ -74,16 +74,17 @@ CREATE TABLE `dots_doc_action`  (
   `ID` int NOT NULL AUTO_INCREMENT,
   `DOC_ACTION` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_doc_action
 -- ----------------------------
 INSERT INTO `dots_doc_action` VALUES (1, 'SENT');
-INSERT INTO `dots_doc_action` VALUES (2, 'RECEIVE');
-INSERT INTO `dots_doc_action` VALUES (3, 'CREATE');
-INSERT INTO `dots_doc_action` VALUES (4, 'DUPLICATE');
+INSERT INTO `dots_doc_action` VALUES (2, 'RECEIVED');
+INSERT INTO `dots_doc_action` VALUES (3, 'CREATED');
+INSERT INTO `dots_doc_action` VALUES (4, 'DUPLICATED');
 INSERT INTO `dots_doc_action` VALUES (5, 'CANCELLED');
+INSERT INTO `dots_doc_action` VALUES (6, 'EDITED');
 
 -- ----------------------------
 -- Table structure for dots_doc_dept
@@ -319,7 +320,7 @@ CREATE TABLE `dots_num_sequence`  (
 -- ----------------------------
 -- Records of dots_num_sequence
 -- ----------------------------
-INSERT INTO `dots_num_sequence` VALUES (1, 1994);
+INSERT INTO `dots_num_sequence` VALUES (1, 1997);
 
 -- ----------------------------
 -- Table structure for dots_tracking
@@ -334,8 +335,9 @@ CREATE TABLE `dots_tracking`  (
   `DATE_TIME_ACTION` datetime NULL DEFAULT NULL,
   `NOTE_USER` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `NOTE_SERVER` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `DATE_TIME_SERVER` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 85 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_tracking
