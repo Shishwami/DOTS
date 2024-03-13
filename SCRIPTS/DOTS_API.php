@@ -323,14 +323,6 @@ function editDocument($inputs, $conn)
 
     $conn->begin_transaction();
 
-    $updateDocData = [
-        'TABLE' => 'DOTS_DOCUMENT',
-        'DATA' => $inputs['DATA'],
-        'WHERE' => [
-            'ID' => $inputs['DATA']['ID']
-        ]
-    ];
-
     $selectDocData = [
         'TABLE' => 'DOTS_DOCUMENT',
         'WHERE' => [
@@ -340,6 +332,17 @@ function editDocument($inputs, $conn)
         ]
     ];
     $selectDocResult = selectSingleRow($selectDocData);
+
+    var_dump($selectDocResult);
+    var_dump($inputs['DATA']);
+
+    $updateDocData = [
+        'TABLE' => 'DOTS_DOCUMENT',
+        'DATA' => $inputs['DATA'],
+        'WHERE' => [
+            'ID' => $inputs['DATA']['ID']
+        ]
+    ];
 
     if ($selectDocResult['ROUTE_NUM'] == 0) {
         $message = "Document $selectDocResult[DOC_NUM] Updated";
@@ -357,7 +360,7 @@ function editDocument($inputs, $conn)
             'DATE_TIME_ACTION' => $selectDocResult['DATE_TIME_RECEIVED'],
             'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
             // 'NOTE_USER' => $inputs['DATA']['CANCEL_R_NOTES'],
-            'NOTE_SERVER' => "Receiving canceled by user",
+            'NOTE_SERVER' => "Document Edited by user",
         ]
     ];
     $insertDocLogResult = insert($insertDocLogData);
@@ -794,25 +797,23 @@ function sendDocForm($inputs, $conn)
 
     $selectReceiverData = [
         'TABLE' => 'DOTS_ACCOUNT_INFO',
-        'COLUMNS' => [
-            "DOTS_ACCOUNT_INFO.FULL_NAME",
-            "DOTS_DOC_DEPT.DOC_DEPT"
-        ],
-        'JOIN' => [
-            [
-                'table' => 'DOTS_DOC_DEPT',
-                'ON' => ['DOTS_DOC_DEPT.ID = DOTS_ACCOUNT_INFO.DEPT_ID'],
-                'TYPE' => 'LEFT',
-            ],
-        ],
         'WHERE' => [
             'AND' => [
                 ['HRIS_ID' => $r_user_id],
-                ['DEPT_ID' => $inputs['DATA']['R_DEPT_ID']],
             ]
         ],
     ];
     $selectReceiverRow = selectSingleRow($selectReceiverData);
+
+    $selectDeptData = [
+        'TABLE' => 'DOTS_DOC_DEPT',
+        'WHERE' => [
+            'AND' => [
+                ['ID' => $inputs['DATA']['R_DEPT_ID']],
+            ]
+        ],
+    ];
+    $selectDeptRow = selectSingleRow($selectDeptData);
 
     if ($checkRoutedRow['ROUTED'] == 1) {
         $selectDocumentData = [
@@ -863,10 +864,11 @@ function sendDocForm($inputs, $conn)
     $lastInboundId = $conn->insert_id;
 
     $formattedDocumentNumber = formatDocumentNumber($checkRoutedRow['DOC_NUM'], $newRoutingNumber);
-    $dept_id = $inputs['DATA']['R_DEPT_ID'];
-    $note_server = "Document $formattedDocumentNumber sent to $dept_id";
+    $note_server = "Document $formattedDocumentNumber sent to ";
     if (!is_null($selectReceiverRow)) {
-        $note_server = "$selectReceiverRow[DOC_DEPT]-$selectReceiverRow[FULL_NAME]";
+        $note_server .= "$selectDeptRow[DOC_DEPT]-$selectReceiverRow[FULL_NAME]";
+    } else {
+        $note_server .= "$selectDeptRow[DOC_DEPT]";
     }
 
     $insertInboundLogData = [
@@ -1165,13 +1167,14 @@ function getTableUser($inputs, $conn, $tableName)
         'COLUMNS' => array(
             "$tableName.ID",
 
-            "CASE WHEN ROUTE_NUM = 0 THEN $tableName.DOC_NUM 
-             ELSE CONCAT($tableName.DOC_NUM,\"-\",ROUTE_NUM) 
+            "CASE WHEN $tableName.ROUTE_NUM = 0 THEN $tableName.DOC_NUM 
+             ELSE CONCAT($tableName.DOC_NUM,\"-\",$tableName.ROUTE_NUM) 
              END AS `No.`",
 
-            "DOC_NUM",
-            "ROUTE_NUM",
-            "DOC_NOTES as `Notes`",
+            "$tableName.DOC_NUM",
+            "$tableName.ROUTE_NUM",
+            "DOTS_DOCUMENT.DOC_SUBJECT",
+            "$tableName.DOC_NOTES as `Notes`",
             "DOTS_DOC_PRPS.DOC_PRPS `Purpose`",
 
             "CONCAT(" .
@@ -1184,8 +1187,8 @@ function getTableUser($inputs, $conn, $tableName)
             "IF(R_DEPT.DOC_DEPT IS NOT NULL,CONCAT(R_DEPT.DOC_DEPT,'-'), ' '), " .
             "IFNULL(R_FULL_NAME.FULL_NAME, ' ')) as 'Receiver'",
 
-            "DATE_TIME_RECEIVED as `Date Received`",
-            "DATE_TIME_SEND as `Date Sent`",
+            "$tableName.DATE_TIME_RECEIVED as `Date Received`",
+            "$tableName.DATE_TIME_SEND as `Date Sent`",
             "DOTS_DOC_ACTION.DOC_ACTION as `Action`",
         ),
         "JOIN" => array(
@@ -1227,6 +1230,14 @@ function getTableUser($inputs, $conn, $tableName)
             array(
                 "table" => "DOTS_DOC_ACTION",
                 "ON" => ["$tableName.ACTION_ID = DOTS_DOC_ACTION.ID"],
+                "TYPE" => "LEFT",
+            ),
+            array(
+                "table" => "DOTS_DOCUMENT",
+                "ON" => [
+                    "DOTS_DOCUMENT.DOC_NUM = $tableName.DOC_NUM",
+                    "DOTS_DOCUMENT.ROUTE_NUM = $tableName.ROUTE_NUM"
+                ],
                 "TYPE" => "LEFT",
             ),
         ),
