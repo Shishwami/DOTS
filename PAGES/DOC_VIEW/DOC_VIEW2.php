@@ -19,7 +19,9 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="../../CSS/FontAwesome/css/fontawesome.min.css">
     <title></title>
 </head>
-
+<?php
+include "../../SCRIPTS/checkPrivilage.php";
+?>
 <body>
     <?php include '../../DOTS_NAVBAR/DOTS_NAV.php'; ?>
 
