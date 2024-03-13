@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../CSS/DOTS_LOGIN.css">
-    <link rel="stylesheet" href="../CSS/DOTS_NAV.css">
+    <link rel="stylesheet" href="../../CSS/DOTS_LOGIN.css">
+    <link rel="stylesheet" href="../../CSS/DOTS_NAV.css">
     <title>CHRMO - DOTS</title>
 </head>
 <body>
@@ -14,24 +14,26 @@
         <div class="login_border">
             <h1>CHRMO - DOTS</h1>
 
-            <form class="login-form" action="DOTS_LOGIN.html" class="login" method="post">
+            <form class="login-form" action="DOTS_LOGIN.html" class="login" id="FORM_LOGIN" method="post">
                 <div class="container">
-                    <label for="uname"></label>
-                    <input type="text" placeholder="Username" name="uname" id="uname" required>
+                    <!-- <label for="USERNAME"></label> -->
+                    <input type="text" placeholder="Username" name="USERNAME" id="USERNAME">
                 </div>
 
                 <div class="container">
-                    <label for="pword"></label>
-                    <input type="password" placeholder="Password" name="pword" required>
+                    <!-- <label for="PASSWORD"></label> -->
+                    <input type="password" placeholder="Password" name="PASSWORD" id="PASSWORD">
                 </div>
 
-                <div class="container">
+                <!-- <div class="container">
                     <input type="checkbox" value="RememberMe" id="RememberMe">
                     <label class="rmb" for="RememberMe">Remember Me</label>
-                </div>
+                </div> -->
                 <br>
-                <input type="submit" value="Login" name="submit" onclick="RememberMe()">
+                 <input type="submit" value="LOGIN" name="submit"> 
             </form>
+
+            <script src="../../SCRIPTS/Constants.js"></script>
 
             <!-- <div class="container">
                 <a href="#">Reset Password</a>
@@ -40,4 +42,7 @@
     </div>
 
 </body>
+<!-- <script src="DOTS_LOGIN.js"></script> -->
+<script type="module" src="./script.js"></script>
+
 </html>
