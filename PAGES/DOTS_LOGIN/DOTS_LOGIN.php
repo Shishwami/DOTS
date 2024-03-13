@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../CSS/DOTS_LOGIN.css">
     <link rel="stylesheet" href="../../CSS/DOTS_NAV.css">
+    <link rel="stylesheet" href="../../CSS/Notifications.css">
     <title>CHRMO - DOTS</title>
 </head>
 <body>
@@ -40,7 +41,9 @@
             </div> -->
         </div>
     </div>
-
+    <?php
+    include "../Notifications/Notifications.php";
+    ?>
 </body>
 <!-- <script src="DOTS_LOGIN.js"></script> -->
 <script type="module" src="./script.js"></script>
