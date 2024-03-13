@@ -364,14 +364,17 @@ function editDocument($inputs, $conn)
             $oldInputs = getValueFromId($oldInputs, $selectDeptRows, "DOC_DEPT");
         }
         if ($key == "ACTION_ID") {
-            $inputMapping = [
-                2 => "CREATE",
-                3 => "RECEIVED",
-            ];
+            if ($oldInputs == 2) {
+                $oldInputs = "CREATE";
+            } elseif ($oldInputs == 3) {
+                $oldInputs = "RECEIVED";
+            }
 
-            $oldInputs = $inputMapping[$oldInputs] ?? $oldInputs;
-
-            $newInputs = $inputMapping[$newInputs] ?? $newInputs;
+            if ($newInputs == 2) {
+                $newInputs = "CREATE";
+            } elseif ($newInputs == 3) {
+                $newInputs = "RECEIVED";
+            }
 
         }
         if ($newInputs !== $oldInputs) {
@@ -1821,7 +1824,7 @@ function getTableAttachment($inputs, $conn)
             )
         );
         exit;
-    }   
+    }
     $tableName = 'DOTS_ATTACHMENTS';
 
     $data = [
