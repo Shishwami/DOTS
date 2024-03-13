@@ -747,6 +747,9 @@ function sendDocForm($inputs, $conn)
         exit;
     }
 
+
+    $conn->begin_transaction();
+
     $insertInboundData = [
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
         'DATA' => $inputs['DATA'],
@@ -846,8 +849,9 @@ function sendDocForm($inputs, $conn)
             $insertDocumentLogData['DATA']['NOTE_USER'] = $inputs['DATA']['DOC_NOTES'];
         }
         $results[] = insert($insertDocumentLogData);
+
     } else if ($checkRoutedRow['ROUTED'] == 0) {
-        $results[] = update(($updateDocumentData));
+        $results[] = update($updateDocumentData);
     }
 
     $results[] = insert($insertInboundData);
@@ -879,11 +883,13 @@ function sendDocForm($inputs, $conn)
 
     $valid = checkArray($results);
     if ($valid) {
+        $conn->commit();
         echo json_encode([
             'VALID' => $valid,
             "MESSAGE" => "$formattedDocumentNumber Sent to $selectReceiverRow[DOC_DEPT]-$selectReceiverRow[FULL_NAME]",
         ]);
     } else {
+        $conn->rollback();
         echo json_encode([
             'VALID' => $valid,
             "MESSAGE" => "Failed Sending $formattedDocumentNumber",
@@ -1710,11 +1716,12 @@ function insert($insertData)
 
     return $insertResult;
 }
-function update($updateData){
+function update($updateData)
+{
     $queries = new Queries();
     global $conn;
 
-    $updateSql = $queries->insertQuery($updateData);
+    $updateSql = $queries->updateQuery($updateData);
     $updateResult = $conn->query($updateSql);
 
     return $updateResult;
