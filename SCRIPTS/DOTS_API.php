@@ -917,55 +917,51 @@ function receiveDoc($inputs, $conn)
 
     $validated = validateInputs($requiredFields, $inputs);
 
-    // var_dump($inputs);
-    if (!$validated) {
-        //notify user that a inputs is blank or not set
-        $message = "Please ensure all required fields are filled out.";
-    } else if ($inputs['DATA']['DOC_SUBJECT'] == "") {
-        //notify user that a inputs is black or not set
-        $message = "Please ensure all required fields are filled out.";
-    } else {
-        $insertDocumentData = array(
-            'TABLE' => 'DOTS_DOCUMENT',
-            'DATA' => $inputs['DATA'],
-        );
+    //notify user that a inputs is blank or not set
+    $message = "Please ensure all required fields are filled out.";
 
-        if (!insert($insertDocumentData)) {
-            //insertion failed
-        } else {
-            $valid = true;
-            $lastId = $conn->insert_id; //id of the last inserted row
-            //get doc_num, route_num and actionid
-            $selectDocumentData = [
-                'TABLE' => 'DOTS_DOCUMENT',
-                'WHERE' => [
-                    'AND' => [
-                        ['ID' => $lastId]
-                    ]
+
+
+    $insertDocumentData = array(
+        'TABLE' => 'DOTS_DOCUMENT',
+        'DATA' => $inputs['DATA'],
+    );
+
+    if (!insert($insertDocumentData)) {
+        //insertion failed
+    } else {
+        $valid = true;
+        $lastId = $conn->insert_id; //id of the last inserted row
+        //get doc_num, route_num and actionid
+        $selectDocumentData = [
+            'TABLE' => 'DOTS_DOCUMENT',
+            'WHERE' => [
+                'AND' => [
+                    ['ID' => $lastId]
                 ]
-            ];
-            $selectDocumentRow = selectSingleRow($selectDocumentData);
-            //add log create/ receive doc
-            $insertLogData = [
-                'TABLE' => 'DOTS_TRACKING',
-                'DATA' => [
-                    'DOC_NUM' => $selectDocumentRow['DOC_NUM'],
-                    'ROUTE_NUM' => $selectDocumentRow['ROUTE_NUM'],
-                    'ACTION_ID' => $selectDocumentRow['ACTION_ID'],
-                    'HRIS_ID' => $_SESSION['HRIS_ID'],
-                    'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
-                    'NOTE_SERVER' => "Document Created/Received at the receiving station",
-                    'DATE_TIME_ACTION' => $selectDocumentRow['DATE_TIME_RECEIVED'],
-                ],
-            ];
-            insert($insertLogData);
-            // var_dump($inputs);
-            if ($inputs['DATA']['ACTION_ID'] == 2) {
-                $message = "Document $selectDocumentRow[DOC_NUM] Received";
-            }
-            if ($inputs['DATA']['ACTION_ID'] == 3) {
-                $message = "Document $selectDocumentRow[DOC_NUM] Created";
-            }
+            ]
+        ];
+        $selectDocumentRow = selectSingleRow($selectDocumentData);
+        //add log create/ receive doc
+        $insertLogData = [
+            'TABLE' => 'DOTS_TRACKING',
+            'DATA' => [
+                'DOC_NUM' => $selectDocumentRow['DOC_NUM'],
+                'ROUTE_NUM' => $selectDocumentRow['ROUTE_NUM'],
+                'ACTION_ID' => $selectDocumentRow['ACTION_ID'],
+                'HRIS_ID' => $_SESSION['HRIS_ID'],
+                'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
+                'NOTE_SERVER' => "Document Created/Received at the receiving station",
+                'DATE_TIME_ACTION' => $selectDocumentRow['DATE_TIME_RECEIVED'],
+            ],
+        ];
+        insert($insertLogData);
+        // var_dump($inputs);
+        if ($inputs['DATA']['ACTION_ID'] == 2) {
+            $message = "Document $selectDocumentRow[DOC_NUM] Received";
+        }
+        if ($inputs['DATA']['ACTION_ID'] == 3) {
+            $message = "Document $selectDocumentRow[DOC_NUM] Created";
         }
     }
     echo json_encode(
