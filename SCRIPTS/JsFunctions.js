@@ -100,6 +100,10 @@ class JsFunctions {
                     const cell = document.createElement('td');
                     var fvalue = value;
 
+                    if(fvalue == "RECEIVE"){
+                        cell.style.backgroundColor = "black";
+                    }
+
                     cell.textContent = fvalue;
                     row.appendChild(cell);
 
