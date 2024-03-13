@@ -14,9 +14,13 @@
     <link rel="stylesheet" href="../../CSS/FontAwesome/css/fontawesome.min.css">
     <title></title>
 </head>
+<?php
+include "../../SCRIPTS/checkPrivilage.php";
+?>
 <body>
 
-    <?php include "../../DOTS_NAVBAR/DOTS_NAV.php"?>
+    <?php include "../../DOTS_NAVBAR/DOTS_NAV.php";
+    ?>
 
     <div class="container">
         <h1>Document View</h1>
@@ -70,9 +74,10 @@
                             <div class="form_head">
                                 <div>
                                     <label for="RECEIVE_DATE_TIME_RECEIVED">Date Received:</label>
-                                    <input type="datetime-local" name="DATE_TIME_RECEIVED" id="RECEIVE_DATE_TIME_RECEIVED">
+                                    <input type="datetime-local" name="DATE_TIME_RECEIVED"
+                                        id="RECEIVE_DATE_TIME_RECEIVED">
                                 </div>
-                            </div>   
+                            </div>
 
                             <div class="form_body">
                                 <!-- <input type="text" name="ID" id="RECEIVE_DOC_ID" hidden>
@@ -102,67 +107,67 @@
                         </div>
 
                         <form class="tbl_form" action="submit" name="FORM_DOC_SEND" id="FORM_DOC_SEND">
-                        <div class="form_head">
-                            <div class="head1">
-                                <label for="SEND_DOC_NUM">Document Number:</label>
-                                <input type="text" name="DOC_NUM" id="SEND_DOC_NUM" readonly>
-                            </div>
-                            <div class="head2">
-                                <!-- <label for="SEND_DATE_TIME_RECEIVED">Date Received:</label>
+                            <div class="form_head">
+                                <div class="head1">
+                                    <label for="SEND_DOC_NUM">Document Number:</label>
+                                    <input type="text" name="DOC_NUM" id="SEND_DOC_NUM" readonly>
+                                </div>
+                                <div class="head2">
+                                    <!-- <label for="SEND_DATE_TIME_RECEIVED">Date Received:</label>
                                 <input type="datetime-local" name="DATE_TIME_RECEIVED" id="SEND_DATE_TIME_RECEIVED"> -->
 
-                                <label for="SEND_ROUTE_NUM">Document Number:</label>
-                                <input type="text" name="ROUTE_NUM" id="SEND_ROUTE_NUM" readonly>
+                                    <label for="SEND_ROUTE_NUM">Document Number:</label>
+                                    <input type="text" name="ROUTE_NUM" id="SEND_ROUTE_NUM" readonly>
+                                </div>
+                                <div class="head3">
+                                    <label for="SEND_DATE_TIME_SEND">Date Sent:</label>
+                                    <input type="datetime-local" name="DATE_TIME_SEND" id="SEND_DATE_TIME_SEND">
+                                </div>
                             </div>
-                            <div class="head3">
-                                <label for="SEND_DATE_TIME_SEND">Date Sent:</label>
-                                <input type="datetime-local" name="DATE_TIME_SEND" id="SEND_DATE_TIME_SEND">
+                            <div class="form_body">
+                                <div class="form_opt">
+                                    <label for="SEND_DOC_PRPS">Document Purpose:</label>
+                                    <select name="PRPS_ID" id="SEND_DOC_PRPS">
+                                        <option value="" disabled selected>Please Select Purpose</option>
+                                        <!-- to be filled using database -->
+                                    </select>
+                                </div>
+                                <div class="form_opt">
+                                    <label for="SEND_R_DEPT_ID">Department:</label>
+                                    <select name="R_DEPT_ID" id="SEND_R_DEPT_ID">
+                                        <option value="" disabled selected>Please Select Department</option>
+                                        <!-- to be filled using database -->
+                                    </select>
+                                </div>
+                                <div class="form_opt">
+                                    <label for="SEND_DOC_ADDRESSEE">Addressee:</label>
+                                    <select name="R_USER_ID" id="SEND_DOC_ADDRESSEE">
+                                        <option value="" disabled selected>Please Select Addressee</option>
+                                        <!-- to be filled using database -->
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form_body">
-                            <div class="form_opt">
-                                <label for="SEND_DOC_PRPS">Document Purpose:</label>
-                                <select name="PRPS_ID" id="SEND_DOC_PRPS">
-                                    <option value="" disabled selected>Please Select Purpose</option>
-                                    <!-- to be filled using database -->
-                                </select>
-                            </div>
-                            <div class="form_opt">
-                                <label for="SEND_R_DEPT_ID">Department:</label>
-                                <select name="R_DEPT_ID" id="SEND_R_DEPT_ID">
-                                    <option value="" disabled selected>Please Select Department</option>
-                                    <!-- to be filled using database -->
-                                </select>
-                            </div>
-                            <div class="form_opt">
-                                <label for="SEND_DOC_ADDRESSEE">Addressee:</label>
-                                <select name="R_USER_ID" id="SEND_DOC_ADDRESSEE">
-                                    <option value="" disabled selected>Please Select Addressee</option>
-                                    <!-- to be filled using database -->
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="form_notes">
-                            <label for="SEND_DOC_NOTES">Notes:</label>
-                            <textarea name="DOC_NOTES" id="SEND_DOC_NOTES" cols="30" rows="5"></textarea>
-                            <!-- <input type="text" name="DOC_NOTES" id="SEND_DOC_NOTES"> -->
-                        </div>
 
-                        <div class="form_footer">
-                            <!-- <input type="text" name="ACTION_ID" id="SEND_DOC_ACTION" value="1" readonly hidden>
+                            <div class="form_notes">
+                                <label for="SEND_DOC_NOTES">Notes:</label>
+                                <textarea name="DOC_NOTES" id="SEND_DOC_NOTES" cols="30" rows="5"></textarea>
+                                <!-- <input type="text" name="DOC_NOTES" id="SEND_DOC_NOTES"> -->
+                            </div>
+
+                            <div class="form_footer">
+                                <!-- <input type="text" name="ACTION_ID" id="SEND_DOC_ACTION" value="1" readonly hidden>
                             <input type="text" name="S_DEPT_ID" id="SEND_S_DEPT_ID" value="" readonly hidden>
                             <input type="text" name="S_USER_ID" id="SEND_S_USER_ID" value="" readonly hidden> -->
 
-                            <input hidden readonly type="text" name="ID" id="SEND_DOC_ID">
-                            <input hidden readonly type="text" name="ACTION_ID" id="SEND_DOC_ACTION" value="1">
-                            <input hidden readonly type="text" name="S_DEPT_ID" id="SEND_S_DEPT_ID" value="">
-                            <input hidden readonly type="text" name="S_USER_ID" id="SEND_S_USER_ID" value="">
-                        </div>
+                                <input hidden readonly type="text" name="ID" id="SEND_DOC_ID">
+                                <input hidden readonly type="text" name="ACTION_ID" id="SEND_DOC_ACTION" value="1">
+                                <input hidden readonly type="text" name="S_DEPT_ID" id="SEND_S_DEPT_ID" value="">
+                                <input hidden readonly type="text" name="S_USER_ID" id="SEND_S_USER_ID" value="">
+                            </div>
 
-                        <div class="form_sub">
-                            <input type="submit" value="Send">
-                        </div>
+                            <div class="form_sub">
+                                <input type="submit" value="Send">
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -212,7 +217,7 @@
 
                             <div class="content_two">
                                 <div>
-                                <input type="submit" value="CANCEL">
+                                    <input type="submit" value="CANCEL">
                                 </div>
                                 <input hidden type="text" name="CANCEL_S_ID" id="CANCEL_S_ID">
                             </div>
@@ -228,7 +233,7 @@
                         </div>
 
                         <div class="spacer">
-                            <button  class="atc_btn" id="BTN_ATTACH_ADD">Add Attachment</button>
+                            <button class="atc_btn" id="BTN_ATTACH_ADD">Add Attachment</button>
                             <button class="ins_btn" id="BTN_ATTACH_INS">Inspect Image</button>
                             <!-- <table id="ATTACH_VIEW_MAIN">
                                 <th>
@@ -316,7 +321,7 @@
                             </div>
 
 
-                                <!-- <h1>ADD ATTACHMENT MODAL</h1>
+                            <!-- <h1>ADD ATTACHMENT MODAL</h1>
                                 <form action="submit" method="POST" id="FORM_ATTACH_ADD" enctype="multipart/form-data">
                                     <label for="ATTACH_DESCRIPTION">Description:</label>
                                     <input type="text" name="DESCRIPTION" id="ATTACH_DESCRIPTION">
@@ -326,24 +331,24 @@
                                     <input type="text" name="ROUTE_NUM" id="ATTACH_ROUTE_NUM">
                                 </form> -->
 
-                                <div>
-                                    <!-- input preview -->
-                                </div>
+                            <div>
+                                <!-- input preview -->
                             </div>
-
                         </div>
+
                     </div>
                 </div>
+            </div>
 
-                <div class="modal" id="track_modal">
-                    <div class="modal_content">
-                        <div class="modal_banner">
-                            <span class="track_close">&times;</span>
-                            <h1>Document Tracking</h1>
-                        </div>
+            <div class="modal" id="track_modal">
+                <div class="modal_content">
+                    <div class="modal_banner">
+                        <span class="track_close">&times;</span>
+                        <h1>Document Tracking</h1>
+                    </div>
 
-                        <div class="form">
-                            <div class="track">
+                    <div class="form">
+                        <div class="track">
                             <table class="track_table" id="DOC_VIEW_TRACKING">
                                 <thead>
                                     <th></th>
@@ -352,12 +357,12 @@
                                     <tr></tr>
                                 </tbody>
                             </table>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <br>
     <?php
