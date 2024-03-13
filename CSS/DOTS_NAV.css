@@ -259,6 +259,24 @@ nav .content .links
     display: none;
 }
 
+.logout_btn
+{
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+    background: none;
+    color: var(--white);
+    padding: 9px 17px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.logout_btn:hover
+{
+    background: var(--links_hover_bg);
+    color: var(--black);
+}
+
 /* Dropdown Menu Styles */
 .content .links ul
 {
