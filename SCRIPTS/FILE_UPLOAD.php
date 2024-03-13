@@ -1,8 +1,22 @@
 <?php
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 include './Queries.php';
 include './DB_Connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['ATTACH_FILE'])) {
+    if ($_SESSION['DOTS_PRIV'] < 3) {
+        echo json_encode(
+            array(
+                'VALID' => false,
+                'MESSAGE' => "Not enough privilege to perform this action",
+            )
+        );
+        exit;
+    }
     $queries = new Queries();
     $message = "";
     $valid = false;
@@ -14,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['ATTACH_FILE'])) {
     $route_num = $_POST['ROUTE_NUM'];
     $desc = $_POST['DESCRIPTION'];
 
-    
+
     $targetDir = "$uploadDirectory/$doc_num/$route_num/";
     // Create the target directory if it doesn't exist
     if (!file_exists($targetDir)) {
@@ -55,8 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['ATTACH_FILE'])) {
     }
     echo json_encode(
         array(
-            'VALID'=>$valid,
-            'MESSAGE'=>$message,
+            'VALID' => $valid,
+            'MESSAGE' => $message,
         )
     );
 } else {
