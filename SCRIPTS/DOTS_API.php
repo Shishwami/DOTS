@@ -723,8 +723,8 @@ function sendDocForm($inputs, $conn)
     $valid = false;
     $newRoutingNumber = 0;
     $lastInboundId = 0;
-    $message = "";
-    $queryResults = [];
+    $results = [];
+    $r_user_id = 0;
 
     $requiredFields = [
         'DOC_NUM',
@@ -738,168 +738,178 @@ function sendDocForm($inputs, $conn)
         'S_USER_ID',
     ];
 
-    $validation = validateInputs($requiredFields, $inputs);
+    if (!validateInputs($requiredFields, $inputs)) {
+        echo json_encode(
+            [
+                'VALID' => $valid,
+                'MESSAGE' => "Please Fill up Required Fields"
+            ]
+        );
+        exit;
+    }
 
-    if (!$validation) {
-        $message = "Please ensure all required fields are filled out.";
-    } else {
-        $insertInboundData = [
-            'TABLE' => 'DOTS_DOCUMENT_INBOUND',
-            'DATA' => $inputs['DATA'],
-        ];
-        $insertOutboundData = [
-            'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
-            'DATA' => $inputs['DATA'],
-        ];
 
-        $checkRoutedData = [
-            'TABLE' => 'DOTS_DOCUMENT',
-            'COLUMNS' => [
-                'ID',
-                'DOC_NUM',
-                'ROUTE_NUM',
-                'ROUTED',
+    $conn->begin_transaction();
+
+    if (isset($inputs['DATA']['R_USER_ID'])) {
+        $r_user_id = $inputs['DATA']['R_USER_ID'];
+    }
+
+    $insertInboundData = [
+        'TABLE' => 'DOTS_DOCUMENT_INBOUND',
+        'DATA' => $inputs['DATA'],
+    ];
+    $insertOutboundData = [
+        'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
+        'DATA' => $inputs['DATA'],
+    ];
+
+    $checkRoutedData = [
+        'TABLE' => 'DOTS_DOCUMENT',
+        'COLUMNS' => [
+            'ID',
+            'DOC_NUM',
+            'ROUTE_NUM',
+            'ROUTED',
+        ],
+        'WHERE' => [
+            'AND' => [
+                ['DOC_NUM' => $inputs['DATA']['DOC_NUM']],
+                ['ROUTE_NUM' => $inputs['DATA']['ROUTE_NUM']],
+            ]
+        ],
+    ];
+    $checkRoutedRow = selectSingleRow($checkRoutedData);
+
+    $updateDocumentData = [
+        'TABLE' => 'DOTS_DOCUMENT',
+        'DATA' => [
+            'ROUTED' => 1,//set to routed
+            'DOC_STATUS' => 1,//set on hand to pending
+        ],
+        'WHERE' => [
+            'ID' => $checkRoutedRow['ID']
+        ],
+    ];
+
+    $selectReceiverData = [
+        'TABLE' => 'DOTS_ACCOUNT_INFO',
+        'COLUMNS' => [
+            "DOTS_ACCOUNT_INFO.FULL_NAME",
+            "DOTS_DOC_DEPT.DOC_DEPT"
+        ],
+        'JOIN' => [
+            [
+                'table' => 'DOTS_DOC_DEPT',
+                'ON' => ['DOTS_DOC_DEPT.ID = DOTS_ACCOUNT_INFO.DEPT_ID'],
+                'TYPE' => 'LEFT',
             ],
+        ],
+        'WHERE' => [
+            'AND' => [
+                ['HRIS_ID' => $r_user_id],
+                ['DEPT_ID' => $inputs['DATA']['R_DEPT_ID']],
+            ]
+        ],
+    ];
+    $selectReceiverRow = selectSingleRow($selectReceiverData);
+
+    if ($checkRoutedRow['ROUTED'] == 1) {
+        $selectDocumentData = [
+            'TABLE' => 'DOTS_DOCUMENT',
             'WHERE' => [
                 'AND' => [
-                    ['DOC_NUM' => $inputs['DATA']['DOC_NUM']],
-                    ['ROUTE_NUM' => $inputs['DATA']['ROUTE_NUM']],
-                ]
+                    ['DOC_NUM' => $checkRoutedRow['DOC_NUM']]
+                ],
             ],
+            'ORDER_BY' => 'ROUTE_NUM DESC'
         ];
-        $checkRoutedRow = selectSingleRow($checkRoutedData);
+        $selectDocumentRow = selectSingleRow($selectDocumentData);
+        unset($selectDocumentRow['ID']);
 
-        $updateDocumentData = [
+        $newRoutingNumber = intval($selectDocumentRow['ROUTE_NUM']) + 1;
+        $selectDocumentRow['ROUTE_NUM'] = $newRoutingNumber;
+        $insertInboundData['DATA']["ROUTE_NUM"] = $newRoutingNumber;
+        $insertOutboundData['DATA']["ROUTE_NUM"] = $newRoutingNumber;
+
+        $insertDocumentData = [
             'TABLE' => 'DOTS_DOCUMENT',
-            'DATA' => [
-                'ROUTED' => 1,//set to routed
-                'DOC_STATUS' => 1,//set on hand to pending
-            ],
-            'WHERE' => [
-                'ID' => $checkRoutedRow['ID']
-            ],
+            'DATA' => $selectDocumentRow,
         ];
-        $selectReceiverData = [
-            'TABLE' => 'DOTS_ACCOUNT_INFO',
-            'COLUMNS' => [
-                "DOTS_ACCOUNT_INFO.FULL_NAME",
-                "DOTS_DOC_DEPT.DOC_DEPT"
-            ],
-            'JOIN' => [
-                [
-                    'table' => 'DOTS_DOC_DEPT',
-                    'ON' => ['DOTS_DOC_DEPT.ID = DOTS_ACCOUNT_INFO.DEPT_ID'],
-                    'TYPE' => 'LEFT',
-                ],
-            ],
-            'WHERE' => [
-                'AND' => [
-                    ['HRIS_ID' => $inputs['DATA']['R_USER_ID']],
-                    ['DEPT_ID' => $inputs['DATA']['R_DEPT_ID']],
-                ]
-            ],
-        ];
-        $selectReceiverRow = selectSingleRow($selectReceiverData);
+        $results[] = insert($insertDocumentData);
 
-        if ($checkRoutedRow['ROUTED'] == 1) {
-            $selectDocumentData = [
-                'TABLE' => 'DOTS_DOCUMENT',
-                'WHERE' => [
-                    'AND' => [
-                        ['DOC_NUM' => $checkRoutedRow['DOC_NUM']]
-                    ],
-                ],
-                'ORDER_BY' => 'ROUTE_NUM DESC'
-            ];
-            $selectDocumentRow = selectSingleRow($selectDocumentData);
-
-            $newRoutingNumber = intval($selectDocumentRow['ROUTE_NUM']) + 1;
-            $selectDocumentRow['ROUTE_NUM'] = $newRoutingNumber;
-            $insertInboundData['DATA']["ROUTE_NUM"] = $newRoutingNumber;
-            $insertOutboundData['DATA']["ROUTE_NUM"] = $newRoutingNumber;
-
-            unset($selectDocumentRow['ID']);
-
-            $insertDocumentData = [
-                'TABLE' => 'DOTS_DOCUMENT',
-                'DATA' => $selectDocumentRow,
-            ];
-
-            $insertDocumentSql = $queries->insertQuery($insertDocumentData);
-            $queryResults[] = $conn->query($insertDocumentSql);
-
-            $insertDocumentLogData = [
-                'TABLE' => 'DOTS_TRACKING',
-                'DATA' => [
-                    'HRIS_ID' => $_SESSION['HRIS_ID'],
-                    'DOC_NUM' => $checkRoutedRow['DOC_NUM'],
-                    'ROUTE_NUM' => $newRoutingNumber,
-                    'ACTION_ID' => 4,//Duplicate action_id
-                    'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
-                    'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_SEND'],
-                    'NOTE_SERVER' => 'Document already routed, Document has been duplicated',
-                ]
-            ];
-            if (isset($inputs['DATA']['DOC_NOTES'])) {
-                $insertDocumentLogData['DATA']['NOTE_USER'] = $inputs['DATA']['DOC_NOTES'];
-            }
-
-            $insertDocumentLogSql = $queries->insertQuery($insertDocumentLogData);
-            $queryResults[] = $conn->query($insertDocumentLogSql);
-        } else if ($checkRoutedRow['ROUTED'] == 0) {
-            $updateDocumentSql = $queries->updateQuery(($updateDocumentData));
-            $queryResults[] = $conn->query($updateDocumentSql);
-        }
-
-        $insertInboundSql = $queries->insertQuery($insertInboundData);
-        $queryResults[] = $conn->query($insertInboundSql);
-        $lastInboundId = $conn->insert_id;
-
-        $insertInboundLogData = [
+        $insertDocumentLogData = [
             'TABLE' => 'DOTS_TRACKING',
             'DATA' => [
                 'HRIS_ID' => $_SESSION['HRIS_ID'],
                 'DOC_NUM' => $checkRoutedRow['DOC_NUM'],
                 'ROUTE_NUM' => $newRoutingNumber,
-                'ACTION_ID' => 1,//sent action_id
+                'ACTION_ID' => 4,//Duplicate action_id
                 'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
                 'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_SEND'],
-                'NOTE_SERVER' => "Document Sent to $selectReceiverRow[DOC_DEPT]-$selectReceiverRow[FULL_NAME]",
+                'NOTE_SERVER' => 'Document already routed, Document has been duplicated',
             ]
         ];
         if (isset($inputs['DATA']['DOC_NOTES'])) {
-            $insertInboundLogData['DATA']['NOTE_USER'] = $inputs['DATA']['DOC_NOTES'];
+            $insertDocumentLogData['DATA']['NOTE_USER'] = $inputs['DATA']['DOC_NOTES'];
         }
-        $insertOutboundData['DATA']['INBOUND_ID'] = $lastInboundId;
-        $insertOutboundSql = $queries->insertQuery($insertOutboundData);
-        $queryResults[] = $conn->query($insertOutboundSql);
+        $results[] = insert($insertDocumentLogData);
 
-        $insertInboundLogSql = $queries->insertQuery($insertInboundLogData);
-        $queryResults[] = $conn->query($insertInboundLogSql);
-        // var_dump($queryResults);
-
-        if (in_array(false, $queryResults)) {
-            $valid = false;
-        } else {
-            $valid = true;
-        }
-
-        if ($valid) {
-            $message = " $checkRoutedRow[DOC_NUM]-$newRoutingNumber Sent to $selectReceiverRow[DOC_DEPT]-$selectReceiverRow[FULL_NAME]";
-        } else {
-            $message = "Failed Sending $checkRoutedRow[DOC_NUM]-$newRoutingNumber";
-        }
+    } else if ($checkRoutedRow['ROUTED'] == 0) {
+        $results[] = update($updateDocumentData);
     }
-    echo json_encode([
-        'VALID' => $valid,
-        "MESSAGE" => $message
-    ]);
+
+    $results[] = insert($insertInboundData);
+    $lastInboundId = $conn->insert_id;
+
+    $formattedDocumentNumber = formatDocumentNumber($checkRoutedRow['DOC_NUM'], $newRoutingNumber);
+    $dept_id = $inputs['DATA']['R_DEPT_ID'];
+    $note_server = "Document $formattedDocumentNumber sent to $dept_id";
+    if (!is_null($selectReceiverRow)) {
+        $note_server = "$selectReceiverRow[DOC_DEPT]-$selectReceiverRow[FULL_NAME]";
+    }
+
+    $insertInboundLogData = [
+        'TABLE' => 'DOTS_TRACKING',
+        'DATA' => [
+            'HRIS_ID' => $_SESSION['HRIS_ID'],
+            'DOC_NUM' => $checkRoutedRow['DOC_NUM'],
+            'ROUTE_NUM' => $newRoutingNumber,
+            'ACTION_ID' => 1,//sent action_id
+            'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
+            'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_SEND'],
+            'NOTE_SERVER' => $note_server,
+        ]
+    ];
+
+    if (isset($inputs['DATA']['DOC_NOTES'])) {
+        $insertInboundLogData['DATA']['NOTE_USER'] = $inputs['DATA']['DOC_NOTES'];
+    }
+
+    $insertOutboundData['DATA']['INBOUND_ID'] = $lastInboundId;
+    $results[] = insert($insertOutboundData);
+    $results[] = insert($insertInboundLogData);
+
+    $valid = checkArray($results);
+    if ($valid) {
+        $conn->commit();
+        echo json_encode([
+            'VALID' => $valid,
+            "MESSAGE" => $note_server,
+        ]);
+    } else {
+        $conn->rollback();
+        echo json_encode([
+            'VALID' => $valid,
+            "MESSAGE" => "SERVER ERROR",
+        ]);
+    }
 }
 
 function receiveDoc($inputs, $conn)
 {
     $valid = false;
-    $message = "";
+    $results = [];
 
     $requiredFields = [
         'ACTION_ID',
@@ -914,65 +924,78 @@ function receiveDoc($inputs, $conn)
         'DOC_SUBJECT'
     ];
 
-    $validated = validateInputs($requiredFields, $inputs);
-
-    // var_dump($inputs);
-    if (!$validated) {
+    if (!validateInputs($requiredFields, $inputs)) {
         //notify user that a inputs is blank or not set
-        $message = "Please ensure all required fields are filled out.";
-    } else if ($inputs['DATA']['DOC_SUBJECT'] == "") {
-        //notify user that a inputs is black or not set
-        $message = "Please ensure all required fields are filled out.";
-    } else {
-        $insertDocumentData = array(
-            'TABLE' => 'DOTS_DOCUMENT',
-            'DATA' => $inputs['DATA'],
+        echo json_encode(
+            [
+                'VALID' => $valid,
+                'MESSAGE' => "Please ensure all required fields are filled out."
+            ]
         );
-
-        if (!insert($insertDocumentData)) {
-            //insertion failed
-        } else {
-            $valid = true;
-            $lastId = $conn->insert_id; //id of the last inserted row
-            //get doc_num, route_num and actionid
-            $selectDocumentData = [
-                'TABLE' => 'DOTS_DOCUMENT',
-                'WHERE' => [
-                    'AND' => [
-                        ['ID' => $lastId]
-                    ]
-                ]
-            ];
-            $selectDocumentRow = selectSingleRow($selectDocumentData);
-            //add log create/ receive doc
-            $insertLogData = [
-                'TABLE' => 'DOTS_TRACKING',
-                'DATA' => [
-                    'DOC_NUM' => $selectDocumentRow['DOC_NUM'],
-                    'ROUTE_NUM' => $selectDocumentRow['ROUTE_NUM'],
-                    'ACTION_ID' => $selectDocumentRow['ACTION_ID'],
-                    'HRIS_ID' => $_SESSION['HRIS_ID'],
-                    'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
-                    'NOTE_SERVER' => "Document Created/Received at the receiving station",
-                    'DATE_TIME_ACTION' => $selectDocumentRow['DATE_TIME_RECEIVED'],
-                ],
-            ];
-            insert($insertLogData);
-            // var_dump($inputs);
-            if ($inputs['DATA']['ACTION_ID'] == 2) {
-                $message = "Document $selectDocumentRow[DOC_NUM] Received";
-            }
-            if ($inputs['DATA']['ACTION_ID'] == 3) {
-                $message = "Document $selectDocumentRow[DOC_NUM] Created";
-            }
-        }
+        exit;
     }
-    echo json_encode(
-        array(
-            'VALID' => $valid,
-            'MESSAGE' => $message,
-        )
+    $conn->begin_transaction();
+
+    $insertDocumentData = array(
+        'TABLE' => 'DOTS_DOCUMENT',
+        'DATA' => $inputs['DATA'],
     );
+    $results[] = insert($insertDocumentData);
+    $lastId = $conn->insert_id; //id of the last inserted row
+
+    //get doc_num, route_num and actionid
+    $selectDocumentData = [
+        'TABLE' => 'DOTS_DOCUMENT',
+        'WHERE' => [
+            'AND' => [
+                ['ID' => $lastId]
+            ]
+        ]
+    ];
+    $selectDocumentRow = selectSingleRow($selectDocumentData);
+
+    //add log create/ receive doc
+    $insertLogData = [
+        'TABLE' => 'DOTS_TRACKING',
+        'DATA' => [
+            'DOC_NUM' => $selectDocumentRow['DOC_NUM'],
+            'ROUTE_NUM' => $selectDocumentRow['ROUTE_NUM'],
+            'ACTION_ID' => $selectDocumentRow['ACTION_ID'],
+            'HRIS_ID' => $_SESSION['HRIS_ID'],
+            'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
+            'NOTE_SERVER' => "Document Created/Received at the receiving station",
+            'DATE_TIME_ACTION' => $selectDocumentRow['DATE_TIME_RECEIVED'],
+        ],
+    ];
+    $results[] = insert($insertLogData);
+
+    $formattedDocumentNumber = formatDocumentNumber($selectDocumentRow['DOC_NUM'], $selectDocumentRow['ROUTE_NUM']);
+    $formattedMessage = "";
+    if ($inputs['DATA']['ACTION_ID'] == 2) {
+        $formattedMessage = "Document $formattedDocumentNumber Received";
+    }
+    if ($inputs['DATA']['ACTION_ID'] == 3) {
+        $formattedMessage = "Document $formattedDocumentNumber Created";
+    }
+
+    $valid = checkArray($results);
+    if ($valid) {
+        $conn->commit();
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'MESSAGE' => $formattedMessage,
+            )
+        );
+    } else {
+        $conn->rollback();
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'MESSAGE' => "SERVER ERROR",
+            )
+        );
+    }
 }
 function getTableMain($inputs, $conn)
 {
@@ -1057,7 +1080,7 @@ function getTableMain($inputs, $conn)
         'ORDER_BY' => 'DOTS_DOCUMENT.DOC_NUM DESC'
     );
     $selectTableSql = $queries->selectQuery($data);
-    $result = mysqli_query($conn, $selectTableSql);
+    $result = $conn->query($selectTableSql);
 
     $buttons = array(
         [
@@ -1077,27 +1100,15 @@ function getTableMain($inputs, $conn)
             "label" => "T"
         ]
     );
-
-    if ($_SESSION['DOTS_PRIV'] == 0) {
-        $buttons = [];
-    } else if ($_SESSION['DOTS_PRIV'] == 1 || $_SESSION['DOTS_PRIV'] == 2) {
-        $buttons = [
-            [
-                "className" => "btnT",
-                "label" => "T"
-            ]
-        ];
-    }
     setupTable($result, $buttons, $tableName);
 }
 
 function getTableUser($inputs, $conn, $tableName)
 {
     $queries = new Queries();
-    $dots_priv = $_SESSION['DOTS_PRIV'];
     $buttons = [];
-
     $WHERE = [];
+
     if ($tableName == "DOTS_DOCUMENT_INBOUND") {
         $WHERE[] = [
             "AND" => array(
@@ -1148,9 +1159,6 @@ function getTableUser($inputs, $conn, $tableName)
             ]
         );
     }
-
-
-
 
     $data = array(
         'TABLE' => "$tableName",
@@ -1305,7 +1313,7 @@ function receiveDocUser($inputs, $conn)
 {
     $queries = new Queries();
     $valid = false;
-    $message = "";
+    $results = [];
 
     $updateData = array(
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
@@ -1343,52 +1351,60 @@ function receiveDocUser($inputs, $conn)
             ]
         ]
     ];
-
-    $selectinboundSql = $queries->selectQuery(($selectinboundData));
-    $selectinboundResult = $conn->query($selectinboundSql);
-    $selectinboundRow = $selectinboundResult->fetch_assoc();
-
+    $selectinboundRow = selectSingleRow($selectinboundData);
     if ($selectinboundRow['ACTION_ID'] == 2) {
-        $message = "Document Already Received";
-    } else {
-        $valid = true;
-        $message = "Document Received";
-
-        //add log recieve by user
-        $insertLogData = [
-            'TABLE' => 'DOTS_TRACKING',
-            'DATA' => [
-                'DOC_NUM' => $inputs['DATA']["DOC_NUM"],
-                'ROUTE_NUM' => $inputs['DATA']["ROUTE_NUM"],
-                'ACTION_ID' => 2,//ACTION_ID RECEIVE
-                'HRIS_ID' => $_SESSION['HRIS_ID'],
-                'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_RECEIVED'],
-                'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
-                'NOTE_SERVER' => "Document Received by the user",
+        echo json_encode(
+            [
+                'VALID' => $valid,
+                'MESSAGE' => "Document Already Received",
             ]
-        ];
-
-        $insertLogSql = $queries->insertQuery($insertLogData);
-        $insertLogResult = $conn->query($insertLogSql);
-
-        $insertDataSql = $queries->insertQuery($insertData);
-        $insertUpdate = $conn->query($insertDataSql);
-
-        $lastId = $conn->insert_id;
-        $updateData['DATA']['OUTBOUND_ID'] = $lastId;
-
-        $updateDataSql = $queries->updateQuery($updateData);
-        $resultUpdate = $conn->query($updateDataSql);
-
+        );
+        exit;
     }
 
+    $conn->begin_transaction();
 
-    echo json_encode(
-        array(
-            'VALID' => $valid,
-            'MESSAGE' => $message,
-        )
-    );
+    //add log recieve by user
+    $insertLogData = [
+        'TABLE' => 'DOTS_TRACKING',
+        'DATA' => [
+            'DOC_NUM' => $inputs['DATA']["DOC_NUM"],
+            'ROUTE_NUM' => $inputs['DATA']["ROUTE_NUM"],
+            'ACTION_ID' => 2,//ACTION_ID RECEIVE
+            'HRIS_ID' => $_SESSION['HRIS_ID'],
+            'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_RECEIVED'],
+            'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
+            'NOTE_SERVER' => "Document Received by the user",
+        ]
+    ];
+
+    $results[] = insert($insertLogData);
+    $results[] = insert($insertData);
+    $lastId = $conn->insert_id;
+
+    $updateData['DATA']['OUTBOUND_ID'] = $lastId;
+    $results[] = update($updateData);
+
+    $valid = checkArray($results);
+    if ($valid) {
+        $conn->commit();
+        $formattedDocumentNumber = formatDocumentNumber($inputs['DATA']["DOC_NUM"], $inputs['DATA']["ROUTE_NUM"]);
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'MESSAGE' => "Document $formattedDocumentNumber Received",
+            )
+        );
+    } else {
+        $conn->rollback();
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'MESSAGE' => "SERVER ERROR",
+            )
+        );
+    }
+
 }
 function sendDocFormUser($inputs, $conn)
 {
@@ -1687,6 +1703,14 @@ function formatDate($dateString)
     $date = new DateTime($dateString);
     return($date->format('n')) . "/" . $date->format('j') . "/" . $date->format('Y');
 }
+function formatDocumentNumber($doc_num, $route_num)
+{
+    $formattedDocumentNumber = "$doc_num-$route_num";
+    if ($route_num == 0) {
+        $formattedDocumentNumber = "$doc_num";
+    }
+    return $formattedDocumentNumber;
+}
 function checkArray($array)
 {
     if (in_array(false, $array, true)) {
@@ -1714,6 +1738,16 @@ function insert($insertData)
     $insertResult = $conn->query($insertSql);
 
     return $insertResult;
+}
+function update($updateData)
+{
+    $queries = new Queries();
+    global $conn;
+
+    $updateSql = $queries->updateQuery($updateData);
+    $updateResult = $conn->query($updateSql);
+
+    return $updateResult;
 }
 
 function selectSingleRow($selectData)
