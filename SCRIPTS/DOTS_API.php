@@ -1373,18 +1373,12 @@ function receiveDocUser($inputs, $conn)
         ]
     ];
 
-    $insertLogSql = $queries->insertQuery($insertLogData);
-    $insertLogResult = $conn->query($insertLogSql);
-
-
-    $insertDataSql = $queries->insertQuery($insertData);
-    $insertUpdate = $conn->query($insertDataSql);
-
+    $results[] = insert($insertLogData);
+    $results[] = insert($insertData);
     $lastId = $conn->insert_id;
-    $updateData['DATA']['OUTBOUND_ID'] = $lastId;
 
-    $updateDataSql = $queries->updateQuery($updateData);
-    $resultUpdate = $conn->query($updateDataSql);
+    $updateData['DATA']['OUTBOUND_ID'] = $lastId;
+    $results[] = update($updateData);
 
 
     echo json_encode(
