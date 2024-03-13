@@ -100,9 +100,24 @@ class JsFunctions {
                     const cell = document.createElement('td');
                     var fvalue = value;
 
-                    if(fvalue == "RECEIVE"){
+                    if(fvalue == "RECEIVED"){
+                        cell.style.backgroundColor = "#006eff";
+                    }
+
+                    if(fvalue == "SENT"){
+                        cell.style.backgroundColor = "#23d100";
+                    }
+
+                    if(fvalue == "CANCELLED"){
+                        cell.style.backgroundColor = "#ffa600";
+                    }
+
+                    if(fvalue == "EDIT"){
                         cell.style.backgroundColor = "black";
                     }
+
+                    cell.style.color = "#ffffff";
+                    cell.style.fontSize = "15px";
 
                     cell.textContent = fvalue;
                     row.appendChild(cell);
@@ -110,6 +125,7 @@ class JsFunctions {
                     if (cell.textContent.toUpperCase().indexOf(filter) > -1) {
                         found++;
                     }
+
                 }
             });
 
