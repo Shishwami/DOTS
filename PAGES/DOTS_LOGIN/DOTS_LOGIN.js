@@ -1,5 +1,5 @@
 const rmCheck = document.getElementById("RememberMe"),
-    unameInput = document.getElementById("uname");
+ unameInput = document.getElementById("USERNAME");
 
 if (localStorage.checkbox && localStorage.checkbox !== "") {
   rmCheck.setAttribute("checked", "checked");
