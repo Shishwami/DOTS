@@ -1812,7 +1812,7 @@ function getTableAttachment($inputs, $conn)
 {
     $queries = new Queries();
 
-    if ($_SESSION['DOTS_PRIV'] < 3) {
+    if ($_SESSION['DOTS_PRIV'] < 2) {
         echo json_encode(
             array(
                 'VALID' => false,
@@ -1821,22 +1821,41 @@ function getTableAttachment($inputs, $conn)
         );
         exit;
     }
-    $tableName = 'DOTS_ATTACHMENTS';
 
+    $selectDocumentData = [
+        'TABLE' => 'DOTS_DOCUMENT',
+        'WHERE' => [
+            'AND'=>[
+                ["ID"=>$inputs['DATA']['ID']]
+            ]
+        ]
+    ];
+    $selectDocumentRow = selectSingleRow($selectDocumentData);
+    // var_dump($selectDocumentRow);
+
+    $tableName = 'DOTS_ATTACHMENTS';
     $data = [
         'TABLE' => $tableName,
-        'COLUMNS' => [
-            "CASE WHEN ROUTE_NUM = 0 THEN DOC_NUM 
-            ELSE CONCAT(DOC_NUM,\"-\",ROUTE_NUM) 
-            END AS `No.`",
-            'DESCRIPTION',
-            'FILE_PATH',
-            'FILE_NAME',
-        ],
-        'WHERE' => $inputs['WHERE']
+        // 'COLUMNS' => [
+        //     "CASE WHEN ROUTE_NUM = 0 THEN DOC_NUM 
+        //     ELSE CONCAT(DOC_NUM,\"-\",ROUTE_NUM) 
+        //     END AS `No.`",
+        //     'DESCRIPTION',
+        //     'FILE_PATH',
+        //     'FILE_NAME',
+        // ],
+        'WHERE' => [
+            'AND'=>[
+                ['DOC_NUM'=>$selectDocumentRow['DOC_NUM']],
+                ['ROUTE_NUM'=>$selectDocumentRow['ROUTE_NUM']],
+            ]
+        ]
     ];
+    if($_SESSION['DOTS_PRIV']<3){
+        $data['WHERE']['AND'][] = ['HRIS_ID'=>$_SESSION['HRIS_ID']];
+    }
+
     $selectTableSql = $queries->selectQuery($data);
-    // echo $selectTableSql;
     $result = mysqli_query($conn, $selectTableSql);
     setupTable($result, null, $tableName);
 }
