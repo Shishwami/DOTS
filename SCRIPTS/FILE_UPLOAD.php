@@ -12,7 +12,7 @@ $queries = new Queries();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['ATTACH_FILE'])) {
 
-    if ($_SESSION['DOTS_PRIV'] < 3) {
+    if ($_SESSION['DOTS_PRIV'] < 2) {
         echo json_encode(
             array(
                 'VALID' => false,
@@ -40,21 +40,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['ATTACH_FILE'])) {
         mkdir($targetDir, 0777, true);
     }
 
+    $conn->begin_transaction();
     if (move_uploaded_file($_FILES['ATTACH_FILE']['tmp_name'], $targetFile)) {
         // File uploaded successfully
         $insertAttachmentData = [
             'TABLE' => 'DOTS_ATTACHMENTS',
             "DATA" => [
                 'DOC_NUM' => $documentRow['DOC_NUM'],
-                'ROUTE_NUM'=>$documentRow['ROUTE_NUM'],
-                'HRIS_ID'=> $_SESSION['HRIS_ID'],
-                'DESCRIPTION'=>$_POST['DESCRIPTION'],
+                'ROUTE_NUM' => $documentRow['ROUTE_NUM'],
+                'HRIS_ID' => $_SESSION['HRIS_ID'],
+                'DESCRIPTION' => $_POST['DESCRIPTION'],
             ]
         ];
         $insertAttachmentSql = $queries->insertQuery($insertAttachmentData);
         $insertAttachmentResult = $conn->query($insertAttachmentSql);
 
-
+        if ($insertAttachmentResult) {
+            $conn->commit();
+            echo json_encode(
+                array(
+                    'VALID' => true,
+                    'MESSAGE' => "File Uploaded.",
+                )
+            );
+        } else {
+            $conn->rollback();
+            unlink($targetFile);
+            echo json_encode(
+                array(
+                    'VALID' => false,
+                    'MESSAGE' => "File Not Uploaded.",
+                )
+            );
+        }
     } else {
         // Failed to move the file
         echo json_encode(
@@ -64,8 +82,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['ATTACH_FILE'])) {
             )
         );
     }
-
-
 } else {
     echo "Invalid request.";
 }
