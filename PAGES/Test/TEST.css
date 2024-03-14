@@ -2,11 +2,13 @@
 
 *
 {
-  font-family: "Montserrat", sans-serif;}
+  font-family: "Montserrat", sans-serif;
+}
 
 textarea
 {
   resize: none;
+  font-size: 10px;
 }
 
 table, th, tr, td
@@ -22,12 +24,44 @@ span
 input
 {
   border: none;
-  border-bottom: 1px solid #000000;
+  border-bottom: 0.05px solid #000000;
+  font-size: 10px;
+
 }
 
 .routingnum
 {
   border-bottom: none;
+}
+
+input[type="checkbox"]
+{
+  font-size: 10px;
+}
+
+label
+{
+  font-size: 10px;
+}
+
+span
+{
+  font-size: 10px;
+}
+
+h1
+{
+  font-size: 10px;
+}
+
+h3
+{
+  font-size: 10px;
+}
+
+th, td
+{
+  font-size: 10px;
 }
 
 .pdf_cont
@@ -41,6 +75,6 @@ input
 #divID
 {
   border: 1px solid #000000;
-  width: 600px;
+  width: 300px;
 }
 

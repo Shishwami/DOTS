@@ -62,7 +62,7 @@ function convertHTMLtoPDF() {
     const { jsPDF } = window.jspdf;
 
     // Create a new jsPDF object with A4 dimensions (210mm x 297mm)
-    const doc = new jsPDF('p', 'mm', 'a4');
+    const doc = new jsPDF('p', 'pt', 'a4');
 
     // Select the HTML element containing the content you want to convert
     const pdfjs = document.querySelector('#divID');
@@ -73,7 +73,7 @@ function convertHTMLtoPDF() {
             // Save the PDF with the specified filename
             doc.save("newpdf.pdf");
         },
-        margin: 32, // Optional: Set page margin
+        margin: 10, // Optional: Set page margin
         onePage: true, // Generate a single-page PDF
         scale: 10 // Adjust the scale (0.8 reduces the content size)
     });
