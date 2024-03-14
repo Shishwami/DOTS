@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="../../CSS/DOTS_LOGIN.css">
     <link rel="stylesheet" href="../../CSS/DOTS_NAV.css">
     <link rel="stylesheet" href="../../CSS/Notifications.css">
+    <link rel="stylesheet" href="../../CSS/FontAwesome/css/all.css">
+    <link rel="stylesheet" href="../../CSS/FontAwesome/css/fontawesome.css">
+    <link rel="stylesheet" href="../../CSS/FontAwesome/css/fontawesome.min.css">
+    
     <title>CHRMO - DOTS</title>
 </head>
 <body>
