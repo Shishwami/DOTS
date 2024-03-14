@@ -39,13 +39,6 @@ const S_BTN = document.getElementById('S_BTN');
 const hrisId = sessionStorage.getItem(DOTS_ACCOUNT_INFO.HRIS_ID);
 let action_type = "receive";
 
-const FORM_ATTACH_ADD = document.getElementById("FORM_ATTACH_ADD");
-const ATTACH_DOC_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_DOC_NUM');
-const ATTACH_ROUTE_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_ROUTE_NUM');
-const ATTACH_FILE = document.getElementById("ATTACH_FILE");
-const ATTACH_RESULTS = document.getElementById("ATTACH_RESULTS");
-const ATTACH_ZOOM = document.getElementById("ATTACH_ZOOM");
-
 const track_modal = document.getElementById("track_modal");
 
 setSession();
@@ -70,18 +63,6 @@ RADIO_RECEIVE.addEventListener('change', function () {
 
 });
 
-if (BTN_ATTACH_INS) {
-    BTN_ATTACH_INS.addEventListener("click", function () {
-        var elements = document.getElementsByClassName('img-zoom-lens');
-        var elementsArray = Array.from(elements);
-
-        elementsArray.forEach(function (element) {
-            element.parentNode.removeChild(element);
-        });
-
-        imageZoom("myimage", "myresult");
-    });
-}
 
 function setACTION_TYPE(element) {
     action_type = element.value;
@@ -133,11 +114,6 @@ function setButtons(table) {
     table.querySelectorAll('.btnS').forEach(function (button) {
         button.addEventListener('mousedown', function () {
             setSendBtn(this.dataset.i, this.dataset.d, this.dataset.r);
-        });
-    });
-    table.querySelectorAll('.btnA').forEach(function (button) {
-        button.addEventListener('mousedown', function () {
-            setAttachBtn(this.dataset.i, this.dataset.d, this.dataset.r);
         });
     });
     table.querySelectorAll('.btnCR').forEach(function (button) {
@@ -354,30 +330,6 @@ function setFormEvents() {
         }, data);
 
     });
-    FORM_ATTACH_ADD.addEventListener('submit', function (e) {
-        e.preventDefault();
-        this.querySelector('input[type=submit]').disabled = true;
-
-        var formData = new FormData(this);
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '../../SCRIPTS/FILE_UPLOAD.php', true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                var response = JSON.parse(xhr.responseText);
-                if (response.VALID) {
-                    if (atc_submodal != undefined) {
-                        atc_submodal.style.display = "none";
-                        DOC_VIEW_BASIC.focus();
-                        notify("success", response.MESSAGE);
-                    }
-                } else {
-                    FORM_ATTACH_ADD.querySelector('input[type=submit]').disabled = false;
-                }
-                setTableAttachment();
-            }
-        };
-        xhr.send(formData);
-    });
 }
 function setSession() {
     getSessionDeptId();
@@ -461,44 +413,6 @@ function getSessionDeptId() {
 //         }
 //     }, data);
 // }
-
-function setAttachBtn(id, doc_num, route_num) {
-    //set hidden inputs 
-    ATTACH_DOC_NUM.value = doc_num;
-    ATTACH_ROUTE_NUM.value = route_num;
-
-    //update tbl
-    setTableAttachment();
-
-    //open attachment modal
-    document.getElementById("atc_modal").style.display = "block";
-
-}
-
-function setTableAttachment() {
-    const data = {
-        REQUEST: _REQUEST.GET_TABLE_ATTACHMENT,
-        WHERE: {
-            AND: [
-                { DOC_NUM: ATTACH_DOC_NUM.value },
-                { ROUTE_NUM: ATTACH_ROUTE_NUM.value },
-            ],
-        }
-    }
-
-    MyAjax.createJSON((error, response) => {
-        if (error) {
-            alert(error);
-        } else {
-            if (response.VALID) {
-            } else {
-            }
-            console.log(response);
-            JsFunctions.updateAttachments(ATTACH_RESULTS, response.RESULT, null, ATTACH_ZOOM);
-            // JsFunctions.updateTable(ATTACH_VIEW_MAIN, response.RESULT, response.BUTTONS, '');
-        }
-    }, data);
-}
 
 function getData(requestType, additionalData, successCallback, failureCallback) {
     const data = {
