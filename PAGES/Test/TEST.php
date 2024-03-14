@@ -52,13 +52,10 @@
 
     doc.text("Hello world!", 10, 10);
     // doc.save("a4.pdf");
+    doc.save("a4.pdf");
 
-
-
-
-
-
-    //
+    const doc = new jsPDF();
+    doc.text('Hello, this is a PDF!', 10, 10);
 
     // Convert PDF content to data URL
     const pdfDataUri = doc.output('datauristring');
