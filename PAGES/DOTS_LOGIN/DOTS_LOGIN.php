@@ -1,5 +1,14 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (isset($_SESSION['HRIS_ID'])) {
+    header("Location: ../../index.php");
+} 
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,12 +18,13 @@
     <link rel="stylesheet" href="../../CSS/FontAwesome/css/all.css">
     <link rel="stylesheet" href="../../CSS/FontAwesome/css/fontawesome.css">
     <link rel="stylesheet" href="../../CSS/FontAwesome/css/fontawesome.min.css">
-    
+
     <title>CHRMO - DOTS</title>
 </head>
+
 <body>
-    <?php //include '../DOTS_NAVBAR/DOTS_NAV.php';?>
-    
+    <?php //include '../DOTS_NAVBAR/DOTS_NAV.php'; ?>
+
     <div class="login-box"> <!-- Login Form Container -->
         <div class="login_border">
             <h1>CHRMO - DOTS</h1>
@@ -35,7 +45,7 @@
                     <label class="rmb" for="RememberMe">Remember Me</label>
                 </div> -->
                 <br>
-                 <input type="submit" value="LOGIN" name="submit"> 
+                <input type="submit" value="LOGIN" name="submit">
             </form>
 
             <script src="../../SCRIPTS/Constants.js"></script>
