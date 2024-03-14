@@ -18,6 +18,7 @@ FORM_LOGIN.addEventListener('submit', function (e) {
         if (!error) {
             if (response.VALID) {
                 notify('success',response.MESSAGE);
+                window.location.href = "../../index.php";
             } else {
                 notify('error',response.MESSAGE);
             }

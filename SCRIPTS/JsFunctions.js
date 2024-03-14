@@ -182,24 +182,14 @@ class JsFunctions {
         thead.append(theadrow);
 
     }
-    static updateAttachments(mini, results, buttons, preview) {
+    static updateAttachments(mini, results, buttons) {
         mini.innerHTML = '';
         Object.entries(results).forEach(([key, item]) => {
             const url = `url(../${item['FILE_PATH']}${item['FILE_NAME']})`;
-            const url2 = `../${item['FILE_PATH']}${item['FILE_NAME']}`;
-            console.log(item);
             const doc = document.createElement("div");
             doc.className = "ATTACH_MINI";
             doc.style.backgroundImage = url;
             doc.addEventListener('click', function () {
-                preview.style.backgroundImage = url;
-                document.getElementsByClassName("descbox")[0].querySelector('div').innerHTML = item["DESCRIPTION"];
-
-                const inspect_img = document.getElementById("myimage");
-                inspect_img.src = url2;
-                console.log(inspect_img);
-                console.log(preview);
-
 
             });
 

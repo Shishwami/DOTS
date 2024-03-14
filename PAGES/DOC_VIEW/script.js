@@ -52,11 +52,9 @@ const SEND_S_USER_ID = FORM_DOC_SEND.querySelector("#SEND_S_USER_ID");
 const SEND_S_DEPT_ID = FORM_DOC_SEND.querySelector("#SEND_S_DEPT_ID");
 
 const FORM_ATTACH_ADD = document.getElementById("FORM_ATTACH_ADD");
-const ATTACH_DOC_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_DOC_NUM');
-const ATTACH_ROUTE_NUM = FORM_ATTACH_ADD.querySelector('#ATTACH_ROUTE_NUM');
+const ATTACH_ID = FORM_ATTACH_ADD.querySelector('#ATTACH_ID');
 const ATTACH_FILE = document.getElementById("ATTACH_FILE");
 const ATTACH_RESULTS = document.getElementById("ATTACH_RESULTS");
-const ATTACH_ZOOM = document.getElementById("ATTACH_ZOOM");
 const ATTACH_DESC = FORM_ATTACH_ADD.querySelector("#ATTACH_DESCRIPTION");
 
 const snd_modal = document.getElementById("snd_modal");
@@ -263,14 +261,8 @@ function setEditBtn(id, doc_num, route_num) {
     }, data);
 }
 function setAttachBtn(id, doc_num, route_num) {
-    ATTACH_DOC_NUM.value = doc_num;
-    ATTACH_ROUTE_NUM.value = route_num;
+    ATTACH_ID.value = id;
 
-    //reset image
-    document.getElementById("ATTACH_ZOOM").style.backgroundImage = "";
-    document.getElementsByClassName("descbox")[0].querySelector('div').innerHTML = "";
-    document.getElementById("myresult").style.backgroundImage = "";
-    document.getElementById("myimage").src = "";
     //update tbl
     setTableAttachment();
 
@@ -307,8 +299,7 @@ function setTableAttachment() {
         REQUEST: _REQUEST.GET_TABLE_ATTACHMENT,
         WHERE: {
             AND: [
-                { DOC_NUM: ATTACH_DOC_NUM.value },
-                { ROUTE_NUM: ATTACH_ROUTE_NUM.value },
+                { ID: ATTACH_ID.value },
             ],
         }
     }
@@ -326,7 +317,7 @@ function setTableAttachment() {
                 }
             }
             console.log(response);
-            JsFunctions.updateAttachments(ATTACH_RESULTS, response.RESULT, null, ATTACH_ZOOM);
+            JsFunctions.updateAttachments(ATTACH_RESULTS, response.RESULT, null, null);
         }
     }, data);
 }

@@ -1186,6 +1186,10 @@ function getTableMain($inputs, $conn)
         [
             "className" => "btnT",
             "label" => "T"
+        ],
+        [
+            "className" => "btnP",
+            "label" => "P"
         ]
     );
     setupTable($result, $buttons, $tableName);
@@ -1216,10 +1220,6 @@ function getTableUser($inputs, $conn, $tableName)
                 "className" => "btnCR",
                 "label" => "C"
             ],
-            [
-                "className" => "btnA",
-                "label" => "A"
-            ],
         );
     }
     if ($tableName == "DOTS_DOCUMENT_OUTBOUND") {
@@ -1241,10 +1241,6 @@ function getTableUser($inputs, $conn, $tableName)
                 "className" => "btnCS",
                 "label" => "C"
             ],
-            [
-                "className" => "btnA",
-                "label" => "A"
-            ]
         );
     }
 
