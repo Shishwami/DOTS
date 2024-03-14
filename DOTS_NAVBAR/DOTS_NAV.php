@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
     <link rel="stylesheet" href="../CSS/FontAwesome/css/fontawesome.min.css"> -->
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/> -->
 </head>
+
 <body>
     <!-- Navigation Bar Container -->
     <div class="wrapper">
@@ -22,13 +24,13 @@
             <div class="content">
                 <img src="../CSS/Resources/City-of-Baguio-Logo Fill.png" alt="">
 
-                <div class="logo"><a href="#">CHRMO - DOTS</a></div> 
+                <div class="logo"><a href="#">CHRMO - DOTS</a></div>
 
                 <ul class="links">
                     <li><a href="#">Dashboard</a></li> <!--  specific to sir joseph -->
                     <li><a href="#">Routing</a></li> <!--  for most users -->
                     <!-- <li><a href="#">Tracking</a></li> -->
-                        <!-- <li>
+                    <!-- <li>
                             <a href="#" class="desktop-link">Process</a>
                             <input type="checkbox" id="show-process">
                             <label for="show-process">Process</label>
@@ -39,7 +41,7 @@
                             <li><a href="#">Drop Menu 4</a></li>
                             </ul>
                         </li> -->
-                        <!-- <li>
+                    <!-- <li>
                             <a href="#" class="desktop-link">Routing</a>
                             <input type="checkbox" id="show-routing">
                             <label for="show-routing">Routing</label>
@@ -59,8 +61,8 @@
                             </li>
                             </ul>
                         </li> -->
-                        <!-- <li><a href="#">Appointment</a></li> -->
-                        <!-- <li>
+                    <!-- <li><a href="#">Appointment</a></li> -->
+                    <!-- <li>
                             <a href="#" class="desktop-link">Setting</a>
                             <input type="checkbox" id="show-setting">
                             <label for="show-setting">Setting</label>
@@ -74,7 +76,7 @@
                         </li> -->
                 </ul>
             </div>
-            
+
             <!-- <label for="show-search" class="search-icon"><i class="fa-solid fa-magnifying-glass" title="Search"></i></label>
 
             <form action="#" class="search-box">
@@ -85,7 +87,16 @@
             <div class="logout">
                 <button class="fa-solid fa-right-from-bracket logout_btn" id="BTN_LOGOUT" title="Logout"></button>
             </div>
+
+            <script>
+                const BTN_LOGOUT = document.getElementById("BTN_LOGOUT");
+                BTN_LOGOUT.addEventListener('click', function () {
+                    console.log("ASDDSADAS");
+                    window.location.href = "../../SCRIPTS/logout.php";
+                });
+            </script>
         </nav>
     </div>
 </body>
+
 </html>
