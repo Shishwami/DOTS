@@ -16,19 +16,6 @@
 
 <body>
 
-<<<<<<< HEAD
-=======
-    <div class="btn container">
-
-        <div class="content2"></div>
-
-        <button>sdfs</button>
-        <button>sdfs</button>
-        <button>sdfs</button>
-
-
-    </div>
->>>>>>> dc266b919538bbc395900789fa41f4f232cd4154
 
 
 
@@ -50,7 +37,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
 
-<<<<<<< HEAD
 
 <!-- <script src="script.js"></script> -->
 
@@ -62,13 +48,6 @@
 
     doc.text("Hello world!", 10, 10);
     doc.save("a4.pdf");
-=======
-<!-- <script src="script.js"></script> -->
-
-<script>
-    // // Initiate zoom effect:
-    // imageZoom("myimage", "myresult");
->>>>>>> dc266b919538bbc395900789fa41f4f232cd4154
 </script>
 
 </html>
