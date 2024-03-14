@@ -31,9 +31,9 @@
     </div>
 
 
-    <script type="text/javascript" src="../../node_modules/jspdf/dist/">
+    <script type="module">
         console.log("SADASD");
-        import jsPDF from 'jspdf';
+        import { jsPDF } from '../../node_modules/jspdf/dist/jspdf.es.js';
 
         var doc = new jsPDF();
         console.log(doc);
