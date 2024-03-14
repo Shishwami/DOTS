@@ -21,6 +21,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['ATTACH_FILE'])) {
         );
         exit;
     }
+    if ($_POST['DESCRIPTION'] == "") {
+        echo json_encode(
+            array(
+                'VALID' => false,
+                'MESSAGE' => "Please Fill up required Inputs",
+            )
+        );
+        exit;
+    }
 
     global $conn, $queries;
 

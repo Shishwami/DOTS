@@ -8,11 +8,11 @@ if (session_status() === PHP_SESSION_NONE) {
 if (isset($_SESSION['DOTS_PRIV'])) {
     $privilegeLevel = $_SESSION['DOTS_PRIV'];
     if ($privilegeLevel < 1) {
-        $css = '.btnCR, .btnCS, .btnA, .btnS, .btnR, #BTN_DOC_CREATE, .btnE, .btnT { opacity: 0;  pointer-events: none;}';
+        $css = '.btnCR, .btnCS, .btnA, .btnS, .btnR, #BTN_DOC_CREATE, .btnE, .btnT { opacity: 0;  pointer-events: none; display: none}';
     } else if ($privilegeLevel < 2) {
-        $css = '.btnCR, .btnCS, .btnA, .btnS, .btnR, #BTN_DOC_CREATE, .btnE { opacity: 0; pointer-events: none;}';
+        $css = '.btnCR, .btnCS, .btnA, .btnS, .btnR, #BTN_DOC_CREATE, .btnE { opacity: 0; pointer-events: none; display: none}';
     } else if ($privilegeLevel < 3) {
-        $css = '#BTN_DOC_CREATE, .btnE { opacity: 0; pointer-events: none;}';
+        $css = '#BTN_DOC_CREATE, .btnE { opacity: 0; pointer-events: none; display: none}';
     } else {
         $css = '';
     }
