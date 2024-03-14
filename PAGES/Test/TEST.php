@@ -23,20 +23,62 @@
 <body>
 
 <script type="text/javascript">
-    function convertHTMLtoPDF() {
-        const { jsPDF } = window.jspdf;
+    // function convertHTMLtoPDF() {
+    //     const { jsPDF } = window.jspdf;
  
-        let doc = new jsPDF('p', 'in', [8, 11]);
-        let pdfjs = document.querySelector('#divID');
+    //     let doc = new jsPDF('p', 'in', [8, 11]);
+    //     let pdfjs = document.querySelector('#divID');
  
-        doc.html(pdfjs, {
-            callback: function(doc) {
-                    doc.save("newpdf.pdf");
-            },
-            x: 12,
-            y: 12
-        });                
-    }              
+    //     doc.html(pdfjs, {
+    //         callback: function(doc) {
+    //                 doc.save("newpdf.pdf");
+    //         },
+    //         x: 12,
+    //         y: 12
+    //     });                
+    // }             
+    
+    // function convertHTMLtoPDF() {
+    // const { jsPDF } = window.jspdf;
+
+    // // Create a new jsPDF object with A4 dimensions (210mm x 297mm)
+    // const doc = new jsPDF('p', 'mm', 'a4');
+
+    // // Select the HTML element containing the content you want to convert
+    // const pdfjs = document.querySelector('#divID');
+
+    // // Convert the HTML content to PDF
+    // doc.html(pdfjs, {
+    //     callback: function (doc) {
+    //         // Save the PDF with the specified filename
+    //         doc.save("newpdf.pdf");
+    //     },
+    //     margin: 32 // Optional: Set page margin
+    //     onePage: true // Generate a single-page PDF
+    // });
+// }
+
+function convertHTMLtoPDF() {
+    const { jsPDF } = window.jspdf;
+
+    // Create a new jsPDF object with A4 dimensions (210mm x 297mm)
+    const doc = new jsPDF('p', 'mm', 'a4');
+
+    // Select the HTML element containing the content you want to convert
+    const pdfjs = document.querySelector('#divID');
+
+    // Convert the HTML content to PDF
+    doc.html(pdfjs, {
+        callback: function (doc) {
+            // Save the PDF with the specified filename
+            doc.save("newpdf.pdf");
+        },
+        margin: 32, // Optional: Set page margin
+        onePage: true, // Generate a single-page PDF
+        scale: 10 // Adjust the scale (0.8 reduces the content size)
+    });
+}
+
 </script>
 
     <div class="container">
@@ -46,7 +88,7 @@
         <div class="pdf_cont">       
             <div id="divID">
                 <div class="">
-                    <h1>Routing Slip / Action Slip</h1>
+                    <h1>Routing Slip / Action Slip</h1> 
 
                     <div class="doc_details">
                         <input type="text" class="routingnum" name="routingnum" id="">
@@ -194,8 +236,14 @@
     
 
 </body>
+    </script>
+
+</body>
+
 
 <!-- <script src="script.js"></script> -->
+
+<!-- <iframe id="pdfViewer" width="100%" height="500px" frameborder="0"></iframe> -->
 
 <script type="module">
     // import { jsPDF } from "../../RESOURCES/JSPDF/src/jspdf.js";
@@ -213,6 +261,14 @@
     // const pdfDataUri = doc.output('datauristring');
 
     
+    // Convert PDF content to data URL
+    // const pdfDataUri = doc.output('datauristring');
+    // Open a new window
+    // const newWindow = window.open('', '_blank');
+    // Set PDF data URI as the content of the new window
+    // newWindow.document.write('<iframe src="' + pdfDataUri + '" width="100%" height="100%"></iframe>');
+    // document.getElementById('pdfLink').href = pdfDataUri;
+
 </script>
 
 

@@ -104,6 +104,10 @@ try {
         case 'SEND_DOC_USER':
             sendDocFormUser($inputs, $conn);
             break;
+
+        case 'GET_ATTACHMENT':
+            returnFileLocation($inputs['ID']);
+            break;
     }
     $conn->close();
 
@@ -1825,8 +1829,8 @@ function getTableAttachment($inputs, $conn)
     $selectDocumentData = [
         'TABLE' => 'DOTS_DOCUMENT',
         'WHERE' => [
-            'AND'=>[
-                ["ID"=>$inputs['DATA']['ID']]
+            'AND' => [
+                ["ID" => $inputs['DATA']['ID']]
             ]
         ]
     ];
@@ -1845,14 +1849,14 @@ function getTableAttachment($inputs, $conn)
         //     'FILE_NAME',
         // ],
         'WHERE' => [
-            'AND'=>[
-                ['DOC_NUM'=>$selectDocumentRow['DOC_NUM']],
-                ['ROUTE_NUM'=>$selectDocumentRow['ROUTE_NUM']],
+            'AND' => [
+                ['DOC_NUM' => $selectDocumentRow['DOC_NUM']],
+                ['ROUTE_NUM' => $selectDocumentRow['ROUTE_NUM']],
             ]
         ]
     ];
-    if($_SESSION['DOTS_PRIV']<3){
-        $data['WHERE']['AND'][] = ['HRIS_ID'=>$_SESSION['HRIS_ID']];
+    if ($_SESSION['DOTS_PRIV'] < 3) {
+        $data['WHERE']['AND'][] = ['HRIS_ID' => $_SESSION['HRIS_ID']];
     }
 
     $selectTableSql = $queries->selectQuery($data);
@@ -1961,5 +1965,33 @@ function selectSingleRow($selectData)
 
     return $selectRow;
 
+}
+function returnFileLocation($id)
+{
+
+    $selectAttachmentData = [
+        'TABLE' => 'DOTS_ATTACHMENTS',
+        'WHERE' => [
+            'AND' => [
+                ['ID' => $id]
+            ]
+        ]
+    ];
+    $selectAttachmentRow = selectSingleRow($selectAttachmentData);
+
+    // var_dump();
+
+    $config = parse_ini_file('config.ini', true);
+    $uploadDirectory = $config['directories']['upload_directory'];
+
+    $targetDir = "$uploadDirectory/$selectAttachmentRow[DOC_NUM]/$selectAttachmentRow[ROUTE_NUM]";
+    $targetFile = "$targetDir/$selectAttachmentRow[DESCRIPTION].pdf";
+
+    echo json_encode(
+        [
+            'VALID' => true,
+            'RESULT' => $targetFile
+        ]
+    );
 }
 ?>
