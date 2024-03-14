@@ -365,37 +365,4 @@ include "../../SCRIPTS/checkPrivilage.php";
 <script src="./script.js" type="module"></script>
 <script src="inspect.js"></script>
 
-<script>
-    // Initiate zoom effect:
-
-    const selectImage = document.querySelector('.select-image');
-    const inputFile = document.querySelector('#ATTACH_FILE');
-    const imgArea = document.querySelector('.img-area');
-
-    selectImage.addEventListener('click', function () {
-        inputFile.click();
-    })
-
-    inputFile.addEventListener('change', function () {
-        const image = this.files[0]
-        if (image.size < (10 * 1024 * 1024)) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                const allImg = imgArea.querySelectorAll('img');
-                allImg.forEach(item => item.remove());
-                const imgUrl = reader.result;
-                const img = document.createElement('img');
-                img.id = "upload_preview";
-                img.src = imgUrl;
-                imgArea.appendChild(img);
-                imgArea.classList.add('active');
-                imgArea.dataset.img = image.name;
-            }
-            reader.readAsDataURL(image);
-        } else {
-            alert("Image size more than 10MB");
-        }
-    })
-</script>
-
 </html>

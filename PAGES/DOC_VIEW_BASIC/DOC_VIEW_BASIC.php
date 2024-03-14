@@ -2,7 +2,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-if(!isset($_SESSION['HRIS_ID'])){
+if (!isset($_SESSION['HRIS_ID'])) {
     header("Location: ../../index.php");
 }
 ?>
@@ -25,6 +25,7 @@ if(!isset($_SESSION['HRIS_ID'])){
 <?php
 include "../../SCRIPTS/checkPrivilage.php";
 ?>
+
 <body>
 
     <?php include "../../DOTS_NAVBAR/DOTS_NAV.php";
@@ -381,40 +382,6 @@ include "../../SCRIPTS/checkPrivilage.php";
 <script src="../../Modal/Vbasic.js"></script>
 <script src="../../SCRIPTS/Constants.js"></script>
 <script src="./script.js" type="module"></script>
-<script src="inspect.js"></script>
-
-<script>
-    // Initiate zoom effect:
-
-    const selectImage = document.querySelector('.select-image');
-    const inputFile = document.querySelector('#ATTACH_FILE');
-    const imgArea = document.querySelector('.img-area');
-
-    selectImage.addEventListener('click', function () {
-        inputFile.click();
-    })
-
-    inputFile.addEventListener('change', function () {
-        const image = this.files[0]
-        if (image.size < (10 * 1024 * 1024)) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                const allImg = imgArea.querySelectorAll('img');
-                allImg.forEach(item => item.remove());
-                const imgUrl = reader.result;
-                const img = document.createElement('img');
-                img.id = "upload_preview";
-                img.src = imgUrl;
-                imgArea.appendChild(img);
-                imgArea.classList.add('active');
-                imgArea.dataset.img = image.name;
-            }
-            reader.readAsDataURL(image);
-        } else {
-            alert("Image size more than 10MB");
-        }
-    })
-</script>
 
 <!-- <script>
     var form_head = document.getElementsByClassName("form_head");
