@@ -104,6 +104,10 @@ try {
         case 'SEND_DOC_USER':
             sendDocFormUser($inputs, $conn);
             break;
+
+        case 'GET_ATTACHMENT':
+            returnFileLocation($inputs['ID']);
+            break;
     }
     $conn->close();
 
@@ -1966,7 +1970,7 @@ function returnFileLocation($id)
 {
 
     $selectAttachmentData = [
-        'TABLE' => 'DOTS_DOCUMENT',
+        'TABLE' => 'DOTS_ATTACHMENTS',
         'WHERE' => [
             'AND' => [
                 ['ID' => $id]
@@ -1974,10 +1978,20 @@ function returnFileLocation($id)
         ]
     ];
     $selectAttachmentRow = selectSingleRow($selectAttachmentData);
-    
+
+    // var_dump();
 
     $config = parse_ini_file('config.ini', true);
     $uploadDirectory = $config['directories']['upload_directory'];
 
+    $targetDir = "$uploadDirectory/$selectAttachmentRow[DOC_NUM]/$selectAttachmentRow[ROUTE_NUM]";
+    $targetFile = "$targetDir/$selectAttachmentRow[DESCRIPTION].pdf";
+
+    echo json_encode(
+        [
+            'VALID' => true,
+            'RESULT' => $targetFile
+        ]
+    );
 }
 ?>
