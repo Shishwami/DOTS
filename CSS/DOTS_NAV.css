@@ -64,7 +64,7 @@
     --dlt_btn: linear-gradient(to bottom, #a10202, #ff0000);
     --dlt_btn-hover: linear-gradient(to top, #000b69, #0011ff);
     --modal_close: #ff0000;
-    --dbl_btn: #cfcfcf;
+    --dbl_btn: rgba(219, 219, 219, 0.5);
 
     /* Borders */
     --border_black: #000000;

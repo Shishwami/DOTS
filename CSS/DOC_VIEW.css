@@ -261,6 +261,12 @@ body:before
     color: #ffffff;
 }
 
+.btnS:disabled, .btnA:disabled, .btnE:disabled, .btnT:disabled
+{
+    background: var(--dbl_btn);
+    color: var(--black);
+}
+
 
 .radio_btn
 {

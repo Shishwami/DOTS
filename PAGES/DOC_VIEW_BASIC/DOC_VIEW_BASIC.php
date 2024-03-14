@@ -30,6 +30,10 @@ include "../../SCRIPTS/checkPrivilage.php";
             <div class="grid">
 
                 <div class="header">
+
+                    <input type="text" name="searchBar" id="searchBar" placeholder="Search Document">
+
+
                     <div class="radio_btn">
                         <div class="btn1">
                             <label class="radio_cnt" for="RADIO_RECEIVE">Receive
@@ -44,7 +48,6 @@ include "../../SCRIPTS/checkPrivilage.php";
                             </label>
                         </div>
                     </div>
-                    <input type="text" name="searchBar" id="searchBar" placeholder="Search Document">
                 </div>
 
                 <div class="tbl_cont">

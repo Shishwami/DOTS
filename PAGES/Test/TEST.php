@@ -11,30 +11,25 @@
     <link rel="stylesheet" href="../../CSS/FontAwesome/css/fontawesome.css">
     <link rel="stylesheet" href="../../CSS/FontAwesome/css/fontawesome.min.css">
     <title></title>
+
 </head>
 <body>
 
-    <div class="btn container">
-        
-        <div class="content2"></div>
-        
-            <button>sdfs</button>
-            <button>sdfs</button>
-            <button>sdfs</button>
-       
-        
-    </div>
 
-    <div class="home">
-        <div class="keke">fdghfgh</div>
-    </div>
 
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-<script src="script.js"></script>
+<!-- <script src="script.js"></script> -->
 
-<script>
-// Initiate zoom effect:
-imageZoom("myimage", "myresult");
+<script type="module">
+    import { jsPDF } from "../../RESOURCES/JSPDF/jspdf.js";
+
+    // Default export is a4 paper, portrait, using millimeters for units
+    const doc = new jsPDF();
+
+    doc.text("Hello world!", 10, 10);
+    doc.save("a4.pdf");
 </script>
+
 </html>
