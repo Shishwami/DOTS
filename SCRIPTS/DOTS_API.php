@@ -1186,6 +1186,10 @@ function getTableMain($inputs, $conn)
         [
             "className" => "btnT",
             "label" => "T"
+        ],
+        [
+            "className" => "btnP",
+            "label" => "P"
         ]
     );
     setupTable($result, $buttons, $tableName);
