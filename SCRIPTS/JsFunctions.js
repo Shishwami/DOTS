@@ -183,10 +183,12 @@ class JsFunctions {
 
     }
     static updateAttachments(mini, results, buttons) {
+        console.log(results);
         mini.innerHTML = '';
         Object.entries(results).forEach(([key, item]) => {
             const url = `url(../${item['FILE_PATH']}${item['FILE_NAME']})`;
             const doc = document.createElement("div");
+            doc.innerText = item['DESCRIPTION'];
             doc.className = "ATTACH_MINI";
             doc.style.backgroundImage = url;
             doc.addEventListener('click', function () {
