@@ -1,9 +1,10 @@
-Release Instructions
-====================
+# Release Instructions
 
 - Add a new draft release in GitHub.
 - Describe the Release
-- `npm version 1.x.y`
-- git push origin v1.x.y
-- Publish the release on GitHub
-- `npm publish`
+- Update the CDN link in the README (@TODO: Automate?)
+- Update the version in `bower.json` (@TODO: Automate?)
+- `npm version 2.x.y`
+- git push origin v2.x.y
+- git push origin master
+- Publish the release on GitHub (this will automatically `npm publish` it)

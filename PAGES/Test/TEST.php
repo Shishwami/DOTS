@@ -19,11 +19,13 @@
 
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+
 
 <!-- <script src="script.js"></script> -->
 
 <script type="module">
-    import { jsPDF } from "../../RESOURCES/JSPDF/jspdf.js";
+    import { jsPDF } from "../../RESOURCES/JSPDF/src/jspdf.js";
 
     // Default export is a4 paper, portrait, using millimeters for units
     const doc = new jsPDF();
