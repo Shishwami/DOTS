@@ -314,7 +314,6 @@ function setTableAttachment() {
                     prev.style.visibility = "hidden";
                 }
             }
-            console.log(response);
             JsFunctions.updateAttachments(ATTACH_RESULTS, response.RESULT, null, null);
         }
     }, data);
@@ -468,6 +467,7 @@ function setForms() {
                         notify("success", response.MESSAGE);
                     }
                 } else {
+                    notify("error", response.MESSAGE);
                     FORM_ATTACH_ADD.querySelector('input[type=submit]').disabled = false;
                 }
                 setTableAttachment();
