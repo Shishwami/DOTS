@@ -275,7 +275,7 @@ function setAttachBtn(id, doc_num, route_num) {
 function setTrackingTable(id, doc_num, route_num) {
     const data = {
         REQUEST: _REQUEST.GET_TABLE_TRACKING,
-        DATA:{
+        DATA: {
             DOC_NUM: doc_num,
             ROUTE_NUM: route_num
         }
@@ -288,7 +288,7 @@ function setTrackingTable(id, doc_num, route_num) {
         } else {
 
         }
-        JsFunctions.updateTable(DOC_VIEW_TRACKING,response.RESULT,null,searchBar.value.toUpperCase());
+        JsFunctions.updateTable(DOC_VIEW_TRACKING, response.RESULT, null, searchBar.value.toUpperCase());
         setTable(searchBar.value.toUpperCase(), action_type);
     }, data);
 
@@ -297,10 +297,8 @@ function setTrackingTable(id, doc_num, route_num) {
 function setTableAttachment() {
     const data = {
         REQUEST: _REQUEST.GET_TABLE_ATTACHMENT,
-        WHERE: {
-            AND: [
-                { ID: ATTACH_ID.value },
-            ],
+        DATA: {
+            ID: ATTACH_ID.value
         }
     }
 
