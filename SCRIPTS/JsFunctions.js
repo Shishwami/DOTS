@@ -73,19 +73,19 @@ class JsFunctions {
 
                     if (item.Action == "RECEIVED" && btn.className == "btnR") {
                         button.disabled = true;
-                        button.style.visibility = 'hidden';
+                        // button.style.visibility = 'hidden';
                     }
                     if (item.Action == "SENT" && btn.className == "btnCR") {
                         button.disabled = true;
-                        button.style.visibility = 'hidden';
+                        // button.style.visibility = 'hidden';
                     }
                     if (item.Action == "RECEIVED" && btn.className == "btnCS") {
                         button.disabled = true;
-                        button.style.visibility = 'hidden';
+                        // button.style.visibility = 'hidden';
                     }
                     if (item.Action == "CANCELLED") {
                         button.disabled = true;
-                        button.style.visibility = 'hidden';
+                        // button.style.visibility = 'hidden';
                     }
 
                     div.appendChild(button);
@@ -100,32 +100,32 @@ class JsFunctions {
                     const cell = document.createElement('td');
                     var fvalue = value;
 
-                    if(fvalue == "RECEIVED"){
+                    if (fvalue == "RECEIVED") {
                         cell.style.backgroundColor = "#006eff";
                         cell.style.color = "#ffffff";
                         cell.style.fontSize = "15px";
                     }
 
-                    if(fvalue == "SENT"){
+                    if (fvalue == "SENT") {
                         cell.style.backgroundColor = "#23d100";
                         cell.style.color = "#ffffff";
                         cell.style.fontSize = "15px";
                     }
 
-                    if(fvalue == "CANCELLED"){
+                    if (fvalue == "CANCELLED") {
                         cell.style.backgroundColor = "#ffa600";
                         cell.style.color = "#ffffff";
                         cell.style.fontSize = "15px";
                         // row.style.display = "none";
                     }
 
-                    if(fvalue == "EDITED"){
+                    if (fvalue == "EDITED") {
                         cell.style.backgroundColor = "#e736ff";
                         cell.style.color = "#ffffff";
                         cell.style.fontSize = "15px";
                     }
 
-                    if(fvalue == "DUPLICATED"){
+                    if (fvalue == "DUPLICATED") {
                         cell.style.backgroundColor = "#790000";
                         cell.style.color = "#ffffff";
                         cell.style.fontSize = "15px";

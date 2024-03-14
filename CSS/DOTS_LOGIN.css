@@ -76,7 +76,7 @@ body:before
     margin: auto;
     background: var(--login_bg);
     background-color: #ffffff;
-    background-size: 45%;
+    background-size: 35%;
     background-position: 50% 50%;
     background-repeat: no-repeat;
     border: 2px solid #333333;
