@@ -17,7 +17,7 @@
 <body>
 
 
-
+    <!-- 
 
     <script type="module">
         console.log("SADASD");
@@ -35,14 +35,14 @@
 
 
 
-    </script>
+    </script> -->
 
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
 
 
 <!-- <script src="script.js"></script> -->
+
+<iframe id="pdfViewer" width="100%" height="500px" frameborder="0"></iframe>
 
 <script type="module">
     import { jsPDF } from "../../RESOURCES/JSPDF/src/jspdf.js";
@@ -51,7 +51,7 @@
     const doc = new jsPDF();
 
     doc.text("Hello world!", 10, 10);
-    doc.save("a4.pdf");
+    // doc.save("a4.pdf");
 
 
 
@@ -59,11 +59,15 @@
 
 
     //
-    const doc = new jsPDF();
-    doc.text('Hello, this is a PDF!', 10, 10);
 
     // Convert PDF content to data URL
     const pdfDataUri = doc.output('datauristring');
+    // Open a new window
+    // const newWindow = window.open('', '_blank');
+    // Set PDF data URI as the content of the new window
+    // newWindow.document.write('<iframe src="' + pdfDataUri + '" width="100%" height="100%"></iframe>');
+    document.getElementById('pdfLink').href = pdfDataUri;
+
 </script>
 
 </html>

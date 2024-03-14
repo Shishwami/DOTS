@@ -314,7 +314,7 @@ function setTableAttachment() {
                     prev.style.visibility = "hidden";
                 }
             }
-            JsFunctions.updateAttachments(ATTACH_RESULTS, response.RESULT, null, null);
+            updateAttachments(ATTACH_RESULTS, response.RESULT, null, null);
         }
     }, data);
 }
@@ -474,5 +474,26 @@ function setForms() {
             }
         };
         xhr.send(formData);
+    });
+}
+
+function updateAttachments(mini, results, buttons) {
+    console.log(results);
+    mini.innerHTML = '';
+    Object.entries(results).forEach(([key, item]) => {
+        const doc = document.createElement("div");
+        doc.innerText = item['DESCRIPTION'];
+        doc.className = "ATTACH_MINI";
+        doc.addEventListener('click', function () {
+        item.ID;
+
+            // const fileLoc = "";
+            // window.location.href = "../../RESOURCES/pdfJS/web/viewer.html?file=";
+        });
+
+        // doc.addEventListener('mouseout', function () {
+        //     preview.style.backgroundImage = "";
+        // });
+        mini.appendChild(doc);
     });
 }
