@@ -1,28 +1,46 @@
-.container
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+*
 {
-  border: 2px solid #000000;
-  display: flex;
+  font-family: "Montserrat", sans-serif;}
+
+textarea
+{
+  resize: none;
 }
 
-.content1
+table, th, tr, td
 {
-  background: #e22727;
-  padding: 5rem;
+  border: 1px solid #000000 ;
 }
 
-.content2
+span
 {
-  background: #2de227;
-  padding: 5rem;
+  background: #6d6d6d;
 }
 
-.home
+input
 {
+  border: none;
+  border-bottom: 1px solid #000000;
+}
+
+.routingnum
+{
+  border-bottom: none;
+}
+
+.pdf_cont
+{
+  /* width: 100vw;
+  height: 100vh; */
+  border: 1px solid #000000;
   padding: 10px;
 }
 
-.keke
+#divID
 {
-  padding: 100px;
-  background: #790000;
+  border: 1px solid #000000;
+  width: 600px;
 }
+
