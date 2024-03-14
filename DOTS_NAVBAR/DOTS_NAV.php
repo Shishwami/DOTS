@@ -27,8 +27,8 @@
                 <div class="logo"><a href="#">CHRMO - DOTS</a></div>
 
                 <ul class="links">
-                    <li><a href="#">Dashboard</a></li> <!--  specific to sir joseph -->
-                    <li><a href="#">Routing</a></li> <!--  for most users -->
+                    <li><a href="../DOC_VIEW/DOC_VIEW2.php">Dashboard</a></li> <!--  specific to sir joseph -->
+                    <li><a href="../DOC_VIEW_BASIC/DOC_VIEW_BASIC.php">Routing</a></li> <!--  for most users -->
                     <!-- <li><a href="#">Tracking</a></li> -->
                     <!-- <li>
                             <a href="#" class="desktop-link">Process</a>
