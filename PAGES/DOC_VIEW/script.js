@@ -485,10 +485,12 @@ function updateAttachments(mini, results, buttons) {
         doc.innerText = item['DESCRIPTION'];
         doc.className = "ATTACH_MINI";
         doc.addEventListener('click', function () {
-        item.ID;
-
+            console.log(item.ID);
+            getData(_REQUEST.GET_ATTACHMENT, { ID: item.ID }, (result) => {
+                const url = "../../"+result;
+                window.location.href = "../../RESOURCES/pdfJS/web/viewer.html?file="+url;
+            }, null);
             // const fileLoc = "";
-            // window.location.href = "../../RESOURCES/pdfJS/web/viewer.html?file=";
         });
 
         // doc.addEventListener('mouseout', function () {
