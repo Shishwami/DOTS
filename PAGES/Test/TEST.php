@@ -12,29 +12,46 @@
     <link rel="stylesheet" href="../../CSS/FontAwesome/css/fontawesome.min.css">
     <title></title>
 </head>
+
 <body>
 
     <div class="btn container">
-        
+
         <div class="content2"></div>
-        
-            <button>sdfs</button>
-            <button>sdfs</button>
-            <button>sdfs</button>
-       
-        
+
+        <button>sdfs</button>
+        <button>sdfs</button>
+        <button>sdfs</button>
+
+
     </div>
 
     <div class="home">
         <div class="keke">fdghfgh</div>
     </div>
 
+
+    <script type="module" src="../../node_modules/jspdf/dist/jspdf.es.min.js">
+        console.log("SADASD");
+        import jsPDF from 'jspdf';
+
+        var doc = new jsPDF();
+        console.log(doc);
+
+        // Add content to the PDF document
+        doc.text("Hello, world!", 10, 10);
+
+        // Save the PDF document
+        doc.save("../example.pdf");
+    </script>
+
 </body>
 
-<script src="script.js"></script>
+<!-- <script src="script.js"></script> -->
 
 <script>
-// Initiate zoom effect:
-imageZoom("myimage", "myresult");
+    // // Initiate zoom effect:
+    // imageZoom("myimage", "myresult");
 </script>
+
 </html>

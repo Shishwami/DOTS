@@ -42,7 +42,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['ATTACH_FILE'])) {
 
     if (move_uploaded_file($_FILES['ATTACH_FILE']['tmp_name'], $targetFile)) {
         // File uploaded successfully
-        
+        $insertAttachmentData = [
+            'TABLE' => 'DOTS_ATTACHMENTS',
+            "DATA" => [
+                'DOC_NUM' => $documentRow['DOC_NUM'],
+                'ROUTE_NUM'=>$documentRow['ROUTE_NUM'],
+                'HRIS_ID'=> $_SESSION['HRIS_ID'],
+                'DESCRIPTION'=>$_POST['DESCRIPTION'],
+            ]
+        ];
+        $insertAttachmentSql = $queries->insertQuery($insertAttachmentData);
+        $insertAttachmentResult = $conn->query($insertAttachmentSql);
+
+
     } else {
         // Failed to move the file
         echo json_encode(
