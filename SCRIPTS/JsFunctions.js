@@ -63,8 +63,8 @@ class JsFunctions {
                         button.title = "Tracking";
                     }
                     if (btn.className == "btnP") {
-                        button.classList.add('fa-solid', 'fa-location-pin');
-                        button.title = "Print";
+                        button.classList.add('fa-solid', 'fa-print');
+                        button.title = "Print Routing Slip";
                     }
 
 
