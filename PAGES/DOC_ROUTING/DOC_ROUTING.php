@@ -91,36 +91,37 @@ function convertHTMLtoPDF() {
                     <h1>Routing Slip / Action Slip</h1> 
 
                     <div class="doc_details">
-                        <input type="text" class="routingnum" name="routingnum" id="">
+                        <input type="text" class="routingnum" 
+                        name="routingnum" id="routingnum">
 
                         <div class="flex_cont">
                             <label for="date_received">Date|Time Received: </label>
-                            <input type="text" name="date_received" id="">
+                            <input type="text" name="date_received" id="date_received">
                         </div>
 
                         <div class="flex_cont">
                             <label for="received_by">Received By: </label>
-                            <input type="text" name="received_by" id="">
+                            <input type="text" name="received_by" id="received_by">
                         </div>
                         
                         <div class="flex_cont">
                             <label for="doc_type">Document Type: </label>
-                            <input type="text" name="doc_type" id="">
+                            <input type="text" name="doc_type" id="doc_type">
                         </div>
 
                         <div class="flex_cont">
                             <label for="office">Office/Agency: </label>
-                            <input type="text" name="office" id="">
+                            <input type="text" name="office" id="office">
                         </div>
 
                         <div class="flex_cont">
                             <label for="letter_date">Letter Date: </label>
-                            <input type="text" name="letter_date" id="">
+                            <input type="text" name="letter_date" id="letter_date">
                         </div>
 
                         <div class="flex_cont">
                             <label for="subject">Subject: </label>
-                            <input type="text" name="subject" id="">
+                            <input type="text" name="subject" id="subject">
                         </div>
                     </div>
 
@@ -151,19 +152,7 @@ function convertHTMLtoPDF() {
                         </div>
 
                         <h3>For: </h3>
-                        <div class="doc_purp">
-                            <label for="pur_review"><input type="checkbox" name="pur_review" id="" disabled>Review</label>
-                            <label for="pur_comm"><input type="checkbox" name="pur_comm" id="" disabled>Comment/Observation</label>
-                            <label for="pur_ini"><input type="checkbox" name="pur_ini" id="" disabled>Initial/Signature</label>
-                            <label for="pur_appr"><input type="checkbox" name="pur_appr" id="" disabled>Approval</label>
-                            <label for="pur_impl"><input type="checkbox" name="pur_impl" id="" disabled>Implementation</label>
-                            <label for="pur_info"><input type="checkbox" name="pur_info" id="" disabled>Info & Guidance</label>
-                            <label for="pur_pay"><input type="checkbox" name="pur_pay" id="" disabled>For Payment</label>
-                            <label for="pur_stu"><input type="checkbox" name="pur_stu" id="" disabled>Study/Attend</label>
-                            <label for="pur_urge"><input type="checkbox" name="pur_urge" id="" disabled>URGENT ACT</label>
-                            <label for="pur_prep"><input type="checkbox" name="pur_prep" id="" disabled>Prepare Reply</label>
-                            <label for="pur_final"><input type="checkbox" name="pur_final" id="" disabled>Finalize</label>
-                            <label for="pur_note"><input type="checkbox" name="pur_note" id="" disabled>Note & Return File</label>
+                        <div class="doc_purp" id="doc_purp">
                         </div>
 
                         <div class="doc_purp_notes">
