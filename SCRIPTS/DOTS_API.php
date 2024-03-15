@@ -2096,6 +2096,9 @@ function getTableRow($id)
     $selectPrpsArray = resultsToArray($selectPrpsResults);
 
     $selectDocumentRow = selectSingleRow($data);
+
+    $selectDocumentRow['Date Received'] = formatDateTime($selectDocumentRow['Date Received']);
+    $selectDocumentRow['Letter Date'] = formatDate($selectDocumentRow['Letter Date']);
     echo json_encode([
         'DOC' => $selectDocumentRow,
         'PRPS' => $selectPrpsArray
