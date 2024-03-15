@@ -313,13 +313,16 @@ function setPrinting(id, doc_num, route_num) {
         subject.value = response['DOC']['Subject'];
 
         doc_purp.innerHTML = "";
+        var counter = 0;
+        var container = document.createElement('div'); // Create a container to group checkboxes
+        container.className = "column";
         response.PRPS.forEach(function (item) {
             var id = item.ID;
             var docPrps = item.DOC_PRPS;
 
             // Create checkbox element
             var checkbox = document.createElement('input');
-            checkbox.disabled= true;
+            checkbox.disabled = true;
             checkbox.type = 'checkbox';
             checkbox.id = 'docPrps_' + id;
             checkbox.name = 'docPrps[]'; // To treat checkboxes as an array in form submission
@@ -327,18 +330,26 @@ function setPrinting(id, doc_num, route_num) {
 
             // Create label for checkbox
             var label = document.createElement('label');
-
-            // Add checkbox and label to the container
-            label.appendChild(checkbox);
-
-            // Create label for checkbox
             label.htmlFor = 'docPrps_' + id;
+            label.appendChild(checkbox);
             label.appendChild(document.createTextNode(docPrps));
 
+            container.appendChild(label);
+            container.appendChild(document.createElement('br')); // Add line break
 
-            doc_purp.appendChild(label);
-            doc_purp.appendChild(document.createElement('br')); // Add line break
+            counter++;
+            if (counter % 5 === 0) { // Check if 5 checkboxes are added
+                doc_purp.appendChild(container); // Add container to the main document
+                container = document.createElement('div'); // Reset container for next group
+                container.className = "column";
+            }
         });
+
+        // Check if there are any remaining checkboxes in the container
+        if (container.children.length > 0) {
+            doc_purp.appendChild(container);
+        }
+
 
 
 
