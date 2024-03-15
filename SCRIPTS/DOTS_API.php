@@ -108,6 +108,9 @@ try {
         case 'GET_ATTACHMENT':
             returnFileLocation($inputs['ID']);
             break;
+        case 'GET_ROUTING_SLIP':
+            getTableRow($inputs['ID']);
+            break;
     }
     $conn->close();
 
@@ -1993,5 +1996,97 @@ function returnFileLocation($id)
             'RESULT' => $targetFile
         ]
     );
+}
+
+function getTableRow($id)
+{
+
+    $data = array(
+        'TABLE' => 'DOTS_DOCUMENT',
+        'COLUMNS' => [
+            'DOTS_DOCUMENT.ID',
+
+            "CASE WHEN ROUTE_NUM = 0 THEN DOTS_DOCUMENT.DOC_NUM 
+             ELSE CONCAT(DOTS_DOCUMENT.DOC_NUM,\"-\",ROUTE_NUM) 
+             END AS `No.`",
+
+            'DOC_NUM',
+            'ROUTE_NUM',
+            'DOC_SUBJECT as `Subject`',
+            'DOC_TYPE `Type`',
+            'LETTER_DATE `Letter Date`',
+
+            "CONCAT(
+             IF(S_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(S_OFFICE.DOC_OFFICE,'-'), ' '),' ', 
+             IF(S_DEPT.DOC_DEPT IS NOT NULL,CONCAT(S_DEPT.DOC_DEPT,'-'), ' '), 
+             IFNULL(S_FULL_NAME.FULL_NAME, ' ')) as 'Sent By'",
+
+            "CONCAT(
+            IF(R_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(R_OFFICE.DOC_OFFICE,'-'), ' '),' ',
+            IF(R_DEPT.DOC_DEPT IS NOT NULL,CONCAT(R_DEPT.DOC_DEPT,'-'), ' '), 
+            IFNULL(R_FULL_NAME.FULL_NAME, ' ')) as 'Received By'",
+
+            'DATE_TIME_RECEIVED `Date Received`',
+            'DOTS_DOC_STATUS.DOC_STATUS `Status`',
+            'DOTS_DOC_ACTION.DOC_ACTION `Action`'
+        ],
+        'JOIN' => [
+            array(
+                'table' => 'DOTS_DOC_TYPE',
+                'ON' => ['DOTS_DOCUMENT.DOC_TYPE_ID = DOTS_DOC_TYPE.ID'],
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_DOC_OFFICE S_OFFICE',
+                'ON' => ['DOTS_DOCUMENT.S_OFFICE_ID = S_OFFICE.ID'],
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_DOC_DEPT S_DEPT',
+                'ON' => ['DOTS_DOCUMENT.S_DEPT_ID = S_DEPT.ID'],
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_ACCOUNT_INFO S_FULL_NAME',
+                'ON' => ['DOTS_DOCUMENT.S_USER_ID = S_FULL_NAME.HRIS_ID'],
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_DOC_OFFICE R_OFFICE',
+                'ON' => ['DOTS_DOCUMENT.R_OFFICE_ID = R_OFFICE.ID'],
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_DOC_DEPT R_DEPT',
+                'ON' => ['DOTS_DOCUMENT.R_DEPT_ID = R_DEPT.ID'],
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_ACCOUNT_INFO R_FULL_NAME',
+                'ON' => ['DOTS_DOCUMENT.R_USER_ID = R_FULL_NAME.HRIS_ID'],
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_DOC_STATUS',
+                'ON' => ['DOTS_DOCUMENT.DOC_STATUS = DOTS_DOC_STATUS.ID'],
+                'TYPE' => 'LEFT'
+            ),
+            array(
+                'table' => 'DOTS_DOC_ACTION',
+                'ON' => ['DOTS_DOCUMENT.ACTION_ID = DOTS_DOC_ACTION.ID'],
+                'TYPE' => 'LEFT'
+            ),
+        ],
+        'WHERE' => [
+            'AND' => [
+                ['DOTS_DOCUMENT.ID' => $id]
+            ]
+        ]
+    );
+
+    $selectDocumentRow = selectSingleRow($data);
+
+    var_dump($selectDocumentRow);
+
 }
 ?>
