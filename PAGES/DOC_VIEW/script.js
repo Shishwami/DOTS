@@ -296,10 +296,14 @@ function setTrackingTable(id, doc_num, route_num) {
 function setPrinting(id, doc_num, route_num) {
     route_modal.style.display = "block";
 
+    const data = {
+        REQUEST: "GET_ROUTING_SLIP",
+        ID: id
+    }
 
-    getData("GET_ROUTING_SLIP", { 'ID': id }, (result) => {
-
-    }, null);
+    MyAjax.createJSON((error, response) => {
+        console.log(response);
+    }, data);
 
 
 }

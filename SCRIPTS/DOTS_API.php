@@ -2084,9 +2084,21 @@ function getTableRow($id)
         ]
     );
 
+    global $conn;
+    $queries = new Queries();
+
+    $selectPrpsData = [
+        'TABLE' => 'DOTS_DOC_PRPS'
+    ];
+
+    $selectPrpsSql = $queries->selectQuery($selectPrpsData);
+    $selectPrpsResults = $conn->query($selectPrpsSql);
+    $selectPrpsArray = resultsToArray($selectPrpsResults);
+
     $selectDocumentRow = selectSingleRow($data);
-
-    var_dump($selectDocumentRow);
-
+    echo json_encode([
+        'DOC' => $selectDocumentRow,
+        'PRPS' => $selectPrpsArray
+    ]);
 }
 ?>
