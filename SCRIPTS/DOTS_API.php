@@ -943,7 +943,6 @@ function sendDocForm($inputs, $conn)
     }
 
     $results[] = insert($insertInboundData);
-    var_dump($insertInboundData);
     $lastInboundId = $conn->insert_id;
 
     $formattedDocumentNumber = formatDocumentNumber($checkRoutedRow['DOC_NUM'], $newRoutingNumber);
