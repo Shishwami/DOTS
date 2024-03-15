@@ -357,7 +357,7 @@ include "../../SCRIPTS/checkPrivilage.php";
                 <div class="modal_content">
                     <div class="modal_banner">
                         <span class="route_close">&times;</span>
-                        <h1>Routing Slip</h1>
+                        <h1 style='font-family:"Orbitron", sans-serif !important;'>Routing Slip</h1>
                     </div>
 
                     <?php include "../DOC_ROUTING/DOC_ROUTING.php"?>
