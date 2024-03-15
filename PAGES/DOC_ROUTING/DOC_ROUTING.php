@@ -155,7 +155,10 @@ function convertHTMLtoPDF() {
                         <div class="doc_purp" id="doc_purp">
                         </div>
 
-                        <h3>Notes: </h3>
+                        <div class="doc_purp_notes">
+                            <label for="notes"><h3>Notes: </h3></label>
+                            <textarea name="notes" id="" cols="80" rows="2"></textarea>
+                        </div>
                     </div>
 
                     <div class="doc_hr">
