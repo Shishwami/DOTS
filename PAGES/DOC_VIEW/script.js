@@ -294,7 +294,6 @@ function setTrackingTable(id, doc_num, route_num) {
 
 }
 function setPrinting(id, doc_num, route_num) {
-    route_modal.style.display = "block";
 
     const data = {
         REQUEST: "GET_ROUTING_SLIP",
@@ -303,6 +302,45 @@ function setPrinting(id, doc_num, route_num) {
 
     MyAjax.createJSON((error, response) => {
         console.log(response);
+        route_modal.style.display = "block";
+
+        routingnum.value = response['DOC']['No.'];
+        date_received.value = response['DOC']['Date Received']
+        received_by.value = response['DOC']['Received By'];
+        doc_type.value = response['DOC']['Type'];
+        office.value = response['DOC']['Sent By'];
+        letter_date.value = response['DOC']['Letter Date'];
+        subject.value = response['DOC']['Subject'];
+
+
+        response.PRPS.forEach(function (item) {
+            var id = item.ID;
+            var docPrps = item.DOC_PRPS;
+
+            // Create checkbox element
+            var checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = 'docPrps_' + id;
+            checkbox.name = 'docPrps[]'; // To treat checkboxes as an array in form submission
+            checkbox.value = docPrps;
+
+            // Create label for checkbox
+            var label = document.createElement('label');
+
+            // Add checkbox and label to the container
+            label.appendChild(checkbox);
+
+            // Create label for checkbox
+            label.htmlFor = 'docPrps_' + id;
+            label.appendChild(document.createTextNode(docPrps));
+
+
+            doc_purp.appendChild(label);
+            doc_purp.appendChild(document.createElement('br')); // Add line break
+        });
+
+
+
     }, data);
 
 
