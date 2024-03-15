@@ -295,6 +295,13 @@ function setTrackingTable(id, doc_num, route_num) {
 }
 function setPrinting(id, doc_num, route_num) {
 
+
+
+    getData("GET_ROUTING_SLIP", { 'ID': id }, (result) => {
+
+    }, null);
+
+
 }
 
 function setTableAttachment() {
