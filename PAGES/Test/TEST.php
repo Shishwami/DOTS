@@ -75,7 +75,7 @@ function convertHTMLtoPDF() {
         },
         margin: 10, // Optional: Set page margin
         onePage: true, // Generate a single-page PDF
-        scale: 10 // Adjust the scale (0.8 reduces the content size)
+        // scale: 0.8 // Adjust the scale (0.8 reduces the content size)
     });
 }
 
@@ -93,26 +93,40 @@ function convertHTMLtoPDF() {
                     <div class="doc_details">
                         <input type="text" class="routingnum" name="routingnum" id="">
 
-                        <label for="date_received">Date Received: </label>
-                        <input type="text" name="date_received" id="">
+                        <div class="flex_cont">
+                            <label for="date_received">Date Received: </label>
+                            <input type="text" name="date_received" id="">
+                        </div>
 
-                        <label for="time_received">Time Received: </label>
-                        <input type="text" name="time_received" id="">
+                        <div class="flex_cont">
+                            <label for="time_received">Time Received: </label>
+                            <input type="text" name="time_received" id="">
+                        </div>
 
-                        <label for="received_by">Received By: </label>
-                        <input type="text" name="received_by" id="">
+                        <div class="flex_cont">
+                            <label for="received_by">Received By: </label>
+                            <input type="text" name="received_by" id="">
+                        </div>
                         
-                        <label for="doc_type">Document Type: </label>
-                        <input type="text" name="doc_type" id="">
+                        <div class="flex_cont">
+                            <label for="doc_type">Document Type: </label>
+                            <input type="text" name="doc_type" id="">
+                        </div>
 
-                        <label for="office">Office/Agency: </label>
-                        <input type="text" name="office" id="">
+                        <div class="flex_cont">
+                            <label for="office">Office/Agency: </label>
+                            <input type="text" name="office" id="">
+                        </div>
 
-                        <label for="letter_date">Letter Date: </label>
-                        <input type="text" name="letter_date" id="">
+                        <div class="flex_cont">
+                            <label for="letter_date">Letter Date: </label>
+                            <input type="text" name="letter_date" id="">
+                        </div>
 
-                        <label for="subject">Subject: </label>
-                        <input type="text" name="subject" id="">
+                        <div class="flex_cont">
+                            <label for="subject">Subject: </label>
+                            <input type="text" name="subject" id="">
+                        </div>
                     </div>
 
                     <div class="doc_data">
