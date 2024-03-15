@@ -293,6 +293,9 @@ function setTrackingTable(id, doc_num, route_num) {
     }, data);
 
 }
+function setPrinting(id, doc_num, route_num) {
+
+}
 
 function setTableAttachment() {
     const data = {
@@ -357,6 +360,11 @@ function setButtons(table) {
     table.querySelectorAll('.btnT').forEach(function (button) {
         button.addEventListener('mousedown', function () {
             setTrackingTable(this.dataset.i, this.dataset.d, this.dataset.r);
+        });
+    });
+    table.querySelectorAll('.btnP').forEach(function (button) {
+        button.addEventListener('mousedown', function () {
+            setPrinting(this.dataset.i, this.dataset.d, this.dataset.r);
         });
     });
 }
@@ -487,8 +495,8 @@ function updateAttachments(mini, results, buttons) {
         doc.addEventListener('click', function () {
             console.log(item.ID);
             getData(_REQUEST.GET_ATTACHMENT, { ID: item.ID }, (result) => {
-                const url = "../../"+result;
-                window.location.href = "../../RESOURCES/pdfJS/web/viewer.html?file="+url;
+                const url = "../../" + result;
+                window.open("../../RESOURCES/pdfJS/web/viewer.html?file=" + url, '_blank').focus();
             }, null);
             // const fileLoc = "";
         });
