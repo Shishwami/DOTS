@@ -121,7 +121,8 @@ function convertHTMLtoPDF() {
 
                         <div class="flex_cont">
                             <label for="subject">Subject: </label>
-                            <input type="text" name="subject" id="subject">
+                            <!-- <input type="text" name="subject" id="subject"> -->
+                            <textarea name="subject" id="subject" cols="45" rows="3"></textarea>
                         </div>
                     </div>
 
@@ -158,7 +159,7 @@ function convertHTMLtoPDF() {
 
                         <div class="doc_purp_notes">
                             <label for="notes"><h3>Notes: </h3></label>
-                            <textarea name="notes" id="" cols="80" rows="2"></textarea>
+                            <textarea name="notes" id="" cols="50" rows="2"></textarea>
                         </div>
                     </div>
 
