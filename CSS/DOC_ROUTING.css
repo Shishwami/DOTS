@@ -17,7 +17,7 @@
 {
   border: 1px solid #000000;
   width: 250px;
-  margin: 10px;
+  margin: 5px;
 }
 
 .banner
@@ -39,9 +39,11 @@
 textarea
 {
   resize: none;
-  font-size: 5px;
+  font-size: 8px;
   border: none;
   border-bottom: 0.5px solid #000000;
+  margin-left: 5px;
+  background: none;
 }
 
 table, th, tr, td
@@ -51,11 +53,11 @@ table, th, tr, td
 
 input
 {
+  background: none;
   border: none;
   border-bottom: 0.5px solid #000000;
   font-size: 8px;
-  background: #fc1111;
-  padding: 0;
+  line-height: 18px;
 }
 
 .routingnum
@@ -74,7 +76,6 @@ input[type="checkbox"]
 
 input[type="checkbox"]:disabled
 {
-  background: #fc1111;
   outline: 1px solid #000000;
 }
 
@@ -119,6 +120,11 @@ th, td
   margin: 0 auto 5px auto;
 }
 
+.flex_cont label
+{
+  line-height: 18px;
+}
+
 .flex_box
 {
   display: flex;
@@ -134,6 +140,7 @@ th, td
 .flex_box label
 {
   margin-right: 5px;
+  line-height: 20px;
 }
 
 .flex_box .ini_date
