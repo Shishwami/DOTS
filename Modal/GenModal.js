@@ -1,28 +1,30 @@
 // Get Modal Variable
-var crt_modal = document.getElementById("crt_modal");
-var edt_modal = document.getElementById("edt_modal");
-var snd_modal = document.getElementById("snd_modal");
-var atc_modal = document.getElementById("atc_modal");
-var ins_submodal = document.getElementById("ins_submodal");
-var atc_submodal = document.getElementById("atc_submodal");
+const crt_modal = document.getElementById("crt_modal");
+const edt_modal = document.getElementById("edt_modal");
+const snd_modal = document.getElementById("snd_modal");
+const atc_modal = document.getElementById("atc_modal");
+const ins_submodal = document.getElementById("ins_submodal");
+const atc_submodal = document.getElementById("atc_submodal");
+const rte_modal = document.getElementById("route_modal");
 
 // Get Modal Button Variable
 
-var crt_btn = document.getElementById("BTN_DOC_CREATE");
+const crt_btn = document.getElementById("BTN_DOC_CREATE");
 // var edt_btn = document.getElementById("BTN_DOC_EDIT");
-var snd_btn = document.getElementById("BTN_DOC_SEND");
-var atc_btn = document.getElementById("BTN_DOC_ATTACHMENTS");
-var ins_sub_btn = document.getElementById("BTN_ATTACH_INS");
-var atc_sub_btn = document.getElementById("BTN_ATTACH_ADD");
+const snd_btn = document.getElementById("BTN_DOC_SEND");
+const atc_btn = document.getElementById("BTN_DOC_ATTACHMENTS");
+const ins_sub_btn = document.getElementById("BTN_ATTACH_INS");
+const atc_sub_btn = document.getElementById("BTN_ATTACH_ADD");
 
 // Get Span Close Variable
-var crt_span = document.getElementsByClassName("crt_close")[0];
-var edt_span = document.getElementsByClassName("edt_close")[0];
-var snd_span = document.getElementsByClassName("snd_close")[0];
-var atc_span = document.getElementsByClassName("atc_close")[0];
-var ins_sub_span = document.getElementsByClassName("ins_sub_close")[0];
-var atc_sub_span = document.getElementsByClassName("atc_sub_close")[0];
+const crt_span = document.getElementsByClassName("crt_close")[0];
+const edt_span = document.getElementsByClassName("edt_close")[0];
+const snd_span = document.getElementsByClassName("snd_close")[0];
+const atc_span = document.getElementsByClassName("atc_close")[0];
+const ins_sub_span = document.getElementsByClassName("ins_sub_close")[0];
+const atc_sub_span = document.getElementsByClassName("atc_sub_close")[0];
 const track_span = document.getElementsByClassName("track_close")[0];
+const route_span = document.getElementsByClassName("route_close")[0];
 
 // // Open Modal Function
 if (crt_btn) {
@@ -57,12 +59,6 @@ if (atc_sub_btn) {
   atc_sub_btn.onclick = function()
   {
   atc_submodal.style.display = "block";
-  }
-}
-
-if (track_span) {
-  track_span.onclick = function () {
-    track_modal.style.display = "none";
   }
 }
 
@@ -109,6 +105,18 @@ if (atc_sub_span) {
   }
 }
 
+if (track_span) {
+  track_span.onclick = function () {
+    track_modal.style.display = "none";
+  }
+}
+
+if (route_span) {
+  route_span.onclick = function () {
+    rte_modal.style.display = "none";
+  }
+}
+
 // // Close Modal Function - Window
 window.onclick = function(event)
 {
@@ -144,6 +152,10 @@ window.onclick = function(event)
 
   if (event.target == track_modal) {
     track_modal.style.display = "none";
+  }
+
+  if (event.target == rte_modal) {
+    rte_modal.style.display = "none";
   }
 }
 

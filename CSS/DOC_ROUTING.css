@@ -143,6 +143,7 @@ th, td
 .doc_purp
 {
   display: flex;
+  flex-direction: column;
 }
 
 
