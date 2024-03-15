@@ -353,6 +353,18 @@ include "../../SCRIPTS/checkPrivilage.php";
                 </div>
             </div>
 
+            <div class="modal" id="route_modal">
+                <div class="modal_content">
+                    <div class="modal_banner">
+                        <span class="route_close">&times;</span>
+                        <h1>Routing Slip</h1>
+                    </div>
+
+                    <?php include "../DOC_ROUTING/DOC_ROUTING.php"?>
+
+                </div>
+            </div>
+
         </div>
     </div>
     <?php
