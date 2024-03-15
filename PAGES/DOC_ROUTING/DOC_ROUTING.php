@@ -73,7 +73,7 @@ function convertHTMLtoPDF() {
             // Save the PDF with the specified filename
             doc.save("newpdf.pdf");
         },
-        margin: 10, // Optional: Set page margin
+        margin: 5, // Optional: Set page margin
         onePage: true, // Generate a single-page PDF
         // scale: 0.8 // Adjust the scale (0.8 reduces the content size)
     });
@@ -153,6 +153,7 @@ function convertHTMLtoPDF() {
 
                         <h3>For: </h3>
                         <div class="doc_purp" id="doc_purp">
+
                         </div>
 
                         <div class="doc_purp_notes">
@@ -204,7 +205,7 @@ function convertHTMLtoPDF() {
                         <h3>Remarks: </h3>
                     </div>
 
-                    <div class="doc_froute">
+                    <div class="doc_route">
                         <div class="banner">For Further Routing</div>
 
                         <table>
