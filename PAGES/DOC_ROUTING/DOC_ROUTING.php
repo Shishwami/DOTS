@@ -7,9 +7,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="stylesheet" href="../../CSS/DOC_ROUTING.css">
-    <link rel="stylesheet" href="../../CSS/FontAwesome/css/all.css">
-    <link rel="stylesheet" href="../../CSS/FontAwesome/css/fontawesome.css">
-    <link rel="stylesheet" href="../../CSS/FontAwesome/css/fontawesome.min.css">
     <title></title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -167,13 +164,13 @@ function convertHTMLtoPDF() {
                         <div class="banner">For HR Divisions</div>
 
                         <label for="comply">Complied By: </label>
-                        <textarea name="comply" id="" cols="30" rows="1"></textarea>
+                        <textarea name="comply" id="" cols="20" rows="1"></textarea>
 
                         <label for="dt_rec">Date|Time Received: </label>
-                        <textarea name="dt_rec" id="" cols="30" rows="1"></textarea>
+                        <textarea name="dt_rec" id="" cols="20" rows="1"></textarea>
 
                         <label for="notes">Notes: </label>
-                        <textarea name="notes" id="" cols="50" rows="1"></textarea>
+                        <textarea name="notes" id="" cols="20" rows="1"></textarea>
                     </div>
 
                     <div class="doc_dept">
