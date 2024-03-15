@@ -312,13 +312,14 @@ function setPrinting(id, doc_num, route_num) {
         letter_date.value = response['DOC']['Letter Date'];
         subject.value = response['DOC']['Subject'];
 
-
+        doc_purp.innerHTML = "";
         response.PRPS.forEach(function (item) {
             var id = item.ID;
             var docPrps = item.DOC_PRPS;
 
             // Create checkbox element
             var checkbox = document.createElement('input');
+            checkbox.disabled= true;
             checkbox.type = 'checkbox';
             checkbox.id = 'docPrps_' + id;
             checkbox.name = 'docPrps[]'; // To treat checkboxes as an array in form submission
