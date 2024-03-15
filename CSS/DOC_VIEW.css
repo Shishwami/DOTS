@@ -1,6 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
+#route_modal h1
+{
+    color: #000000;
+}
+
 /* Regulation */
 *
 {

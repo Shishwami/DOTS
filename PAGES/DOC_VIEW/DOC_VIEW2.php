@@ -359,8 +359,8 @@ include "../../SCRIPTS/checkPrivilage.php";
                         <span class="route_close">&times;</span>
                         <h1 style='font-family:"Orbitron", sans-serif !important;'>Routing Slip</h1>
                     </div>
-
-                    <?php include "../DOC_ROUTING/DOC_ROUTING.php"?>
+                    <h1>To be Updated</h1>
+                    <?php //include "../DOC_ROUTING/DOC_ROUTING.php"?>
 
                 </div>
             </div>
