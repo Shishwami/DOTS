@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 14/03/2024 16:26:31
+ Date: 15/03/2024 10:24:33
 */
 
 SET NAMES utf8mb4;
@@ -38,7 +38,7 @@ CREATE TABLE `dots_account_info`  (
 -- Records of dots_account_info
 -- ----------------------------
 INSERT INTO `dots_account_info` VALUES (25009, 'Aisha Priya Patel', 'APP', NULL, 1, 'aishappatel', '', 1, 1);
-INSERT INTO `dots_account_info` VALUES (27003, 'Sarah Grace Lee', 'SGL', NULL, 2, 'sarahglee', '', 2, 2);
+INSERT INTO `dots_account_info` VALUES (27003, 'Sarah Grace Lee', 'SGL', NULL, 2, 'sarahglee', '', 2, 3);
 INSERT INTO `dots_account_info` VALUES (29005, 'Emily Mei Chen', 'EMC', NULL, 3, 'emilymchen', '', 3, 2);
 INSERT INTO `dots_account_info` VALUES (31007, 'Sophia Fatima Khan', 'SFK', NULL, 1, 'sophiafkhan', '', 4, NULL);
 INSERT INTO `dots_account_info` VALUES (32001, 'Mia Elizabeth Johnson', 'MEJ', NULL, 2, 'miaejohnson', '', 4, NULL);
@@ -61,11 +61,13 @@ CREATE TABLE `dots_attachments`  (
   `FILE_PATH` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `FILE_NAME` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_attachments
 -- ----------------------------
+INSERT INTO `dots_attachments` VALUES (1, 1999, 0, 27003, 'JASD', NULL, NULL);
+INSERT INTO `dots_attachments` VALUES (2, 1999, 0, 27003, '1234567', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for dots_doc_action
@@ -151,7 +153,7 @@ CREATE TABLE `dots_doc_prps`  (
   `ID` int NOT NULL AUTO_INCREMENT,
   `DOC_PRPS` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of dots_doc_prps
@@ -160,6 +162,14 @@ INSERT INTO `dots_doc_prps` VALUES (1, 'Review');
 INSERT INTO `dots_doc_prps` VALUES (2, 'Comment/Observation');
 INSERT INTO `dots_doc_prps` VALUES (3, 'Initial/Signature');
 INSERT INTO `dots_doc_prps` VALUES (4, 'Approval');
+INSERT INTO `dots_doc_prps` VALUES (5, 'Implementation');
+INSERT INTO `dots_doc_prps` VALUES (6, 'Info & Guidance');
+INSERT INTO `dots_doc_prps` VALUES (7, 'For Payment');
+INSERT INTO `dots_doc_prps` VALUES (8, 'Study/Attend');
+INSERT INTO `dots_doc_prps` VALUES (9, 'Urgent Act');
+INSERT INTO `dots_doc_prps` VALUES (10, 'Prepare Reply');
+INSERT INTO `dots_doc_prps` VALUES (11, 'Finalize');
+INSERT INTO `dots_doc_prps` VALUES (12, 'Note And Return File');
 
 -- ----------------------------
 -- Table structure for dots_doc_status
@@ -321,7 +331,7 @@ CREATE TABLE `dots_num_sequence`  (
 -- ----------------------------
 -- Records of dots_num_sequence
 -- ----------------------------
-INSERT INTO `dots_num_sequence` VALUES (1, 1999);
+INSERT INTO `dots_num_sequence` VALUES (1, 2000);
 
 -- ----------------------------
 -- Table structure for dots_tracking
