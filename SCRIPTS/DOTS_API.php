@@ -149,7 +149,7 @@ function userLogin($inputs, $conn)
     );
 
     $selectUserRow = selectSingleRow($selectUserData);
-    if (empty($selectUserRow)) {
+    if (empty ($selectUserRow)) {
         $message = "Invalid Username or Password.";
     } else {
         $valid = true;
@@ -200,7 +200,7 @@ function getSessionValue($key)
     $valid = false;
     $sessionValue = '';
 
-    if (isset($_SESSION[$key])) {
+    if (isset ($_SESSION[$key])) {
         $valid = true;
         $sessionValue = $_SESSION[$key];
 
@@ -244,7 +244,7 @@ function getDocNum($inputs, $conn)
     if ($result) {
         $valid = true;
         $row = $result->fetch_assoc();
-        if (isset($row['CURRENT_VALUE'])) {
+        if (isset ($row['CURRENT_VALUE'])) {
             $doc_num = $row['CURRENT_VALUE'];
         }
     }
@@ -341,7 +341,7 @@ function editDocument($inputs, $conn)
     $selectDocResult = selectSingleRow($selectDocData);
 
     $selectDeptData = [
-        'TABLE' => 'DOTS_DOC_DEPT',
+        'TABLE' => 'DOTS_DOC_OFFICE',
     ];
     $selectDeptSql = $queries->selectQuery($selectDeptData);
     $selectDeptResult = $conn->query($selectDeptSql);
@@ -353,22 +353,24 @@ function editDocument($inputs, $conn)
     $selectDocTypeSql = $queries->selectQuery($selectDocTypeData);
     $selectDocTypeResult = $conn->query($selectDocTypeSql);
     $selectDocTypeRows = resultsToArray($selectDocTypeResult);
-
+    var_dump($selectDocTypeRows);
     $notEqualKeys = [];
     foreach ($requiredInputs as $key => $val) {
         $newInputs = $inputs['DATA'][$key];
         $oldInputs = $selectDocResult[$key];
         if ($key == "DATE_TIME_RECEIVED") {
-            $timestamp = strtotime($newInputs);
-            $newInputs = date("Y-m-d H:i:s", $timestamp);
+            $timestampNew = strtotime($newInputs);
+            $newInputs = date("d-m-y h:i A", $timestampNew);
+            $timestampOld = strtotime($oldInputs);
+            $oldInputs   = date("d-m-y h:i A", $timestampOld);
         }
         if ($key == "DOC_TYPE_ID") {
             $newInputs = getValueFromId($newInputs, $selectDocTypeRows, "DOC_TYPE");
             $oldInputs = getValueFromId($oldInputs, $selectDocTypeRows, "DOC_TYPE");
         }
         if ($key == "S_OFFICE_ID") {
-            $newInputs = getValueFromId($newInputs, $selectDeptRows, "DOC_DEPT");
-            $oldInputs = getValueFromId($oldInputs, $selectDeptRows, "DOC_DEPT");
+            $newInputs = getValueFromId($newInputs, $selectDeptRows, "DOC_OFFICE");
+            $oldInputs = getValueFromId($oldInputs, $selectDeptRows, "DOC_OFFICE");
         }
         if ($key == "ACTION_ID") {
             if ($oldInputs == 2) {
@@ -411,7 +413,7 @@ function editDocument($inputs, $conn)
             'ROUTE_NUM' => $selectDocResult["ROUTE_NUM"],
             'HRIS_ID' => $_SESSION['HRIS_ID'],
             'ACTION_ID' => 6,//ACTION_ID EDIT
-            'DATE_TIME_ACTION' => $selectDocResult['DATE_TIME_RECEIVED'],
+            // 'DATE_TIME_ACTION' => $selectDocResult['DATE_TIME_RECEIVED'],
             'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
             // 'NOTE_USER' => $inputs['DATA']['CANCEL_R_NOTES'],
             'NOTE_SERVER' => "$server_notes",
@@ -535,7 +537,7 @@ function cancelReceive($inputs, $conn)
         ]
     ];
 
-    if (isset($inputs['DATA']['CANCEL_R_DEPT'])) {
+    if (isset ($inputs['DATA']['CANCEL_R_DEPT'])) {
         $updateReceiveData['DATA']['R_USER_ID'] = 0;
     }
 
@@ -836,7 +838,7 @@ function sendDocForm($inputs, $conn)
 
     $conn->begin_transaction();
 
-    if (isset($inputs['DATA']['R_USER_ID'])) {
+    if (isset ($inputs['DATA']['R_USER_ID'])) {
         $r_user_id = $inputs['DATA']['R_USER_ID'];
     }
 
@@ -933,7 +935,7 @@ function sendDocForm($inputs, $conn)
                 'NOTE_SERVER' => 'Document already routed, Document has been duplicated',
             ]
         ];
-        if (isset($inputs['DATA']['DOC_NOTES'])) {
+        if (isset ($inputs['DATA']['DOC_NOTES'])) {
             $insertDocumentLogData['DATA']['NOTE_USER'] = $inputs['DATA']['DOC_NOTES'];
         }
         $results[] = insert($insertDocumentLogData);
@@ -966,7 +968,7 @@ function sendDocForm($inputs, $conn)
         ]
     ];
 
-    if (isset($inputs['DATA']['DOC_NOTES'])) {
+    if (isset ($inputs['DATA']['DOC_NOTES'])) {
         $insertInboundLogData['DATA']['NOTE_USER'] = $inputs['DATA']['DOC_NOTES'];
     }
 
@@ -1510,7 +1512,7 @@ function sendDocFormUser($inputs, $conn)
     $results = [];
 
     $r_user_id = 0;
-    if (isset($inputs['DATA']['R_USER_ID'])) {
+    if (isset ($inputs['DATA']['R_USER_ID'])) {
         $r_user_id = $inputs['DATA']['R_USER_ID'];
     }
 
@@ -1565,7 +1567,7 @@ function sendDocFormUser($inputs, $conn)
             'ID' => $inputs["DATA"]["ID"],
         ]
     ];
-    if (isset($inputs['DATA']['R_USER_ID'])) {
+    if (isset ($inputs['DATA']['R_USER_ID'])) {
         $updateOutboundData['DATA']['R_USER_ID'] = $inputs['DATA']['R_USER_ID'];
     }
 
@@ -1583,7 +1585,7 @@ function sendDocFormUser($inputs, $conn)
             'ACTION_ID' => "1",
         ],
     ];
-    if (isset($inputs['DATA']['R_USER_ID'])) {
+    if (isset ($inputs['DATA']['R_USER_ID'])) {
         $insertInboundData['DATA']['R_USER_ID'] = $inputs['DATA']['R_USER_ID'];
     }
 
@@ -1617,7 +1619,7 @@ function sendDocFormUser($inputs, $conn)
             ]
         ],
     ];
-    if (isset($inputs['DATA']['R_USER_ID'])) {
+    if (isset ($inputs['DATA']['R_USER_ID'])) {
         $selectReceiverData['WHERE']['AND'][]['HRIS_ID'] = $inputs['DATA']['R_USER_ID'];
     }
 
@@ -1879,7 +1881,7 @@ function formatDateTime($dateString)
 function formatDate($dateString)
 {
     $date = new DateTime($dateString);
-    return($date->format('n')) . "/" . $date->format('j') . "/" . $date->format('Y');
+    return ($date->format('n')) . "/" . $date->format('j') . "/" . $date->format('Y');
 }
 function resultsToArray($results)
 {
@@ -1919,7 +1921,7 @@ function checkArray($array)
 function validateInputs($requiredFields, $inputs)
 {
     foreach ($requiredFields as $field) {
-        if (!isset($inputs['DATA'][$field]) || $inputs['DATA'][$field] == "") {
+        if (!isset ($inputs['DATA'][$field]) || $inputs['DATA'][$field] == "") {
             return false;
         }
     }
@@ -1928,7 +1930,7 @@ function validateInputs($requiredFields, $inputs)
 function validateInputsEdit($requiredFields, $inputs)
 {
     foreach ($requiredFields as $field => $val) {
-        if (!isset($inputs['DATA'][$field]) || $inputs['DATA'][$field] == "") {
+        if (!isset ($inputs['DATA'][$field]) || $inputs['DATA'][$field] == "") {
             return false;
         }
     }
