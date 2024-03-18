@@ -368,7 +368,7 @@ include "../../SCRIPTS/checkPrivilage.php";
 
                     <div class="route_cont">
 
-                        <?php include "../DOC_ROUTING/DOC_ROUTING.php"?>
+                        <?php //include "../DOC_ROUTING/DOC_ROUTING.php"?>
                      
                         <input  type="button" value="Convert to PDF" onclick="convertHTMLtoPDF()">
 
