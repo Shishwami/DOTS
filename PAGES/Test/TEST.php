@@ -73,7 +73,7 @@ function convertHTMLtoPDF() {
             // Save the PDF with the specified filename
             doc.save("newpdf.pdf");
         },
-        margin: 10, // Optional: Set page margin
+        margin: 5, // Optional: Set page margin
         onePage: true, // Generate a single-page PDF
         // scale: 0.8 // Adjust the scale (0.8 reduces the content size)
     });
@@ -152,7 +152,7 @@ function convertHTMLtoPDF() {
 
                         <h3>For: </h3>
                         <div class="doc_purp">
-                            <label for="pur_review"><input type="checkbox" name="pur_review" id="" disabled>Review</label>
+                            <!-- <label for="pur_review"><input type="checkbox" name="pur_review" id="" disabled>Review</label>
                             <label for="pur_comm"><input type="checkbox" name="pur_comm" id="" disabled>Comment/Observation</label>
                             <label for="pur_ini"><input type="checkbox" name="pur_ini" id="" disabled>Initial/Signature</label>
                             <label for="pur_appr"><input type="checkbox" name="pur_appr" id="" disabled>Approval</label>
@@ -163,7 +163,7 @@ function convertHTMLtoPDF() {
                             <label for="pur_urge"><input type="checkbox" name="pur_urge" id="" disabled>URGENT ACT</label>
                             <label for="pur_prep"><input type="checkbox" name="pur_prep" id="" disabled>Prepare Reply</label>
                             <label for="pur_final"><input type="checkbox" name="pur_final" id="" disabled>Finalize</label>
-                            <label for="pur_note"><input type="checkbox" name="pur_note" id="" disabled>Note & Return File</label>
+                            <label for="pur_note"><input type="checkbox" name="pur_note" id="" disabled>Note & Return File</label> -->
                         </div>
 
                         <h3>Notes: </h3>
