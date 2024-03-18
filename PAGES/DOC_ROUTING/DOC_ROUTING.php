@@ -30,8 +30,9 @@
     //         callback: function(doc) {
     //                 doc.save("newpdf.pdf");
     //         },
-    //         x: 12,
-    //         y: 12
+    //         // x: 12,
+    //         // y: 12
+    //         margin: 32 // Optional: Set page margin
     //     });                
     // }             
     
