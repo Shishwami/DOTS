@@ -362,7 +362,7 @@ function editDocument($inputs, $conn)
             $timestampNew = strtotime($newInputs);
             $newInputs = date("d-m-y h:i A", $timestampNew);
             $timestampOld = strtotime($oldInputs);
-            $oldInputs   = date("d-m-y h:i A", $timestampOld);
+            $oldInputs = date("d-m-y h:i A", $timestampOld);
         }
         if ($key == "DOC_TYPE_ID") {
             $newInputs = getValueFromId($newInputs, $selectDocTypeRows, "DOC_TYPE");
@@ -1983,20 +1983,39 @@ function returnFileLocation($id)
     ];
     $selectAttachmentRow = selectSingleRow($selectAttachmentData);
 
-    // var_dump();
-
     $config = parse_ini_file('config.ini', true);
     $uploadDirectory = $config['ftp_credentials']['ftp_server'];
 
     $targetDir = "$uploadDirectory/$selectAttachmentRow[DOC_NUM]/$selectAttachmentRow[ROUTE_NUM]";
     $targetFile = "$targetDir/$selectAttachmentRow[DESCRIPTION].pdf";
 
-    echo json_encode(
-        [
-            'VALID' => true,
-            'RESULT' => $targetFile
-        ]
-    );
+    // Open the PDF file
+    $fileHandle = fopen($targetFile, 'rb'); // 'rb' for reading binary mode
+    $pdfContent = file_get_contents($targetFile);
+    // Check if file opened successfully
+    if ($fileHandle === false) {
+        echo "Failed to open the PDF file.";
+    } else {
+        // Specify the directory where you want to store the temporary file on the server
+        $tempDirectory = '../attachment_temp';
+
+        if (!file_exists($tempDirectory)) {
+            mkdir($tempDirectory, 0777, true);
+        }
+
+        // Create a temporary file in the specified directory
+        $tmpFilePath = tempnam($tempDirectory, 'pdf_');
+        $tmpFileName = basename($tmpFilePath);
+
+        // Write the PDF content to the temporary file
+        file_put_contents($tmpFilePath, $pdfContent);
+
+        echo json_encode([
+            'VALID'=> true,
+            'RESULS'=> $tempDirectory.'/'.$tmpFileName
+        ]);
+    }
+
 }
 
 function getTableRow($id)

@@ -48,8 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
         mkdir($targetDir, 0777, true);
     }
 
-    echo $targetFile;
-
     $conn->begin_transaction();
     if (move_uploaded_file($_FILES['ATTACH_FILE']['tmp_name'], $targetFile)) {
         // File uploaded successfully

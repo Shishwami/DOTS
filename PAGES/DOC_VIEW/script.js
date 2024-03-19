@@ -559,6 +559,7 @@ function updateAttachments(mini, results, buttons) {
             console.log(item.ID);
             getData(_REQUEST.GET_ATTACHMENT, { ID: item.ID }, (result) => {
                 const url = "../../" + result;
+                // window.location.href = 'file://'+result;
                 window.open("../../RESOURCES/pdfJS/web/viewer.html?file=" + url, '_blank').focus();
             }, null);
             // const fileLoc = "";
