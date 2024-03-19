@@ -2,7 +2,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-if (!isset($_SESSION['HRIS_ID'])) {
+if (!isset ($_SESSION['HRIS_ID'])) {
     header("Location: ../../index.php");
 }
 ?>
@@ -368,18 +368,17 @@ include "../../SCRIPTS/checkPrivilage.php";
 
                     <div class="route_cont">
 
-                        <?php include "../DOC_ROUTING/DOC_ROUTING.php"?>
-                     
-                        <input  type="button" value="Convert to PDF" onclick="convertHTMLtoPDF()">
+                        <?php include "../DOC_ROUTING/DOC_ROUTING.php" ?>
 
-                        <div class="pdf_cont">       
-                            <div id="divID">
-        
-                                <h1>Routing Slip / Action Slip</h1> 
+                        <input type="button" value="Convert to PDF" onclick="convertHTMLtoPDF()">
+
+                        <div class="pdf_cont">
+                            <canvas id="divID">
+
+                                <h1>Routing Slip / Action Slip</h1>
 
                                 <div class="doc_details">
-                                    <input type="text" class="routingnum" 
-                                    name="routingnum" id="routingnum">
+                                    <input type="text" class="routingnum" name="routingnum" id="routingnum">
 
                                     <div class="flex_cont">
                                         <label for="date_received">Date|Time Received: </label>
@@ -390,7 +389,7 @@ include "../../SCRIPTS/checkPrivilage.php";
                                         <label for="received_by">Received By: </label>
                                         <input type="text" name="received_by" id="received_by">
                                     </div>
-                                    
+
                                     <div class="flex_cont">
                                         <label for="doc_type">Document Type: </label>
                                         <input type="text" name="doc_type" id="doc_type">
@@ -431,12 +430,18 @@ include "../../SCRIPTS/checkPrivilage.php";
                                     </div>
 
                                     <div class="division_box">
-                                        <label for="div_all"><input type="checkbox" name="div_all" id="" disabled>ALL</label>
-                                        <label for="div_ard"><input type="checkbox" name="div_ard" id="" disabled>ARD</label>
-                                        <label for="div_lnd"><input type="checkbox" name="div_lnd" id="" disabled>L&D</label>
-                                        <label for="div_piad"><input type="checkbox" name="div_piad" id="" disabled>PIAD</label>
-                                        <label for="div_admin"><input type="checkbox" name="div_admin" id="" disabled>ADMIN</label>
-                                        <label for="div_psych"><input type="checkbox" name="div_psych" id="" disabled>PSYCH</label>
+                                        <label for="div_all"><input type="checkbox" name="div_all" id=""
+                                                disabled>ALL</label>
+                                        <label for="div_ard"><input type="checkbox" name="div_ard" id=""
+                                                disabled>ARD</label>
+                                        <label for="div_lnd"><input type="checkbox" name="div_lnd" id=""
+                                                disabled>L&D</label>
+                                        <label for="div_piad"><input type="checkbox" name="div_piad" id=""
+                                                disabled>PIAD</label>
+                                        <label for="div_admin"><input type="checkbox" name="div_admin" id=""
+                                                disabled>ADMIN</label>
+                                        <label for="div_psych"><input type="checkbox" name="div_psych" id=""
+                                                disabled>PSYCH</label>
                                     </div>
 
                                     <h3>For: </h3>
@@ -445,7 +450,9 @@ include "../../SCRIPTS/checkPrivilage.php";
                                     </div>
 
                                     <div class="doc_purp_notes">
-                                        <label for="notes"><h3>Notes: </h3></label>
+                                        <label for="notes">
+                                            <h3>Notes: </h3>
+                                        </label>
                                         <textarea name="notes" id="" cols="50" rows="2"></textarea>
                                     </div>
                                 </div>
@@ -483,12 +490,18 @@ include "../../SCRIPTS/checkPrivilage.php";
 
                                     <h4>For:</h4>
                                     <label for="for_rev"><input type="checkbox" name="for_rev" id="">Review</label>
-                                    <label for="for_comm"><input type="checkbox" name="for_comm" id="">Comment/Observation</label>
-                                    <label for="for_sign"><input type="checkbox" name="for_sign" id="">Initial/Signature</label>
-                                    <label for="for_approv"><input type="checkbox" name="for_approv" id="">Approval</label>
-                                    <label for="for_urge"><input type="checkbox" name="for_urge" id="">URGENT ACTION</label>
-                                    <label for="for_impl"><input type="checkbox" name="for_impl" id="">Implementation</label>
-                                    <label for="for_info"><input type="checkbox" name="for_info" id="">Info & Guidance</label>
+                                    <label for="for_comm"><input type="checkbox" name="for_comm"
+                                            id="">Comment/Observation</label>
+                                    <label for="for_sign"><input type="checkbox" name="for_sign"
+                                            id="">Initial/Signature</label>
+                                    <label for="for_approv"><input type="checkbox" name="for_approv"
+                                            id="">Approval</label>
+                                    <label for="for_urge"><input type="checkbox" name="for_urge" id="">URGENT
+                                        ACTION</label>
+                                    <label for="for_impl"><input type="checkbox" name="for_impl"
+                                            id="">Implementation</label>
+                                    <label for="for_info"><input type="checkbox" name="for_info" id="">Info &
+                                        Guidance</label>
 
                                     <h3>Remarks: </h3>
                                 </div>
@@ -525,9 +538,9 @@ include "../../SCRIPTS/checkPrivilage.php";
                                     <label for="received">Received By: </label>
                                     <textarea name="received" id="" cols="30" rows="1"></textarea>
                                 </div>
-                            </div>
+                            </canvas>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
 
@@ -558,6 +571,13 @@ include "../../SCRIPTS/checkPrivilage.php";
             onePage: true, // Generate a single-page PDF
             // scale: 0.8 // Adjust the scale (0.8 reduces the content size)
         });
+
+        const canvas = document.getElementById("divID");
+        var imgData = canvas.toDataURL("image/jpeg", 1.0);
+        var pdf = new jsPDF();
+
+        pdf.addImage(imgData, 'JPEG', 0, 0);
+        pdf.save("download.pdf");
     }
 </script>
 

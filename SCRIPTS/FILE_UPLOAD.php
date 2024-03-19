@@ -9,8 +9,7 @@ include './DB_Connect.php';
 
 $queries = new Queries();
 
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['ATTACH_FILE'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
 
     if ($_SESSION['DOTS_PRIV'] < 2) {
         echo json_encode(
@@ -39,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['ATTACH_FILE'])) {
     $documentRow = selectDocument($_POST['ID']);
 
     $config = parse_ini_file('config.ini', true);
-    $uploadDirectory = $config['directories']['upload_directory'];
+    $uploadDirectory = $config['ftp_credentials']['ftp_server'];
 
     $targetDir = "$uploadDirectory/$documentRow[DOC_NUM]/$documentRow[ROUTE_NUM]/";
     $targetFile = "$targetDir/$_POST[DESCRIPTION].pdf";
@@ -48,6 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['ATTACH_FILE'])) {
     if (!file_exists($targetDir)) {
         mkdir($targetDir, 0777, true);
     }
+
+    echo $targetFile;
 
     $conn->begin_transaction();
     if (move_uploaded_file($_FILES['ATTACH_FILE']['tmp_name'], $targetFile)) {
