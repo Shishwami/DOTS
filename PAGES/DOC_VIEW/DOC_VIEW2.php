@@ -304,28 +304,33 @@ include "../../SCRIPTS/checkPrivilage.php";
                                 </div>
 
                                 <div class="spacer">
-                                    <form class="atc_submodal" action="submit" method="POST" id="FORM_ATTACH_ADD"
-                                        enctype="multipart/form-data">
-                                        <div class="row">
-                                            <div class="desc">
-                                                <label for="ATTACH_DESCRIPTION">Description:</label>
-                                                <textarea name="DESCRIPTION" id="ATTACH_DESCRIPTION" cols="20"
-                                                    rows="3"></textarea>
+                                    <div class="atc_submodal">
+                                        <form class="" action="submit" method="POST" id="FORM_ATTACH_ADD" enctype="multipart/form-data">
+
+                                            <div class="">
+                                                <div class="send_file">
+                                                    <label class="attach" for="ATTACH_FILE">Send File</label>
+                                                </div>
+                                                <input type="file" name="ATTACH_FILE" class="file_input" id="ATTACH_FILE" accept="application/pdf">
                                             </div>
+
+                                            <div class="atc_desc">
+                                                <label for="ATTACH_DESCRIPTION">Description:</label>
+                                                <textarea name="DESCRIPTION" id="ATTACH_DESCRIPTION" cols="50" rows="3"></textarea>
+                                            </div>
+                                                
                                             <!-- <input type="text" name="DESCRIPTION" id="ATTACH_DESCRIPTION"> -->
                                             <!-- <input type="file" name="ATTACH_FILE" id="ATTACH_FILE"> -->
 
-                                            <div class="imgbox">
-                                                <input type="file" name="ATTACH_FILE" id="ATTACH_FILE"
-                                                    accept="application/pdf">
-                                            </div>
-                                        </div>
+                                            
 
-                                        <div class="submit">
-                                            <input type="submit" value="Submit">
-                                        </div>
-                                        <input type="text" name="ID" id="ATTACH_ID" readonly>
-                                    </form>
+                                            <div class="submit">
+                                                <input type="submit" value="Submit">
+                                            </div>
+
+                                            <input type="text" name="ID" id="ATTACH_ID" readonly>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
