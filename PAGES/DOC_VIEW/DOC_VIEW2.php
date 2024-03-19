@@ -309,7 +309,7 @@ include "../../SCRIPTS/checkPrivilage.php";
 
                                             <div class="">
                                                 <div class="send_file">
-                                                    <label class="attach" for="ATTACH_FILE">Send File</label>
+                                                    <label class="attach" for="ATTACH_FILE">Upload</label>
                                                 </div>
                                                 <input type="file" name="ATTACH_FILE" class="file_input" id="ATTACH_FILE" accept="application/pdf">
                                             </div>
@@ -375,7 +375,7 @@ include "../../SCRIPTS/checkPrivilage.php";
 
                         <?php include "../DOC_ROUTING/DOC_ROUTING.php" ?>
 
-                        <input type="button" value="Convert to PDF" onclick="convertHTMLtoPDF()">
+                        <!-- <input type="button" value="Convert to PDF" onclick="convertHTMLtoPDF()">
 
                         <div class="pdf_cont">
                             <canvas id="divID">
@@ -542,7 +542,7 @@ include "../../SCRIPTS/checkPrivilage.php";
                                     <label for="received">Received By: </label>
                                     <textarea name="received" id="" cols="30" rows="1"></textarea>
                                 </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
