@@ -685,7 +685,13 @@ body:before
     border: 1px solid #000000;
     border-radius: 0.5rem;
     padding: 10px;
-    height: 500px;
+    max-height: 250px;
+    width: 100%;
+}
+
+.atc_items
+{
+    background: #c4e4ff;
 }
 
 /* 

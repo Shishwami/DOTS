@@ -285,7 +285,9 @@ include "../../SCRIPTS/checkPrivilage.php";
 
                     <div class="spacer">
                         <div class="attachments">
-                            <button type="button" class="atc_btn" id="BTN_ATTACH_ADD">Add Attachment</button>
+                            <div>
+                                <button type="button" class="atc_btn" id="BTN_ATTACH_ADD">Add Attachment</button>
+                            </div>
 
                             <div class="atc_list">
                                 <div id="ATTACH_RESULTS">
