@@ -304,7 +304,9 @@ function setPrinting(id, doc_num, route_num) {
         console.log(response);
         route_modal.style.display = "block";
 
-        routingnum.value = response['DOC']['No.'];
+        const routingnum = document.getElementById("routingnum");
+
+        routingnum.innerText = response['DOC']['No.'];
         date_received.value = response['DOC']['Date Received']
         received_by.value = response['DOC']['Received By'];
         doc_type.value = response['DOC']['Type'];
