@@ -366,9 +366,9 @@ include "../../SCRIPTS/checkPrivilage.php";
 
                     <div class="route_cont">
 
-                        <?php include "../DOC_ROUTING/DOC_ROUTING.php"?>
-                     
-                        <input  type="button" value="Convert to PDF" onclick="convertHTMLtoPDF()">
+                        <?php include "../DOC_ROUTING/DOC_ROUTING.php" ?>
+
+                        <input type="button" value="Convert to PDF" onclick="convertHTMLtoPDF()">
 
                         <div class="pdf_cont">
                             <canvas id="divID">
@@ -535,13 +535,13 @@ include "../../SCRIPTS/checkPrivilage.php";
                                     <label for="received">Received By: </label>
                                     <textarea name="received" id="" cols="30" rows="1"></textarea>
                                 </div>
-                            </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
-
         </div>
+
+    </div>
     </div>
     <?php
     include "../Notifications/Notifications.php";
@@ -549,14 +549,14 @@ include "../../SCRIPTS/checkPrivilage.php";
 </body>
 
 <script>
-    // function convertHTMLtoPDF() {
-    //     const { jsPDF } = window.jspdf;
+    function convertHTMLtoPDF() {
+        const { jsPDF } = window.jspdf;
 
-    //     // Create a new jsPDF object with A4 dimensions (210mm x 297mm)
-    //     const doc = new jsPDF('p', 'pt', 'a4');
+        // Create a new jsPDF object with A4 dimensions (210mm x 297mm)
+        const doc = new jsPDF('p', 'pt', 'a4');
 
-    //     // Select the HTML element containing the content you want to convert
-    //     const pdfjs = document.querySelector('#divID');
+        // Select the HTML element containing the content you want to convert
+        const pdfjs = document.querySelector('#divID');
 
         // Convert the HTML content to PDF
         doc.html(pdfjs, {
