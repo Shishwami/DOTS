@@ -67,7 +67,6 @@ InitializePAGE();
 
 function InitializePAGE() {
 
-    //TODO too add in btn event listeners
     initializeSEND_FORM();
     initializeRECEIVE_FORM();
     setCreateBtn();
@@ -82,34 +81,6 @@ function InitializePAGE() {
     }, _RESET_TIME);
 
     setForms();
-
-    BTN_ATTACH_ADD.addEventListener("click", function () {
-        ATTACH_FILE.value = null;
-
-        if (document.getElementById("upload_preview") != undefined) {
-            document.getElementById("upload_preview").remove();
-        }
-
-        //reset inputs
-        ATTACH_DESC.value = "";
-        FORM_ATTACH_ADD.querySelector('input[type=submit]').disabled = false;
-
-
-        console.log("ASDADSADSADS");
-    });
-
-    if (BTN_ATTACH_INS) {
-        BTN_ATTACH_INS.addEventListener("click", function () {
-            var elements = document.getElementsByClassName('img-zoom-lens');
-            var elementsArray = Array.from(elements);
-
-            elementsArray.forEach(function (element) {
-                element.parentNode.removeChild(element);
-            });
-
-            imageZoom("myimage", "myresult");
-        });
-    }
 
 }
 
