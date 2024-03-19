@@ -1986,7 +1986,7 @@ function returnFileLocation($id)
     // var_dump();
 
     $config = parse_ini_file('config.ini', true);
-    $uploadDirectory = $config['directories']['upload_directory'];
+    $uploadDirectory = $config['ftp_credentials']['ftp_server'];
 
     $targetDir = "$uploadDirectory/$selectAttachmentRow[DOC_NUM]/$selectAttachmentRow[ROUTE_NUM]";
     $targetFile = "$targetDir/$selectAttachmentRow[DESCRIPTION].pdf";
