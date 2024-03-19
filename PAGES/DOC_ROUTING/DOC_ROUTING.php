@@ -175,7 +175,7 @@ function convertHTMLtoPDF() {
                             <label for="div_all"><input type="checkbox" name="div_all" id="" disabled>ALL</label>
                             <label for="div_ard"><input type="checkbox" name="div_ard" id="" disabled>ARD</label>
                             <label for="div_lnd"><input type="checkbox" name="div_lnd" id="" disabled>L&D</label>
-                            <label for="div_piad"><input type="checkbox" name="div_piad" id="" disabled>PIAD</label>
+                            <label for="div_piad"><input type="checkbox" name="div_piad" id="" disabled>PMRD</label>
                             <label for="div_admin"><input type="checkbox" name="div_admin" id="" disabled>ADMIN</label>
                             <label for="div_psych"><input type="checkbox" name="div_psych" id="" disabled>PSYCH</label>
                         </div>
@@ -187,49 +187,68 @@ function convertHTMLtoPDF() {
 
                         <div class="doc_purp_notes">
                             <label for="notes"><h3>Notes: </h3></label>
-                            <textarea name="notes" id="" cols="50" rows="2"></textarea>
+                            <textarea name="notes" id="" cols="40" rows="1"></textarea>
+                            <textarea name="notes" id="" cols="40" rows="1"></textarea>
                         </div>
                     </div>
 
                     <div class="doc_hr">
                         <div class="banner">For HR Divisions</div>
 
+                        <div class="hr_det">
                         <label for="comply">Complied By: </label>
-                        <textarea name="comply" id="" cols="20" rows="1"></textarea>
+                        <textarea name="comply" id="" cols="31" rows="1"></textarea>
+                        </div>
 
+                        <div class="hr_det">
                         <label for="dt_rec">Date|Time Received: </label>
-                        <textarea name="dt_rec" id="" cols="20" rows="1"></textarea>
+                        <textarea name="dt_rec" id="" cols="25" rows="1"></textarea>
+                        </div>
 
+                        <div class="hr_det">
                         <label for="notes">Notes: </label>
-                        <textarea name="notes" id="" cols="20" rows="1"></textarea>
+                        <textarea name="notes" id="" cols="36" rows="1"></textarea>
+                        </div>
                     </div>
 
                     <div class="doc_dept">
                         <div class="banner">For Mayor's Office & Other Departments</div>
 
+                        <div class="dept_det">
                         <label for="to">To: </label>
                         <textarea name="to" id="" cols="30" rows="1"></textarea>
+                        </div>
 
+                        <div class="dept_det">
                         <label for="position">Position: </label>
                         <textarea name="position" id="" cols="30" rows="1"></textarea>
+                        </div>
 
+                        <div class="dept_det">
                         <label for="office">Office: </label>
                         <textarea name="office" id="" cols="30" rows="1"></textarea>
+                        </div>
 
+                        <div class="dept_det">
                         <label for="dt_rec">Date|Time Received: </label>
                         <textarea name="dt_rec" id="" cols="30" rows="1"></textarea>
+                        </div>
 
+                        <div class="dept_det">
                         <label for="rec_by">Received By: </label>
                         <textarea name="rec_by" id="" cols="30" rows="1"></textarea>
+                        </div>
 
-                        <h4>For:</h4>
-                        <label for="for_rev"><input type="checkbox" name="for_rev" id="">Review</label>
-                        <label for="for_comm"><input type="checkbox" name="for_comm" id="">Comment/Observation</label>
-                        <label for="for_sign"><input type="checkbox" name="for_sign" id="">Initial/Signature</label>
-                        <label for="for_approv"><input type="checkbox" name="for_approv" id="">Approval</label>
-                        <label for="for_urge"><input type="checkbox" name="for_urge" id="">URGENT ACTION</label>
-                        <label for="for_impl"><input type="checkbox" name="for_impl" id="">Implementation</label>
-                        <label for="for_info"><input type="checkbox" name="for_info" id="">Info & Guidance</label>
+                        <div>
+                            <h4>For:</h4>
+                            <label for="for_rev"><input type="checkbox" name="for_rev" id="">Review</label>
+                            <label for="for_comm"><input type="checkbox" name="for_comm" id="">Comment/Observation</label>
+                            <label for="for_sign"><input type="checkbox" name="for_sign" id="">Initial/Signature</label>
+                            <label for="for_approv"><input type="checkbox" name="for_approv" id="">Approval</label>
+                            <label for="for_urge"><input type="checkbox" name="for_urge" id="">URGENT ACTION</label>
+                            <label for="for_impl"><input type="checkbox" name="for_impl" id="">Implementation</label>
+                            <label for="for_info"><input type="checkbox" name="for_info" id="">Info & Guidance</label>
+                        </div>
 
                         <h3>Remarks: </h3>
                     </div>

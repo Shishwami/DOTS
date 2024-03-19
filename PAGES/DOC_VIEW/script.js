@@ -345,6 +345,9 @@ function setPrinting(id, doc_num, route_num) {
                 container = document.createElement('div'); // Reset container for next group
                 container.className = "column";
             }
+
+
+
         });
 
         // Check if there are any remaining checkboxes in the container
@@ -353,6 +356,29 @@ function setPrinting(id, doc_num, route_num) {
         }
 
 
+        const { jsPDF } = window.jspdf;
+
+        // Create a new jsPDF object with A4 dimensions (210mm x 297mm)
+        const doc = new jsPDF('p', 'pt', 'a4');
+
+        // Select the HTML element containing the content you want to convert
+        const pdfjs = document.querySelector('#divID');
+
+        doc.html(pdfjs, {
+            callback: function (doc) {
+                // Save the PDF with the specified filename
+                // doc.save("newpdf.pdf");
+                doc.autoPrint();
+                doc.output('dataurlnewwindow');
+                // route_modal.style.display = "none";
+
+            },
+            margin: 5, // Optional: Set page margin
+            onePage: true, // Generate a single-page PDF
+            // scale: 0.8 // Adjust the scale (0.8 reduces the content size)
+        });
+
+        console.log("PRINTED");
 
 
     }, data);
