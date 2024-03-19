@@ -192,10 +192,10 @@ class JsFunctions {
         Object.entries(results).forEach(([key, item]) => {
             const doc = document.createElement("div");
             doc.innerText = item['DESCRIPTION'];
-            doc.className = "ATTACH_MINI";
+            doc.className = "atc_items";
             doc.addEventListener('click', function () {
                 const fileLoc = "";
-                window.location.href = "../../RESOURCES/pdfJS/web/viewer.html?file=";
+                window.location.href = "../../RESOURCES/pdfJS/web/viewer.html?file=file://";
             });
 
             // doc.addEventListener('mouseout', function () {
