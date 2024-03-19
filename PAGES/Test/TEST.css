@@ -1,164 +1,200 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
-*
-{
-  font-family: "Montserrat", sans-serif;
-}
-
-.pdf_cont
+ .pdf_cont
 {
   /* width: 100vw;
   height: 100vh; */
-  border: 1px solid #000000;
+  /* border: 1px solid #000000; */
   /* padding: 10px; */
+  /* margin: 0 auto; */
+  font-family: "Montserrat", sans-serif;
+
 }
 
-#divID
+ #divID
 {
   border: 1px solid #000000;
-  width: 250px;
-  margin: 5px;
+  width: 280px;
+  margin: auto;
+  background: #ffffff;
 }
 
-.banner
+ .banner
 {
   width: 100%;
   background: #6d6d6d;
   display: block;
-  font-size: 8px;
+  font-size: 7px;
   font-weight: 600;
-  width: 100%;
-  margin: 5px 0;
-  padding: 3px;
+  margin: 2px 0;
+  padding: 3px 0;
 }
 
-.banner span
+ .banner span
 {
   color: #6d6d6d;
 }
 
-textarea
+#divID textarea
 {
   resize: none;
-  font-size: 8px;
+  font-size: 7px;
   border: none;
   border-bottom: 0.5px solid #000000;
   margin-left: 5px;
   background: none;
 }
 
-table, th, tr, td
+#divID table, #divID th, #divID tr, #divID td
 {
   border: 1px solid #000000 ;
 }
 
-input
+#divID input
 {
   background: none;
   border: none;
-  border-bottom: 0.05px solid #000000;
-  font-size: 8px;
+  border-bottom: 0.5px solid #000000;
+  font-size: 7px;
 }
 
-.routingnum
+ .routingnum
 {
   border-bottom: none;
   text-align: center;
-  margin: 0 auto 10px auto !important;
-  font-size: 12px;
+  margin: 0 auto 5px auto !important;
+  font-size: 10px;
 }
 
-input[type="checkbox"]
+#divID input[type="checkbox"]
 {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
-input[type="checkbox"]:disabled
+#divID input[type="checkbox"]:disabled
 {
   outline: 1px solid #000000;
 }
 
-label
+#divID label
 {
-  font-size: 8px;
+  font-size: 7px;
 }
 
-h1
+#divID h1
 {
-  font-size: 12px;
+  font-size: 10px;
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
-h3
+#divID h3
 {
-  font-size: 8px;
+  font-size: 7px;
 }
 
-th, td
+#divID th, #divID td
 {
   font-size: 5px;
 }
 
-.doc_details
+ .doc_details
 {
   display: flex;
   flex-direction: column;
 }
 
-.doc_details input
+ .doc_details input
 {
   width: 60%;
   margin-left: 5px;
 }
 
-.flex_cont
+ .flex_cont
 {
   display: flex;
   width: 100%;
-  margin: 0 auto 5px auto;
+  margin: 0 auto 3px auto;
 }
 
-.flex_box
+.flex_cont h6
+{
+  font-size: 7px;
+}
+
+.inputdiv
+{
+  font-size: 7px;
+  margin: auto 0 auto 0.5rem;
+  border-bottom: 1px solid #000000;
+}
+
+ .flex_box
 {
   display: flex;
-  margin: 5px auto;
+  margin: auto 0;
 }
 
-.flex_box input
+ .flex_box input
 {
   font-size: 5px;
   width: 30%;
 }
 
-.flex_box label
+.inibox
+{
+  display: flex;
+  margin: auto 0;
+}
+
+.inibox input
+{
+  width: 90px;
+}
+
+.ini_date
+{
+  margin: auto 0;
+}
+
+.initial
+{
+  font-size: 7px;
+  font-weight: 500;
+  border-bottom: 1px solid #000000;
+  margin: auto 0;
+  width: 90px;
+}
+
+ .flex_box label
 {
   margin-right: 5px;
 }
 
-.flex_box .ini_date
+ .flex_box .ini_date
 {
   margin-left: 5px;
 }
 
-.division_box
+ .division_box
 {
   display: block;
-  margin-bottom: 5px;
+  margin: 5px 0;
 }
 
-.division_box input[type="checkbox"]
+ .division_box input[type="checkbox"]
 {
   margin: 0 3px;
 }
 
-.doc_purp
+ .doc_purp
 {
   display: flex;
+  /* flex-direction: column; */
 }
 
-.doc_purp label
+ .doc_purp label
 {
   font-size: 6px;
 }
@@ -188,9 +224,9 @@ th, td
   text-align: center;
 }
 
- .doc_purp_notes label h3
+.doc_purp_notes textarea
 {
-  margin-bottom: 3px;
+  margin-left: 0 !important;
 }
 
  .doc_hr
@@ -199,9 +235,91 @@ th, td
   flex-direction: column;
 }
 
- .doc_hr textarea
+.hr_det
 {
-  margin: 0 auto 5px auto;
-  width: 95%;
+  margin: 0 3px;
 }
 
+.doc_dept
+{
+  display: flex;
+  flex-direction: column;
+}
+
+.doc_dept h3
+{
+  margin: 5px 0;
+}
+
+.dept_det
+{
+  margin: 0 3px;
+}
+
+.dept_purp
+{
+  margin-top: 5px;
+}
+
+.dept_purp::after
+{
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.dept_col
+{
+  float: left;
+  width: 50%;
+}
+
+.dept_purp h4
+{
+  font-size: 8px;
+  margin-bottom: 2px;
+}
+
+.dept_purp label
+{
+  display: flex;
+  flex-direction: row;
+  margin: 1px 3px 1px 0;
+}
+
+.dept_purp input
+{
+  margin: auto 5px auto 0;
+}
+
+.doc_route table
+{
+  margin-top: -3px;
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  border: 0.05px solid #000000 !important;
+}
+
+.doc_route table th, .doc_route table tr, .doc_route table td
+{
+  font-size: 10px !important;
+  border: 0.05px solid #000000 !important;
+  color: #2bff00
+}
+
+.doc_route table .blank
+{
+  color: #ffffff;
+  opacity: 0;
+}
+
+.doc_route table .th
+{
+  background: #ffffff;
+}
+
+.doc_route table th:first-child
+{
+  /* border: none; */
+}

@@ -4,7 +4,7 @@
 {
   /* width: 100vw;
   height: 100vh; */
-  border: 1px solid #000000;
+  /* border: 1px solid #000000; */
   /* padding: 10px; */
   /* margin: 0 auto; */
   font-family: "Montserrat", sans-serif;
@@ -16,6 +16,7 @@
   border: 1px solid #000000;
   width: 280px;
   margin: auto;
+  background: #ffffff;
 }
 
  .banner
@@ -291,3 +292,34 @@
   margin: auto 5px auto 0;
 }
 
+.doc_route table
+{
+  margin-top: -3px;
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  border: 0.05px solid #000000 !important;
+}
+
+.doc_route table th, .doc_route table tr, .doc_route table td
+{
+  font-size: 10px !important;
+  border: 0.05px solid #000000 !important;
+  color: #2bff00
+}
+
+.doc_route table .blank
+{
+  color: #ffffff;
+  opacity: 0;
+}
+
+.doc_route table .th
+{
+  background: #ffffff;
+}
+
+.doc_route table th:first-child
+{
+  /* border: none; */
+}
