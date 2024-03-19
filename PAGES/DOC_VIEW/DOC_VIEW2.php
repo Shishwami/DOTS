@@ -284,14 +284,12 @@ include "../../SCRIPTS/checkPrivilage.php";
                     </div>
 
                     <div class="spacer">
-                        <button type="button" class="atc_btn" id="BTN_ATTACH_ADD">Add Attachment</button>
-
                         <div class="attachments">
-                            <div class="descript">
-                                <div class="preview">
-                                    <div id="ATTACH_RESULTS">
+                            <button type="button" class="atc_btn" id="BTN_ATTACH_ADD">Add Attachment</button>
 
-                                    </div>
+                            <div class="atc_list">
+                                <div id="ATTACH_RESULTS">
+
                                 </div>
                             </div>
                         </div>
@@ -368,9 +366,9 @@ include "../../SCRIPTS/checkPrivilage.php";
 
                     <div class="route_cont">
 
-                        <?php //include "../DOC_ROUTING/DOC_ROUTING.php"?>
+                        <?php include "../DOC_ROUTING/DOC_ROUTING.php"?>
                      
-                        <input  type="button" value="Convert to PDF" onclick="convertHTMLtoPDF()">
+                        <!-- <input  type="button" value="Convert to PDF" onclick="convertHTMLtoPDF()">
 
                         <div class="pdf_cont">       
                             <div id="divID">
@@ -408,7 +406,6 @@ include "../../SCRIPTS/checkPrivilage.php";
 
                                     <div class="flex_cont">
                                         <label for="subject">Subject: </label>
-                                        <!-- <input type="text" name="subject" id="subject"> -->
                                         <textarea name="subject" id="subject" cols="45" rows="3"></textarea>
                                     </div>
                                 </div>
@@ -526,7 +523,7 @@ include "../../SCRIPTS/checkPrivilage.php";
                                     <textarea name="received" id="" cols="30" rows="1"></textarea>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div> 
                 </div>
             </div>
@@ -539,26 +536,26 @@ include "../../SCRIPTS/checkPrivilage.php";
 </body>
 
 <script>
-    function convertHTMLtoPDF() {
-        const { jsPDF } = window.jspdf;
+    // function convertHTMLtoPDF() {
+    //     const { jsPDF } = window.jspdf;
 
-        // Create a new jsPDF object with A4 dimensions (210mm x 297mm)
-        const doc = new jsPDF('p', 'pt', 'a4');
+    //     // Create a new jsPDF object with A4 dimensions (210mm x 297mm)
+    //     const doc = new jsPDF('p', 'pt', 'a4');
 
-        // Select the HTML element containing the content you want to convert
-        const pdfjs = document.querySelector('#divID');
+    //     // Select the HTML element containing the content you want to convert
+    //     const pdfjs = document.querySelector('#divID');
 
-        // Convert the HTML content to PDF
-        doc.html(pdfjs, {
-            callback: function (doc) {
-                // Save the PDF with the specified filename
-                doc.save("newpdf.pdf");
-            },
-            margin: 5, // Optional: Set page margin
-            onePage: true, // Generate a single-page PDF
-            // scale: 0.8 // Adjust the scale (0.8 reduces the content size)
-        });
-    }
+    //     // Convert the HTML content to PDF
+    //     doc.html(pdfjs, {
+    //         callback: function (doc) {
+    //             // Save the PDF with the specified filename
+    //             doc.save("newpdf.pdf");
+    //         },
+    //         margin: 5, // Optional: Set page margin
+    //         onePage: true, // Generate a single-page PDF
+    //         // scale: 0.8 // Adjust the scale (0.8 reduces the content size)
+    //     });
+    // }
 </script>
 
 <script src="../../Modal/GenModal.js"></script>
