@@ -683,24 +683,75 @@ body:before
 .atc_list
 {
     border: 1px solid #000000;
-    border-radius: 0.5rem;
+    border-radius: 0.5rem 0 0 0.5rem;
     padding: 10px;
     max-height: 250px;
-    width: 100%;
+    width: 70%;
+    overflow: auto;
 }
 
 .atc_items
 {
-    background: #c4e4ff;
+    padding: 3px 0;
+    cursor: pointer;
 }
 
-/* 
+.atc_desc
+{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
 #atc_submodal label
 {
     display: block;
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+#atc_submodal textarea
+{
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.send_file
+{
+    width: fit-content;
+}
+
+.attach
+{
+    background: var(--modal_opt_btn);
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--font_white);
+    cursor: pointer;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.attach:hover
+{
+    background: var(--modal_opt_btn-hover);
+}
+
+.file_input
+{
+    display: none;
+}
+
+.submit
+{
+    text-align: center;
 }
 
 #atc_submodal input[type="submit"]
@@ -721,7 +772,7 @@ body:before
     background-image: var(--submit_btn-hover);
     color: var(--font_black);
     font-weight: 600;
-} */
+}
 
 #track_modal .track
 {
