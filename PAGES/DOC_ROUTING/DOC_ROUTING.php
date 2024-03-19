@@ -216,22 +216,22 @@ function convertHTMLtoPDF() {
 
                         <div class="dept_det">
                         <label for="to">To: </label>
-                        <textarea name="to" id="" cols="30" rows="1"></textarea>
+                        <textarea name="to" id="" cols="38" rows="1"></textarea>
                         </div>
 
                         <div class="dept_det">
                         <label for="position">Position: </label>
-                        <textarea name="position" id="" cols="30" rows="1"></textarea>
+                        <textarea name="position" id="" cols="34" rows="1"></textarea>
                         </div>
 
                         <div class="dept_det">
                         <label for="office">Office: </label>
-                        <textarea name="office" id="" cols="30" rows="1"></textarea>
+                        <textarea name="office" id="" cols="35" rows="1"></textarea>
                         </div>
 
                         <div class="dept_det">
                         <label for="dt_rec">Date|Time Received: </label>
-                        <textarea name="dt_rec" id="" cols="30" rows="1"></textarea>
+                        <textarea name="dt_rec" id="" cols="25" rows="1"></textarea>
                         </div>
 
                         <div class="dept_det">
@@ -239,15 +239,21 @@ function convertHTMLtoPDF() {
                         <textarea name="rec_by" id="" cols="30" rows="1"></textarea>
                         </div>
 
-                        <div>
+                        <div class="dept_purp">
                             <h4>For:</h4>
-                            <label for="for_rev"><input type="checkbox" name="for_rev" id="">Review</label>
-                            <label for="for_comm"><input type="checkbox" name="for_comm" id="">Comment/Observation</label>
-                            <label for="for_sign"><input type="checkbox" name="for_sign" id="">Initial/Signature</label>
-                            <label for="for_approv"><input type="checkbox" name="for_approv" id="">Approval</label>
-                            <label for="for_urge"><input type="checkbox" name="for_urge" id="">URGENT ACTION</label>
-                            <label for="for_impl"><input type="checkbox" name="for_impl" id="">Implementation</label>
-                            <label for="for_info"><input type="checkbox" name="for_info" id="">Info & Guidance</label>
+
+                            <div class="dept_col">
+                                <label for="for_rev"><input type="checkbox" name="for_rev" id="">Review</label>
+                                <label for="for_comm"><input type="checkbox" name="for_comm" id="">Comment/Observation</label>
+                                <label for="for_sign"><input type="checkbox" name="for_sign" id="">Initial/Signature</label>
+                                <label for="for_approv"><input type="checkbox" name="for_approv" id="">Approval</label>
+                            </div>
+
+                            <div class="dept_col">
+                                <label for="for_urge"><input type="checkbox" name="for_urge" id="">URGENT ACTION</label>
+                                <label for="for_impl"><input type="checkbox" name="for_impl" id="">Implementation</label>
+                                <label for="for_info"><input type="checkbox" name="for_info" id="">Info & Guidance</label>
+                            </div>
                         </div>
 
                         <h3>Remarks: </h3>
