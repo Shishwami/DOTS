@@ -552,7 +552,7 @@ function updateAttachments(mini, results, buttons) {
     Object.entries(results).forEach(([key, item]) => {
         const doc = document.createElement("div");
         doc.innerText = item['DESCRIPTION'];
-        doc.className = "ATTACH_MINI";
+        doc.className = "atc_items";
         doc.addEventListener('click', function () {
             console.log(item.ID);
             getData(_REQUEST.GET_ATTACHMENT, { ID: item.ID }, (result) => {
