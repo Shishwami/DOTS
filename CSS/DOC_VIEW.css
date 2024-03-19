@@ -654,13 +654,7 @@ body:before
     padding: 1.5rem 2rem;
 }
 
-/* #atc_modal .atc_btn
-{
-    margin-right: 1rem;
-}
-
-#atc_modal .atc_btn,
-#atc_modal .ins_btn
+#atc_modal .atc_btn
 {
     background: var(--modal_opt_btn);
     padding: 0.5rem 1rem;
@@ -673,251 +667,34 @@ body:before
     letter-spacing: 0.1rem;
     text-transform: uppercase;
     margin-bottom: 1rem;
+    margin-right: 1rem;
 }
 
-#atc_modal .atc_btn:hover,
-#atc_modal .ins_btn:hover
+#atc_modal .atc_btn:hover
 {
     background: var(--modal_opt_btn-hover);
 }
 
-#atc_modal .attachments
+.attachments
 {
     display: flex;
-    justify-content: space-between;
 }
 
-.descript
+.atc_list
 {
-    flex-direction: column;
-}
-
-.descbox
-{
-    margin-top: 1rem;
-}
-
-#atc_modal .preview
-{
-    display: flex;
-    flex-direction: column;
-    max-height: 200px; */
-
-
-    /* max-width: 300px; */
-
-
-    /* overflow-y: auto;
-    margin-right: 1rem;
     border: 1px solid #000000;
-    border-radius: 0.5rem 0 0 0.5rem;
-    padding: 0.3rem;
+    border-radius: 0.5rem;
+    padding: 10px;
+    height: 500px;
 }
 
-#atc_modal .zoom
-{
-    max-width: 500px;
-}
-
-.ATTACH_MINI
-{
-    display: inline-block;
-    width: 50px;
-    height: 50px;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    border: 1px black solid;
-    border-radius: 10px;
-    margin: 0.1rem 0.5rem;
-}
-
-#ATTACH_ZOOM
-{
-    width: 500px;
-    height: 350px;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    border: 1px black solid;
-    border-radius: 10px;
-}
-
-#ins_submodal .img-zoom-container
-{
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-}
-
-#ins_submodal .img-zoom-lens
-{
-    position: absolute;
-    border: 1px solid #aaaaaa; */
-    /*set the size of the lens:*/
-    /* width: 100px;
-    height: 100px;
-}
-
-#ins_submodal .img-preview
-{
-    margin-right: 10px;
-}
-
-#ins_submodal .img-zoom-result
-{
-    border: 1px solid #d4d4d4; */
-    /*set the size of the result div:*/
-
-
-    /* width: 500px;
-    height: 400px;
-}
-
-.row
-{
-    display: flex;
-    justify-content: space-between;
-}
-
+/* 
 #atc_submodal label
 {
     display: block;
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 0.5rem;
-}
-
-#atc_submodal textarea
-{
-    border-radius: 0.5rem;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    font-size: 20px;
-}
-
-
-
-.imgbox
-{ */
-
-
-    /* margin: 0 auto; */
-
-
-	/* max-width: 500px;
-	width: 100%;
-	background: linear-gradient(to bottom right, rgba(25, 0, 58, 0.5), rgba(102, 0, 80, 0.5));
-	padding: 30px;
-	border-radius: 30px;
-    margin-bottom: 2rem;
-}
-
-.img-area {
-	position: relative;
-	width: 100%;
-	height: 240px;
-	background: #f2f2f2;
-	margin-bottom: 30px;
-	border-radius: 15px;
-	overflow: hidden;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-}
-
-.img-area .icon
-{
-	font-size: 100px;
-    margin-bottom: 1rem;
-}
-
-.img-area h3
-{
-	font-size: 20px;
-	font-weight: 500;
-	margin-bottom: 6px;
-}
-
-.img-area p
-{
-	color: #999999;
-}
-
-.img-area p span
-{
-	font-weight: 600;
-}
-
-.img-area img
-{
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	object-position: center;
-	z-index: 100;
-}
-
-.img-area::before
-{
-	content: attr(data-img);
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, .5);
-	color: #fff;
-	font-weight: 500;
-	text-align: center;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	pointer-events: none;
-	opacity: 0;
-	transition: all .3s ease;
-	z-index: 200;
-}
-
-.img-area.active:hover::before
-{
-	opacity: 1;
-}
-
-.select-image
-{
-	display: block;
-	width: 100%;
-	padding: 16px 0;
-	border-radius: 15px;
-	background: #0071ff;
-	color: #fff;
-	font-weight: 500;
-	font-size: 16px;
-	border: none;
-	cursor: pointer;
-	transition: all .3s ease;
-}
-
-.select-image:hover
-{
-	background: #0c8f00;
-}
-
-#atc_submodal input[type="file"]
-{
-    border-radius: 0.5rem;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-}
-
-.submit
-{
-    text-align: center;
 }
 
 #atc_submodal input[type="submit"]
