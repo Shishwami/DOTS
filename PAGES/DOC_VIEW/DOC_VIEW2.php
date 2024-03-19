@@ -309,7 +309,7 @@ include "../../SCRIPTS/checkPrivilage.php";
 
                                             <div class="">
                                                 <div class="send_file">
-                                                    <label class="attach" for="ATTACH_FILE">Send File</label>
+                                                    <label class="attach" for="ATTACH_FILE">Upload</label>
                                                 </div>
                                                 <input type="file" name="ATTACH_FILE" class="file_input" id="ATTACH_FILE" accept="application/pdf">
                                             </div>

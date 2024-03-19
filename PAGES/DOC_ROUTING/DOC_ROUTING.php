@@ -95,34 +95,52 @@ function convertHTMLtoPDF() {
                         <div class="routingnum" id="routingnum"></div>
 
                         <div class="flex_cont">
-                            <label for="date_received">Date|Time Received: </label>
-                            <input type="text" name="date_received" id="date_received">
+                            <!-- <label for="date_received">Date|Time Received: </label>
+                            <input type="text" name="date_received" id="date_received"> -->
+                            
+                            <h6>Date|Time Received:</h6>
+                            <p class="inputdiv" id="date_received"></p>
                         </div>
 
                         <div class="flex_cont">
-                            <label for="received_by">Received By: </label>
-                            <input type="text" name="received_by" id="received_by">
+                            <!-- <label for="received_by">Received By: </label>
+                            <input type="text" name="received_by" id="received_by"> -->
+
+                            <h6>Received By:</h6>
+                            <p class="inputdiv" id="received_by"></p>
                         </div>
                         
                         <div class="flex_cont">
-                            <label for="doc_type">Document Type: </label>
-                            <input type="text" name="doc_type" id="doc_type">
+                            <!-- <label for="doc_type">Document Type: </label>
+                            <input type="text" name="doc_type" id="doc_type"> -->
+
+                            <h6>Document Type:</h6>
+                            <p class="inputdiv" id="doc_type"></p>
                         </div>
 
                         <div class="flex_cont">
-                            <label for="office">Office/Agency: </label>
-                            <input type="text" name="office" id="office">
+                            <!-- <label for="office">Office/Agency: </label>
+                            <input type="text" name="office" id="office"> -->
+
+                            <h6>Office/Agency:</h6>
+                            <p class="inputdiv" id="office"></p>
                         </div>
 
                         <div class="flex_cont">
-                            <label for="letter_date">Letter Date: </label>
-                            <input type="text" name="letter_date" id="letter_date">
+                            <!-- <label for="letter_date">Letter Date: </label>
+                            <input type="text" name="letter_date" id="letter_date"> -->
+
+                            <h6>Letter Date:</h6>
+                            <p class="inputdiv" id="letter_date"></p>
                         </div>
 
                         <div class="flex_cont">
-                            <label for="subject">Subject: </label>
+                            <!-- <label for="subject">Subject: </label> -->
                             <!-- <input type="text" name="subject" id="subject"> -->
-                            <textarea name="subject" id="subject" cols="45" rows="3"></textarea>
+                            <!-- <textarea name="subject" id="subject" cols="45" rows="3"></textarea> -->
+
+                            <h6>Subject:</h6>
+                            <p class="inputdiv" id="subject"></p>
                         </div>
                     </div>
 
@@ -130,17 +148,27 @@ function convertHTMLtoPDF() {
                         <div class="banner"><span>DOC DATA</span></div>
 
                         <div class="flex_box">
-                            <label for="initial">Initial: </label>
-                            <input type="text" name="initial" id="" value="APL III" readonly>
-                            <label class="ini_date" for="ini_date">Date | Time: </label>
-                            <input type="text" name="ini_date" id="">
+                            <div class="inibox">
+                                <label for="initial">Initial: </label>
+                                <!-- <input type="text" name="initial" id="" value="APL III" readonly> -->
+                                <p class="initial">APL III</p>
+                            </div>
+                            <div class="inibox">
+                                <label class="ini_date" for="ini_date">Date | Time: </label>
+                                <input type="text" name="ini_date" id="">
+                            </div>
                         </div>
 
                         <div class="flex_box">
-                            <label for="initial">Initial: </label>
-                            <input type="text" name="initial" id="" value="EBD" readonly>
-                            <label class="ini_date" for="ini_date">Date | Time: </label>
-                            <input type="text" name="ini_date" id="">
+                            <div class="inibox">
+                                <label for="initial">Initial: </label>
+                                <!-- <input type="text" name="initial" id="" value="EBD" readonly> -->
+                                <p class="initial">EBD</p>
+                            </div>
+                            <div class="inibox">
+                                <label class="ini_date" for="ini_date">Date | Time: </label>
+                                <input type="text" name="ini_date" id="">
+                            </div>
                         </div>
 
                         <div class="division_box">

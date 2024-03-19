@@ -307,12 +307,12 @@ function setPrinting(id, doc_num, route_num) {
         const routingnum = document.getElementById("routingnum");
 
         routingnum.innerText = response['DOC']['No.'];
-        date_received.value = response['DOC']['Date Received']
-        received_by.value = response['DOC']['Received By'];
-        doc_type.value = response['DOC']['Type'];
-        office.value = response['DOC']['Sent By'];
-        letter_date.value = response['DOC']['Letter Date'];
-        subject.value = response['DOC']['Subject'];
+        date_received.innerText = response['DOC']['Date Received']
+        received_by.innerText = response['DOC']['Received By'];
+        doc_type.innerText = response['DOC']['Type'];
+        office.innerText = response['DOC']['Sent By'];
+        letter_date.innerText = response['DOC']['Letter Date'];
+        subject.innerText = response['DOC']['Subject'];
 
         doc_purp.innerHTML = "";
         var counter = 0;
