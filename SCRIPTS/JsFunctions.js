@@ -186,25 +186,27 @@ class JsFunctions {
         thead.append(theadrow);
 
     }
-    static updateAttachments(mini, results, buttons) {
-        console.log(results);
-        mini.innerHTML = '';
-        Object.entries(results).forEach(([key, item]) => {
-            const doc = document.createElement("div");
-            doc.innerText = item['DESCRIPTION'];
-            doc.className = "atc_items";
-            doc.addEventListener('click', function () {
-                const fileLoc = "";
-                window.location.href = "../../RESOURCES/pdfJS/web/viewer.html?file=file://";
-            });
+    // static updateAttachments(mini, results, buttons) {
+    //     console.log(results);
+    //     mini.innerHTML = '';
+    //     Object.entries(results).forEach(([key, item]) => {
+    //         const doc = document.createElement("div");
+    //         doc.innerText = item['DESCRIPTION'];
+    //         doc.className = "atc_items";
+    //         doc.addEventListener('click', function () {
+    //             getData(_REQUEST.GET_ATTACHMENT, { ID: item.ID }, (result) => {
+    //                 const url = "../../" + result;
+    //                 window.open("../../RESOURCES/pdfJS/web/viewer.html?file=" + url, '_blank').focus();
+    //             }, null);
+    //         });
 
-            // doc.addEventListener('mouseout', function () {
-            //     preview.style.backgroundImage = "";
-            // });
-            mini.appendChild(doc);
+    //         // doc.addEventListener('mouseout', function () {
+    //         //     preview.style.backgroundImage = "";
+    //         // });
+    //         mini.appendChild(doc);
 
-        });
-    }
+    //     });
+    // }
     static FormToJson(form) {
         var formData = new FormData(form);
         var formDataObject = {};
