@@ -89,8 +89,10 @@ function convertHTMLtoPDF() {
                     <h1>Routing Slip / Action Slip</h1> 
 
                     <div class="doc_details">
-                        <input type="text" class="routingnum" 
-                        name="routingnum" id="routingnum">
+                        <!-- <input type="text" class="routingnum" 
+                        name="routingnum" id="routingnum"> -->
+
+                        <div class="routingnum" id="routingnum"></div>
 
                         <div class="flex_cont">
                             <label for="date_received">Date|Time Received: </label>

@@ -375,7 +375,7 @@ include "../../SCRIPTS/checkPrivilage.php";
 
                         <?php include "../DOC_ROUTING/DOC_ROUTING.php" ?>
 
-                        <input type="button" value="Convert to PDF" onclick="convertHTMLtoPDF()">
+                        <!-- <input type="button" value="Convert to PDF" onclick="convertHTMLtoPDF()">
 
                         <div class="pdf_cont">
                             <canvas id="divID">
@@ -542,7 +542,7 @@ include "../../SCRIPTS/checkPrivilage.php";
                                     <label for="received">Received By: </label>
                                     <textarea name="received" id="" cols="30" rows="1"></textarea>
                                 </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
