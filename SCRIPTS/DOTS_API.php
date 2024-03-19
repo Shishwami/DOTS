@@ -353,7 +353,7 @@ function editDocument($inputs, $conn)
     $selectDocTypeSql = $queries->selectQuery($selectDocTypeData);
     $selectDocTypeResult = $conn->query($selectDocTypeSql);
     $selectDocTypeRows = resultsToArray($selectDocTypeResult);
-    var_dump($selectDocTypeRows);
+
     $notEqualKeys = [];
     foreach ($requiredInputs as $key => $val) {
         $newInputs = $inputs['DATA'][$key];
@@ -391,6 +391,16 @@ function editDocument($inputs, $conn)
         }
     }
     $server_notes = implode(" , ", $notEqualKeys);
+
+    if ($server_notes == "") {
+        echo json_encode(
+            array(
+                'VALID' => $valid,
+                'MESSAGE' => "No inputs Changed",
+            )
+        );
+        exit;
+    }
 
     $updateDocData = [
         'TABLE' => 'DOTS_DOCUMENT',
@@ -2011,8 +2021,8 @@ function returnFileLocation($id)
         file_put_contents($tmpFilePath, $pdfContent);
 
         echo json_encode([
-            'VALID'=> true,
-            'RESULS'=> $tempDirectory.'/'.$tmpFileName
+            'VALID' => true,
+            'RESULS' => $tempDirectory . '/' . $tmpFileName
         ]);
     }
 
