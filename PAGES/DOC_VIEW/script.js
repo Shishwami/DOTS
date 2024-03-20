@@ -289,6 +289,8 @@ function setPrinting(id, doc_num, route_num) {
         var counter = 0;
         var max = Math.floor(response.PRPS.length / 2);
 
+        console.log("ASD ", response.PRPS);
+
         var container = document.createElement('div'); // Create a container to group checkboxes
         container.className = "column";
         response.PRPS.forEach(function (item) {
