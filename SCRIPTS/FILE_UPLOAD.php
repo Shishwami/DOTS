@@ -37,6 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
 
     $documentRow = selectDocument($_POST['ID']);
 
+    var_dump($documentRow);
+
     $config = parse_ini_file('config.ini', true);
     $uploadDirectory = $config['ftp_credentials']['ftp_server'];
 
@@ -60,10 +62,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
                 'DESCRIPTION' => $_POST['DESCRIPTION'],
             ]
         ];
-        $insertAttachmentSql = $queries->insertQuery($insertAttachmentData);
-        $insertAttachmentResult = $conn->query($insertAttachmentSql);
+        $insertAttachmentSql = $queries->insertQuery($insertAttachmentData,getPdoConnection());
 
-        if ($insertAttachmentResult) {
+        if (!empty($insertAttachmentResult)) {
             $conn->commit();
             echo json_encode(
                 array(
@@ -105,9 +106,7 @@ function selectDocument($id)
             ]
         ]
     ];
-    $selectDocumentSql = $queries->selectQuery($selectDocumentData);
-    $selectDocumentResult = $conn->query($selectDocumentSql);
-    $selectDocumentRow = $selectDocumentResult->fetch_assoc();
+    $selectDocumentRow = $queries->selectQuery($selectDocumentData,getPdoConnection())[0];
 
     return $selectDocumentRow;
 }
