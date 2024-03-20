@@ -649,8 +649,8 @@ function cancelReceive($inputs, $conn)
             ]
         ],
     ];
-    $selectInboundRow = $queries->selectQuery($selectInboundData,getPdoConnection())[0];
-
+    $selectInboundRow = $queries->selectQuery($selectInboundData,getPdoConnection());
+    var_dump($selectReceiveRow);
     if ($selectInboundRow['ROUTED'] == 1) {
         echo json_encode(
             [
@@ -1093,8 +1093,8 @@ function sendDocForm($inputs, $conn)
         $results[] = update($updateDocumentData);
     }
 
-    $results[] = $queries->insertQuery($insertInboundData,getPdoConnection());
-    $lastInboundId = $conn->insert_id;
+    $lastInboundId[] = $queries->insertQuery($insertInboundData,getPdoConnection());
+    $results[] = $lastInboundId;
 
     $formattedDocumentNumber = formatDocumentNumber($checkRoutedRow['DOC_NUM'], $newRoutingNumber);
     $note_server = "Document $formattedDocumentNumber sent to ";
@@ -1619,8 +1619,8 @@ function receiveDocUser($inputs, $conn)
     ];
 
     $results[] = $queries->insertQuery($insertLogData,getPdoConnection());
-    $results[] = $queries->insertQuery($insertData,getPdoConnection());
-    $lastId = $conn->insert_id;
+    $lastId[] = $queries->insertQuery($insertData,getPdoConnection());
+    $results[] = $lastId;
 
     $updateData['DATA']['OUTBOUND_ID'] = $lastId;
     $results[] = update($updateData);
@@ -1786,8 +1786,8 @@ function sendDocFormUser($inputs, $conn)
         $insertInboundData['DATA']['ROUTE_NUM'] = $newRouteNumber;
         $selectMainRow['ROUTE_NUM'] = $newRouteNumber;
 
-        $results[] = $queries->insertQuery($insertInboundData,getPdoConnection());
-        $last_id = $conn->insert_id;
+        $last_id = $queries->insertQuery($insertInboundData,getPdoConnection());
+        $results = $last_id;
 
         //add to doc main
         unset($selectMainRow['ID']);
