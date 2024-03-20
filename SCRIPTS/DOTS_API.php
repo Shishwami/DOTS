@@ -1,134 +1,171 @@
 <?php
+// Include necessary PHP files for database connection and queries
 include "DB_Connect.php";
 include "Queries.php";
 
+// Start a PHP session if not already started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$sql = '';
-
 try {
+    // Retrieve JSON input data and sanitize it
     $inputs = json_decode(file_get_contents("php://input"), true);
     $inputs = sanitizeInputs($inputs);
-    // var_dump($inputs);
 
-    $REQUEST = $inputs['REQUEST'];
-    // if (!isset($inputs['REQUEST'])) {
-    //     var_dump($inputs);
-    // }
-
+    // Set the default timezone
     date_default_timezone_set("Asia/Manila");
 
-    switch ($REQUEST) {
+    // Determine the action based on the value of REQUEST
+    switch ($inputs['REQUEST']) {
+        // Handle user login
         case 'USER_LOGIN':
             userLogin($inputs, $conn);
             break;
+
+        // Get current date
         case 'GET_DATE':
             get_Date($inputs);
             break;
 
-        //REMAKE
-
+        // Get session value for full name
         case 'GET_SESSION_NAME':
             getSessionValue("FULL_NAME");
             break;
+        // Get session value for initials
         case 'GET_SESSION_INITIAL':
             getSessionValue("INIITAL");
             break;
+        // Get session value for HRIS ID
         case 'GET_SESSION_HRIS_ID':
             getSessionValue("HRIS_ID");
             break;
+        // Get session value for department ID
         case 'GET_SESSION_DEPT_ID':
             getSessionValue("DEPT_ID");
             break;
 
+        // Get document number
         case 'GET_DOC_NUM':
             getDocNum($inputs, $conn);
             break;
+        // Get addressee information
         case 'GET_ADDRESSEE':
             getAddressee($inputs, $conn);
             break;
 
+        // Get document details
         case "GET_DOCUMENT":
             getDocument($inputs, $conn);
             break;
+        // Edit document
         case 'EDIT_DOCUMENT':
             editDocument($inputs, $conn);
             break;
+        // Cancel document received
         case 'CANCEL_RECEIVE':
             cancelReceive($inputs, $conn);
             break;
+        // Cancel document sending
         case 'CANCEL_SEND':
             cancelSend($inputs, $conn);
             break;
+        // Get document type options
         case "GET_DOC_TYPE":
             getOptions('DOTS_DOC_TYPE', 'DOC_TYPE', $conn);
             break;
+        // Get department options
         case 'GET_DEPT':
             getOptions('DOTS_DOC_DEPT', 'DOC_DEPT', $conn);
             break;
+        // Get document office options
         case 'GET_DOC_OFFICE':
             getOptions('DOTS_DOC_OFFICE', 'DOC_OFFICE', $conn);
             break;
+        // Get document purpose options
         case 'GET_DOC_PRPS':
             getOptions('DOTS_DOC_PRPS', 'DOC_PRPS', $conn);
             break;
 
+        // Receive document
         case 'RECEIVE_DOC':
             receiveDoc($inputs, $conn);
             break;
+        // Send document form
         case 'SEND_DOC_FORM':
             sendDocForm($inputs, $conn);
             break;
 
+        // Get main table data
         case 'GET_TABLE_MAIN':
             getTableMain($inputs, $conn);
             break;
+        // Get inbound table data
         case 'GET_TABLE_INBOUND':
             getTableUser($inputs, $conn, 'DOTS_DOCUMENT_INBOUND');
             break;
+        // Get outbound table data
         case 'GET_TABLE_OUTBOUND':
             getTableUser($inputs, $conn, 'DOTS_DOCUMENT_OUTBOUND');
             break;
+        // Get attachment table data
         case 'GET_TABLE_ATTACHMENT':
             getTableAttachment($inputs, $conn);
             break;
+        // Get tracking table data
         case 'GET_TABLE_TRACKING':
             getTableTracking($inputs, $conn);
             break;
 
+        // Receive document for user
         case 'RECEIVE_DOC_USER':
             receiveDocUser($inputs, $conn);
             break;
+        // Send document form for user
         case 'SEND_DOC_USER':
             sendDocFormUser($inputs, $conn);
             break;
 
+        // Get attachment file location
         case 'GET_ATTACHMENT':
             returnFileLocation($inputs['ID']);
             break;
+        // Get routing slip table row
         case 'GET_ROUTING_SLIP':
             getTableRow($inputs['ID']);
             break;
     }
+    // Close the database connection
     $conn->close();
 
 } catch (mysqli_sql_exception $th) {
-    // throw $th;
-    echo '' . $th->getMessage() . '\r\n asd' . $sql;
+    // Handle MySQLi exceptions
+    echo '' . $th->getMessage() . '\r\n asd';
 } catch (Exception $th) {
-    // throw $th;
-    echo '' . $th->getMessage() . '\r\n asd' . $sql;
+    // Handle general exceptions
+    echo '' . $th->getMessage() . '\r\n asd';
 }
+
+/**
+ * Function to handle user login.
+ *
+ * This function takes user credentials (username and password),
+ * verifies them against the database, and sets session variables
+ * if the credentials are valid.
+ *
+ * @param array $inputs User input data containing username and password.
+ * @param mysqli $conn MySQLi database connection object.
+ * @return void This function echoes JSON-encoded response indicating login status.
+ */
 function userLogin($inputs, $conn)
 {
+    // Initialize variables for login status
     $valid = false;
-    $message = "";
-
+    // Extract username and password from input data
     $username = $inputs['WHERE']['USERNAME'];
     $password = $inputs['WHERE']['PASSWORD'];
 
+    // Construct query to select user data from the database
     $selectUserData = array(
         'TABLE' => 'DOTS_ACCOUNT_INFO',
         'COLUMNS' => array(
@@ -148,64 +185,99 @@ function userLogin($inputs, $conn)
         ),
     );
 
+    // Execute query to select user data
     $selectUserRow = selectSingleRow($selectUserData);
+
+    // Check if user data is empty (indicating invalid credentials)
     if (empty ($selectUserRow)) {
-        $message = "Invalid Username or Password.";
-    } else {
-        $valid = true;
-        $message = "Redirecting";
-        foreach ($selectUserRow as $key => $value) {
-            $_SESSION[$key] = $value;
-        }
+        echo json_encode([
+            'VALID' => $valid,
+            'MESSAGE' => "Invalid Username or Password.",
+        ]);
+        exit;
     }
 
+    // If credentials are valid, set login status to true
+    $valid = true;
+    // Set session variables
+    foreach ($selectUserRow as $key => $value) {
+        $_SESSION[$key] = $value;
+    }
+
+    // Echo JSON-encoded response indicating login status and message
     echo json_encode([
         'VALID' => $valid,
-        'MESSAGE' => $message,
+        'MESSAGE' => "Log in Successfull, Redirecting",
     ]);
-
 }
+
+
+/**
+ * Function to retrieve current date or time based on input.
+ *
+ * This function returns the current date or time based on the value of the input parameter 'DATE'.
+ * Possible values for 'DATE' parameter: "DATE", "TIME", "DATE_TIME".
+ * 
+ * @param array $inputs Input data containing the key 'DATE' specifying the type of time to retrieve.
+ *                     Expected format: ['DATE' => 'string'].
+ * @return string Current date or time based on the input parameter.
+ */
 function get_Date($inputs)
 {
-    $time = "";
+    $time = ""; // Initialize variable to store the current date or time
+    $valid = false; // Initialize variable to indicate if the operation was successful
 
+    // Retrieve current date or time based on the value of the 'DATE' parameter
     if ($inputs['DATE'] == "DATE") {
-        $time = date("Y-m-d");
-        $valid = true;
+        $time = date("Y-m-d"); // Format: YYYY-MM-DD
+        $valid = true; // Set validity flag to true
     }
 
     if ($inputs['DATE'] == "TIME") {
-        $time = date('h:i');
+        $time = date('h:i'); // Format: HH:MM (12-hour format)
+        $valid = true; // Set validity flag to true
     }
 
     if ($inputs['DATE'] == "DATE_TIME") {
-        $time = date("Y-m-d\TH:i");
+        $time = date("Y-m-d\TH:i"); // Format: YYYY-MM-DDTHH:MM (ISO 8601 format)
+        $valid = true; // Set validity flag to true
     }
 
-    if ($time != "") {
-        $valid = true;
-    }
-
+    // Prepare and echo JSON-encoded response including validity status and time
     echo json_encode(
         array(
             'VALID' => $valid,
             'TIME' => $time,
         )
     );
+
+    // Return the current date or time
     return $time;
 }
 
+
+/**
+ * Function to retrieve a value from the session.
+ *
+ * This function retrieves the value associated with the specified key from the session.
+ * If the key exists in the session, the function sets the validity flag to true and returns the value.
+ * If the key does not exist, the function sets the validity flag to false.
+ * 
+ * @param string $key The key whose value needs to be retrieved from the session.
+ * @return void This function echoes JSON-encoded response indicating the validity and the session value.
+ */
 function getSessionValue($key)
 {
-    $valid = false;
-    $sessionValue = '';
+    $valid = false; // Initialize variable to indicate if the session value exists
+    $sessionValue = ''; // Initialize variable to store the session value
 
+    // Check if the specified key exists in the session
     if (isset ($_SESSION[$key])) {
-        $valid = true;
-        $sessionValue = $_SESSION[$key];
-
+        $valid = true; // Set validity flag to true
+        $sessionValue = $_SESSION[$key]; // Retrieve session value associated with the key
     }
 
+    // Prepare and echo JSON-encoded response including validity status and session value
     echo json_encode(
         array(
             'VALID' => $valid,
@@ -213,42 +285,79 @@ function getSessionValue($key)
         )
     );
 }
+
+/**
+ * Function to sanitize input data recursively.
+ *
+ * This function sanitizes input data recursively. If the input is an array,
+ * it iterates through each element and sanitizes them recursively.
+ * If the input is a string, it sanitizes it using FILTER_SANITIZE_STRING filter.
+ * 
+ * @param mixed $input The input data to be sanitized.
+ * @return mixed The sanitized input data.
+ */
 function sanitizeInputs($input)
 {
+    // Check if the input is an array
     if (is_array($input)) {
+        // Iterate through each element of the array
         foreach ($input as $key => $value) {
+            // Recursively sanitize each element of the array
             $input[$key] = sanitizeInputs($value);
         }
     } else {
+        // If the input is not an array (i.e., it's a string), sanitize it using FILTER_SANITIZE_STRING filter
         $input = filter_var($input, FILTER_SANITIZE_STRING);
     }
+
+    // Return the sanitized input data
     return $input;
 }
+
+/**
+ * Function to retrieve the current document number from the database.
+ *
+ * This function retrieves the current document number from the database table DOTS_NUM_SEQUENCE.
+ * It executes a select query to fetch the current value from the table.
+ * 
+ * @param array $inputs Input data (not used in this function).
+ * @param mysqli $conn MySQLi database connection object.
+ * @return void This function echoes JSON-encoded response indicating the validity and the current document number.
+ */
 function getDocNum($inputs, $conn)
 {
+    // Instantiate Queries class to access query methods
     $queries = new Queries();
 
-    $valid = false;
+    $valid = false; // Initialize variable to indicate if the operation was successful
+    $doc_num = 0; // Initialize variable to store the current document number
+
+    // Define data for the select query
     $data = array(
         'TABLE' => 'DOTS_NUM_SEQUENCE',
         'COLUMNS' => array(
             'CURRENT_VALUE',
         ),
-        // 'ORDER_BY' => 'DOC_NUM DESC'
     );
 
+    // Generate SQL query using the selectQuery method from Queries class
     $sql = $queries->selectQuery($data);
+
+    // Execute the SQL query
     $result = mysqli_query($conn, $sql);
 
-    $doc_num = 0;
+    // Check if the query was successful
     if ($result) {
-        $valid = true;
+        $valid = true; // Set validity flag to true
+        // Fetch the result row as an associative array
         $row = $result->fetch_assoc();
+        // Check if the 'CURRENT_VALUE' column exists in the result
         if (isset ($row['CURRENT_VALUE'])) {
-            $doc_num = $row['CURRENT_VALUE'];
+            $doc_num = $row['CURRENT_VALUE']; // Retrieve the current document number
         }
     }
 
+    // Prepare and echo JSON-encoded response including validity status and the current document number
     echo json_encode(
         array(
             'VALID' => $valid,
@@ -256,11 +365,24 @@ function getDocNum($inputs, $conn)
         )
     );
 }
+
+/**
+ * Function to retrieve document details from the database.
+ *
+ * This function retrieves document details from the database table DOTS_DOCUMENT based on the provided document ID.
+ * It executes a select query to fetch the document details and converts the date-time format to HTML datetime string.
+ * 
+ * @param array $inputs Input data containing the document ID.
+ *                     Expected format: ['DATA' => ['ID' => 'string']].
+ * @param mysqli $conn MySQLi database connection object.
+ * @return void This function echoes JSON-encoded response containing the document details.
+ */
 function getDocument($inputs, $conn)
 {
-
+    // Instantiate Queries class to access query methods
     $queries = new Queries();
 
+    // Define data for the select query to retrieve document details
     $selectDocData = [
         'TABLE' => 'DOTS_DOCUMENT',
         "WHERE" => [
@@ -270,13 +392,20 @@ function getDocument($inputs, $conn)
         ],
     ];
 
+    // Generate SQL query using the selectQuery method from Queries class
     $selectDocSql = $queries->selectQuery($selectDocData);
+
+    // Execute the SQL query
     $selectDocResult = $conn->query($selectDocSql);
+
+    // Fetch the result row as an associative array
     $selectDocRow = $selectDocResult->fetch_assoc();
 
+    // Convert the PHP timestamp to HTML datetime string
     $php_timestamp = strtotime($selectDocRow['DATE_TIME_RECEIVED']);
     $html_datetime_string = date('Y-m-d\TH:i', $php_timestamp);
 
+    // Prepare data for JSON encoding
     $selectOutputData = [
         'ID' => $selectDocRow['ID'],
         'ACTION_ID' => $selectDocRow['ACTION_ID'],
@@ -287,19 +416,30 @@ function getDocument($inputs, $conn)
         'DOC_SUBJECT' => $selectDocRow['DOC_SUBJECT'],
     ];
 
-    echo json_encode(
-        $selectOutputData
-    );
-
+    // Echo JSON-encoded response containing the document details
+    echo json_encode($selectOutputData);
 }
 
+
+/**
+ * Function to edit a document in the database.
+ *
+ * This function edits a document in the database based on the provided inputs.
+ * It validates the inputs, checks user privileges, retrieves existing document data,
+ * performs necessary conversions, compares old and new inputs, updates the document,
+ * logs the edit action, and handles transaction commits or rollbacks.
+ * 
+ * @param array $inputs Input data containing the document details to be edited.
+ * @param mysqli $conn MySQLi database connection object.
+ * @return void This function echoes JSON-encoded response indicating the success of the operation and any messages.
+ */
 function editDocument($inputs, $conn)
 {
-    $queries = new Queries();
-    $message = "";
-    $valid = false;
-    $results = [];
-    $requiredInputs = [
+    $queries = new Queries(); // Instantiate Queries class to access query methods
+    $message = ""; // Initialize variable to store message
+    $valid = false; // Initialize variable to indicate if the operation was successful
+    $results = []; // Initialize array to store results
+    $requiredInputs = [ // Define required input fields
         "ACTION_ID" => "Action",
         "DATE_TIME_RECEIVED" => 'Date Received',
         "DOC_SUBJECT" => 'Subject',
@@ -309,6 +449,7 @@ function editDocument($inputs, $conn)
         "S_OFFICE_ID" => "Office",
     ];
 
+    // Validate input fields
     if (!validateInputsEdit($requiredInputs, $inputs)) {
         echo json_encode(
             array(
@@ -318,6 +459,8 @@ function editDocument($inputs, $conn)
         );
         exit;
     }
+
+    // Check user privileges
     if ($_SESSION['DOTS_PRIV'] < 3) {
         echo json_encode(
             array(
@@ -328,8 +471,10 @@ function editDocument($inputs, $conn)
         exit;
     }
 
+    // Start transaction
     $conn->begin_transaction();
 
+    // Select document data based on provided document ID
     $selectDocData = [
         'TABLE' => 'DOTS_DOCUMENT',
         'WHERE' => [
@@ -340,6 +485,7 @@ function editDocument($inputs, $conn)
     ];
     $selectDocResult = selectSingleRow($selectDocData);
 
+    // Select office data
     $selectDeptData = [
         'TABLE' => 'DOTS_DOC_OFFICE',
     ];
@@ -347,6 +493,7 @@ function editDocument($inputs, $conn)
     $selectDeptResult = $conn->query($selectDeptSql);
     $selectDeptRows = resultsToArray($selectDeptResult);
 
+    // Select document type data
     $selectDocTypeData = [
         'TABLE' => 'DOTS_DOC_TYPE',
     ];
@@ -354,10 +501,15 @@ function editDocument($inputs, $conn)
     $selectDocTypeResult = $conn->query($selectDocTypeSql);
     $selectDocTypeRows = resultsToArray($selectDocTypeResult);
 
+    // Initialize array to store keys of input fields that have been changed
     $notEqualKeys = [];
+
+    // Iterate over required input fields to compare old and new values
     foreach ($requiredInputs as $key => $val) {
         $newInputs = $inputs['DATA'][$key];
         $oldInputs = $selectDocResult[$key];
+
+        // Perform specific transformations for certain fields
         if ($key == "DATE_TIME_RECEIVED") {
             $timestampNew = strtotime($newInputs);
             $newInputs = date("d-m-y h:i A", $timestampNew);
@@ -386,12 +538,16 @@ function editDocument($inputs, $conn)
             }
 
         }
+        // Check if new value is different from old value, and add to the array of changed keys
         if ($newInputs !== $oldInputs) {
             $notEqualKeys[] = "$val($oldInputs = $newInputs)";
         }
     }
+    
+    // Construct server notes based on the changes made
     $server_notes = implode(" , ", $notEqualKeys);
 
+    // Check if any inputs were changed
     if ($server_notes == "") {
         echo json_encode(
             array(
@@ -402,6 +558,7 @@ function editDocument($inputs, $conn)
         exit;
     }
 
+    // Define data for updating the document
     $updateDocData = [
         'TABLE' => 'DOTS_DOCUMENT',
         'DATA' => $inputs['DATA'],
@@ -410,22 +567,22 @@ function editDocument($inputs, $conn)
         ]
     ];
 
+    // Determine the message based on the existence of route number
     if ($selectDocResult['ROUTE_NUM'] == 0) {
         $message = "Document $selectDocResult[DOC_NUM] Updated";
     } else {
         $message = "Document $selectDocResult[DOC_NUM]-$selectDocResult[ROUTE_NUM] Updated";
     }
 
+    // Define data for inserting document log
     $insertDocLogData = [
         'TABLE' => 'DOTS_TRACKING',
         'DATA' => [
             'DOC_NUM' => $selectDocResult["DOC_NUM"],
             'ROUTE_NUM' => $selectDocResult["ROUTE_NUM"],
             'HRIS_ID' => $_SESSION['HRIS_ID'],
-            'ACTION_ID' => 6,//ACTION_ID EDIT
-            // 'DATE_TIME_ACTION' => $selectDocResult['DATE_TIME_RECEIVED'],
+            'ACTION_ID' => 6, // ACTION_ID EDIT
             'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
-            // 'NOTE_USER' => $inputs['DATA']['CANCEL_R_NOTES'],
             'NOTE_SERVER' => "$server_notes",
         ]
     ];
@@ -435,12 +592,14 @@ function editDocument($inputs, $conn)
     $updateDocSql = $queries->updateQuery($updateDocData);
     $updateDocResult = $conn->query($updateDocSql);
 
+    // Store the results of insert and update operations
     $results[] = !is_null($insertDocLogResult);
     $results[] = !is_null($updateDocResult);
 
+    // Check if all operations were successful
     $valid = checkArray($results);
     if ($valid) {
-        $conn->commit();
+        $conn->commit(); // Commit the transaction
         echo json_encode(
             array(
                 'VALID' => $updateDocResult,
@@ -448,7 +607,7 @@ function editDocument($inputs, $conn)
             )
         );
     } else {
-        $conn->rollback();
+        $conn->rollback(); // Rollback the transaction
         echo json_encode(
             array(
                 'VALID' => $updateDocResult,
@@ -456,8 +615,6 @@ function editDocument($inputs, $conn)
             )
         );
     }
-
-
 }
 
 function cancelReceive($inputs, $conn)
@@ -478,6 +635,7 @@ function cancelReceive($inputs, $conn)
         );
         exit;
     }
+
     if ($_SESSION['DOTS_PRIV'] < 1) {
         echo json_encode(
             array(
@@ -487,6 +645,7 @@ function cancelReceive($inputs, $conn)
         );
         exit;
     }
+
     $conn->begin_transaction();
 
     //get outboundid for deletion

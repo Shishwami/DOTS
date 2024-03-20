@@ -67,7 +67,6 @@ InitializePAGE();
 
 function InitializePAGE() {
 
-    //TODO too add in btn event listeners
     initializeSEND_FORM();
     initializeRECEIVE_FORM();
     setCreateBtn();
@@ -82,34 +81,6 @@ function InitializePAGE() {
     }, _RESET_TIME);
 
     setForms();
-
-    BTN_ATTACH_ADD.addEventListener("click", function () {
-        ATTACH_FILE.value = null;
-
-        if (document.getElementById("upload_preview") != undefined) {
-            document.getElementById("upload_preview").remove();
-        }
-
-        //reset inputs
-        ATTACH_DESC.value = "";
-        FORM_ATTACH_ADD.querySelector('input[type=submit]').disabled = false;
-
-
-        console.log("ASDADSADSADS");
-    });
-
-    if (BTN_ATTACH_INS) {
-        BTN_ATTACH_INS.addEventListener("click", function () {
-            var elements = document.getElementsByClassName('img-zoom-lens');
-            var elementsArray = Array.from(elements);
-
-            elementsArray.forEach(function (element) {
-                element.parentNode.removeChild(element);
-            });
-
-            imageZoom("myimage", "myresult");
-        });
-    }
 
 }
 
@@ -316,9 +287,12 @@ function setPrinting(id, doc_num, route_num) {
 
         doc_purp.innerHTML = "";
         var counter = 0;
+        var max = Math.floor(response.PRPS.length / 2);
+
         var container = document.createElement('div'); // Create a container to group checkboxes
         container.className = "column";
         response.PRPS.forEach(function (item) {
+            console.log(response.PRPS.length);
             var id = item.ID;
             var docPrps = item.DOC_PRPS;
 
@@ -340,7 +314,7 @@ function setPrinting(id, doc_num, route_num) {
             container.appendChild(document.createElement('br')); // Add line break
 
             counter++;
-            if (counter % 5 === 0) { // Check if 5 checkboxes are added
+            if (counter % max === 0) { // Check if 5 checkboxes are added
                 doc_purp.appendChild(container); // Add container to the main document
                 container = document.createElement('div'); // Reset container for next group
                 container.className = "column";
