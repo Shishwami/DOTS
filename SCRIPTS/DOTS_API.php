@@ -344,9 +344,9 @@ function getDocNum($inputs, $conn)
     );
     $row = $queries->selectQuery($data, getPdoConnection())[0];
 
-    if (isset ($row[0]['CURRENT_VALUE'])) {
+    if (isset ($row['CURRENT_VALUE'])) {
         $valid = true;
-        $doc_num = $row[0]['CURRENT_VALUE']; // Retrieve the current document number
+        $doc_num = $row['CURRENT_VALUE']; // Retrieve the current document number
     }
 
     // Prepare and echo JSON-encoded response including validity status and the current document number
