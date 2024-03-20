@@ -262,34 +262,42 @@ function convertHTMLtoPDF() {
                     <div class="doc_route">
                         <div class="banner">For Further Routing</div>
 
-                        <table>
-                            <tr>
-                                <th class="th" rowspan="2">TO/FOR</th>
-                                <th>ADDRESSEE</th>
-                                <th class="th" colspan="2">DATE</th>
-                                <th>INITIAL</th>
-                            </tr>
-                            <tr>
-                                <td>Name & Position</td>
-                                <td>In</td>
-                                <td>Out</td>
-                                <td class="blank">...</td>
-                            </tr>
-                            <tr>
-                                <td class="blank">...</td>
-                                <td class="blank">...</td>
-                                <td class="blank">.........</td>
-                                <td class="blank">...</td>
-                                <td class="blank">...</td>
-                            </tr>
-                            <tr>
-                                <td class="blank">...</td>
-                                <td class="blank">...</td>
-                                <td class="blank">.........</td>
-                                <td class="blank">...</td>
-                                <td class="blank">...</td>
-                            </tr>
-                        </table>
+                        <div class="table">
+                            <div class="col1">
+                                <div class="row1 extend">TO/FOR</div>
+                                <div class="rowex">me</div>
+                                <div class="rowex">me</div>
+                            </div>
+
+                            <div class="col2">
+                                <div class="row1">ADDRESSEE</div>
+                                <div class="row2">Name & Position</div>
+                                <div class="rowex">me</div>
+                                <div class="rowex">me</div>
+                            </div>
+
+                            <div class="col3">
+                                <div class="row1">DATE</div>
+                                <div class="colgroup">
+                                    <div class="colgroup1">
+                                        <div class="row2">In</div>
+                                        <div class="rowex">,me</div>
+                                        <div class="rowex">,me</div>
+                                        <div class="rowex">,me</div>
+                                    </div>
+                                    <div class="colgroup2">
+                                        <div class="row2">Out</div>
+                                        <div class="rowex">,me</div>
+                                        <div class="rowex">,me</div>
+                                        <div class="rowex">,me</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col4">
+                                <div class="row1 extend">INITIAL</div>
+                            </div>
+                        </div>
 
                         <h3>Remarks: </h3>
                     </div>
@@ -297,11 +305,15 @@ function convertHTMLtoPDF() {
                     <div class="doc_retslip">
                         <div class="banner">Return Slip</div>
 
-                        <label for="dt_rec">Date|Time Received: </label>
-                        <textarea name="dt_rec" id="" cols="30" rows="1"></textarea>
+                        <div class="retgroup">
+                            <label for="dt_rec">Date|Time Received: </label>
+                            <textarea name="dt_rec" id="" cols="33" rows="1"></textarea>
+                        </div>
 
-                        <label for="received">Received By: </label>
-                        <textarea name="received" id="" cols="30" rows="1"></textarea>
+                        <div class="retgroup">
+                            <label for="received">Received By: </label>
+                            <textarea name="received" id="" cols="38" rows="1"></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
