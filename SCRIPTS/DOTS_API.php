@@ -24,116 +24,116 @@ try {
             break;
 
         // Get current date
-        // case 'GET_DATE':
-        //     get_Date($inputs);
-        //     break;
+        case 'GET_DATE':
+            get_Date($inputs);
+            break;
 
         // Get session value for full name
-        // case 'GET_SESSION_NAME':
-        //     getSessionValue("FULL_NAME");
-        //     break;
+        case 'GET_SESSION_NAME':
+            getSessionValue("FULL_NAME");
+            break;
         // Get session value for initials
-        // case 'GET_SESSION_INITIAL':
-        //     getSessionValue("INIITAL");
-        //     break;
+        case 'GET_SESSION_INITIAL':
+            getSessionValue("INIITAL");
+            break;
         // Get session value for HRIS ID
-        // case 'GET_SESSION_HRIS_ID':
-        //     getSessionValue("HRIS_ID");
-        //     break;
+        case 'GET_SESSION_HRIS_ID':
+            getSessionValue("HRIS_ID");
+            break;
         // Get session value for department ID
-        // case 'GET_SESSION_DEPT_ID':
-        //     getSessionValue("DEPT_ID");
-        //     break;
+        case 'GET_SESSION_DEPT_ID':
+            getSessionValue("DEPT_ID");
+            break;
 
         // Get document number
         case 'GET_DOC_NUM':
             getDocNum($inputs, $conn);
             break;
         // Get addressee information
-        // case 'GET_ADDRESSEE':
-        //     getAddressee($inputs, $conn);
-        //     break;
+        case 'GET_ADDRESSEE':
+            getAddressee($inputs, $conn);
+            break;
 
         // Get document details
-        // case "GET_DOCUMENT":
-        //     getDocument($inputs, $conn);
-        //     break;
+        case "GET_DOCUMENT":
+            getDocument($inputs, $conn);
+            break;
         // Edit document
-        // case 'EDIT_DOCUMENT':
-        //     editDocument($inputs, $conn);
-        //     break;
+        case 'EDIT_DOCUMENT':
+            editDocument($inputs, $conn);
+            break;
         // Cancel document received
-        // case 'CANCEL_RECEIVE':
-        //     cancelReceive($inputs, $conn);
-        //     break;
+        case 'CANCEL_RECEIVE':
+            cancelReceive($inputs, $conn);
+            break;
         // Cancel document sending
-        // case 'CANCEL_SEND':
-        //     cancelSend($inputs, $conn);
-        //     break;
+        case 'CANCEL_SEND':
+            cancelSend($inputs, $conn);
+            break;
         // Get document type options
-        // case "GET_DOC_TYPE":
-        //     getOptions('DOTS_DOC_TYPE', 'DOC_TYPE', $conn);
-        //     break;
+        case "GET_DOC_TYPE":
+            getOptions('DOTS_DOC_TYPE', 'DOC_TYPE', $conn);
+            break;
         // Get department options
-        // case 'GET_DEPT':
-        //     getOptions('DOTS_DOC_DEPT', 'DOC_DEPT', $conn);
-        //     break;
+        case 'GET_DEPT':
+            getOptions('DOTS_DOC_DEPT', 'DOC_DEPT', $conn);
+            break;
         // Get document office options
-        // case 'GET_DOC_OFFICE':
-        //     getOptions('DOTS_DOC_OFFICE', 'DOC_OFFICE', $conn);
-        //     break;
+        case 'GET_DOC_OFFICE':
+            getOptions('DOTS_DOC_OFFICE', 'DOC_OFFICE', $conn);
+            break;
         // Get document purpose options
-        // case 'GET_DOC_PRPS':
-        //     getOptions('DOTS_DOC_PRPS', 'DOC_PRPS', $conn);
-        //     break;
+        case 'GET_DOC_PRPS':
+            getOptions('DOTS_DOC_PRPS', 'DOC_PRPS', $conn);
+            break;
 
         // Receive document
-        // case 'RECEIVE_DOC':
-        //     receiveDoc($inputs, $conn);
-        //     break;
+        case 'RECEIVE_DOC':
+            receiveDoc($inputs, $conn);
+            break;
         // Send document form
-        // case 'SEND_DOC_FORM':
-        //     sendDocForm($inputs, $conn);
-        //     break;
+        case 'SEND_DOC_FORM':
+            sendDocForm($inputs, $conn);
+            break;
 
         // Get main table data
-        // case 'GET_TABLE_MAIN':
-        //     getTableMain($inputs, $conn);
-        //     break;
+        case 'GET_TABLE_MAIN':
+            getTableMain($inputs, $conn);
+            break;
         // Get inbound table data
-        // case 'GET_TABLE_INBOUND':
-        //     getTableUser($inputs, $conn, 'DOTS_DOCUMENT_INBOUND');
-        //     break;
+        case 'GET_TABLE_INBOUND':
+            getTableUser($inputs, $conn, 'DOTS_DOCUMENT_INBOUND');
+            break;
         // Get outbound table data
-        // case 'GET_TABLE_OUTBOUND':
-        //     getTableUser($inputs, $conn, 'DOTS_DOCUMENT_OUTBOUND');
-        //     break;
+        case 'GET_TABLE_OUTBOUND':
+            getTableUser($inputs, $conn, 'DOTS_DOCUMENT_OUTBOUND');
+            break;
         // Get attachment table data
-        // case 'GET_TABLE_ATTACHMENT':
-        //     getTableAttachment($inputs, $conn);
-        //     break;
+        case 'GET_TABLE_ATTACHMENT':
+            getTableAttachment($inputs, $conn);
+            break;
         // Get tracking table data
-        // case 'GET_TABLE_TRACKING':
-        //     getTableTracking($inputs, $conn);
-        //     break;
+        case 'GET_TABLE_TRACKING':
+            getTableTracking($inputs, $conn);
+            break;
 
         // Receive document for user
-        // case 'RECEIVE_DOC_USER':
-        //     receiveDocUser($inputs, $conn);
-        //     break;
+        case 'RECEIVE_DOC_USER':
+            receiveDocUser($inputs, $conn);
+            break;
         // Send document form for user
-        // case 'SEND_DOC_USER':
-        //     sendDocFormUser($inputs, $conn);
-        //     break;
+        case 'SEND_DOC_USER':
+            sendDocFormUser($inputs, $conn);
+            break;
 
         // Get attachment file location
-        // case 'GET_ATTACHMENT':
-        //     returnFileLocation($inputs['ID']);
-        //     break;
+        case 'GET_ATTACHMENT':
+            returnFileLocation($inputs['ID']);
+            break;
         // Get routing slip table row
-        // case 'GET_ROUTING_SLIP':
-        //     getTableRow($inputs['ID']);
-        //     break;
+        case 'GET_ROUTING_SLIP':
+            getTableRow($inputs['ID']);
+            break;
     }
     // Close the database connection
     $conn->close();
@@ -187,18 +187,9 @@ function userLogin($inputs, $conn)
 
     // Execute query to select user data
     $selectUserRow = selectSingleRow($selectUserData);
-    $success = $selectUserRow->execute();
-
-    if (!$success) {
-        echo json_encode([
-            'VALID' => $valid,
-            'MESSAGE' => ":((((",
-        ]);
-        exit;
-    }
 
     // Check if user data is empty (indicating invalid credentials)
-    if ($selectUserRow->rowCount() == 0) {
+    if (empty ($selectUserRow)) {
         echo json_encode([
             'VALID' => $valid,
             'MESSAGE' => "Invalid Username or Password.",
@@ -209,10 +200,8 @@ function userLogin($inputs, $conn)
     // If credentials are valid, set login status to true
     $valid = true;
     // Set session variables
-    while ($row = $selectUserRow->fetch(PDO::FETCH_ASSOC)) {
-        foreach ($row as $key => $value) {
-            $_SESSION[$key] = $value;
-        }
+    foreach ($selectUserRow as $key => $value) {
+        $_SESSION[$key] = $value;
     }
 
     // Echo JSON-encoded response indicating login status and message
@@ -352,18 +341,20 @@ function getDocNum($inputs, $conn)
     );
 
     // Generate SQL query using the selectQuery method from Queries class
-    $sql = $queries->selectQuery($data, getPdoConnection());
+    $sql = $queries->selectQuery($data);
 
     // Execute the SQL query
-    // Check if the query was successful
-    checkSuccess($sql->execute());
+    $result = mysqli_query($conn, $sql);
 
-    $valid = true; // Set validity flag to true
-    // Fetch the result row as an associative array
-    $row = $sql->fetch(PDO::FETCH_ASSOC);
-    //     // Check if the 'CURRENT_VALUE' column exists in the result
-    if (isset ($row['CURRENT_VALUE'])) {
-        $doc_num = $row['CURRENT_VALUE']; // Retrieve the current document number
+    // Check if the query was successful
+    if ($result) {
+        $valid = true; // Set validity flag to true
+        // Fetch the result row as an associative array
+        $row = $result->fetch_assoc();
+        // Check if the 'CURRENT_VALUE' column exists in the result
+        if (isset ($row['CURRENT_VALUE'])) {
+            $doc_num = $row['CURRENT_VALUE']; // Retrieve the current document number
+        }
     }
 
     // Prepare and echo JSON-encoded response including validity status and the current document number
@@ -552,7 +543,7 @@ function editDocument($inputs, $conn)
             $notEqualKeys[] = "$val($oldInputs = $newInputs)";
         }
     }
-
+    
     // Construct server notes based on the changes made
     $server_notes = implode(" , ", $notEqualKeys);
 
@@ -2141,13 +2132,11 @@ function selectSingleRow($selectData)
     $queries = new Queries();
     global $conn;
 
-    // $selectSql = $queries->selectQuery($selectData);
-    // $selectResult = $conn->query($selectSql);
-    // $selectRow = $selectResult->fetch_assoc();
+    $selectSql = $queries->selectQuery($selectData);
+    $selectResult = $conn->query($selectSql);
+    $selectRow = $selectResult->fetch_assoc();
 
-    // return $selectRow;
-
-    return $queries->selectQuery($selectData, getPdoConnection());
+    return $selectRow;
 
 }
 function returnFileLocation($id)
@@ -2303,16 +2292,5 @@ function getTableRow($id)
         'DOC' => $selectDocumentRow,
         'PRPS' => $selectPrpsArray
     ]);
-}
-
-function checkSuccess($success)
-{
-    if (!$success) {
-        json_encode([
-            'VALID' => false,
-            'MESSAGE' => ":((("
-        ]);
-        exit;
-    }
 }
 ?>
