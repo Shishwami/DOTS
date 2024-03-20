@@ -25,9 +25,9 @@ try {
             break;
 
         // Get current date
-        case 'GET_DATE':
-            get_Date($inputs);
-            break;
+        // case 'GET_DATE':
+        //     get_Date($inputs);
+        //     break;
 
         // Get session value for full name
         case 'GET_SESSION_NAME':
@@ -524,7 +524,7 @@ function editDocument($inputs, $conn)
             $notEqualKeys[] = "$val($oldInputs = $newInputs)";
         }
     }
-
+    
     // Construct server notes based on the changes made
     $server_notes = implode(" , ", $notEqualKeys);
 
@@ -2088,6 +2088,20 @@ function update($updateData)
     return $updateResult;
 }
 
+function selectSingleRow($selectData)
+{
+    $queries = new Queries();
+    global $conn;
+
+    // $selectSql = $queries->selectQuery($selectData);
+    // $selectResult = $conn->query($selectSql);
+    // $selectRow = $selectResult->fetch_assoc();
+
+    // return $selectRow;
+
+    return $queries->selectQuery($selectData, getPdoConnection());
+
+}
 function returnFileLocation($id)
 {
     $queries = new Queries();
@@ -2241,4 +2255,14 @@ function getTableRow($id)
     ]);
 }
 
+function checkSuccess($success)
+{
+    if (!$success) {
+        json_encode([
+            'VALID' => false,
+            'MESSAGE' => ":((("
+        ]);
+        exit;
+    }
+}
 ?>
