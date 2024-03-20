@@ -86,11 +86,14 @@ class Queries
         }
 
         // Execute the statement
-        // // $success = $stmt->execute();
-        // if (!$success) {
-        //     // handle error
-        //     return false;
-        // }
+        $success = $stmt->execute();
+        if (!$success) {
+            json_encode([
+                'VALID' => false,
+                'MESSAGE' => ":((("
+            ]);
+            exit;
+        }
 
         // while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         //     // Print each row
@@ -100,7 +103,7 @@ class Queries
         //     echo "<br>";
         // }
 
-        return $stmt;
+        return  $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
 
