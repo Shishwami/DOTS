@@ -1,5 +1,4 @@
 <?php
-
 class Queries
 {
     // jsonformat== '{
@@ -22,11 +21,11 @@ class Queries
     //     "ORDER BY": "t1.column1",
     //     "LIMIT": 10
     // }';
-    function selectQuery($inputs, $pdo)
+    function selectQuery($inputs)
     {
         $sql = "SELECT ";
 
-        if (isset ($inputs['COLUMNS'])) {
+        if (isset($inputs['COLUMNS'])) {
             $columns = array_map(function ($column) {
                 return "$column";
             }, $inputs['COLUMNS']);
@@ -35,26 +34,36 @@ class Queries
             $sql .= '*';
         }
 
-        if (isset ($inputs['TABLE'])) {
+        if (isset($inputs['TABLE'])) {
             $sql .= ' FROM ' . $inputs['TABLE'];
         } else {
-            // handle no table name
+            //no table name
         }
 
-        if (isset ($inputs['JOIN'])) {
+        if (isset($inputs['JOIN'])) {
             foreach ($inputs['JOIN'] as $join) {
                 $sql .= " {$join['TYPE']} JOIN {$join['table']} ON " . implode(' AND ', $join['ON']);
             }
         }
 
-        if (isset ($inputs['WHERE'])) {
+        if (isset($inputs['WHERE'])) {
+            // $whereConditions = [];
+            // foreach ($inputs['WHERE'] as $logicalOperator => $conditions) {
+            //     $innerConditions = [];
+            //     foreach ($conditions as $column => $value) {
+            //         $innerConditions[] = "$column = '$value'";
+            //     }
+            //     $whereConditions[] = '(' . implode(" $logicalOperator ", $innerConditions) . ')';
+            // }
+            // $sql .= ' WHERE ' . implode(' AND ', $whereConditions);
+
             $whereData = $inputs['WHERE'];
             $whereConditions = [];
             foreach ($whereData as $key => $value) {
                 $innerConditions = [];
                 foreach ($value as $key2 => $value2) {
                     foreach ($value2 as $key3 => $value3) {
-                        $innerConditions[] = "$key3 = ?";
+                        $innerConditions[] = "$key3 = '$value3'";
                     }
                 }
                 $whereConditions[] = '(' . implode(" $key ", $innerConditions) . ')';
@@ -62,47 +71,16 @@ class Queries
             $sql .= ' WHERE ' . implode(' AND ', $whereConditions);
         }
 
-        if (isset ($inputs['ORDER_BY'])) {
+        if (isset($inputs['ORDER_BY'])) {
             $sql .= ' ORDER BY ' . $inputs['ORDER_BY'];
         }
 
-        $stmt = $pdo->prepare($sql);
-        if (!$stmt) {
-            // handle error
-            return false;
-        }
+        $sql .= ";";
+        $sql = str_replace('&#39;', "'", $sql);
+        // echo $sql;
 
-        // Bind parameters
-        if (isset ($inputs['WHERE'])) {
-            $whereData = $inputs['WHERE'];
-            $i = 1;
-            foreach ($whereData as $value) {
-                foreach ($value as $value2) {
-                    foreach ($value2 as $value3) {
-                        $stmt->bindValue($i++, $value3);
-                    }
-                }
-            }
-        }
-
-        // Execute the statement
-        // // $success = $stmt->execute();
-        // if (!$success) {
-        //     // handle error
-        //     return false;
-        // }
-
-        // while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        //     // Print each row
-        //     foreach ($row as $key => $value) {
-        //         echo "$key: $value      ";
-        //     }
-        //     echo "<br>";
-        // }
-
-        return $stmt;
+        return $sql;
     }
-
 
     // jsonFormat= = '{
     //     "TABLE": "table_name",
