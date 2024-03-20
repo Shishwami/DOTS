@@ -351,17 +351,8 @@ function getDocNum($inputs, $conn)
         ),
     );
 
-    // Generate SQL query using the selectQuery method from Queries class
-    $sql = $queries->selectQuery($data, getPdoConnection());
+    $row = $queries->selectQuery($data, getPdoConnection());
 
-    // Execute the SQL query
-    // Check if the query was successful
-    checkSuccess($sql->execute());
-
-    $valid = true; // Set validity flag to true
-    // Fetch the result row as an associative array
-    $row = $sql->fetch(PDO::FETCH_ASSOC);
-    //     // Check if the 'CURRENT_VALUE' column exists in the result
     if (isset ($row['CURRENT_VALUE'])) {
         $doc_num = $row['CURRENT_VALUE']; // Retrieve the current document number
     }
@@ -401,14 +392,8 @@ function getDocument($inputs, $conn)
         ],
     ];
 
-    // Generate SQL query using the selectQuery method from Queries class
-    $selectDocSql = $queries->selectQuery($selectDocData);
-
-    // Execute the SQL query
-    $selectDocResult = $conn->query($selectDocSql);
-
     // Fetch the result row as an associative array
-    $selectDocRow = $selectDocResult->fetch_assoc();
+    $selectDocRow =  $queries->selectQuery($selectDocData,getPdoConnection());
 
     // Convert the PHP timestamp to HTML datetime string
     $php_timestamp = strtotime($selectDocRow['DATE_TIME_RECEIVED']);
@@ -492,23 +477,19 @@ function editDocument($inputs, $conn)
             ]
         ]
     ];
-    $selectDocResult = selectSingleRow($selectDocData);
+    $selectDocResult = $queries->selectQuery($selectDocData,getPdoConnection());
 
     // Select office data
     $selectDeptData = [
         'TABLE' => 'DOTS_DOC_OFFICE',
     ];
-    $selectDeptSql = $queries->selectQuery($selectDeptData);
-    $selectDeptResult = $conn->query($selectDeptSql);
-    $selectDeptRows = resultsToArray($selectDeptResult);
+    $selectDeptRows = $queries->selectQuery($selectDeptData,getPdoConnection());
 
     // Select document type data
     $selectDocTypeData = [
         'TABLE' => 'DOTS_DOC_TYPE',
     ];
-    $selectDocTypeSql = $queries->selectQuery($selectDocTypeData);
-    $selectDocTypeResult = $conn->query($selectDocTypeSql);
-    $selectDocTypeRows = resultsToArray($selectDocTypeResult);
+    $selectDocTypeRows = $queries->selectQuery($selectDocTypeData,getPdoConnection());
 
     // Initialize array to store keys of input fields that have been changed
     $notEqualKeys = [];
@@ -911,14 +892,13 @@ function getOptions($tableName, $columnName, $conn)
         ),
     );
 
-    $sql = $queries->selectQuery($data);
-    $result = mysqli_query($conn, $sql);
+    $result = $queries->selectQuery($data,getPdoConnection());
+
     $formattedOptions = [];
     if ($result) {
         $valid = true;
         foreach ($result as $key => $value) {
             foreach ($value as $key2 => $value2) {
-                // $formattedOptions[$key] = $value;
                 $value3 = array_values($value);
                 $formattedOptions[$value3[0]] = $value3[1];
             }
@@ -950,8 +930,7 @@ function getAddressee($inputs, $conn)
         ]
     );
 
-    $sql = $queries->selectQuery($data);
-    $result = mysqli_query($conn, $sql);
+    $result = $queries->selectQuery($data,getPdoConnection());
 
     $formattedOptions = [];
     if ($result) {
@@ -1353,8 +1332,7 @@ function getTableMain($inputs, $conn)
         ],
         'ORDER_BY' => 'DOTS_DOCUMENT.DOC_NUM DESC'
     );
-    $selectTableSql = $queries->selectQuery($data);
-    $result = $conn->query($selectTableSql);
+    $result = $queries->selectQuery($data,getPdoConnection());
 
     $buttons = array(
         [
@@ -1513,13 +1491,8 @@ function getTableUser($inputs, $conn, $tableName)
     );
     $data['WHERE'] = $WHERE[0];
 
-    $selectTableSql = $queries->selectQuery($data);
-    $result = mysqli_query($conn, $selectTableSql);
-    $resultAsArray = array();
-
-    while ($row = mysqli_fetch_assoc($result)) {
-        $resultAsArray[] = $row;
-    }
+    $result = $queries->selectQuery($data,getPdoConnection());
+    $resultAsArray = resultsToArray($result);
 
     $buttons[] = [
         'className' => 'btnT',
@@ -1990,8 +1963,7 @@ function getTableTracking($inputs, $conn)
         'SORT_BY' => 'DOC_NUM DESC'
     ];
 
-    $selectTableSql = $queries->selectQuery($selectTableData);
-    $selectTableResult = $conn->query($selectTableSql);
+    $selectTableResult = $queries->selectQuery($selectTableData,getPdoConnection());
     setupTable($selectTableResult, null, 'DOTS_TRACKING');
 }
 function getTableAttachment($inputs, $conn)
@@ -2041,8 +2013,7 @@ function getTableAttachment($inputs, $conn)
         $data['WHERE']['AND'][] = ['HRIS_ID' => $_SESSION['HRIS_ID']];
     }
 
-    $selectTableSql = $queries->selectQuery($data);
-    $result = mysqli_query($conn, $selectTableSql);
+    $result = $queries->selectQuery($data,getPdoConnection());
     setupTable($result, null, $tableName);
 }
 function formatDateTime($dateString)
