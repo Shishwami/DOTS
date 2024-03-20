@@ -265,17 +265,15 @@ function convertHTMLtoPDF() {
                         <div class="table">
                             <div class="col1">
                                 <div class="row1 extend">TO/FOR</div>
-                                <div class="rowex">...</div>
-                                <div class="rowex">...</div>
-                                <div class="rowex">...</div>
+                                <div class="rowex">me</div>
+                                <div class="rowex">me</div>
                             </div>
 
                             <div class="col2">
                                 <div class="row1">ADDRESSEE</div>
                                 <div class="row2">Name & Position</div>
-                                <div class="rowex">...</div>
-                                <div class="rowex">...</div>
-                                <div class="rowex">...</div>
+                                <div class="rowex">me</div>
+                                <div class="rowex">me</div>
                             </div>
 
                             <div class="col3">
@@ -283,27 +281,21 @@ function convertHTMLtoPDF() {
                                 <div class="colgroup">
                                     <div class="colgroup1">
                                         <div class="row2">In</div>
-                                        <div class="rowex">...</div>
-                                        <div class="rowex">...</div>
-                                        <div class="rowex">...</div>
-                                        <div class="rowbot">...</div>
+                                        <div class="rowex">,me</div>
+                                        <div class="rowex">,me</div>
+                                        <div class="rowex">,me</div>
                                     </div>
                                     <div class="colgroup2">
                                         <div class="row2">Out</div>
-                                        <div class="rowex">...</div>
-                                        <div class="rowex">...</div>
-                                        <div class="rowex">...</div>
-                                        <div class="rowbot">...</div>
+                                        <div class="rowex">,me</div>
+                                        <div class="rowex">,me</div>
+                                        <div class="rowex">,me</div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col4">
                                 <div class="row1 extend">INITIAL</div>
-                                <div class="rowex">...</div>
-                                <div class="rowex">...</div>
-                                <div class="rowex">...</div>
-                                <div class="rowbot">...</div>
                             </div>
                         </div>
 
@@ -315,12 +307,12 @@ function convertHTMLtoPDF() {
 
                         <div class="retgroup">
                             <label for="dt_rec">Date|Time Received: </label>
-                            <textarea name="dt_rec" id="" cols="25" rows="1"></textarea>
+                            <textarea name="dt_rec" id="" cols="33" rows="1"></textarea>
                         </div>
 
                         <div class="retgroup">
                             <label for="received">Received By: </label>
-                            <textarea name="received" id="" cols="30" rows="1"></textarea>
+                            <textarea name="received" id="" cols="38" rows="1"></textarea>
                         </div>
                     </div>
                 </div>
