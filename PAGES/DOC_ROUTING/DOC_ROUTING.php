@@ -263,20 +263,32 @@ function convertHTMLtoPDF() {
                         <div class="banner">For Further Routing</div>
 
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>TO/FOR</th>
-                                    <th>ADDRESSEE</th>
-                                    <th>DATE</th>
-                                    <th>INITIAL</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>some</td>
-                                    <td>jaja</td>
-                                </tr>
-                            </tbody>
+                            <tr>
+                                <th class="th" rowspan="2">TO/FOR</th>
+                                <th>ADDRESSEE</th>
+                                <th class="th" colspan="2">DATE</th>
+                                <th>INITIAL</th>
+                            </tr>
+                            <tr>
+                                <td>Name & Position</td>
+                                <td>In</td>
+                                <td>Out</td>
+                                <td class="blank">...</td>
+                            </tr>
+                            <tr>
+                                <td class="blank">...</td>
+                                <td class="blank">...</td>
+                                <td class="blank">.........</td>
+                                <td class="blank">...</td>
+                                <td class="blank">...</td>
+                            </tr>
+                            <tr>
+                                <td class="blank">...</td>
+                                <td class="blank">...</td>
+                                <td class="blank">.........</td>
+                                <td class="blank">...</td>
+                                <td class="blank">...</td>
+                            </tr>
                         </table>
 
                         <h3>Remarks: </h3>
