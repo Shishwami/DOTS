@@ -25,9 +25,9 @@ try {
             break;
 
         // Get current date
-        // case 'GET_DATE':
-        //     get_Date($inputs);
-        //     break;
+        case 'GET_DATE':
+            get_Date($inputs);
+            break;
 
         // Get session value for full name
         case 'GET_SESSION_NAME':
@@ -189,7 +189,7 @@ function userLogin($inputs)
     );
 
     // Execute query to select user data
-    $selectUserRow = $querries->selectQuery($selectUserData, getPdoConnection());
+    $selectUserRow = $querries->selectQuery($selectUserData, getPdoConnection())[0];
 
     // Check if user data is empty (indicating invalid credentials)
     if (empty ($selectUserRow)) {
@@ -344,9 +344,9 @@ function getDocNum($inputs, $conn)
     );
     $row = $queries->selectQuery($data, getPdoConnection())[0];
 
-    if (isset ($row['CURRENT_VALUE'])) {
+    if (isset ($row[0]['CURRENT_VALUE'])) {
         $valid = true;
-        $doc_num = $row['CURRENT_VALUE']; // Retrieve the current document number
+        $doc_num = $row[0]['CURRENT_VALUE']; // Retrieve the current document number
     }
 
     // Prepare and echo JSON-encoded response including validity status and the current document number
@@ -475,13 +475,14 @@ function editDocument($inputs, $conn)
     $selectDeptData = [
         'TABLE' => 'DOTS_DOC_OFFICE',
     ];
-    $selectDeptRows = $queries->selectQuery($selectDeptData, getPdoConnection());
+    $selectDeptRows = $queries->selectQuery($selectDeptData, getPdoConnection())[0];
 
     // Select document type data
     $selectDocTypeData = [
         'TABLE' => 'DOTS_DOC_TYPE',
     ];
-    $selectDocTypeRows = $queries->selectQuery($selectDocTypeData, getPdoConnection());
+    $selectDocTypeRows = $queries->selectQuery($selectDocTypeData, getPdoConnection())[0];
+
     // Initialize array to store keys of input fields that have been changed
     $notEqualKeys = [];
 
@@ -520,11 +521,11 @@ function editDocument($inputs, $conn)
 
         }
         // Check if new value is different from old value, and add to the array of changed keys
-        if ($newInputs != $oldInputs) {
+        if ($newInputs !== $oldInputs) {
             $notEqualKeys[] = "$val($oldInputs = $newInputs)";
         }
     }
-    
+
     // Construct server notes based on the changes made
     $server_notes = implode(" , ", $notEqualKeys);
 
@@ -1185,8 +1186,8 @@ function receiveDoc($inputs, $conn)
         'TABLE' => 'DOTS_DOCUMENT',
         'DATA' => $inputs['DATA'],
     );
-    $lastId = $queries->insertQuery($insertDocumentData,getPdoConnection());
-    $results[] = $lastId; //id of the last inserted row
+    $results[] = $queries->insertQuery($insertDocumentData,getPdoConnection());
+    $lastId = $conn->insert_id; //id of the last inserted row
 
     //get doc_num, route_num and actionid
     $selectDocumentData = [
@@ -1197,7 +1198,8 @@ function receiveDoc($inputs, $conn)
             ]
         ]
     ];
-    $selectDocumentRow = $queries->selectQuery($selectDocumentData,getPdoConnection())[0];
+    $selectDocumentRow = $queries->selectQuery($selectDocumentData,getPdoConnection());
+
     //add log create/ receive doc
     $insertLogData = [
         'TABLE' => 'DOTS_TRACKING',
@@ -1617,8 +1619,8 @@ function receiveDocUser($inputs, $conn)
     ];
 
     $results[] = $queries->insertQuery($insertLogData,getPdoConnection());
-    $lastId = $queries->insertQuery($insertData,getPdoConnection());
-    $results[] = $lastId;
+    $results[] = $queries->insertQuery($insertData,getPdoConnection());
+    $lastId = $conn->insert_id;
 
     $updateData['DATA']['OUTBOUND_ID'] = $lastId;
     $results[] = update($updateData);
@@ -2088,20 +2090,6 @@ function update($updateData)
     return $updateResult;
 }
 
-function selectSingleRow($selectData)
-{
-    $queries = new Queries();
-    global $conn;
-
-    // $selectSql = $queries->selectQuery($selectData);
-    // $selectResult = $conn->query($selectSql);
-    // $selectRow = $selectResult->fetch_assoc();
-
-    // return $selectRow;
-
-    return $queries->selectQuery($selectData, getPdoConnection());
-
-}
 function returnFileLocation($id)
 {
     $queries = new Queries();
@@ -2255,14 +2243,4 @@ function getTableRow($id)
     ]);
 }
 
-function checkSuccess($success)
-{
-    if (!$success) {
-        json_encode([
-            'VALID' => false,
-            'MESSAGE' => ":((("
-        ]);
-        exit;
-    }
-}
 ?>

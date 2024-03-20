@@ -1,4 +1,5 @@
 <?php
+
 class Queries
 {
     // jsonformat== '{
@@ -21,7 +22,7 @@ class Queries
     //     "ORDER BY": "t1.column1",
     //     "LIMIT": 10
     // }';
-    function selectQuery($inputs,$pdo)
+    function selectQuery($inputs)
     {
         $sql = "SELECT ";
 
@@ -47,15 +48,6 @@ class Queries
         }
 
         if (isset($inputs['WHERE'])) {
-            // $whereConditions = [];
-            // foreach ($inputs['WHERE'] as $logicalOperator => $conditions) {
-            //     $innerConditions = [];
-            //     foreach ($conditions as $column => $value) {
-            //         $innerConditions[] = "$column = '$value'";
-            //     }
-            //     $whereConditions[] = '(' . implode(" $logicalOperator ", $innerConditions) . ')';
-            // }
-            // $sql .= ' WHERE ' . implode(' AND ', $whereConditions);
 
             $whereData = $inputs['WHERE'];
             $whereConditions = [];
@@ -75,43 +67,11 @@ class Queries
             $sql .= ' ORDER BY ' . $inputs['ORDER_BY'];
         }
 
-        $stmt = $pdo->prepare($sql);
-        if (!$stmt) {
-            json_encode([
-                'VALID' => false,
-                'MESSAGE' => ":((( <3"
-            ]);
-            exit;
-        }
+        $sql .= ";";
+        $sql = str_replace('&#39;', "'", $sql);
+        // echo $sql;
 
-        // Bind parameters
-        if (isset ($inputs['WHERE'])) {
-            $whereData = $inputs['WHERE'];
-            $i = 1;
-            foreach ($whereData as $value) {
-                foreach ($value as $value2) {
-                    foreach ($value2 as $value3) {
-                        $stmt->bindValue($i++, $value3);
-                    }
-                }
-            }
-        }
-
-        $success = $stmt->execute();
-        if (!$success) {
-            json_encode([
-                'VALID' => false,
-                'MESSAGE' => ":((("
-            ]);
-            exit;
-        }
-
-        $results = [];
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $results[] = $row;
-        }
-
-        return $results;
+        return $sql;
     }
 
     // jsonFormat= = '{
@@ -122,35 +82,23 @@ class Queries
     //         "column3": "value3"
     //     }
     // }';
-    function insertQuery($inputs, $pdo)
+    function insertQuery($inputs)
     {
         $tableName = $inputs['TABLE'];
         $data = $inputs['DATA'];
 
-        // Construct the SQL query with placeholders
         $sql = "INSERT INTO $tableName (";
+
         $sql .= implode(', ', array_keys($data));
+
         $sql .= ') VALUES (';
-        $sql .= rtrim(str_repeat('?, ', count($data)), ', ');
-        $sql .= ')';
 
-        $stmt = $pdo->prepare($sql);
+        $sql .= "'" . implode("', '", array_values($data)) . "')";
 
-        $i = 1;
-        foreach ($data as $value) {
-            $stmt->bindValue($i++, $value);
-        }
+        $sql .= ";";
+        // echo $sql;
 
-        $success = $stmt->execute();
-        if (!$success) {
-            json_encode([
-                'VALID' => false,
-                'MESSAGE' => ":((("
-            ]);
-            exit;
-        }
-
-        return $pdo->lastInsertId();
+        return $sql;
     }
 
     // jsonFormat = '{
