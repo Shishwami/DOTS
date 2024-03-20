@@ -21,7 +21,7 @@ class Queries
     //     "ORDER BY": "t1.column1",
     //     "LIMIT": 10
     // }';
-    function selectQuery($inputs)
+    function selectQuery($inputs,$pdo)
     {
         $sql = "SELECT ";
 
