@@ -1,12 +1,12 @@
 <?php
+// Include necessary PHP files for database connection and queries
 include "DB_Connect.php";
 include "Queries.php";
 
+// Start a PHP session if not already started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
-$sql = '';
 
 try {
     // Retrieve JSON input data and sanitize it
@@ -22,7 +22,7 @@ try {
         case 'USER_LOGIN':
             userLogin($inputs, $conn);
             break;
-        
+
         // Get current date
         case 'GET_DATE':
             get_Date($inputs);
@@ -140,10 +140,10 @@ try {
 
 } catch (mysqli_sql_exception $th) {
     // Handle MySQLi exceptions
-    echo '' . $th->getMessage() . '\r\n asd' . $sql;
+    echo '' . $th->getMessage() . '\r\n asd';
 } catch (Exception $th) {
     // Handle general exceptions
-    echo '' . $th->getMessage() . '\r\n asd' . $sql;
+    echo '' . $th->getMessage() . '\r\n asd';
 }
 
 /**
@@ -159,10 +159,8 @@ try {
  */
 function userLogin($inputs, $conn)
 {
-    // Initialize variables for login status and message
+    // Initialize variables for login status
     $valid = false;
-    $message = "";
-
     // Extract username and password from input data
     $username = $inputs['WHERE']['USERNAME'];
     $password = $inputs['WHERE']['PASSWORD'];
@@ -192,64 +190,94 @@ function userLogin($inputs, $conn)
 
     // Check if user data is empty (indicating invalid credentials)
     if (empty ($selectUserRow)) {
-        $message = "Invalid Username or Password.";
-    } else {
-        // If credentials are valid, set login status to true and set session variables
-        $valid = true;
-        $message = "Redirecting";
-        foreach ($selectUserRow as $key => $value) {
-            $_SESSION[$key] = $value;
-        }
+        echo json_encode([
+            'VALID' => $valid,
+            'MESSAGE' => "Invalid Username or Password.",
+        ]);
+        exit;
+    }
+
+    // If credentials are valid, set login status to true
+    $valid = true;
+    // Set session variables
+    foreach ($selectUserRow as $key => $value) {
+        $_SESSION[$key] = $value;
     }
 
     // Echo JSON-encoded response indicating login status and message
     echo json_encode([
         'VALID' => $valid,
-        'MESSAGE' => $message,
+        'MESSAGE' => "Log in Successfull, Redirecting",
     ]);
 }
 
+
+/**
+ * Function to retrieve current date or time based on input.
+ *
+ * This function returns the current date or time based on the value of the input parameter 'DATE'.
+ * Possible values for 'DATE' parameter: "DATE", "TIME", "DATE_TIME".
+ * 
+ * @param array $inputs Input data containing the key 'DATE' specifying the type of time to retrieve.
+ *                     Expected format: ['DATE' => 'string'].
+ * @return string Current date or time based on the input parameter.
+ */
 function get_Date($inputs)
 {
-    $time = "";
+    $time = ""; // Initialize variable to store the current date or time
+    $valid = false; // Initialize variable to indicate if the operation was successful
 
+    // Retrieve current date or time based on the value of the 'DATE' parameter
     if ($inputs['DATE'] == "DATE") {
-        $time = date("Y-m-d");
-        $valid = true;
+        $time = date("Y-m-d"); // Format: YYYY-MM-DD
+        $valid = true; // Set validity flag to true
     }
 
     if ($inputs['DATE'] == "TIME") {
-        $time = date('h:i');
+        $time = date('h:i'); // Format: HH:MM (12-hour format)
+        $valid = true; // Set validity flag to true
     }
 
     if ($inputs['DATE'] == "DATE_TIME") {
-        $time = date("Y-m-d\TH:i");
+        $time = date("Y-m-d\TH:i"); // Format: YYYY-MM-DDTHH:MM (ISO 8601 format)
+        $valid = true; // Set validity flag to true
     }
 
-    if ($time != "") {
-        $valid = true;
-    }
-
+    // Prepare and echo JSON-encoded response including validity status and time
     echo json_encode(
         array(
             'VALID' => $valid,
             'TIME' => $time,
         )
     );
+
+    // Return the current date or time
     return $time;
 }
 
+
+/**
+ * Function to retrieve a value from the session.
+ *
+ * This function retrieves the value associated with the specified key from the session.
+ * If the key exists in the session, the function sets the validity flag to true and returns the value.
+ * If the key does not exist, the function sets the validity flag to false.
+ * 
+ * @param string $key The key whose value needs to be retrieved from the session.
+ * @return void This function echoes JSON-encoded response indicating the validity and the session value.
+ */
 function getSessionValue($key)
 {
-    $valid = false;
-    $sessionValue = '';
+    $valid = false; // Initialize variable to indicate if the session value exists
+    $sessionValue = ''; // Initialize variable to store the session value
 
-    if (isset ($_SESSION[$key])) {
-        $valid = true;
-        $sessionValue = $_SESSION[$key];
-
+    // Check if the specified key exists in the session
+    if (isset($_SESSION[$key])) {
+        $valid = true; // Set validity flag to true
+        $sessionValue = $_SESSION[$key]; // Retrieve session value associated with the key
     }
 
+    // Prepare and echo JSON-encoded response including validity status and session value
     echo json_encode(
         array(
             'VALID' => $valid,
@@ -257,42 +285,79 @@ function getSessionValue($key)
         )
     );
 }
+
+/**
+ * Function to sanitize input data recursively.
+ *
+ * This function sanitizes input data recursively. If the input is an array,
+ * it iterates through each element and sanitizes them recursively.
+ * If the input is a string, it sanitizes it using FILTER_SANITIZE_STRING filter.
+ * 
+ * @param mixed $input The input data to be sanitized.
+ * @return mixed The sanitized input data.
+ */
 function sanitizeInputs($input)
 {
+    // Check if the input is an array
     if (is_array($input)) {
+        // Iterate through each element of the array
         foreach ($input as $key => $value) {
+            // Recursively sanitize each element of the array
             $input[$key] = sanitizeInputs($value);
         }
     } else {
+        // If the input is not an array (i.e., it's a string), sanitize it using FILTER_SANITIZE_STRING filter
         $input = filter_var($input, FILTER_SANITIZE_STRING);
     }
+    
+    // Return the sanitized input data
     return $input;
 }
+
+/**
+ * Function to retrieve the current document number from the database.
+ *
+ * This function retrieves the current document number from the database table DOTS_NUM_SEQUENCE.
+ * It executes a select query to fetch the current value from the table.
+ * 
+ * @param array $inputs Input data (not used in this function).
+ * @param mysqli $conn MySQLi database connection object.
+ * @return void This function echoes JSON-encoded response indicating the validity and the current document number.
+ */
 function getDocNum($inputs, $conn)
 {
+    // Instantiate Queries class to access query methods
     $queries = new Queries();
 
-    $valid = false;
+    $valid = false; // Initialize variable to indicate if the operation was successful
+    $doc_num = 0; // Initialize variable to store the current document number
+
+    // Define data for the select query
     $data = array(
         'TABLE' => 'DOTS_NUM_SEQUENCE',
         'COLUMNS' => array(
             'CURRENT_VALUE',
         ),
-        // 'ORDER_BY' => 'DOC_NUM DESC'
     );
 
+    // Generate SQL query using the selectQuery method from Queries class
     $sql = $queries->selectQuery($data);
+
+    // Execute the SQL query
     $result = mysqli_query($conn, $sql);
 
-    $doc_num = 0;
+    // Check if the query was successful
     if ($result) {
-        $valid = true;
+        $valid = true; // Set validity flag to true
+        // Fetch the result row as an associative array
         $row = $result->fetch_assoc();
-        if (isset ($row['CURRENT_VALUE'])) {
-            $doc_num = $row['CURRENT_VALUE'];
+        // Check if the 'CURRENT_VALUE' column exists in the result
+        if (isset($row['CURRENT_VALUE'])) {
+            $doc_num = $row['CURRENT_VALUE']; // Retrieve the current document number
         }
     }
 
+    // Prepare and echo JSON-encoded response including validity status and the current document number
     echo json_encode(
         array(
             'VALID' => $valid,
@@ -300,11 +365,24 @@ function getDocNum($inputs, $conn)
         )
     );
 }
+
+/**
+ * Function to retrieve document details from the database.
+ *
+ * This function retrieves document details from the database table DOTS_DOCUMENT based on the provided document ID.
+ * It executes a select query to fetch the document details and converts the date-time format to HTML datetime string.
+ * 
+ * @param array $inputs Input data containing the document ID.
+ *                     Expected format: ['DATA' => ['ID' => 'string']].
+ * @param mysqli $conn MySQLi database connection object.
+ * @return void This function echoes JSON-encoded response containing the document details.
+ */
 function getDocument($inputs, $conn)
 {
-
+    // Instantiate Queries class to access query methods
     $queries = new Queries();
 
+    // Define data for the select query to retrieve document details
     $selectDocData = [
         'TABLE' => 'DOTS_DOCUMENT',
         "WHERE" => [
@@ -314,13 +392,20 @@ function getDocument($inputs, $conn)
         ],
     ];
 
+    // Generate SQL query using the selectQuery method from Queries class
     $selectDocSql = $queries->selectQuery($selectDocData);
+
+    // Execute the SQL query
     $selectDocResult = $conn->query($selectDocSql);
+
+    // Fetch the result row as an associative array
     $selectDocRow = $selectDocResult->fetch_assoc();
 
+    // Convert the PHP timestamp to HTML datetime string
     $php_timestamp = strtotime($selectDocRow['DATE_TIME_RECEIVED']);
     $html_datetime_string = date('Y-m-d\TH:i', $php_timestamp);
 
+    // Prepare data for JSON encoding
     $selectOutputData = [
         'ID' => $selectDocRow['ID'],
         'ACTION_ID' => $selectDocRow['ACTION_ID'],
@@ -331,11 +416,10 @@ function getDocument($inputs, $conn)
         'DOC_SUBJECT' => $selectDocRow['DOC_SUBJECT'],
     ];
 
-    echo json_encode(
-        $selectOutputData
-    );
-
+    // Echo JSON-encoded response containing the document details
+    echo json_encode($selectOutputData);
 }
+
 
 function editDocument($inputs, $conn)
 {
