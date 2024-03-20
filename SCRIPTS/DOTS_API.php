@@ -733,7 +733,8 @@ function cancelReceive($inputs, $conn)
 
 function cancelSend($inputs, $conn)
 {
-    $queries = new Queries();
+    global $queries, $conn, $pdo;
+
     $valid = false;
     $results = [];
     $requiredFields = [
@@ -866,7 +867,7 @@ function cancelSend($inputs, $conn)
 
 function getOptions($tableName, $columnName, $conn)
 {
-    $queries = new Queries();
+    global $queries, $conn, $pdo;
 
     $valid = false;
     $data = array(
@@ -899,7 +900,7 @@ function getOptions($tableName, $columnName, $conn)
 }
 function getAddressee($inputs, $conn)
 {
-    $queries = new Queries();
+    global $queries, $conn, $pdo;
 
     $valid = false;
     $data = array(
@@ -939,7 +940,8 @@ function getAddressee($inputs, $conn)
 
 function sendDocForm($inputs, $conn)
 {
-    $queries = new Queries();
+    global $queries, $conn, $pdo;
+
     $valid = false;
     $newRoutingNumber = 0;
     $lastInboundId = 0;
@@ -1136,7 +1138,8 @@ function sendDocForm($inputs, $conn)
 
 function receiveDoc($inputs, $conn)
 {
-    $queries = new Queries();
+    global $queries, $conn, $pdo;
+
     $valid = false;
     $results = [];
 
@@ -1238,7 +1241,8 @@ function receiveDoc($inputs, $conn)
 }
 function getTableMain($inputs, $conn)
 {
-    $queries = new Queries();
+    global $queries, $conn, $pdo;
+
     $tableName = 'DOTS_DOCUMENT';
     $data = array(
         'TABLE' => 'DOTS_DOCUMENT',
@@ -1347,7 +1351,8 @@ function getTableMain($inputs, $conn)
 
 function getTableUser($inputs, $conn, $tableName)
 {
-    $queries = new Queries();
+    global $queries, $conn, $pdo;
+
     $buttons = [];
     $WHERE = [];
 
@@ -1536,7 +1541,8 @@ function setupTable($result, $buttons, $tableName)
 }
 function receiveDocUser($inputs, $conn)
 {
-    $queries = new Queries();
+    global $queries, $conn, $pdo;
+
     $valid = false;
     $results = [];
 
@@ -1641,7 +1647,8 @@ function receiveDocUser($inputs, $conn)
 }
 function sendDocFormUser($inputs, $conn)
 {
-    $queries = new Queries();
+    global $queries, $conn, $pdo;
+
     $newRouteNumber = 0;
     $insertOutboundData = [];
     $valid = false;
@@ -1890,8 +1897,7 @@ function sendDocFormUser($inputs, $conn)
 }
 function getTableTracking($inputs, $conn)
 {
-    $queries = new Queries();
-
+    global $queries, $conn, $pdo;
 
     if ($_SESSION['DOTS_PRIV'] < 1) {
         echo json_encode(
@@ -1953,7 +1959,7 @@ function getTableTracking($inputs, $conn)
 }
 function getTableAttachment($inputs, $conn)
 {
-    $queries = new Queries();
+    global $queries, $conn, $pdo;
 
     if ($_SESSION['DOTS_PRIV'] < 2) {
         echo json_encode(
@@ -2074,7 +2080,8 @@ function validateInputsEdit($requiredFields, $inputs)
 
 function returnFileLocation($id)
 {
-    $queries = new Queries();
+    global $queries, $conn, $pdo;
+
     $selectAttachmentData = [
         'TABLE' => 'DOTS_ATTACHMENTS',
         'WHERE' => [
