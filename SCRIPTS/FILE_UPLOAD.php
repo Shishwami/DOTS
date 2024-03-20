@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
         mkdir($targetDir, 0777, true);
     }
 
-    $conn->begin_transaction();
+    $pdo->beginTransaction();
     if (move_uploaded_file($_FILES['ATTACH_FILE']['tmp_name'], $targetFile)) {
         // File uploaded successfully
         $insertAttachmentData = [
@@ -62,10 +62,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
                 'DESCRIPTION' => $_POST['DESCRIPTION'],
             ]
         ];
-        $insertAttachmentSql = $queries->insertQuery($insertAttachmentData,getPdoConnection());
+        $insertAttachmentSql = $queries->insertQuery($insertAttachmentData, getPdoConnection());
+        echo "ASDASD $insertAttachmentSql ASd";
 
-        if (!empty($insertAttachmentResult)) {
-            $conn->commit();
+        if ($insertAttachmentSql != 0) {
+            $pdo->commit();
             echo json_encode(
                 array(
                     'VALID' => true,
@@ -73,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
                 )
             );
         } else {
-            $conn->rollback();
+            $pdo->rollback();
             unlink($targetFile);
             echo json_encode(
                 array(
@@ -106,7 +107,7 @@ function selectDocument($id)
             ]
         ]
     ];
-    $selectDocumentRow = $queries->selectQuery($selectDocumentData,getPdoConnection())[0];
+    $selectDocumentRow = $queries->selectQuery($selectDocumentData, getPdoConnection())[0];
 
     return $selectDocumentRow;
 }
