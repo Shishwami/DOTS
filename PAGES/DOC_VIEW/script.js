@@ -260,7 +260,7 @@ function setTrackingTable(id, doc_num, route_num) {
 
         }
         JsFunctions.updateTable(DOC_VIEW_TRACKING, response.RESULT, null, searchBar.value.toUpperCase());
-        setTable(searchBar.value.toUpperCase(), action_type);
+        setTable(searchBar.value.toUpperCase());
     }, data);
 
 }
