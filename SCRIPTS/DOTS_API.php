@@ -422,26 +422,24 @@ function getDocument($inputs, $conn)
 
 
 /**
- * Function to edit document details in the database.
+ * Function to edit a document in the database.
  *
- * This function allows editing of document details in the database table DOTS_DOCUMENT.
- * It validates inputs, performs necessary data transformations, executes update queries,
- * and logs the changes made to the document.
+ * This function edits a document in the database based on the provided inputs.
+ * It validates the inputs, checks user privileges, retrieves existing document data,
+ * performs necessary conversions, compares old and new inputs, updates the document,
+ * logs the edit action, and handles transaction commits or rollbacks.
  * 
- * @param array $inputs Input data containing the updated document details.
- *                     Expected format: ['DATA' => ['ID' => 'string', 'ACTION_ID' => 'string', ...other fields...]].
+ * @param array $inputs Input data containing the document details to be edited.
  * @param mysqli $conn MySQLi database connection object.
- * @return void This function echoes JSON-encoded response indicating the success or failure of the edit operation.
+ * @return void This function echoes JSON-encoded response indicating the success of the operation and any messages.
  */
 function editDocument($inputs, $conn)
 {
-    // Instantiate Queries class to access query methods
-    $queries = new Queries();
-
-    $message = ""; // Initialize variable to store the message indicating the outcome of the operation
+    $queries = new Queries(); // Instantiate Queries class to access query methods
+    $message = ""; // Initialize variable to store message
     $valid = false; // Initialize variable to indicate if the operation was successful
-    $results = []; // Initialize array to store the results of individual operations
-    $requiredInputs = [ // Define required input fields and their corresponding labels
+    $results = []; // Initialize array to store results
+    $requiredInputs = [ // Define required input fields
         "ACTION_ID" => "Action",
         "DATE_TIME_RECEIVED" => 'Date Received',
         "DOC_SUBJECT" => 'Subject',
@@ -451,7 +449,7 @@ function editDocument($inputs, $conn)
         "S_OFFICE_ID" => "Office",
     ];
 
-    // Validate inputs for required fields
+    // Validate input fields
     if (!validateInputsEdit($requiredInputs, $inputs)) {
         echo json_encode(
             array(
@@ -462,7 +460,7 @@ function editDocument($inputs, $conn)
         exit;
     }
 
-    // Check user privilege level
+    // Check user privileges
     if ($_SESSION['DOTS_PRIV'] < 3) {
         echo json_encode(
             array(
@@ -473,10 +471,10 @@ function editDocument($inputs, $conn)
         exit;
     }
 
-    // Begin database transaction
+    // Start transaction
     $conn->begin_transaction();
 
-    // Select document data based on the provided document ID
+    // Select document data based on provided document ID
     $selectDocData = [
         'TABLE' => 'DOTS_DOCUMENT',
         'WHERE' => [
@@ -487,7 +485,7 @@ function editDocument($inputs, $conn)
     ];
     $selectDocResult = selectSingleRow($selectDocData);
 
-    // Select department data
+    // Select office data
     $selectDeptData = [
         'TABLE' => 'DOTS_DOC_OFFICE',
     ];
@@ -503,15 +501,10 @@ function editDocument($inputs, $conn)
     $selectDocTypeResult = $conn->query($selectDocTypeSql);
     $selectDocTypeRows = resultsToArray($selectDocTypeResult);
 
-    // Initialize array to store keys of input fields that have been changed
     $notEqualKeys = [];
-
-    // Iterate over required input fields to compare old and new values
     foreach ($requiredInputs as $key => $val) {
         $newInputs = $inputs['DATA'][$key];
         $oldInputs = $selectDocResult[$key];
-
-        // Perform specific transformations for certain fields
         if ($key == "DATE_TIME_RECEIVED") {
             $timestampNew = strtotime($newInputs);
             $newInputs = date("d-m-y h:i A", $timestampNew);
@@ -538,18 +531,15 @@ function editDocument($inputs, $conn)
             } elseif ($newInputs == 3) {
                 $newInputs = "RECEIVED";
             }
+
         }
-        
-        // Check if new value is different from old value, and add to the array of changed keys
         if ($newInputs !== $oldInputs) {
             $notEqualKeys[] = "$val($oldInputs = $newInputs)";
         }
     }
-
-    // Construct server notes based on the changes made
     $server_notes = implode(" , ", $notEqualKeys);
 
-    // If no changes were made, return a message indicating so
+    // Check if any inputs were changed
     if ($server_notes == "") {
         echo json_encode(
             array(
@@ -569,7 +559,7 @@ function editDocument($inputs, $conn)
         ]
     ];
 
-    // Determine the appropriate message based on the document's route number
+    // Determine the message based on the existence of route number
     if ($selectDocResult['ROUTE_NUM'] == 0) {
         $message = "Document $selectDocResult[DOC_NUM] Updated";
     } else {
@@ -583,25 +573,41 @@ function editDocument($inputs, $conn)
             'DOC_NUM' => $selectDocResult["DOC_NUM"],
             'ROUTE_NUM' => $selectDocResult["ROUTE_NUM"],
             'HRIS_ID' => $_SESSION['HRIS_ID'],
-            'ACTION_ID' => 6,//ACTION_ID EDIT
+            'ACTION_ID' => 6, // ACTION_ID EDIT
             'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
             'NOTE_SERVER' => "$server_notes",
         ]
     ];
     $insertDocLogResult = insert($insertDocLogData);
 
-    // Remove document ID from the input data to avoid updating it
     unset($inputs['DATA']['ID']);
-
-    // Execute update query for the document
     $updateDocSql = $queries->updateQuery($updateDocData);
     $updateDocResult = $conn->query($updateDocSql);
 
-    // Store the results of individual operations
+    // Store the results of insert and update operations
     $results[] = !is_null($insertDocLogResult);
     $results[] = !is_null($updateDocResult);
 
-    // Check if all operations were
+    // Check if all operations were successful
+    $valid = checkArray($results);
+    if ($valid) {
+        $conn->commit(); // Commit the transaction
+        echo json_encode(
+            array(
+                'VALID' => $updateDocResult,
+                'MESSAGE' => $message
+            )
+        );
+    } else {
+        $conn->rollback(); // Rollback the transaction
+        echo json_encode(
+            array(
+                'VALID' => $updateDocResult,
+                'MESSAGE' => "SERVER ERROR"
+            )
+        );
+    }
+}
 
 function cancelReceive($inputs, $conn)
 {
