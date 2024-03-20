@@ -1093,7 +1093,7 @@ function sendDocForm($inputs, $conn)
         $results[] = update($updateDocumentData);
     }
 
-    $lastInboundId[] = $queries->insertQuery($insertInboundData,getPdoConnection());
+    $lastInboundId = $queries->insertQuery($insertInboundData,getPdoConnection());
     $results[] = $lastInboundId;
 
     $formattedDocumentNumber = formatDocumentNumber($checkRoutedRow['DOC_NUM'], $newRoutingNumber);
@@ -2012,9 +2012,9 @@ function formatDateTime($dateString)
 {
     $date = new DateTime($dateString);
     $hours = $date->format('H');
+    $ampm = $hours >= 12 ? 'pm' : 'am';
     $hours = $hours % 12;
     $minutes = $date->format('i');
-    $ampm = $hours >= 12 ? 'pm' : 'am';
     $strTime = $hours . ':' . $minutes . ' ' . $ampm;
     return $date->format('D, m/j/Y') . "  " . $strTime;
 }
