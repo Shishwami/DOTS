@@ -305,11 +305,15 @@ function convertHTMLtoPDF() {
                     <div class="doc_retslip">
                         <div class="banner">Return Slip</div>
 
-                        <label for="dt_rec">Date|Time Received: </label>
-                        <textarea name="dt_rec" id="" cols="30" rows="1"></textarea>
+                        <div class="retgroup">
+                            <label for="dt_rec">Date|Time Received: </label>
+                            <textarea name="dt_rec" id="" cols="33" rows="1"></textarea>
+                        </div>
 
-                        <label for="received">Received By: </label>
-                        <textarea name="received" id="" cols="30" rows="1"></textarea>
+                        <div class="retgroup">
+                            <label for="received">Received By: </label>
+                            <textarea name="received" id="" cols="38" rows="1"></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
