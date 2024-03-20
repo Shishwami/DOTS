@@ -475,13 +475,13 @@ function editDocument($inputs, $conn)
     $selectDeptData = [
         'TABLE' => 'DOTS_DOC_OFFICE',
     ];
-    $selectDeptRows = $queries->selectQuery($selectDeptData, getPdoConnection())[0];
+    $selectDeptRows = $queries->selectQuery($selectDeptData, getPdoConnection());
 
     // Select document type data
     $selectDocTypeData = [
         'TABLE' => 'DOTS_DOC_TYPE',
     ];
-    $selectDocTypeRows = $queries->selectQuery($selectDocTypeData, getPdoConnection())[0];
+    $selectDocTypeRows = $queries->selectQuery($selectDocTypeData, getPdoConnection());
 
     // Initialize array to store keys of input fields that have been changed
     $notEqualKeys = [];
@@ -521,7 +521,7 @@ function editDocument($inputs, $conn)
 
         }
         // Check if new value is different from old value, and add to the array of changed keys
-        if ($newInputs !== $oldInputs) {
+        if ($newInputs != $oldInputs) {
             $notEqualKeys[] = "$val($oldInputs = $newInputs)";
         }
     }
@@ -2231,8 +2231,7 @@ function getTableRow($id)
         'TABLE' => 'DOTS_DOC_PRPS'
     ];
 
-    $selectPrpsResults = $queries->selectQuery($selectPrpsData, getPdoConnection())[0];
-
+    $selectPrpsResults = $queries->selectQuery($selectPrpsData, getPdoConnection());
     $selectDocumentRow = $queries->selectQuery($data,getPdoConnection())[0];
 
     $selectDocumentRow['Date Received'] = formatDateTime($selectDocumentRow['Date Received']);
