@@ -48,83 +48,83 @@ switch ($inputs['REQUEST']) {
 
     // Get document number
     case 'GET_DOC_NUM':
-        getDocNum($inputs, $conn);
+        getDocNum($inputs);
         break;
     // Get addressee information
     case 'GET_ADDRESSEE':
-        getAddressee($inputs, $conn);
+        getAddressee($inputs);
         break;
 
     // Get document details
     case "GET_DOCUMENT":
-        getDocument($inputs, $conn);
+        getDocument($inputs);
         break;
     // Edit document
     case 'EDIT_DOCUMENT':
-        editDocument($inputs, $conn);
+        editDocument($inputs);
         break;
     // Cancel document received
     case 'CANCEL_RECEIVE':
-        cancelReceive($inputs, $conn);
+        cancelReceive($inputs);
         break;
     // Cancel document sending
     case 'CANCEL_SEND':
-        cancelSend($inputs, $conn);
+        cancelSend($inputs);
         break;
     // Get document type options
     case "GET_DOC_TYPE":
-        getOptions('DOTS_DOC_TYPE', 'DOC_TYPE', $conn);
+        getOptions('DOTS_DOC_TYPE', 'DOC_TYPE');
         break;
     // Get department options
     case 'GET_DEPT':
-        getOptions('DOTS_DOC_DEPT', 'DOC_DEPT', $conn);
+        getOptions('DOTS_DOC_DEPT', 'DOC_DEPT');
         break;
     // Get document office options
     case 'GET_DOC_OFFICE':
-        getOptions('DOTS_DOC_OFFICE', 'DOC_OFFICE', $conn);
+        getOptions('DOTS_DOC_OFFICE', 'DOC_OFFICE');
         break;
     // Get document purpose options
     case 'GET_DOC_PRPS':
-        getOptions('DOTS_DOC_PRPS', 'DOC_PRPS', $conn);
+        getOptions('DOTS_DOC_PRPS', 'DOC_PRPS');
         break;
 
     // Receive document
     case 'RECEIVE_DOC':
-        receiveDoc($inputs, $conn);
+        receiveDoc($inputs);
         break;
     // Send document form
     case 'SEND_DOC_FORM':
-        sendDocForm($inputs, $conn);
+        sendDocForm($inputs);
         break;
 
     // Get main table data
     case 'GET_TABLE_MAIN':
-        getTableMain($inputs, $conn);
+        getTableMain($inputs);
         break;
     // Get inbound table data
     case 'GET_TABLE_INBOUND':
-        getTableUser($inputs, $conn, 'DOTS_DOCUMENT_INBOUND');
+        getTableUser($inputs, 'DOTS_DOCUMENT_INBOUND');
         break;
     // Get outbound table data
     case 'GET_TABLE_OUTBOUND':
-        getTableUser($inputs, $conn, 'DOTS_DOCUMENT_OUTBOUND');
+        getTableUser($inputs, 'DOTS_DOCUMENT_OUTBOUND');
         break;
     // Get attachment table data
     case 'GET_TABLE_ATTACHMENT':
-        getTableAttachment($inputs, $conn);
+        getTableAttachment($inputs);
         break;
     // Get tracking table data
     case 'GET_TABLE_TRACKING':
-        getTableTracking($inputs, $conn);
+        getTableTracking($inputs);
         break;
 
     // Receive document for user
     case 'RECEIVE_DOC_USER':
-        receiveDocUser($inputs, $conn);
+        receiveDocUser($inputs);
         break;
     // Send document form for user
     case 'SEND_DOC_USER':
-        sendDocFormUser($inputs, $conn);
+        sendDocFormUser($inputs);
         break;
 
     // Get attachment file location
@@ -368,7 +368,7 @@ function getDocNum($inputs)
  * @param mysqli $conn MySQLi database connection object.
  * @return void This function echoes JSON-encoded response containing the document details.
  */
-function getDocument($inputs, $conn)
+function getDocument($inputs)
 {
     // Instantiate Queries class to access query methods
     global $queries, $conn, $pdo;
@@ -418,7 +418,7 @@ function getDocument($inputs, $conn)
  * @param mysqli $conn MySQLi database connection object.
  * @return void This function echoes JSON-encoded response indicating the success of the operation and any messages.
  */
-function editDocument($inputs, $conn)
+function editDocument($inputs)
 {
     global $queries, $conn, $pdo;
     $message = ""; // Initialize variable to store message
@@ -597,7 +597,7 @@ function editDocument($inputs, $conn)
     }
 }
 
-function cancelReceive($inputs, $conn)
+function cancelReceive($inputs)
 {
     global $queries, $conn, $pdo;
     $valid = false;
@@ -731,7 +731,7 @@ function cancelReceive($inputs, $conn)
 }
 
 
-function cancelSend($inputs, $conn)
+function cancelSend($inputs)
 {
     global $queries, $conn, $pdo;
 
@@ -865,7 +865,7 @@ function cancelSend($inputs, $conn)
     }
 }
 
-function getOptions($tableName, $columnName, $conn)
+function getOptions($tableName, $columnName)
 {
     global $queries, $conn, $pdo;
 
@@ -898,7 +898,7 @@ function getOptions($tableName, $columnName, $conn)
         )
     );
 }
-function getAddressee($inputs, $conn)
+function getAddressee($inputs)
 {
     global $queries, $conn, $pdo;
 
@@ -938,7 +938,7 @@ function getAddressee($inputs, $conn)
     );
 }
 
-function sendDocForm($inputs, $conn)
+function sendDocForm($inputs)
 {
     global $queries, $conn, $pdo;
 
@@ -1136,7 +1136,7 @@ function sendDocForm($inputs, $conn)
     }
 }
 
-function receiveDoc($inputs, $conn)
+function receiveDoc($inputs)
 {
     global $queries, $conn, $pdo;
 
@@ -1239,7 +1239,7 @@ function receiveDoc($inputs, $conn)
         );
     }
 }
-function getTableMain($inputs, $conn)
+function getTableMain($inputs)
 {
     global $queries, $conn, $pdo;
 
@@ -1349,7 +1349,7 @@ function getTableMain($inputs, $conn)
     setupTable($result, $buttons, $tableName);
 }
 
-function getTableUser($inputs, $conn, $tableName)
+function getTableUser($inputs, $tableName)
 {
     global $queries, $conn, $pdo;
 
@@ -1539,7 +1539,7 @@ function setupTable($result, $buttons, $tableName)
         )
     );
 }
-function receiveDocUser($inputs, $conn)
+function receiveDocUser($inputs)
 {
     global $queries, $conn, $pdo;
 
@@ -1645,7 +1645,7 @@ function receiveDocUser($inputs, $conn)
     }
 
 }
-function sendDocFormUser($inputs, $conn)
+function sendDocFormUser($inputs)
 {
     global $queries, $conn, $pdo;
 
@@ -1895,7 +1895,7 @@ function sendDocFormUser($inputs, $conn)
         );
     }
 }
-function getTableTracking($inputs, $conn)
+function getTableTracking($inputs)
 {
     global $queries, $conn, $pdo;
 
@@ -1957,7 +1957,7 @@ function getTableTracking($inputs, $conn)
     $selectTableResult = $queries->selectQuery($selectTableData, getPdoConnection());
     setupTable($selectTableResult, null, 'DOTS_TRACKING');
 }
-function getTableAttachment($inputs, $conn)
+function getTableAttachment($inputs)
 {
     global $queries, $conn, $pdo;
 
