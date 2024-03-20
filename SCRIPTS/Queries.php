@@ -68,8 +68,11 @@ class Queries
 
         $stmt = $pdo->prepare($sql);
         if (!$stmt) {
-            // handle error
-            return false;
+            json_encode([
+                'VALID' => false,
+                'MESSAGE' => ":((( <3"
+            ]);
+            exit;
         }
 
         // Bind parameters
@@ -85,7 +88,6 @@ class Queries
             }
         }
 
-        // Execute the statement
         $success = $stmt->execute();
         if (!$success) {
             json_encode([
@@ -94,16 +96,12 @@ class Queries
             ]);
             exit;
         }
+        $results = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $results[] = $row;
+        }
 
-        // while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        //     // Print each row
-        //     foreach ($row as $key => $value) {
-        //         echo "$key: $value      ";
-        //     }
-        //     echo "<br>";
-        // }
-
-        return  $stmt->fetch(PDO::FETCH_ASSOC);
+        return $results;
     }
 
 
