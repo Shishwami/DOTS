@@ -96,6 +96,7 @@ class Queries
             ]);
             exit;
         }
+
         $results = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $results[] = $row;
@@ -113,23 +114,35 @@ class Queries
     //         "column3": "value3"
     //     }
     // }';
-    function insertQuery($inputs)
+    function insertQuery($inputs, $pdo)
     {
         $tableName = $inputs['TABLE'];
         $data = $inputs['DATA'];
 
+        // Construct the SQL query with placeholders
         $sql = "INSERT INTO $tableName (";
-
         $sql .= implode(', ', array_keys($data));
-
         $sql .= ') VALUES (';
+        $sql .= rtrim(str_repeat('?, ', count($data)), ', ');
+        $sql .= ')';
 
-        $sql .= "'" . implode("', '", array_values($data)) . "')";
+        $stmt = $pdo->prepare($sql);
 
-        $sql .= ";";
-        // echo $sql;
+        $i = 1;
+        foreach ($data as $value) {
+            $stmt->bindValue($i++, $value);
+        }
 
-        return $sql;
+        $success = $stmt->execute();
+        if (!$success) {
+            json_encode([
+                'VALID' => false,
+                'MESSAGE' => ":((("
+            ]);
+            exit;
+        }
+
+        return $pdo->lastInsertId();
     }
 
     // jsonFormat = '{
