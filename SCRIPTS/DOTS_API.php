@@ -9,7 +9,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-try {
+// try {
     // Retrieve JSON input data and sanitize it
     $inputs = json_decode(file_get_contents("php://input"), true);
     $inputs = sanitizeInputs($inputs);
@@ -139,13 +139,13 @@ try {
     // Close the database connection
     $conn->close();
 
-} catch (mysqli_sql_exception $th) {
-    // Handle MySQLi exceptions
-    echo '' . $th->getMessage() . '\r\n asd';
-} catch (Exception $th) {
-    // Handle general exceptions
-    echo '' . $th->getMessage() . '\r\n asd';
-}
+// } catch (mysqli_sql_exception $th) {
+//     // Handle MySQLi exceptions
+//     echo '' . $th->getMessage() . '\r\n asd';
+// } catch (Exception $th) {
+//     // Handle general exceptions
+//     echo '' . $th->getMessage() . '\r\n asd';
+// }
 
 /**
  * Function to handle user login.
@@ -1186,8 +1186,8 @@ function receiveDoc($inputs, $conn)
         'TABLE' => 'DOTS_DOCUMENT',
         'DATA' => $inputs['DATA'],
     );
-    $results[] = $queries->insertQuery($insertDocumentData,getPdoConnection());
-    $lastId = $conn->insert_id; //id of the last inserted row
+    $lastId = $queries->insertQuery($insertDocumentData,getPdoConnection())[0];
+    $results[] = $lastId; //id of the last inserted row
 
     //get doc_num, route_num and actionid
     $selectDocumentData = [
@@ -1198,7 +1198,7 @@ function receiveDoc($inputs, $conn)
             ]
         ]
     ];
-    $selectDocumentRow = $queries->selectQuery($selectDocumentData,getPdoConnection());
+    $selectDocumentRow = $queries->selectQuery($selectDocumentData,getPdoConnection())[0];
 
     //add log create/ receive doc
     $insertLogData = [
