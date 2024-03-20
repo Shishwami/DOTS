@@ -9,126 +9,165 @@ if (session_status() === PHP_SESSION_NONE) {
 $sql = '';
 
 try {
+    // Retrieve JSON input data and sanitize it
     $inputs = json_decode(file_get_contents("php://input"), true);
     $inputs = sanitizeInputs($inputs);
-    // var_dump($inputs);
 
-    $REQUEST = $inputs['REQUEST'];
-    // if (!isset($inputs['REQUEST'])) {
-    //     var_dump($inputs);
-    // }
-
+    // Set the default timezone
     date_default_timezone_set("Asia/Manila");
 
-    switch ($REQUEST) {
+    // Determine the action based on the value of REQUEST
+    switch ($inputs['REQUEST']) {
+        // Handle user login
         case 'USER_LOGIN':
             userLogin($inputs, $conn);
             break;
+        
+        // Get current date
         case 'GET_DATE':
             get_Date($inputs);
             break;
 
-        //REMAKE
-
+        // Get session value for full name
         case 'GET_SESSION_NAME':
             getSessionValue("FULL_NAME");
             break;
+        // Get session value for initials
         case 'GET_SESSION_INITIAL':
             getSessionValue("INIITAL");
             break;
+        // Get session value for HRIS ID
         case 'GET_SESSION_HRIS_ID':
             getSessionValue("HRIS_ID");
             break;
+        // Get session value for department ID
         case 'GET_SESSION_DEPT_ID':
             getSessionValue("DEPT_ID");
             break;
 
+        // Get document number
         case 'GET_DOC_NUM':
             getDocNum($inputs, $conn);
             break;
+        // Get addressee information
         case 'GET_ADDRESSEE':
             getAddressee($inputs, $conn);
             break;
 
+        // Get document details
         case "GET_DOCUMENT":
             getDocument($inputs, $conn);
             break;
+        // Edit document
         case 'EDIT_DOCUMENT':
             editDocument($inputs, $conn);
             break;
+        // Cancel document received
         case 'CANCEL_RECEIVE':
             cancelReceive($inputs, $conn);
             break;
+        // Cancel document sending
         case 'CANCEL_SEND':
             cancelSend($inputs, $conn);
             break;
+        // Get document type options
         case "GET_DOC_TYPE":
             getOptions('DOTS_DOC_TYPE', 'DOC_TYPE', $conn);
             break;
+        // Get department options
         case 'GET_DEPT':
             getOptions('DOTS_DOC_DEPT', 'DOC_DEPT', $conn);
             break;
+        // Get document office options
         case 'GET_DOC_OFFICE':
             getOptions('DOTS_DOC_OFFICE', 'DOC_OFFICE', $conn);
             break;
+        // Get document purpose options
         case 'GET_DOC_PRPS':
             getOptions('DOTS_DOC_PRPS', 'DOC_PRPS', $conn);
             break;
 
+        // Receive document
         case 'RECEIVE_DOC':
             receiveDoc($inputs, $conn);
             break;
+        // Send document form
         case 'SEND_DOC_FORM':
             sendDocForm($inputs, $conn);
             break;
 
+        // Get main table data
         case 'GET_TABLE_MAIN':
             getTableMain($inputs, $conn);
             break;
+        // Get inbound table data
         case 'GET_TABLE_INBOUND':
             getTableUser($inputs, $conn, 'DOTS_DOCUMENT_INBOUND');
             break;
+        // Get outbound table data
         case 'GET_TABLE_OUTBOUND':
             getTableUser($inputs, $conn, 'DOTS_DOCUMENT_OUTBOUND');
             break;
+        // Get attachment table data
         case 'GET_TABLE_ATTACHMENT':
             getTableAttachment($inputs, $conn);
             break;
+        // Get tracking table data
         case 'GET_TABLE_TRACKING':
             getTableTracking($inputs, $conn);
             break;
 
+        // Receive document for user
         case 'RECEIVE_DOC_USER':
             receiveDocUser($inputs, $conn);
             break;
+        // Send document form for user
         case 'SEND_DOC_USER':
             sendDocFormUser($inputs, $conn);
             break;
 
+        // Get attachment file location
         case 'GET_ATTACHMENT':
             returnFileLocation($inputs['ID']);
             break;
+        // Get routing slip table row
         case 'GET_ROUTING_SLIP':
             getTableRow($inputs['ID']);
             break;
     }
+    // Close the database connection
     $conn->close();
 
 } catch (mysqli_sql_exception $th) {
-    // throw $th;
+    // Handle MySQLi exceptions
     echo '' . $th->getMessage() . '\r\n asd' . $sql;
 } catch (Exception $th) {
-    // throw $th;
+    // Handle general exceptions
     echo '' . $th->getMessage() . '\r\n asd' . $sql;
 }
+
+/**
+ * Function to handle user login.
+ *
+ * This function takes user credentials (username and password),
+ * verifies them against the database, and sets session variables
+ * if the credentials are valid.
+ *
+ * @param array $inputs User input data containing username and password.
+ * @param mysqli $conn MySQLi database connection object.
+ * @return void This function echoes JSON-encoded response indicating login status.
+ */
 function userLogin($inputs, $conn)
 {
+    // Initialize variables for login status and message
     $valid = false;
     $message = "";
 
+    // Extract username and password from input data
     $username = $inputs['WHERE']['USERNAME'];
     $password = $inputs['WHERE']['PASSWORD'];
 
+    // Construct query to select user data from the database
     $selectUserData = array(
         'TABLE' => 'DOTS_ACCOUNT_INFO',
         'COLUMNS' => array(
@@ -148,10 +187,14 @@ function userLogin($inputs, $conn)
         ),
     );
 
+    // Execute query to select user data
     $selectUserRow = selectSingleRow($selectUserData);
+
+    // Check if user data is empty (indicating invalid credentials)
     if (empty ($selectUserRow)) {
         $message = "Invalid Username or Password.";
     } else {
+        // If credentials are valid, set login status to true and set session variables
         $valid = true;
         $message = "Redirecting";
         foreach ($selectUserRow as $key => $value) {
@@ -159,12 +202,13 @@ function userLogin($inputs, $conn)
         }
     }
 
+    // Echo JSON-encoded response indicating login status and message
     echo json_encode([
         'VALID' => $valid,
         'MESSAGE' => $message,
     ]);
-
 }
+
 function get_Date($inputs)
 {
     $time = "";
@@ -478,6 +522,7 @@ function cancelReceive($inputs, $conn)
         );
         exit;
     }
+
     if ($_SESSION['DOTS_PRIV'] < 1) {
         echo json_encode(
             array(
@@ -487,6 +532,7 @@ function cancelReceive($inputs, $conn)
         );
         exit;
     }
+
     $conn->begin_transaction();
 
     //get outboundid for deletion
