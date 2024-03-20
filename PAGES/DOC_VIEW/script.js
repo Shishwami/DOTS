@@ -311,7 +311,6 @@ function setPrinting(id, doc_num, route_num) {
             label.appendChild(document.createTextNode(docPrps));
 
             container.appendChild(label);
-            container.appendChild(document.createElement('br')); // Add line break
 
             counter++;
             if (counter % max === 0) { // Check if 5 checkboxes are added
