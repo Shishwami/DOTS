@@ -571,8 +571,7 @@ function editDocument($inputs, $conn)
     $insertDocLogResult = $queries->insertQuery($insertDocLogData,getPdoConnection());
 
     unset($inputs['DATA']['ID']);
-    $updateDocSql = $queries->updateQuery($updateDocData);
-    $updateDocResult = $conn->query($updateDocSql);
+    $updateDocResult = $queries->updateQuery($updateDocData,getPdoConnection());
 
     // Store the results of insert and update operations
     $results[] = !is_null($insertDocLogResult);
@@ -649,8 +648,7 @@ function cancelReceive($inputs, $conn)
             ]
         ],
     ];
-    $selectInboundRow = $queries->selectQuery($selectInboundData,getPdoConnection());
-    var_dump($selectReceiveRow);
+    $selectInboundRow = $queries->selectQuery($selectInboundData,getPdoConnection())[0];
     if ($selectInboundRow['ROUTED'] == 1) {
         echo json_encode(
             [
@@ -673,8 +671,7 @@ function cancelReceive($inputs, $conn)
         ],
     ];
 
-    $deleteDocSql = $queries->updateQuery($deleteDocData);
-    $deleteDocResult = $conn->query($deleteDocSql);
+    $deleteDocResult = $queries->updateQuery($deleteDocData,getPdoConnection());
     $results[] = !is_null($deleteDocResult);
 
     $updateReceiveData = [
@@ -692,8 +689,7 @@ function cancelReceive($inputs, $conn)
         $updateReceiveData['DATA']['R_USER_ID'] = 0;
     }
 
-    $updateReceiveSql = $queries->updateQuery($updateReceiveData);
-    $updateReceiveResult = $conn->query($updateReceiveSql);
+    $updateReceiveResult = $queries->updateQuery($updateReceiveData,getPdoConnection());
     $results[] = !is_null($updateReceiveResult);
 
     //add to logs
@@ -810,8 +806,7 @@ function cancelSend($inputs, $conn)
             'ID' => $selectReceiveRow['INBOUND_ID']
         ],
     ];
-    $deleteDocSql = $queries->updateQuery($deleteDocData);
-    $deleteDocResult = $conn->query($deleteDocSql);
+    $deleteDocResult = $queries->updateQuery($deleteDocData,getPdoConnection());
     $results[] = !is_null($deleteDocResult);
 
     //update the doc in outbound to have no send data
@@ -829,8 +824,7 @@ function cancelSend($inputs, $conn)
             'ID' => $inputs['DATA']['CANCEL_S_ID']
         ]
     ];
-    $updateReceiveSql = $queries->updateQuery($updateReceiveData);
-    $updateReceiveResult = $conn->query($updateReceiveSql);
+    $updateReceiveResult = $queries->updateQuery($updateReceiveData,getPdoConnection());
     $results[] = !is_null($updateReceiveResult);
 
     // add to logs
@@ -1090,7 +1084,7 @@ function sendDocForm($inputs, $conn)
         $results[] = $queries->insertQuery($insertDocumentLogData,getPdoConnection());
 
     } else if ($checkRoutedRow['ROUTED'] == 0) {
-        $results[] = update($updateDocumentData);
+        $results[] = $queries->updateQuery($updateDocumentData,getPdoConnection());
     }
 
     $lastInboundId = $queries->insertQuery($insertInboundData,getPdoConnection());
@@ -1619,11 +1613,11 @@ function receiveDocUser($inputs, $conn)
     ];
 
     $results[] = $queries->insertQuery($insertLogData,getPdoConnection());
-    $lastId[] = $queries->insertQuery($insertData,getPdoConnection());
+    $lastId = $queries->insertQuery($insertData,getPdoConnection());
     $results[] = $lastId;
 
     $updateData['DATA']['OUTBOUND_ID'] = $lastId;
-    $results[] = update($updateData);
+    $results[] = $queries->updateQuery($updateData,getPdoConnection());
 
     $valid = checkArray($results);
     if ($valid) {
@@ -1826,11 +1820,11 @@ function sendDocFormUser($inputs, $conn)
         $results[] = $queries->insertQuery($insertOutboundData,getPdoConnection());
 
     } else if ($selectOutboundRow['ROUTED'] == 0) {
-        $results[] = $queries->insertQuery($insertInboundData,getPdoConnection());
-        $last_id = $conn->insert_id;
+        $last_id = $queries->insertQuery($insertInboundData,getPdoConnection());
+        $results[] = $last_id;
 
         $updateOutboundData['DATA']['INBOUND_ID'] = $last_id;
-        $results[] = update($updateOutboundData);
+        $results[] = $queries->updateQuery($updateOutboundData,getPdoConnection());
     }
 
     $selectReceiverData = [
@@ -2078,17 +2072,6 @@ function validateInputsEdit($requiredFields, $inputs)
     return true;
 }
 
-
-function update($updateData)
-{
-    $queries = new Queries();
-    global $conn;
-
-    $updateSql = $queries->updateQuery($updateData);
-    $updateResult = $conn->query($updateSql);
-
-    return $updateResult;
-}
 
 function returnFileLocation($id)
 {
