@@ -272,7 +272,7 @@ function getSessionValue($key)
     $sessionValue = ''; // Initialize variable to store the session value
 
     // Check if the specified key exists in the session
-    if (isset($_SESSION[$key])) {
+    if (isset ($_SESSION[$key])) {
         $valid = true; // Set validity flag to true
         $sessionValue = $_SESSION[$key]; // Retrieve session value associated with the key
     }
@@ -309,7 +309,7 @@ function sanitizeInputs($input)
         // If the input is not an array (i.e., it's a string), sanitize it using FILTER_SANITIZE_STRING filter
         $input = filter_var($input, FILTER_SANITIZE_STRING);
     }
-    
+
     // Return the sanitized input data
     return $input;
 }
@@ -352,7 +352,7 @@ function getDocNum($inputs, $conn)
         // Fetch the result row as an associative array
         $row = $result->fetch_assoc();
         // Check if the 'CURRENT_VALUE' column exists in the result
-        if (isset($row['CURRENT_VALUE'])) {
+        if (isset ($row['CURRENT_VALUE'])) {
             $doc_num = $row['CURRENT_VALUE']; // Retrieve the current document number
         }
     }
@@ -501,10 +501,15 @@ function editDocument($inputs, $conn)
     $selectDocTypeResult = $conn->query($selectDocTypeSql);
     $selectDocTypeRows = resultsToArray($selectDocTypeResult);
 
+    // Initialize array to store keys of input fields that have been changed
     $notEqualKeys = [];
+
+    // Iterate over required input fields to compare old and new values
     foreach ($requiredInputs as $key => $val) {
         $newInputs = $inputs['DATA'][$key];
         $oldInputs = $selectDocResult[$key];
+
+        // Perform specific transformations for certain fields
         if ($key == "DATE_TIME_RECEIVED") {
             $timestampNew = strtotime($newInputs);
             $newInputs = date("d-m-y h:i A", $timestampNew);
@@ -533,10 +538,13 @@ function editDocument($inputs, $conn)
             }
 
         }
+        // Check if new value is different from old value, and add to the array of changed keys
         if ($newInputs !== $oldInputs) {
             $notEqualKeys[] = "$val($oldInputs = $newInputs)";
         }
     }
+    
+    // Construct server notes based on the changes made
     $server_notes = implode(" , ", $notEqualKeys);
 
     // Check if any inputs were changed
