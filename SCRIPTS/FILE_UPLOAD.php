@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 include './Queries.php';
 include './DB_Connect.php';
 
-$queries = new Queries();
+$queries = new Queries($pdo);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
 
@@ -30,14 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
         exit;
     }
 
-    global $conn, $queries;
-
     $message = "";
     $valid = false;
 
     $documentRow = selectDocument($_POST['ID']);
-
-    var_dump($documentRow);
 
     $config = parse_ini_file('config.ini', true);
     $uploadDirectory = $config['ftp_credentials']['ftp_server'];
@@ -62,8 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
                 'DESCRIPTION' => $_POST['DESCRIPTION'],
             ]
         ];
-        $insertAttachmentSql = $queries->insertQuery($insertAttachmentData, getPdoConnection());
-        echo "ASDASD $insertAttachmentSql ASd";
+        $insertAttachmentSql = $queries->insertQuery($insertAttachmentData);
 
         if ($insertAttachmentSql != 0) {
             $pdo->commit();
@@ -107,7 +102,7 @@ function selectDocument($id)
             ]
         ]
     ];
-    $selectDocumentRow = $queries->selectQuery($selectDocumentData, getPdoConnection())[0];
+    $selectDocumentRow = $queries->selectQuery($selectDocumentData)[0];
 
     return $selectDocumentRow;
 }

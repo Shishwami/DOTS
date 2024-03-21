@@ -2,7 +2,8 @@
 // Include necessary PHP files for database connection and queries
 include "DB_Connect.php";
 include "Queries.php";
-$queries = new Queries();
+
+$queries = new Queries($pdo);
 
 // Start a PHP session if not already started
 if (session_status() === PHP_SESSION_NONE) {
@@ -88,6 +89,11 @@ switch ($inputs['REQUEST']) {
         getOptions('DOTS_DOC_PRPS', 'DOC_PRPS');
         break;
 
+    // Get year filter
+    case 'GET_FILTER_YEAR':
+        getOptions('DOTS_FILTER_YEAR', 'YEAR');
+        break;
+
     // Receive document
     case 'RECEIVE_DOC':
         receiveDoc($inputs);
@@ -137,7 +143,7 @@ switch ($inputs['REQUEST']) {
         break;
 }
 // Close the database connection
-$conn->close();
+$pdo = null;
 
 // } catch (mysqli_sql_exception $th) {
 //     // Handle MySQLi exceptions
@@ -155,12 +161,11 @@ $conn->close();
  * if the credentials are valid.
  *
  * @param array $inputs User input data containing username and password.
- * @param mysqli $conn MySQLi database connection object.
  * @return void This function echoes JSON-encoded response indicating login status.
  */
 function userLogin($inputs)
 {
-    global $queries, $conn, $pdo;
+    global $queries, $pdo;
     // Initialize variables for login status
     $valid = false;
     // Extract username and password from input data
@@ -188,7 +193,7 @@ function userLogin($inputs)
     );
 
     // Execute query to select user data
-    $selectUserRow = $queries->selectQuery($selectUserData, getPdoConnection());
+    $selectUserRow = $queries->selectQuery($selectUserData);
 
     // Check if user data is empty (indicating invalid credentials)
     if (empty ($selectUserRow)) {
@@ -323,13 +328,12 @@ function sanitizeInputs($input)
  * It executes a select query to fetch the current value from the table.
  * 
  * @param array $inputs Input data (not used in this function).
- * @param mysqli $conn MySQLi database connection object.
  * @return void This function echoes JSON-encoded response indicating the validity and the current document number.
  */
 function getDocNum($inputs)
 {
     // Instantiate Queries class to access query methods
-    global $queries, $conn, $pdo;
+    global $queries, $pdo;
 
     $valid = false; // Initialize variable to indicate if the operation was successful
     $doc_num = 0; // Initialize variable to store the current document number
@@ -341,7 +345,7 @@ function getDocNum($inputs)
             'CURRENT_VALUE',
         ),
     );
-    $row = $queries->selectQuery($data, getPdoConnection())[0];
+    $row = $queries->selectQuery($data)[0];
 
     if (isset ($row['CURRENT_VALUE'])) {
         $valid = true;
@@ -365,13 +369,12 @@ function getDocNum($inputs)
  * 
  * @param array $inputs Input data containing the document ID.
  *                     Expected format: ['DATA' => ['ID' => 'string']].
- * @param mysqli $conn MySQLi database connection object.
  * @return void This function echoes JSON-encoded response containing the document details.
  */
 function getDocument($inputs)
 {
     // Instantiate Queries class to access query methods
-    global $queries, $conn, $pdo;
+    global $queries, $pdo;
 
     // Define data for the select query to retrieve document details
     $selectDocData = [
@@ -384,7 +387,7 @@ function getDocument($inputs)
     ];
 
     // Fetch the result row as an associative array
-    $selectDocRow = $queries->selectQuery($selectDocData, getPdoConnection())[0];
+    $selectDocRow = $queries->selectQuery($selectDocData)[0];
 
     // Convert the PHP timestamp to HTML datetime string
     $php_timestamp = strtotime($selectDocRow['DATE_TIME_RECEIVED']);
@@ -415,12 +418,11 @@ function getDocument($inputs)
  * logs the edit action, and handles transaction commits or rollbacks.
  * 
  * @param array $inputs Input data containing the document details to be edited.
- * @param mysqli $conn MySQLi database connection object.
  * @return void This function echoes JSON-encoded response indicating the success of the operation and any messages.
  */
 function editDocument($inputs)
 {
-    global $queries, $conn, $pdo;
+    global $queries, $pdo;
     $message = ""; // Initialize variable to store message
     $valid = false; // Initialize variable to indicate if the operation was successful
     $results = []; // Initialize array to store results
@@ -457,7 +459,7 @@ function editDocument($inputs)
     }
 
     // Start transaction
-    $conn->begin_transaction();
+    $pdo->beginTransaction();
 
     // Select document data based on provided document ID
     $selectDocData = [
@@ -468,19 +470,19 @@ function editDocument($inputs)
             ]
         ]
     ];
-    $selectDocResult = $queries->selectQuery($selectDocData, getPdoConnection())[0];
+    $selectDocResult = $queries->selectQuery($selectDocData)[0];
 
     // Select office data
     $selectDeptData = [
         'TABLE' => 'DOTS_DOC_OFFICE',
     ];
-    $selectDeptRows = $queries->selectQuery($selectDeptData, getPdoConnection());
+    $selectDeptRows = $queries->selectQuery($selectDeptData);
 
     // Select document type data
     $selectDocTypeData = [
         'TABLE' => 'DOTS_DOC_TYPE',
     ];
-    $selectDocTypeRows = $queries->selectQuery($selectDocTypeData, getPdoConnection());
+    $selectDocTypeRows = $queries->selectQuery($selectDocTypeData);
 
     // Initialize array to store keys of input fields that have been changed
     $notEqualKeys = [];
@@ -567,10 +569,10 @@ function editDocument($inputs)
             'NOTE_SERVER' => "$server_notes",
         ]
     ];
-    $insertDocLogResult = $queries->insertQuery($insertDocLogData, getPdoConnection());
+    $insertDocLogResult = $queries->insertQuery($insertDocLogData);
 
     unset($inputs['DATA']['ID']);
-    $updateDocResult = $queries->updateQuery($updateDocData, getPdoConnection());
+    $updateDocResult = $queries->updateQuery($updateDocData);
 
     // Store the results of insert and update operations
     $results[] = !is_null($insertDocLogResult);
@@ -579,7 +581,7 @@ function editDocument($inputs)
     // Check if all operations were successful
     $valid = checkArray($results);
     if ($valid) {
-        $conn->commit(); // Commit the transaction
+        $pdo->commit();// Commit the transaction
         echo json_encode(
             array(
                 'VALID' => $updateDocResult,
@@ -587,7 +589,7 @@ function editDocument($inputs)
             )
         );
     } else {
-        $conn->rollback(); // Rollback the transaction
+        $pdo->rollBack(); // Rollback the transaction
         echo json_encode(
             array(
                 'VALID' => $updateDocResult,
@@ -599,7 +601,7 @@ function editDocument($inputs)
 
 function cancelReceive($inputs)
 {
-    global $queries, $conn, $pdo;
+    global $queries, $pdo;
     $valid = false;
     $results = [];
     $requiredFields = [
@@ -626,7 +628,7 @@ function cancelReceive($inputs)
         exit;
     }
 
-    $conn->begin_transaction();
+    $pdo->beginTransaction();
 
     //get outboundid for deletion
     $selectReceiveData = [
@@ -637,7 +639,7 @@ function cancelReceive($inputs)
             ),
         ]
     ];
-    $selectReceiveRow = $queries->selectQuery($selectReceiveData, getPdoConnection())[0];
+    $selectReceiveRow = $queries->selectQuery($selectReceiveData)[0];
 
     $selectInboundData = [
         'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
@@ -647,7 +649,7 @@ function cancelReceive($inputs)
             ]
         ],
     ];
-    $selectInboundRow = $queries->selectQuery($selectInboundData, getPdoConnection())[0];
+    $selectInboundRow = $queries->selectQuery($selectInboundData)[0];
     if ($selectInboundRow['ROUTED'] == 1) {
         echo json_encode(
             [
@@ -670,7 +672,7 @@ function cancelReceive($inputs)
         ],
     ];
 
-    $deleteDocResult = $queries->updateQuery($deleteDocData, getPdoConnection());
+    $deleteDocResult = $queries->updateQuery($deleteDocData);
     $results[] = !is_null($deleteDocResult);
 
     $updateReceiveData = [
@@ -688,7 +690,7 @@ function cancelReceive($inputs)
         $updateReceiveData['DATA']['R_USER_ID'] = 0;
     }
 
-    $updateReceiveResult = $queries->updateQuery($updateReceiveData, getPdoConnection());
+    $updateReceiveResult = $queries->updateQuery($updateReceiveData);
     $results[] = !is_null($updateReceiveResult);
 
     //add to logs
@@ -705,14 +707,14 @@ function cancelReceive($inputs)
             'NOTE_SERVER' => "Receiving canceled by user",
         ]
     ];
-    $insertRCancelToLogsResult = $queries->insertQuery($insertRCancelToLogsData, getPdoConnection());
+    $insertRCancelToLogsResult = $queries->insertQuery($insertRCancelToLogsData);
     $results[] = !is_null($insertRCancelToLogsResult);
 
     $valid = checkArray($results);
     if ($valid) {
-        $conn->commit();
+        $pdo->commit();
     } else {
-        $conn->rollback();
+        $pdo->rollBack();
         echo json_encode(
             array(
                 "VALID" => $valid,
@@ -733,7 +735,7 @@ function cancelReceive($inputs)
 
 function cancelSend($inputs)
 {
-    global $queries, $conn, $pdo;
+    global $queries, $pdo;
 
     $valid = false;
     $results = [];
@@ -760,7 +762,7 @@ function cancelSend($inputs)
         exit;
     }
 
-    $conn->begin_transaction();
+    $pdo->beginTransaction();
 
     //get outboundid for deletion
     $selectReceiveData = [
@@ -771,7 +773,7 @@ function cancelSend($inputs)
             ),
         ]
     ];
-    $selectReceiveRow = $queries->selectQuery($selectReceiveData, getPdoConnection())[0];
+    $selectReceiveRow = $queries->selectQuery($selectReceiveData)[0];
 
     $selectOutboundData = [
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
@@ -781,7 +783,7 @@ function cancelSend($inputs)
             ]
         ],
     ];
-    $selectOutboundRow = $queries->selectQuery($selectOutboundData, getPdoConnection())[0];
+    $selectOutboundRow = $queries->selectQuery($selectOutboundData)[0];
 
     if ($selectOutboundRow['ACTION_ID'] == 2) {
         //routed and sent; and cannot be canceled 
@@ -806,7 +808,7 @@ function cancelSend($inputs)
             'ID' => $selectReceiveRow['INBOUND_ID']
         ],
     ];
-    $deleteDocResult = $queries->updateQuery($deleteDocData, getPdoConnection());
+    $deleteDocResult = $queries->updateQuery($deleteDocData);
     $results[] = !is_null($deleteDocResult);
 
     //update the doc in outbound to have no send data
@@ -824,7 +826,7 @@ function cancelSend($inputs)
             'ID' => $inputs['DATA']['CANCEL_S_ID']
         ]
     ];
-    $updateReceiveResult = $queries->updateQuery($updateReceiveData, getPdoConnection());
+    $updateReceiveResult = $queries->updateQuery($updateReceiveData);
     $results[] = !is_null($updateReceiveResult);
 
     // add to logs
@@ -842,12 +844,12 @@ function cancelSend($inputs)
             'NOTE_SERVER' => "Sending Document canceled by sender",
         ]
     ];
-    $insertSCancelToLogsResult = $queries->insertQuery($insertSCancelToLogsData, getPdoConnection());
+    $insertSCancelToLogsResult = $queries->insertQuery($insertSCancelToLogsData);
     $results[] = !is_null($insertSCancelToLogsResult);
 
     $valid = checkArray($results);
     if ($valid) {
-        $conn->commit();
+        $pdo->commit();
         echo json_encode(
             array(
                 'VALID' => $valid,
@@ -855,7 +857,7 @@ function cancelSend($inputs)
             )
         );
     } else {
-        $conn->rollback();
+        $pdo->rollBack();
         echo json_encode(
             array(
                 'VALID' => $valid,
@@ -867,7 +869,7 @@ function cancelSend($inputs)
 
 function getOptions($tableName, $columnName)
 {
-    global $queries, $conn, $pdo;
+    global $queries, $pdo;
 
     $valid = false;
     $data = array(
@@ -878,7 +880,7 @@ function getOptions($tableName, $columnName)
         ),
     );
 
-    $result = $queries->selectQuery($data, getPdoConnection());
+    $result = $queries->selectQuery($data);
 
     $formattedOptions = [];
     if ($result) {
@@ -900,7 +902,7 @@ function getOptions($tableName, $columnName)
 }
 function getAddressee($inputs)
 {
-    global $queries, $conn, $pdo;
+    global $queries, $pdo;
 
     $valid = false;
     $data = array(
@@ -916,7 +918,7 @@ function getAddressee($inputs)
         ]
     );
 
-    $result = $queries->selectQuery($data, getPdoConnection());
+    $result = $queries->selectQuery($data);
 
     $formattedOptions = [];
     if ($result) {
@@ -940,7 +942,7 @@ function getAddressee($inputs)
 
 function sendDocForm($inputs)
 {
-    global $queries, $conn, $pdo;
+    global $queries, $pdo;
 
     $valid = false;
     $newRoutingNumber = 0;
@@ -980,7 +982,7 @@ function sendDocForm($inputs)
     }
 
 
-    $conn->begin_transaction();
+    $pdo->beginTransaction();
 
     if (isset ($inputs['DATA']['R_USER_ID'])) {
         $r_user_id = $inputs['DATA']['R_USER_ID'];
@@ -1010,7 +1012,7 @@ function sendDocForm($inputs)
             ]
         ],
     ];
-    $checkRoutedRow = $queries->selectQuery($checkRoutedData, getPdoConnection())[0];
+    $checkRoutedRow = $queries->selectQuery($checkRoutedData)[0];
 
     $updateDocumentData = [
         'TABLE' => 'DOTS_DOCUMENT',
@@ -1031,7 +1033,7 @@ function sendDocForm($inputs)
             ]
         ],
     ];
-    $selectReceiverRow = $queries->selectQuery($selectReceiverData, getPdoConnection())[0];
+    $selectReceiverRow = $queries->selectQuery($selectReceiverData)[0];
 
     $selectDeptData = [
         'TABLE' => 'DOTS_DOC_DEPT',
@@ -1041,7 +1043,7 @@ function sendDocForm($inputs)
             ]
         ],
     ];
-    $selectDeptRow = $queries->selectQuery($selectDeptData, getPdoConnection())[0];
+    $selectDeptRow = $queries->selectQuery($selectDeptData)[0];
 
     if ($checkRoutedRow['ROUTED'] == 1) {
         $selectDocumentData = [
@@ -1053,7 +1055,7 @@ function sendDocForm($inputs)
             ],
             'ORDER_BY' => 'ROUTE_NUM DESC'
         ];
-        $selectDocumentRow = $queries->selectQuery($selectDocumentData, getPdoConnection())[0];
+        $selectDocumentRow = $queries->selectQuery($selectDocumentData)[0];
         unset($selectDocumentRow['ID']);
 
         $newRoutingNumber = intval($selectDocumentRow['ROUTE_NUM']) + 1;
@@ -1065,7 +1067,7 @@ function sendDocForm($inputs)
             'TABLE' => 'DOTS_DOCUMENT',
             'DATA' => $selectDocumentRow,
         ];
-        $results[] = $queries->insertQuery($insertDocumentData, getPdoConnection());
+        $results[] = $queries->insertQuery($insertDocumentData);
 
         $insertDocumentLogData = [
             'TABLE' => 'DOTS_TRACKING',
@@ -1082,13 +1084,13 @@ function sendDocForm($inputs)
         if (isset ($inputs['DATA']['DOC_NOTES'])) {
             $insertDocumentLogData['DATA']['NOTE_USER'] = $inputs['DATA']['DOC_NOTES'];
         }
-        $results[] = $queries->insertQuery($insertDocumentLogData, getPdoConnection());
+        $results[] = $queries->insertQuery($insertDocumentLogData);
 
     } else if ($checkRoutedRow['ROUTED'] == 0) {
-        $results[] = $queries->updateQuery($updateDocumentData, getPdoConnection());
+        $results[] = $queries->updateQuery($updateDocumentData);
     }
 
-    $lastInboundId = $queries->insertQuery($insertInboundData, getPdoConnection());
+    $lastInboundId = $queries->insertQuery($insertInboundData);
     $results[] = $lastInboundId;
 
     $formattedDocumentNumber = formatDocumentNumber($checkRoutedRow['DOC_NUM'], $newRoutingNumber);
@@ -1117,18 +1119,18 @@ function sendDocForm($inputs)
     }
 
     $insertOutboundData['DATA']['INBOUND_ID'] = $lastInboundId;
-    $results[] = $queries->insertQuery($insertOutboundData, getPdoConnection());
-    $results[] = $queries->insertQuery($insertInboundLogData, getPdoConnection());
+    $results[] = $queries->insertQuery($insertOutboundData);
+    $results[] = $queries->insertQuery($insertInboundLogData);
 
     $valid = checkArray($results);
     if ($valid) {
-        $conn->commit();
+        $pdo->commit();
         echo json_encode([
             'VALID' => $valid,
             "MESSAGE" => $note_server,
         ]);
     } else {
-        $conn->rollback();
+        $pdo->rollBack();
         echo json_encode([
             'VALID' => $valid,
             "MESSAGE" => "SERVER ERROR",
@@ -1138,7 +1140,7 @@ function sendDocForm($inputs)
 
 function receiveDoc($inputs)
 {
-    global $queries, $conn, $pdo;
+    global $queries, $pdo;
 
     $valid = false;
     $results = [];
@@ -1176,13 +1178,13 @@ function receiveDoc($inputs)
         );
         exit;
     }
-    $conn->begin_transaction();
+    $pdo->beginTransaction();
 
     $insertDocumentData = array(
         'TABLE' => 'DOTS_DOCUMENT',
         'DATA' => $inputs['DATA'],
     );
-    $lastId = $queries->insertQuery($insertDocumentData, getPdoConnection())[0];
+    $lastId = $queries->insertQuery($insertDocumentData)[0];
     $results[] = $lastId; //id of the last inserted row
 
     //get doc_num, route_num and actionid
@@ -1194,7 +1196,7 @@ function receiveDoc($inputs)
             ]
         ]
     ];
-    $selectDocumentRow = $queries->selectQuery($selectDocumentData, getPdoConnection())[0];
+    $selectDocumentRow = $queries->selectQuery($selectDocumentData)[0];
 
     //add log create/ receive doc
     $insertLogData = [
@@ -1209,7 +1211,7 @@ function receiveDoc($inputs)
             'DATE_TIME_ACTION' => $selectDocumentRow['DATE_TIME_RECEIVED'],
         ],
     ];
-    $results[] = $queries->insertQuery($insertLogData, getPdoConnection());
+    $results[] = $queries->insertQuery($insertLogData);
 
     $formattedDocumentNumber = formatDocumentNumber($selectDocumentRow['DOC_NUM'], $selectDocumentRow['ROUTE_NUM']);
     $formattedMessage = "";
@@ -1222,7 +1224,7 @@ function receiveDoc($inputs)
 
     $valid = checkArray($results);
     if ($valid) {
-        $conn->commit();
+        $pdo->commit();
         echo json_encode(
             array(
                 'VALID' => $valid,
@@ -1230,7 +1232,7 @@ function receiveDoc($inputs)
             )
         );
     } else {
-        $conn->rollback();
+        $pdo->rollBack();
         echo json_encode(
             array(
                 'VALID' => $valid,
@@ -1241,7 +1243,8 @@ function receiveDoc($inputs)
 }
 function getTableMain($inputs)
 {
-    global $queries, $conn, $pdo;
+    global $queries, $pdo;
+    $year = getDocYear($inputs['YEAR']);
 
     $tableName = 'DOTS_DOCUMENT';
     $data = array(
@@ -1320,9 +1323,14 @@ function getTableMain($inputs)
                 'TYPE' => 'LEFT'
             ),
         ],
+        'WHERE' => [
+            'AND' => [
+                ['YEAR(DOTS_DOCUMENT.LETTER_DATE)' => $year]
+            ]
+        ],
         'ORDER_BY' => 'DOTS_DOCUMENT.DOC_NUM DESC'
     );
-    $result = $queries->selectQuery($data, getPdoConnection());
+    $result = $queries->selectQuery($data);
 
     $buttons = array(
         [
@@ -1351,15 +1359,17 @@ function getTableMain($inputs)
 
 function getTableUser($inputs, $tableName)
 {
-    global $queries, $conn, $pdo;
+    global $queries, $pdo;
 
     $buttons = [];
     $WHERE = [];
+    $year = getDocYear($inputs['YEAR']);
 
     if ($tableName == "DOTS_DOCUMENT_INBOUND") {
         $WHERE[] = [
             "AND" => array(
                 array("$tableName.R_DEPT_ID" => $_SESSION["DEPT_ID"]),
+                array("YEAR(DOTS_DOCUMENT.LETTER_DATE)" => $year),
             ),
             "OR" => array(
                 array("$tableName.R_USER_ID" => $_SESSION["HRIS_ID"]),
@@ -1381,6 +1391,7 @@ function getTableUser($inputs, $tableName)
         $WHERE[] = [
             "AND" => array(
                 array("$tableName.S_DEPT_ID" => $_SESSION["DEPT_ID"]),
+                array("YEAR(DOTS_DOCUMENT.LETTER_DATE)" => $year),
             ),
             "OR" => array(
                 array("$tableName.S_USER_ID" => $_SESSION["HRIS_ID"]),
@@ -1482,7 +1493,7 @@ function getTableUser($inputs, $tableName)
     );
     $data['WHERE'] = $WHERE[0];
 
-    $result = $queries->selectQuery($data, getPdoConnection());
+    $result = $queries->selectQuery($data);
 
     $buttons[] = [
         'className' => 'btnT',
@@ -1541,7 +1552,7 @@ function setupTable($result, $buttons, $tableName)
 }
 function receiveDocUser($inputs)
 {
-    global $queries, $conn, $pdo;
+    global $queries, $pdo;
 
     $valid = false;
     $results = [];
@@ -1582,7 +1593,7 @@ function receiveDocUser($inputs)
             ]
         ]
     ];
-    $selectinboundRow = $queries->selectQuery($selectinboundData, getPdoConnection())[0];
+    $selectinboundRow = $queries->selectQuery($selectinboundData)[0];
     if ($selectinboundRow['ACTION_ID'] == 2) {
         echo json_encode(
             [
@@ -1601,7 +1612,7 @@ function receiveDocUser($inputs)
         );
         exit;
     }
-    $conn->begin_transaction();
+    $pdo->beginTransaction();
 
     //add log recieve by user
     $insertLogData = [
@@ -1617,16 +1628,16 @@ function receiveDocUser($inputs)
         ]
     ];
 
-    $results[] = $queries->insertQuery($insertLogData, getPdoConnection());
-    $lastId = $queries->insertQuery($insertData, getPdoConnection());
+    $results[] = $queries->insertQuery($insertLogData);
+    $lastId = $queries->insertQuery($insertData);
     $results[] = $lastId;
 
     $updateData['DATA']['OUTBOUND_ID'] = $lastId;
-    $results[] = $queries->updateQuery($updateData, getPdoConnection());
+    $results[] = $queries->updateQuery($updateData);
 
     $valid = checkArray($results);
     if ($valid) {
-        $conn->commit();
+        $pdo->commit();
         $formattedDocumentNumber = formatDocumentNumber($inputs['DATA']["DOC_NUM"], $inputs['DATA']["ROUTE_NUM"]);
         echo json_encode(
             array(
@@ -1635,7 +1646,7 @@ function receiveDocUser($inputs)
             )
         );
     } else {
-        $conn->rollback();
+        $pdo->rollBack();
         echo json_encode(
             array(
                 'VALID' => $valid,
@@ -1647,7 +1658,7 @@ function receiveDocUser($inputs)
 }
 function sendDocFormUser($inputs)
 {
-    global $queries, $conn, $pdo;
+    global $queries, $pdo;
 
     $newRouteNumber = 0;
     $insertOutboundData = [];
@@ -1691,7 +1702,7 @@ function sendDocFormUser($inputs)
         exit;
     }
 
-    $conn->begin_transaction();
+    $pdo->beginTransaction();
 
     //update outbound 
     $updateOutboundData = [
@@ -1741,7 +1752,7 @@ function sendDocFormUser($inputs)
             ),
         ),
     ];
-    $selectOutboundRow = $queries->selectQuery($selectOutboundData, getPdoConnection())[0];
+    $selectOutboundRow = $queries->selectQuery($selectOutboundData)[0];
 
     $selectReceiverData = [
         'TABLE' => 'DOTS_ACCOUNT_INFO',
@@ -1766,7 +1777,7 @@ function sendDocFormUser($inputs)
         $selectReceiverData['WHERE']['AND'][]['HRIS_ID'] = $inputs['DATA']['R_USER_ID'];
     }
 
-    $selectReceiverRow = $queries->selectQuery($selectReceiverData, getPdoConnection())[0];
+    $selectReceiverRow = $queries->selectQuery($selectReceiverData)[0];
 
     if ($selectOutboundRow['ROUTED'] == 1) {
         //if routed duplicate in docmain & outbound
@@ -1779,14 +1790,14 @@ function sendDocFormUser($inputs)
             ),
             'ORDER_BY' => 'ROUTE_NUM DESC'
         ];
-        $selectMainRow = $queries->selectQuery($selectMainData, getPdoConnection())[0];
+        $selectMainRow = $queries->selectQuery($selectMainData)[0];
 
         //reassign route number
         $newRouteNumber = intval($selectMainRow['ROUTE_NUM']) + 1;
         $insertInboundData['DATA']['ROUTE_NUM'] = $newRouteNumber;
         $selectMainRow['ROUTE_NUM'] = $newRouteNumber;
 
-        $last_id = $queries->insertQuery($insertInboundData, getPdoConnection());
+        $last_id = $queries->insertQuery($insertInboundData);
         $results = $last_id;
 
         //add to doc main
@@ -1795,7 +1806,7 @@ function sendDocFormUser($inputs)
             'TABLE' => 'DOTS_DOCUMENT',
             'DATA' => $selectMainRow,
         ];
-        $results[] = $queries->insertQuery($insertMainData, getPdoConnection());
+        $results[] = $queries->insertQuery($insertMainData);
 
         //add log doc main duplicate
         $insertMainLogData = [
@@ -1811,7 +1822,7 @@ function sendDocFormUser($inputs)
                 'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
             ],
         ];
-        $results[] = $queries->insertQuery($insertMainLogData, getPdoConnection());
+        $results[] = $queries->insertQuery($insertMainLogData);
 
         //add to outbound
         $selectOutboundRow['ROUTE_NUM'] = $newRouteNumber;
@@ -1823,14 +1834,14 @@ function sendDocFormUser($inputs)
         $insertOutboundData["DATA"]['DATE_TIME_SEND'] = $inputs['DATA']['DATE_TIME_SEND'];
         $insertOutboundData['DATA']["INBOUND_ID"] = $last_id;
 
-        $results[] = $queries->insertQuery($insertOutboundData, getPdoConnection());
+        $results[] = $queries->insertQuery($insertOutboundData);
 
     } else if ($selectOutboundRow['ROUTED'] == 0) {
-        $last_id = $queries->insertQuery($insertInboundData, getPdoConnection());
+        $last_id = $queries->insertQuery($insertInboundData);
         $results[] = $last_id;
 
         $updateOutboundData['DATA']['INBOUND_ID'] = $last_id;
-        $results[] = $queries->updateQuery($updateOutboundData, getPdoConnection());
+        $results[] = $queries->updateQuery($updateOutboundData);
     }
 
     $selectReceiverData = [
@@ -1841,7 +1852,7 @@ function sendDocFormUser($inputs)
             ]
         ],
     ];
-    $selectReceiverRow = $queries->selectQuery($selectReceiverData, getPdoConnection())[0];
+    $selectReceiverRow = $queries->selectQuery($selectReceiverData)[0];
     $selectDeptData = [
         'TABLE' => 'DOTS_DOC_DEPT',
         'WHERE' => [
@@ -1850,7 +1861,7 @@ function sendDocFormUser($inputs)
             ]
         ],
     ];
-    $selectDeptRow = $queries->selectQuery($selectDeptData, getPdoConnection())[0];
+    $selectDeptRow = $queries->selectQuery($selectDeptData)[0];
 
     $formattedDocumentNumber = formatDocumentNumber($selectOutboundRow['DOC_NUM'], $newRouteNumber);
     $note_server = "Document $formattedDocumentNumber sent to ";
@@ -1874,11 +1885,11 @@ function sendDocFormUser($inputs)
             'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
         ],
     ];
-    $results[] = $queries->insertQuery($insertMainLogData, getPdoConnection());
+    $results[] = $queries->insertQuery($insertMainLogData);
 
     $valid = checkArray($results);
     if ($valid) {
-        $conn->commit();
+        $pdo->commit();
         echo json_encode(
             array(
                 'VALID' => $valid,
@@ -1886,7 +1897,7 @@ function sendDocFormUser($inputs)
             )
         );
     } else {
-        $conn->rollback();
+        $pdo->rollBack();
         echo json_encode(
             array(
                 'VALID' => $valid,
@@ -1897,7 +1908,7 @@ function sendDocFormUser($inputs)
 }
 function getTableTracking($inputs)
 {
-    global $queries, $conn, $pdo;
+    global $queries, $pdo;
 
     if ($_SESSION['DOTS_PRIV'] < 1) {
         echo json_encode(
@@ -1954,12 +1965,12 @@ function getTableTracking($inputs)
         'SORT_BY' => 'DOC_NUM DESC'
     ];
 
-    $selectTableResult = $queries->selectQuery($selectTableData, getPdoConnection());
+    $selectTableResult = $queries->selectQuery($selectTableData);
     setupTable($selectTableResult, null, 'DOTS_TRACKING');
 }
 function getTableAttachment($inputs)
 {
-    global $queries, $conn, $pdo;
+    global $queries, $pdo;
 
     if ($_SESSION['DOTS_PRIV'] < 2) {
         echo json_encode(
@@ -1979,7 +1990,7 @@ function getTableAttachment($inputs)
             ]
         ]
     ];
-    $selectDocumentRow = $queries->selectQuery($selectDocumentData, getPdoConnection())[0];
+    $selectDocumentRow = $queries->selectQuery($selectDocumentData)[0];
     // var_dump($selectDocumentRow);
 
     $tableName = 'DOTS_ATTACHMENTS';
@@ -2004,7 +2015,7 @@ function getTableAttachment($inputs)
         $data['WHERE']['AND'][] = ['HRIS_ID' => $_SESSION['HRIS_ID']];
     }
 
-    $result = $queries->selectQuery($data, getPdoConnection());
+    $result = $queries->selectQuery($data);
     setupTable($result, null, $tableName);
 }
 function formatDateTime($dateString)
@@ -2080,7 +2091,7 @@ function validateInputsEdit($requiredFields, $inputs)
 
 function returnFileLocation($id)
 {
-    global $queries, $conn, $pdo;
+    global $queries, $pdo;
 
     $selectAttachmentData = [
         'TABLE' => 'DOTS_ATTACHMENTS',
@@ -2090,7 +2101,7 @@ function returnFileLocation($id)
             ]
         ]
     ];
-    $selectAttachmentRow = $queries->selectQuery($selectAttachmentData, getPdoConnection())[0];
+    $selectAttachmentRow = $queries->selectQuery($selectAttachmentData)[0];
 
     $config = parse_ini_file('config.ini', true);
     $uploadDirectory = $config['ftp_credentials']['ftp_server'];
@@ -2129,6 +2140,7 @@ function returnFileLocation($id)
 
 function getTableRow($id)
 {
+    global $queries, $pdo;
 
     $data = array(
         'TABLE' => 'DOTS_DOCUMENT',
@@ -2213,15 +2225,13 @@ function getTableRow($id)
         ]
     );
 
-    global $conn;
-    $queries = new Queries();
 
     $selectPrpsData = [
         'TABLE' => 'DOTS_DOC_PRPS'
     ];
 
-    $selectPrpsResults = $queries->selectQuery($selectPrpsData, getPdoConnection());
-    $selectDocumentRow = $queries->selectQuery($data, getPdoConnection())[0];
+    $selectPrpsResults = $queries->selectQuery($selectPrpsData);
+    $selectDocumentRow = $queries->selectQuery($data)[0];
 
     $selectDocumentRow['Date Received'] = formatDateTime($selectDocumentRow['Date Received']);
     $selectDocumentRow['Letter Date'] = formatDate($selectDocumentRow['Letter Date']);
@@ -2229,6 +2239,20 @@ function getTableRow($id)
         'DOC' => $selectDocumentRow,
         'PRPS' => $selectPrpsResults
     ]);
+}
+
+function getDocYear($yearID)
+{
+    global $queries, $pdo;
+    $yearData = [
+        'TABLE' => "DOTS_FILTER_YEAR",
+        'WHERE' => [
+            'AND' =>
+                [['ID' => $yearID]],
+        ]
+    ];
+    $yearResult = $queries->selectQuery($yearData)[0];
+    return $yearResult['YEAR'];
 }
 
 ?>

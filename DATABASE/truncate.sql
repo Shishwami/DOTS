@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 20/03/2024 15:36:18
+ Date: 21/03/2024 13:32:32
 */
 
 SET NAMES utf8mb4;
@@ -27,8 +27,8 @@ CREATE TABLE `dots_account_info`  (
   `INITIAL` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `OFFICE_ID` int NULL DEFAULT NULL,
   `DEPT_ID` int NULL DEFAULT NULL,
-  `USERNAME` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `PASSWORD` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `USERNAME` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `PASSWORD` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `DIVISION` int NOT NULL,
   `DOTS_PRIV` tinyint NULL DEFAULT NULL,
   PRIMARY KEY (`HRIS_ID`) USING BTREE
@@ -317,6 +317,22 @@ CREATE TABLE `dots_document_sub`  (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for dots_filter_year
+-- ----------------------------
+DROP TABLE IF EXISTS `dots_filter_year`;
+CREATE TABLE `dots_filter_year`  (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `YEAR` year NULL DEFAULT NULL,
+  PRIMARY KEY (`ID`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of dots_filter_year
+-- ----------------------------
+INSERT INTO `dots_filter_year` VALUES (1, 2023);
+INSERT INTO `dots_filter_year` VALUES (2, 2024);
+
+-- ----------------------------
 -- Table structure for dots_num_sequence
 -- ----------------------------
 DROP TABLE IF EXISTS `dots_num_sequence`;
@@ -329,7 +345,7 @@ CREATE TABLE `dots_num_sequence`  (
 -- ----------------------------
 -- Records of dots_num_sequence
 -- ----------------------------
-INSERT INTO `dots_num_sequence` VALUES (1, 7679);
+INSERT INTO `dots_num_sequence` VALUES (1, 7683);
 
 -- ----------------------------
 -- Table structure for dots_tracking

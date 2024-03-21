@@ -33,18 +33,16 @@ const CANCEL_S_ID = FORM_DOC_CANCEL_S.querySelector("#CANCEL_S_ID");
 const RADIO_SEND = document.getElementById("RADIO_SEND");
 const RADIO_RECEIVE = document.getElementById("RADIO_RECEIVE");
 
-const R_BTN = document.getElementById('R_BTN');
-const S_BTN = document.getElementById('S_BTN');
-
-const hrisId = sessionStorage.getItem(DOTS_ACCOUNT_INFO.HRIS_ID);
 let action_type = "receive";
 
 const track_modal = document.getElementById("track_modal");
 
+const YEAR_FILTER = document.getElementById("YEAR_FILTER");
+
 setSession();
 setFormEvents();
+setFilterYear();
 
-setTable("", action_type);
 
 searchBar.addEventListener('input', function () {
     setTable(searchBar.value.toUpperCase(), action_type);
@@ -67,7 +65,27 @@ RADIO_RECEIVE.addEventListener('change', function () {
 function setACTION_TYPE(element) {
     action_type = element.value;
     setTable(searchBar.value.toUpperCase(), action_type);
+}
 
+function setFilterYear() {
+    getData(_REQUEST.GET_FILTER_YEAR, {}, (result) => {
+
+        JsFunctions.setSelect(YEAR_FILTER, result);
+        const d = new Date();
+        let year = d.getFullYear().toString();
+
+        for (var i = 0; i < YEAR_FILTER.options.length; i++) {
+            if (YEAR_FILTER.options[i].text == year) {
+                YEAR_FILTER.selectedIndex = i;
+                break;
+            }
+        }
+
+        setTable("", action_type);
+    }, null);
+    YEAR_FILTER.addEventListener("change", function () {
+        setTable(searchBar.value.toUpperCase(), action_type);
+    });
 }
 
 function setTable(filter, action_type) {
@@ -78,8 +96,7 @@ function setTable(filter, action_type) {
     if (action_type == 'send') {
         data['REQUEST'] = _REQUEST.GET_TABLE_OUTBOUND;
     }
-
-    console.log(data);
+    data['YEAR'] = YEAR_FILTER.value;
 
     MyAjax.createJSON((error, response) => {
         if (error) {
@@ -134,7 +151,6 @@ function setButtons(table) {
 }
 
 function setReceiveBtn(id, doc_num, route_num) {
-    console.log("btnpressed");
 
     //updateform
     RECEIVE_DOC_ID.value = id;
@@ -153,7 +169,6 @@ function setReceiveBtn(id, doc_num, route_num) {
     });
     //open modal
     document.getElementById("rec_modal").style.display = "block";
-
 
 }
 function setSendBtn(id, doc_num, route_num) {
@@ -200,20 +215,26 @@ function setCancelReceive(id, doc_num, route_num) {
     CANCEL_R_NOTES.value = "";
     FORM_DOC_CANCEL_R.querySelector('input[type=submit]').disabled = false;
     document.getElementById("r_cnl_modal").style.display = "block";
+    setTimeout(function() {
+        CANCEL_R_NOTES.focus(); 
+    }, 100); 
 
 }
 
 function setCancelSend(id, doc_num, route_num) {
     CANCEL_S_ID.value = id;
     CANCEL_S_NOTES.value = "";
-
-    document.getElementById("s_cnl_modal").style.display = "block";
     FORM_DOC_CANCEL_S.querySelector("input[type=submit]").disabled = false;
+    document.getElementById("s_cnl_modal").style.display = "block";
+    setTimeout(function() {
+        CANCEL_S_NOTES.focus(); 
+    }, 100); 
+
 }
 function setTrackingTable(id, doc_num, route_num) {
     const data = {
         REQUEST: _REQUEST.GET_TABLE_TRACKING,
-        DATA:{
+        DATA: {
             DOC_NUM: doc_num,
             ROUTE_NUM: route_num
         }
@@ -226,7 +247,7 @@ function setTrackingTable(id, doc_num, route_num) {
         } else {
 
         }
-        JsFunctions.updateTable(DOC_VIEW_TRACKING,response.RESULT,null,searchBar.value.toUpperCase());
+        JsFunctions.updateTable(DOC_VIEW_TRACKING, response.RESULT, null, searchBar.value.toUpperCase());
         setTable(searchBar.value.toUpperCase(), action_type);
     }, data);
 
@@ -264,7 +285,6 @@ function setFormEvents() {
         }
 
         MyAjax.createJSON((error, response) => {
-            console.log(response);
             if (response.VALID) {
                 if (sent_modal != undefined) {
                     sent_modal.style.display = "none";
@@ -340,7 +360,6 @@ function getSessionName() {
     const data = {
         REQUEST: _REQUEST.GET_SESSION_NAME,
     }
-    console.log(data);
     MyAjax.createJSON((error, response) => {
         if (error) {
             alert(error);
@@ -350,7 +369,6 @@ function getSessionName() {
                 var name = Object.values(response)[0];
                 sessionStorage.setItem(DOTS_ACCOUNT_INFO.FULL_NAME, name);
             } else {
-                console.log(response);
                 //error message
             }
         }
@@ -360,7 +378,6 @@ function getSessionHrisId() {
     const data = {
         REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
     }
-    console.log(data);
     MyAjax.createJSON((error, response) => {
         if (error) {
             alert(error);
@@ -370,7 +387,6 @@ function getSessionHrisId() {
                 var id = Object.values(response)[0];
                 sessionStorage.setItem(DOTS_ACCOUNT_INFO.HRIS_ID, id);
             } else {
-                console.log(response);
                 //error message
             }
         }
@@ -380,7 +396,6 @@ function getSessionDeptId() {
     const data = {
         REQUEST: _REQUEST.GET_SESSION_DEPT_ID,
     }
-    console.log(data);
     MyAjax.createJSON((error, response) => {
         if (error) {
             alert(error);
@@ -391,28 +406,11 @@ function getSessionDeptId() {
                 SEND_S_DEPT_ID.value = dept_id;
                 sessionStorage.setItem(DOTS_ACCOUNT_INFO.DEPT_ID, dept_id);
             } else {
-                console.log(response);
                 //error message
             }
         }
     }, data);
 }
-// function setDOC_LOCATION() {
-
-//     const data = {
-//         REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
-//     }
-//     MyAjax.createJSON((error, response) => {
-//         if (!error) {
-//             if (response.VALID) {
-//                 delete response.VALID;
-//                 SEND_S_USER_ID.value = Object.values(response)[0];
-//             }
-//         } else {
-//             alert(error)
-//         }
-//     }, data);
-// }
 
 function getData(requestType, additionalData, successCallback, failureCallback) {
     const data = {
@@ -429,7 +427,6 @@ function getData(requestType, additionalData, successCallback, failureCallback) 
                 delete response.VALID;
                 if (successCallback) successCallback(Object.values(response)[0]);
             } else {
-                console.log(response);
                 // Handle error response
             }
         }

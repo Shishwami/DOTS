@@ -41,7 +41,7 @@ include "../../SCRIPTS/checkPrivilage.php";
                 <div class="header">
 
                     <input type="text" name="searchBar" id="searchBar" placeholder="Search Document">
-
+                    <select name="YEAR_FILTER" id="YEAR_FILTER"></select>
 
                     <div class="radio_btn">
                         <div class="btn1">

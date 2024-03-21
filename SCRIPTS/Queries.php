@@ -1,6 +1,26 @@
 <?php
+/**
+ * Class Queries
+ * 
+ * Represents a class for executing database queries.
+ */
 class Queries
 {
+    /**
+     * @var PDO The PDO connection object.
+     */
+    private $pdo;
+
+    /**
+     * Constructs a new Queries object with the given PDO connection.
+     * 
+     * @param PDO $pdo The PDO connection object to use.
+     */
+    public function __construct(PDO $pdo)
+    {
+        $this->pdo = $pdo;
+    }
+
     // jsonformat== '{
     //     "COLUMNS": ["t1.column1", "t2.column2", "t3.column3"],
     //     "TABLE": "table1",
@@ -21,8 +41,10 @@ class Queries
     //     "ORDER BY": "t1.column1",
     //     "LIMIT": 10
     // }';
-    function selectQuery($inputs, $pdo)
+    function selectQuery($inputs)
     {
+
+        global $pdo;
         $params = [];
         $sql = "SELECT ";
 
@@ -68,20 +90,14 @@ class Queries
         }
 
         $stmt = $pdo->prepare($sql);
-        if (!$stmt) {
-            // handle error
-            return false;
-        }
+        checkStatement(!$stmt);
 
         // Bind parameters
         foreach ($params as $key => $value) {
             $stmt->bindValue($key + 1, $value);
         }
 
-        if (!$stmt->execute()) {
-            // handle error
-            return false;
-        }
+        checkSuccess(!$stmt->execute());
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -95,8 +111,10 @@ class Queries
     //         "column3": "value3"
     //     }
     // }';
-    function insertQuery($inputs, $pdo)
+    function insertQuery($inputs)
     {
+        global $pdo;
+
         $tableName = $inputs['TABLE'];
         $data = $inputs['DATA'];
 
@@ -109,6 +127,7 @@ class Queries
 
         // Prepare the statement
         $stmt = $pdo->prepare($sql);
+        checkStatement(!$stmt);
 
         // Bind parameters
         $i = 1;
@@ -116,7 +135,7 @@ class Queries
             $stmt->bindValue($i++, $value);
         }
         // Execute the statement
-        $stmt->execute();
+        checkSuccess(!$stmt->execute());
 
         // Return the last inserted ID if needed
         return $pdo->lastInsertId();
@@ -133,8 +152,10 @@ class Queries
     //         "condition_column": "condition_value"
     //     }
     // }';
-    function updateQuery($inputs, $pdo)
+    function updateQuery($inputs)
     {
+        global $pdo;
+
         $tableName = $inputs['TABLE'];
         $data = $inputs['DATA'];
         $condition = $inputs['WHERE'];
@@ -158,33 +179,21 @@ class Queries
         }
         $sql .= implode(' AND ', $wherePairs);
 
-        // echo $sql;
-        // var_dump($inputs);
-
-        // Prepare and execute the statement
         $stmt = $pdo->prepare($sql);
-        if (!$stmt) {
-            throw new Exception('Failed to prepare statement');
-        }
+        checkStatement(!$stmt);
 
-        // Bind parameters for SET clause
         for ($i = 0; $i < count($setValues); $i++) {
             $stmt->bindValue(($i + 1), $setValues[$i]);
         }
 
-        // Bind parameters for WHERE clause
         $startIndex = count($setValues) + 1;
         for ($i = 0; $i < count($whereValues); $i++) {
             $stmt->bindValue(($startIndex + $i), $whereValues[$i]);
         }
 
-        // Execute the statement
-        $success = $stmt->execute();
-        if (!$success) {
-            
-        }
+        checkSuccess(!$stmt->execute());
 
-        return $stmt->rowCount(); // Return the number of affected rows
+        return $stmt->rowCount();
     }
 
 
@@ -213,5 +222,25 @@ class Queries
         $sql .= ";";
         return $sql;
     }
+}
+
+function checkStatement($stmt)
+{
+    // echo json_encode(
+    //     [
+    //         'VALID' => false,
+    //         'MESSAGE' => 'SQL Error 1'
+    //     ]
+    // );
+}
+
+function checkSuccess($stmt)
+{
+    // echo json_encode(
+    //     [
+    //         'VALID' => false,
+    //         'MESSAGE' => 'SQL Error 2'
+    //     ]
+    // );
 }
 ?>
