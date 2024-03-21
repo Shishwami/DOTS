@@ -89,6 +89,11 @@ switch ($inputs['REQUEST']) {
         getOptions('DOTS_DOC_PRPS', 'DOC_PRPS');
         break;
 
+    // Get year filter
+    case 'GET_FILTER_YEAR':
+        getOptions('DOTS_FILTER_YEAR', 'YEAR');
+        break;
+
     // Receive document
     case 'RECEIVE_DOC':
         receiveDoc($inputs);
