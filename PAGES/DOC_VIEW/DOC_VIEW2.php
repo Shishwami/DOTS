@@ -42,6 +42,8 @@ include "../../SCRIPTS/checkPrivilage.php";
             <div class="grid">
                 <div class="header">
                     <input type="text" class="search" name="searchBar" id="searchBar" placeholder="Search Document">
+                    <select name="YEAR_FILTER" id="YEAR_FILTER"></select>
+                    
                     <div class="opt">
                         <button class="opt_btn crt" name="BTN_DOC_CREATE" id="BTN_DOC_CREATE">Create</button>
                     </div>
