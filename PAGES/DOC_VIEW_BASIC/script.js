@@ -215,15 +215,21 @@ function setCancelReceive(id, doc_num, route_num) {
     CANCEL_R_NOTES.value = "";
     FORM_DOC_CANCEL_R.querySelector('input[type=submit]').disabled = false;
     document.getElementById("r_cnl_modal").style.display = "block";
+    setTimeout(function() {
+        CANCEL_R_NOTES.focus(); 
+    }, 100); 
 
 }
 
 function setCancelSend(id, doc_num, route_num) {
     CANCEL_S_ID.value = id;
     CANCEL_S_NOTES.value = "";
-
-    document.getElementById("s_cnl_modal").style.display = "block";
     FORM_DOC_CANCEL_S.querySelector("input[type=submit]").disabled = false;
+    document.getElementById("s_cnl_modal").style.display = "block";
+    setTimeout(function() {
+        CANCEL_S_NOTES.focus(); 
+    }, 100); 
+
 }
 function setTrackingTable(id, doc_num, route_num) {
     const data = {
