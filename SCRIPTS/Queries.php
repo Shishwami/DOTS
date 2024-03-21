@@ -154,7 +154,6 @@ class Queries
     // }';
     function updateQuery($inputs)
     {
-
         global $pdo;
 
         $tableName = $inputs['TABLE'];
@@ -227,21 +226,21 @@ class Queries
 
 function checkStatement($stmt)
 {
-    echo json_encode(
-        [
-            'VALID' => false,
-            'MESSAGE' => 'SQL Error 1'
-        ]
-    );
+    // echo json_encode(
+    //     [
+    //         'VALID' => false,
+    //         'MESSAGE' => 'SQL Error 1'
+    //     ]
+    // );
 }
 
 function checkSuccess($stmt)
 {
-    echo json_encode(
-        [
-            'VALID' => false,
-            'MESSAGE' => 'SQL Error 2'
-        ]
-    );
+    // echo json_encode(
+    //     [
+    //         'VALID' => false,
+    //         'MESSAGE' => 'SQL Error 2'
+    //     ]
+    // );
 }
 ?>
