@@ -83,6 +83,9 @@ function setFilterYear() {
 
         setTable("", action_type);
     }, null);
+    YEAR_FILTER.addEventListener("change", function () {
+        setTable(searchBar.value.toUpperCase(), action_type);
+    });
 }
 
 function setTable(filter, action_type) {
@@ -93,8 +96,7 @@ function setTable(filter, action_type) {
     if (action_type == 'send') {
         data['REQUEST'] = _REQUEST.GET_TABLE_OUTBOUND;
     }
-    data['WHERE'] = [YEAR_FILTER.value];
-    console.log(data);
+    data['YEAR'] = YEAR_FILTER.value;
 
     MyAjax.createJSON((error, response) => {
         if (error) {
@@ -149,7 +151,6 @@ function setButtons(table) {
 }
 
 function setReceiveBtn(id, doc_num, route_num) {
-    console.log("btnpressed");
 
     //updateform
     RECEIVE_DOC_ID.value = id;
@@ -278,7 +279,6 @@ function setFormEvents() {
         }
 
         MyAjax.createJSON((error, response) => {
-            console.log(response);
             if (response.VALID) {
                 if (sent_modal != undefined) {
                     sent_modal.style.display = "none";
@@ -354,7 +354,6 @@ function getSessionName() {
     const data = {
         REQUEST: _REQUEST.GET_SESSION_NAME,
     }
-    console.log(data);
     MyAjax.createJSON((error, response) => {
         if (error) {
             alert(error);
@@ -364,7 +363,6 @@ function getSessionName() {
                 var name = Object.values(response)[0];
                 sessionStorage.setItem(DOTS_ACCOUNT_INFO.FULL_NAME, name);
             } else {
-                console.log(response);
                 //error message
             }
         }
@@ -374,7 +372,6 @@ function getSessionHrisId() {
     const data = {
         REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
     }
-    console.log(data);
     MyAjax.createJSON((error, response) => {
         if (error) {
             alert(error);
@@ -384,7 +381,6 @@ function getSessionHrisId() {
                 var id = Object.values(response)[0];
                 sessionStorage.setItem(DOTS_ACCOUNT_INFO.HRIS_ID, id);
             } else {
-                console.log(response);
                 //error message
             }
         }
@@ -394,7 +390,6 @@ function getSessionDeptId() {
     const data = {
         REQUEST: _REQUEST.GET_SESSION_DEPT_ID,
     }
-    console.log(data);
     MyAjax.createJSON((error, response) => {
         if (error) {
             alert(error);
@@ -405,7 +400,6 @@ function getSessionDeptId() {
                 SEND_S_DEPT_ID.value = dept_id;
                 sessionStorage.setItem(DOTS_ACCOUNT_INFO.DEPT_ID, dept_id);
             } else {
-                console.log(response);
                 //error message
             }
         }
@@ -427,7 +421,6 @@ function getData(requestType, additionalData, successCallback, failureCallback) 
                 delete response.VALID;
                 if (successCallback) successCallback(Object.values(response)[0]);
             } else {
-                console.log(response);
                 // Handle error response
             }
         }
