@@ -1244,6 +1244,7 @@ function receiveDoc($inputs)
 function getTableMain($inputs)
 {
     global $queries, $pdo;
+    $year = getDocYear($inputs['YEAR']);
 
     $tableName = 'DOTS_DOCUMENT';
     $data = array(
@@ -1322,6 +1323,11 @@ function getTableMain($inputs)
                 'TYPE' => 'LEFT'
             ),
         ],
+        'WHERE' => [
+            'AND' => [
+                ['YEAR(DOTS_DOCUMENT.LETTER_DATE)' => $year]
+            ]
+        ],
         'ORDER_BY' => 'DOTS_DOCUMENT.DOC_NUM DESC'
     );
     $result = $queries->selectQuery($data);
@@ -1357,11 +1363,13 @@ function getTableUser($inputs, $tableName)
 
     $buttons = [];
     $WHERE = [];
+    $year = getDocYear($inputs['YEAR']);
 
     if ($tableName == "DOTS_DOCUMENT_INBOUND") {
         $WHERE[] = [
             "AND" => array(
                 array("$tableName.R_DEPT_ID" => $_SESSION["DEPT_ID"]),
+                array("YEAR(DOTS_DOCUMENT.LETTER_DATE)" => $year),
             ),
             "OR" => array(
                 array("$tableName.R_USER_ID" => $_SESSION["HRIS_ID"]),
@@ -1383,6 +1391,7 @@ function getTableUser($inputs, $tableName)
         $WHERE[] = [
             "AND" => array(
                 array("$tableName.S_DEPT_ID" => $_SESSION["DEPT_ID"]),
+                array("YEAR(DOTS_DOCUMENT.LETTER_DATE)" => $year),
             ),
             "OR" => array(
                 array("$tableName.S_USER_ID" => $_SESSION["HRIS_ID"]),
@@ -2230,6 +2239,20 @@ function getTableRow($id)
         'DOC' => $selectDocumentRow,
         'PRPS' => $selectPrpsResults
     ]);
+}
+
+function getDocYear($yearID)
+{
+    global $queries, $pdo;
+    $yearData = [
+        'TABLE' => "DOTS_FILTER_YEAR",
+        'WHERE' => [
+            'AND' =>
+                [['ID' => $yearID]],
+        ]
+    ];
+    $yearResult = $queries->selectQuery($yearData)[0];
+    return $yearResult['YEAR'];
 }
 
 ?>
