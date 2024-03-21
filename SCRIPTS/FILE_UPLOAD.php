@@ -59,7 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
             ]
         ];
         $insertAttachmentSql = $queries->insertQuery($insertAttachmentData);
-        echo "ASDASD $insertAttachmentSql ASd";
 
         if ($insertAttachmentSql != 0) {
             $pdo->commit();
