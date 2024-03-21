@@ -30,8 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
         exit;
     }
 
-    global $conn, $queries;
-
     $message = "";
     $valid = false;
 
@@ -60,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
                 'DESCRIPTION' => $_POST['DESCRIPTION'],
             ]
         ];
-        $insertAttachmentSql = $queries->insertQuery($insertAttachmentData, getPdoConnection());
+        $insertAttachmentSql = $queries->insertQuery($insertAttachmentData);
         echo "ASDASD $insertAttachmentSql ASd";
 
         if ($insertAttachmentSql != 0) {
@@ -105,7 +103,7 @@ function selectDocument($id)
             ]
         ]
     ];
-    $selectDocumentRow = $queries->selectQuery($selectDocumentData, getPdoConnection())[0];
+    $selectDocumentRow = $queries->selectQuery($selectDocumentData)[0];
 
     return $selectDocumentRow;
 }
