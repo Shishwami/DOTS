@@ -33,18 +33,16 @@ const CANCEL_S_ID = FORM_DOC_CANCEL_S.querySelector("#CANCEL_S_ID");
 const RADIO_SEND = document.getElementById("RADIO_SEND");
 const RADIO_RECEIVE = document.getElementById("RADIO_RECEIVE");
 
-const R_BTN = document.getElementById('R_BTN');
-const S_BTN = document.getElementById('S_BTN');
-
-const hrisId = sessionStorage.getItem(DOTS_ACCOUNT_INFO.HRIS_ID);
 let action_type = "receive";
 
 const track_modal = document.getElementById("track_modal");
 
+const YEAR_FILTER = document.getElementById("YEAR_FILTER");
+
 setSession();
 setFormEvents();
+setFilterYear();
 
-setTable("", action_type);
 
 searchBar.addEventListener('input', function () {
     setTable(searchBar.value.toUpperCase(), action_type);
@@ -67,7 +65,24 @@ RADIO_RECEIVE.addEventListener('change', function () {
 function setACTION_TYPE(element) {
     action_type = element.value;
     setTable(searchBar.value.toUpperCase(), action_type);
+}
 
+function setFilterYear() {
+    getData(_REQUEST.GET_FILTER_YEAR, {}, (result) => {
+
+        JsFunctions.setSelect(YEAR_FILTER, result);
+        const d = new Date();
+        let year = d.getFullYear().toString();
+
+        for (var i = 0; i < YEAR_FILTER.options.length; i++) {
+            if (YEAR_FILTER.options[i].text == year) {
+                YEAR_FILTER.selectedIndex = i;
+                break;
+            }
+        }
+
+        setTable("", action_type);
+    }, null);
 }
 
 function setTable(filter, action_type) {
@@ -78,7 +93,7 @@ function setTable(filter, action_type) {
     if (action_type == 'send') {
         data['REQUEST'] = _REQUEST.GET_TABLE_OUTBOUND;
     }
-
+    data['WHERE'] = [YEAR_FILTER.value];
     console.log(data);
 
     MyAjax.createJSON((error, response) => {
@@ -154,7 +169,6 @@ function setReceiveBtn(id, doc_num, route_num) {
     //open modal
     document.getElementById("rec_modal").style.display = "block";
 
-
 }
 function setSendBtn(id, doc_num, route_num) {
     //updateform
@@ -213,7 +227,7 @@ function setCancelSend(id, doc_num, route_num) {
 function setTrackingTable(id, doc_num, route_num) {
     const data = {
         REQUEST: _REQUEST.GET_TABLE_TRACKING,
-        DATA:{
+        DATA: {
             DOC_NUM: doc_num,
             ROUTE_NUM: route_num
         }
@@ -226,7 +240,7 @@ function setTrackingTable(id, doc_num, route_num) {
         } else {
 
         }
-        JsFunctions.updateTable(DOC_VIEW_TRACKING,response.RESULT,null,searchBar.value.toUpperCase());
+        JsFunctions.updateTable(DOC_VIEW_TRACKING, response.RESULT, null, searchBar.value.toUpperCase());
         setTable(searchBar.value.toUpperCase(), action_type);
     }, data);
 
@@ -397,22 +411,6 @@ function getSessionDeptId() {
         }
     }, data);
 }
-// function setDOC_LOCATION() {
-
-//     const data = {
-//         REQUEST: _REQUEST.GET_SESSION_HRIS_ID,
-//     }
-//     MyAjax.createJSON((error, response) => {
-//         if (!error) {
-//             if (response.VALID) {
-//                 delete response.VALID;
-//                 SEND_S_USER_ID.value = Object.values(response)[0];
-//             }
-//         } else {
-//             alert(error)
-//         }
-//     }, data);
-// }
 
 function getData(requestType, additionalData, successCallback, failureCallback) {
     const data = {
