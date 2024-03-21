@@ -82,6 +82,11 @@ function InitializePAGE() {
 
     setForms();
 
+    BTN_ATTACH_ADD.addEventListener('click', function () {
+        FORM_ATTACH_ADD.querySelector("input[type=submit]").disabled = false;
+        ATTACH_DESC.value = '';
+    });
+
 }
 
 function initializeSEND_FORM() {
@@ -261,6 +266,7 @@ function setAttachBtn(id, doc_num, route_num) {
     //open attachment modal
     if (atc_modal)
         atc_modal.style.display = "block";
+
 
 }
 
