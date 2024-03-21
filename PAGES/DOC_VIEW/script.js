@@ -345,7 +345,7 @@ function setPrinting(id, doc_num, route_num) {
                 // doc.save("newpdf.pdf");
                 doc.autoPrint();
                 doc.output('dataurlnewwindow');
-                // route_modal.style.display = "none";
+                route_modal.style.display = "none";
 
             },
             margin: 5, // Optional: Set page margin
