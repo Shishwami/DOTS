@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 include './Queries.php';
 include './DB_Connect.php';
 
-$queries = new Queries();
+$queries = new Queries($pdo);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
 
@@ -36,8 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
     $valid = false;
 
     $documentRow = selectDocument($_POST['ID']);
-
-    var_dump($documentRow);
 
     $config = parse_ini_file('config.ini', true);
     $uploadDirectory = $config['ftp_credentials']['ftp_server'];
