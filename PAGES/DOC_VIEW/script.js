@@ -70,7 +70,7 @@ function InitializePAGE() {
     initializeSEND_FORM();
     initializeRECEIVE_FORM();
     setCreateBtn();
-    setTable("");
+    setFilterYear();
 
     searchBar.addEventListener('input', function () {
         setTable(searchBar.value.toUpperCase());
@@ -118,6 +118,27 @@ function initializeRECEIVE_FORM() {
 
 
 }
+function setFilterYear() {
+    getData(_REQUEST.GET_FILTER_YEAR, {}, (result) => {
+
+        JsFunctions.setSelect(YEAR_FILTER, result);
+        const d = new Date();
+        let year = d.getFullYear().toString();
+
+        for (var i = 0; i < YEAR_FILTER.options.length; i++) {
+            if (YEAR_FILTER.options[i].text == year) {
+                YEAR_FILTER.selectedIndex = i;
+                break;
+            }
+        }
+
+        setTable("");
+    }, null);
+    YEAR_FILTER.addEventListener("change", function () {
+        setTable(searchBar.value.toUpperCase());
+    });
+}
+
 function getData(requestType, additionalData, successCallback, failureCallback) {
     const data = {
         REQUEST: requestType,
@@ -389,6 +410,7 @@ function setTable(filter) {
 
     const data2 = {
         REQUEST: _REQUEST.GET_TABLE_MAIN,
+        YEAR: YEAR_FILTER.value,
     };
 
     MyAjax.createJSON((error, response) => {
