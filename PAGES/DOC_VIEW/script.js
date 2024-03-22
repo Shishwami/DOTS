@@ -93,8 +93,8 @@ function initializeSEND_FORM() {
     getData(_REQUEST.GET_DEPT, null, (result) => {
         JsFunctions.setSelect(SEND_R_DEPT_ID, result);
         SEND_R_DEPT_ID.addEventListener('change', () => {
+            SEND_DOC_ADDRESSEE.innerHTML = '<option disabled selected>Select Addressee</option>';
             getData(_REQUEST.GET_ADDRESSEE, { "DEPT_ID": SEND_R_DEPT_ID.value }, (result2) => {
-                SEND_DOC_ADDRESSEE.innerHTML = '<option disabled selected>Select Addressee</option>';
                 JsFunctions.setSelect(SEND_DOC_ADDRESSEE, result2);
             }, null);
         });
@@ -219,12 +219,6 @@ function sendBtnEvent(id, doc_num, route_num) {
         snd_modal.style.display = "block";
     }
     FORM_DOC_SEND.querySelector('input[type=submit]').disabled = false;
-}
-function clearValues() {
-    SEND_DOC_PRPS.value = "";
-    SEND_R_DEPT_ID.value = "";
-    SEND_DOC_NOTES.value = "";
-    SEND_DOC_ADDRESSEE.value = "";
 }
 function setEditBtn(id, doc_num, route_num) {
     const data = {

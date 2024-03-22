@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
             echo json_encode(
                 array(
                     'VALID' => false,
-                    'MESSAGE' => "File Not Uploaded.",
+                    'MESSAGE' => "File Not Uploaded." . error_get_last()['message'],
                 )
             );
         }
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
         echo json_encode(
             array(
                 'VALID' => false,
-                'MESSAGE' => "Failed to upload file.",
+                'MESSAGE' => "Failed to upload file." . error_get_last()['message'],
             )
         );
     }
