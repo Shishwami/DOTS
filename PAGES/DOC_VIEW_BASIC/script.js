@@ -99,23 +99,6 @@ function setTable(filter, action_type) {
     data['YEAR'] = YEAR_FILTER.value;
 
     MyAjax.createJSON((error, response) => {
-        if (error) {
-            alert(error);
-        } else {
-
-        }
-        // const thead = DOC_VIEW_BASIC.querySelector('thead');
-        // const tbody = DOC_VIEW_BASIC.querySelector('tbody');
-        // if (response.THEAD) {
-        //     thead.innerHTML = response.THEAD;
-        // } else {
-        //     thead.innerHTML = '';
-        // }
-        // if (response.TBODY) {
-        //     tbody.innerHTML = response.TBODY;
-        // } else {
-        //     tbody.innerHTML = '';
-        // }
         JsFunctions.updateTable(DOC_VIEW_BASIC, response.RESULT, response.BUTTONS, filter);
         setButtons(DOC_VIEW_BASIC);
     }, data);
@@ -198,8 +181,8 @@ function setSendBtn(id, doc_num, route_num) {
         SEND_R_DEPT_ID.innerHTML = "<option disabled selected>Select Department</option>";
         JsFunctions.setSelect(SEND_R_DEPT_ID, result);
         SEND_R_DEPT_ID.addEventListener('change', function () {
+            SEND_DOC_ADDRESSEE.innerHTML = "<option disabled selected>Select Addressee</option>";
             getData(_REQUEST.GET_ADDRESSEE, { DEPT_ID: this.value }, (result2) => {
-                SEND_DOC_ADDRESSEE.innerHTML = "<option disabled selected>Select Addressee</option>";
                 JsFunctions.setSelect(SEND_DOC_ADDRESSEE, result2);
             });
         });
@@ -215,9 +198,9 @@ function setCancelReceive(id, doc_num, route_num) {
     CANCEL_R_NOTES.value = "";
     FORM_DOC_CANCEL_R.querySelector('input[type=submit]').disabled = false;
     document.getElementById("r_cnl_modal").style.display = "block";
-    setTimeout(function() {
-        CANCEL_R_NOTES.focus(); 
-    }, 100); 
+    setTimeout(function () {
+        CANCEL_R_NOTES.focus();
+    }, 100);
 
 }
 
@@ -226,9 +209,9 @@ function setCancelSend(id, doc_num, route_num) {
     CANCEL_S_NOTES.value = "";
     FORM_DOC_CANCEL_S.querySelector("input[type=submit]").disabled = false;
     document.getElementById("s_cnl_modal").style.display = "block";
-    setTimeout(function() {
-        CANCEL_S_NOTES.focus(); 
-    }, 100); 
+    setTimeout(function () {
+        CANCEL_S_NOTES.focus();
+    }, 100);
 
 }
 function setTrackingTable(id, doc_num, route_num) {
@@ -362,12 +345,10 @@ function getSessionName() {
     }
     MyAjax.createJSON((error, response) => {
         if (error) {
-            alert(error);
         } else {
             if (response.VALID) {
                 delete response.VALID;
                 var name = Object.values(response)[0];
-                sessionStorage.setItem(DOTS_ACCOUNT_INFO.FULL_NAME, name);
             } else {
                 //error message
             }
@@ -380,12 +361,11 @@ function getSessionHrisId() {
     }
     MyAjax.createJSON((error, response) => {
         if (error) {
-            alert(error);
+            f
         } else {
             if (response.VALID) {
                 delete response.VALID;
                 var id = Object.values(response)[0];
-                sessionStorage.setItem(DOTS_ACCOUNT_INFO.HRIS_ID, id);
             } else {
                 //error message
             }
@@ -398,13 +378,11 @@ function getSessionDeptId() {
     }
     MyAjax.createJSON((error, response) => {
         if (error) {
-            alert(error);
         } else {
             if (response.VALID) {
                 delete response.VALID;
                 var dept_id = Object.values(response)[0];
                 SEND_S_DEPT_ID.value = dept_id;
-                sessionStorage.setItem(DOTS_ACCOUNT_INFO.DEPT_ID, dept_id);
             } else {
                 //error message
             }
@@ -421,7 +399,6 @@ function getData(requestType, additionalData, successCallback, failureCallback) 
     MyAjax.createJSON((error, response) => {
         if (error) {
             if (failureCallback) failureCallback(error);
-            else alert(error);
         } else {
             if (response.VALID) {
                 delete response.VALID;
