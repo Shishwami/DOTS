@@ -121,7 +121,7 @@ body:before
     font-size: 15px;
     width: 30%;
     padding: 0.5rem;
-    margin-right: 5rem;
+    margin-right: 3rem;
     margin-bottom: 1rem;
     border-radius: 0.5rem;
 }
@@ -129,6 +129,14 @@ body:before
 .search:focus
 {
     background: var(--input_focus);
+}
+
+#YEAR_FILTER
+{
+    height: fit-content;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    margin-left: 2rem;
 }
 
 .db_table
@@ -231,7 +239,7 @@ body:before
     cursor: pointer;
     letter-spacing: 0.1rem;
     text-transform: uppercase;
-    margin-right: 1rem;
+    margin-left: 3rem;
 }
 
 .opt_btn:hover
