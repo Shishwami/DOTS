@@ -132,6 +132,14 @@ body:before
     background: var(--input_focus);
 }
 
+#YEAR_FILTER
+{
+    height: fit-content;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    margin-left: 2rem;
+}
+
 .radio_btn
 {
     display: flex;

@@ -38,12 +38,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
     $config = parse_ini_file('config.ini', true);
     $uploadDirectory = $config['ftp_credentials']['ftp_server'];
 
-    $targetDir = "$uploadDirectory/$documentRow[DOC_NUM]/$documentRow[ROUTE_NUM]/";
+    ECHO $targetDir = "$uploadDirectory/$documentRow[DOC_NUM]/$documentRow[ROUTE_NUM]";
     $targetFile = "$targetDir/$_POST[DESCRIPTION].pdf";
 
     // Create the target directory if it doesn't exist
     if (!file_exists($targetDir)) {
-        mkdir($targetDir, 0777, true);
+        mkdir($targetDir, 0, true);
     }
 
     $pdo->beginTransaction();
