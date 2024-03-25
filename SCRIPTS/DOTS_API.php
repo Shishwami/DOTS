@@ -10,7 +10,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// try {
+try {
 // Retrieve JSON input data and sanitize it
 $inputs = json_decode(file_get_contents("php://input"), true);
 $inputs = sanitizeInputs($inputs);
@@ -145,13 +145,13 @@ switch ($inputs['REQUEST']) {
 // Close the database connection
 $pdo = null;
 
-// } catch (mysqli_sql_exception $th) {
-//     // Handle MySQLi exceptions
-//     echo '' . $th->getMessage() . '\r\n asd';
-// } catch (Exception $th) {
-//     // Handle general exceptions
-//     echo '' . $th->getMessage() . '\r\n asd';
-// }
+} catch (mysqli_sql_exception $th) {
+    // Handle MySQLi exceptions
+    echo '' . $th->getMessage() . '\r\n asd';
+} catch (Exception $th) {
+    // Handle general exceptions
+    echo '' . $th->getMessage() . '\r\n asd';
+}
 
 /**
  * Function to handle user login.
@@ -2135,6 +2135,8 @@ function returnFileLocation($id)
             'RESULS' => $tempDirectory . '/' . $tmpFileName
         ]);
     }
+
+    fclose($fileHandle);
 
 }
 
