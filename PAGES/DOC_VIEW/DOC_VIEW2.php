@@ -330,7 +330,7 @@ include "../../SCRIPTS/checkPrivilage.php";
                                                 <input type="submit" value="Submit">
                                             </div>
 
-                                            <input type="text" name="ID" id="ATTACH_ID" readonly>
+                                            <input type="text" name="ID" id="ATTACH_ID" readonly hidden>
                                         </form>
                                     </div>
                                 </div>
