@@ -22,7 +22,7 @@
             <label for="show-menu" class="menu-icon"><i class="fa-solid fa-bars"></i></label>
 
             <div class="content">
-                <img src="../CSS/Resources/City-of-Baguio-Logo Fill.png" alt="">
+                <img src="../../CSS/Resources/City-of-Baguio-Logo Fill.png" alt="">
 
                 <div class="logo"><a href="#">CHRMO - DOTS</a></div>
 
