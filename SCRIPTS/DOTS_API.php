@@ -49,7 +49,7 @@ switch ($inputs['REQUEST']) {
 
     // Get document number
     case 'GET_DOC_NUM':
-        getDocNum($inputs);
+        getDocNum();
         break;
     // Get addressee information
     case 'GET_ADDRESSEE':
@@ -262,7 +262,6 @@ function get_Date($inputs)
     return $time;
 }
 
-
 /**
  * Function to retrieve a value from the session.
  *
@@ -327,10 +326,9 @@ function sanitizeInputs($input)
  * This function retrieves the current document number from the database table DOTS_NUM_SEQUENCE.
  * It executes a select query to fetch the current value from the table.
  * 
- * @param array $inputs Input data (not used in this function).
  * @return void This function echoes JSON-encoded response indicating the validity and the current document number.
  */
-function getDocNum($inputs)
+function getDocNum()
 {
     // Instantiate Queries class to access query methods
     global $queries, $pdo;
@@ -368,7 +366,7 @@ function getDocNum($inputs)
  * It executes a select query to fetch the document details and converts the date-time format to HTML datetime string.
  * 
  * @param array $inputs Input data containing the document ID.
- *                     Expected format: ['DATA' => ['ID' => 'string']].
+ *                     Expected format: ['DATA' => ['ID' => 'ID of Document']].
  * @return void This function echoes JSON-encoded response containing the document details.
  */
 function getDocument($inputs)
@@ -599,15 +597,28 @@ function editDocument($inputs)
     }
 }
 
+/**
+ * Function to cancel the receiving of a document.
+ *
+ * This function cancels the receiving of a document by updating the related records in the database.
+ * It validates inputs, checks user privileges, retrieves relevant document data, performs necessary updates,
+ * and logs the cancellation action.
+ * 
+ * @param array $inputs Input data containing the necessary details for cancelling the document receiving.
+ * @return void This function echoes JSON-encoded response indicating the success of the operation and any messages.
+ */
 function cancelReceive($inputs)
 {
-    global $queries, $pdo;
-    $valid = false;
-    $results = [];
-    $requiredFields = [
+    global $queries, $pdo; // Access global variables $queries and $pdo
+
+    $valid = false; // Initialize variable to indicate if the operation was successful
+    $results = []; // Initialize array to store results
+
+    $requiredFields = [ // Define required input fields
         'CANCEL_R_NOTES'
     ];
 
+    // Validate input fields
     if (!validateInputs($requiredFields, $inputs)) {
         echo json_encode(
             [
@@ -618,6 +629,7 @@ function cancelReceive($inputs)
         exit;
     }
 
+    // Check user privileges
     if ($_SESSION['DOTS_PRIV'] < 1) {
         echo json_encode(
             array(
@@ -628,9 +640,9 @@ function cancelReceive($inputs)
         exit;
     }
 
-    $pdo->beginTransaction();
+    $pdo->beginTransaction(); // Begin transaction
 
-    //get outboundid for deletion
+    // Retrieve inbound document data
     $selectReceiveData = [
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
         'WHERE' => [
@@ -641,6 +653,7 @@ function cancelReceive($inputs)
     ];
     $selectReceiveRow = $queries->selectQuery($selectReceiveData)[0];
 
+    // Check if the document has already been sent; cancellation not possible if already sent
     $selectInboundData = [
         'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
         'WHERE' => [
@@ -660,48 +673,46 @@ function cancelReceive($inputs)
         exit;
     }
 
-    //update to canceled the doc in outbound
-    // $message = "Receiving of document cancellation successful.";
+    // Update the outbound document to cancelled status
     $deleteDocData = [
         'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
         'DATA' => [
-            'ACTION_ID' => 5//canclled
+            'ACTION_ID' => 5 // Cancelled
         ],
         'WHERE' => [
             'ID' => $selectReceiveRow['OUTBOUND_ID']
         ],
     ];
-
     $deleteDocResult = $queries->updateQuery($deleteDocData);
     $results[] = !is_null($deleteDocResult);
 
+    // Update the inbound document to mark receiving as cancelled
     $updateReceiveData = [
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
         'DATA' => [
             'DATE_TIME_RECEIVED' => "NULL",
-            'ACTION_ID' => 1//ACTION_ID SENT
+            'ACTION_ID' => 1 // ACTION_ID SENT
         ],
         "WHERE" => [
             'ID' => $inputs['DATA']['CANCEL_R_ID']
         ]
     ];
 
-    if (isset ($inputs['DATA']['CANCEL_R_DEPT'])) {
+    if (isset($inputs['DATA']['CANCEL_R_DEPT'])) {
         $updateReceiveData['DATA']['R_USER_ID'] = 0;
     }
 
     $updateReceiveResult = $queries->updateQuery($updateReceiveData);
     $results[] = !is_null($updateReceiveResult);
 
-    //add to logs
+    // Add cancellation action to logs
     $insertRCancelToLogsData = [
         'TABLE' => 'DOTS_TRACKING',
         'DATA' => [
             'DOC_NUM' => $selectReceiveRow["DOC_NUM"],
             'ROUTE_NUM' => $selectReceiveRow["ROUTE_NUM"],
-            'ACTION_ID' => 5,//ACTION_ID RECEIVE
+            'ACTION_ID' => 5, // ACTION_ID RECEIVE
             'HRIS_ID' => $_SESSION['HRIS_ID'],
-            // 'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_RECEIVED'],
             'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
             'NOTE_USER' => $inputs['DATA']['CANCEL_R_NOTES'],
             'NOTE_SERVER' => "Receiving canceled by user",
@@ -710,11 +721,12 @@ function cancelReceive($inputs)
     $insertRCancelToLogsResult = $queries->insertQuery($insertRCancelToLogsData);
     $results[] = !is_null($insertRCancelToLogsResult);
 
+    // Check if all operations were successful
     $valid = checkArray($results);
     if ($valid) {
-        $pdo->commit();
+        $pdo->commit(); // Commit the transaction
     } else {
-        $pdo->rollBack();
+        $pdo->rollBack(); // Rollback the transaction
         echo json_encode(
             array(
                 "VALID" => $valid,
@@ -724,6 +736,7 @@ function cancelReceive($inputs)
         exit;
     }
 
+    // Echo JSON-encoded response indicating the success of the operation and any messages
     echo json_encode(
         array(
             "VALID" => $valid,
@@ -731,7 +744,6 @@ function cancelReceive($inputs)
         )
     );
 }
-
 
 function cancelSend($inputs)
 {
