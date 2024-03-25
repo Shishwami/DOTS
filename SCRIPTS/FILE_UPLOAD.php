@@ -11,6 +11,7 @@ $queries = new Queries($pdo);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
 
+
     if ($_SESSION['DOTS_PRIV'] < 2) {
         echo json_encode(
             array(
@@ -20,6 +21,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
         );
         exit;
     }
+    if ($_FILES['ATTACH_FILE']['size'] == 0) {
+        echo json_encode(
+            array(
+                'VALID' => false,
+                'MESSAGE' => "The uploaded file is empty",
+            )
+        );
+        exit;
+    }
+
     if ($_POST['DESCRIPTION'] == "") {
         echo json_encode(
             array(
@@ -87,8 +98,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
             )
         );
     }
+    deleteOldTemp("../attachment_temp");
+
 } else {
-    echo "Invalid request.";
+    echo json_encode(
+        array(
+            'VALID' => false,
+            'MESSAGE' => "Invalid request.",
+        )
+    );
+    exit;
 }
 
 function selectDocument($id)
@@ -105,5 +124,26 @@ function selectDocument($id)
     $selectDocumentRow = $queries->selectQuery($selectDocumentData)[0];
 
     return $selectDocumentRow;
+}
+
+function deleteOldTemp($directory)
+{
+    // Get the current time and calculate the time one hour ago
+    $oneHourAgo = time() - (60 * 60); // 60 seconds * 60 minutes = 1 hour
+
+    // Open the directory
+    if ($handle = opendir($directory)) {
+        // Loop through the directory
+        while (false !== ($file = readdir($handle))) {
+            $filePath = $directory . '/' . $file;
+            // Check if the file is a regular file and if it's older than an hour
+            if (is_file($filePath) && filemtime($filePath) != $oneHourAgo) {
+                // Delete the file
+                unlink($filePath);
+            }
+        }
+        // Close the directory handle
+        closedir($handle);
+    }
 }
 ?>
