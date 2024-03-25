@@ -165,4 +165,8 @@ function connectTo($directory, $username, $password)
     $command = "net use $directory /user:$username $password";
     return shell_exec($command);
 }
+
+function disconnectTo(){
+    
+}
 ?>
