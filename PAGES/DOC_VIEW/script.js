@@ -458,6 +458,7 @@ function setForms() {
     FORM_DOC_SEND.addEventListener('submit', function (e) {
         e.preventDefault();
         this.querySelector('input[type=submit]').disabled = true;
+        notify("info","Sending....");
 
         var data = JsFunctions.FormToJson(FORM_DOC_SEND);
         var routedCheck = {
@@ -489,6 +490,7 @@ function setForms() {
     FORM_DOC_RECEIVE.addEventListener('submit', function (e) {
         e.preventDefault();
         this.querySelector('input[type=submit]').disabled = true;
+        notify("info","Receiving....");
 
         var data = {
             REQUEST: _REQUEST.RECEIVE_DOC,
@@ -517,6 +519,7 @@ function setForms() {
     FORM_DOC_EDIT.addEventListener('submit', function (e) {
         e.preventDefault();
         this.querySelector('input[type=submit]').disabled = true;
+        notify("info","Editing....");
 
         var data = {
             REQUEST: _REQUEST.EDIT_DOCUMENT,
@@ -547,6 +550,7 @@ function setForms() {
     FORM_ATTACH_ADD.addEventListener('submit', function (e) {
         e.preventDefault();
         this.querySelector('input[type=submit]').disabled = true;
+        notify("info","Uploading....");
 
         var formData = new FormData(this);
         var xhr = new XMLHttpRequest();
@@ -579,6 +583,7 @@ function updateAttachments(mini, results, buttons) {
         doc.innerText = item['DESCRIPTION'];
         doc.className = "atc_items";
         doc.addEventListener('click', function () {
+            notify("info","REDIRECTING....");
             console.log(item.ID);
             getData(_REQUEST.GET_ATTACHMENT, { ID: item.ID }, (result) => {
                 const url = "../../" + result;
