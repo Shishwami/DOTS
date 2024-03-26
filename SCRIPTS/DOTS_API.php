@@ -1508,33 +1508,87 @@ function getTableUser($inputs, $tableName)
             ],
         );
     }
-
     // Define the query data
     $data = array(
         'TABLE' => "$tableName",
         'COLUMNS' => array(
             "$tableName.ID",
+
             "CASE WHEN $tableName.ROUTE_NUM = 0 THEN $tableName.DOC_NUM 
              ELSE CONCAT($tableName.DOC_NUM,\"-\",$tableName.ROUTE_NUM) 
              END AS `No.`",
+
             "$tableName.DOC_NUM",
             "$tableName.ROUTE_NUM",
             "DOTS_DOCUMENT.DOC_SUBJECT as `Subject`",
             "$tableName.DOC_NOTES as `Notes`",
-            "DOTS_DOC_PRPS.DOC_PRPS as `Purpose`",
+            "DOTS_DOC_PRPS.DOC_PRPS `Purpose`",
+
             "CONCAT(" .
             "IF(S_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(S_OFFICE.DOC_OFFICE,'-'), ' '),' ', " .
             "IF(S_DEPT.DOC_DEPT IS NOT NULL,CONCAT(S_DEPT.DOC_DEPT,'-'), ' '), " .
             "IFNULL(S_FULL_NAME.FULL_NAME, ' ')) as 'Sender'",
+
             "CONCAT(" .
             "IF(R_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(R_OFFICE.DOC_OFFICE,'-'), ' '),' ', " .
             "IF(R_DEPT.DOC_DEPT IS NOT NULL,CONCAT(R_DEPT.DOC_DEPT,'-'), ' '), " .
             "IFNULL(R_FULL_NAME.FULL_NAME, ' ')) as 'Receiver'",
+
+            // "$tableName.DATE_TIME_RECEIVED as `Date Received`",
             "$tableName.DATE_TIME_SEND as `Date Sent`",
             "DOTS_DOC_ACTION.DOC_ACTION as `Action`",
         ),
+
+        // Define table joins
         "JOIN" => array(
-            // Define table joins
+            array(
+                "table" => "DOTS_DOC_PRPS",
+                "ON" => ["$tableName.PRPS_ID = DOTS_DOC_PRPS.ID"],
+                "TYPE" => "LEFT",
+            ),
+            array(
+                "table" => "DOTS_DOC_OFFICE S_OFFICE",
+                "ON" => ["$tableName.S_OFFICE_ID = S_OFFICE.ID"],
+                "TYPE" => "LEFT",
+            ),
+            array(
+                "table" => "DOTS_DOC_DEPT S_DEPT",
+                "ON" => ["$tableName.S_DEPT_ID = S_DEPT.ID"],
+                "TYPE" => "LEFT",
+            ),
+            array(
+                "table" => "DOTS_ACCOUNT_INFO S_FULL_NAME",
+                "ON" => ["$tableName.S_USER_ID = S_FULL_NAME.HRIS_ID"],
+                "TYPE" => "LEFT",
+            ),
+            array(
+                "table" => "DOTS_DOC_OFFICE R_OFFICE",
+                "ON" => ["$tableName.R_OFFICE_ID = R_OFFICE.ID"],
+                "TYPE" => "LEFT",
+            ),
+            array(
+                "table" => "DOTS_DOC_DEPT R_DEPT",
+                "ON" => ["$tableName.R_DEPT_ID = R_DEPT.ID"],
+                "TYPE" => "LEFT",
+            ),
+            array(
+                "table" => "DOTS_ACCOUNT_INFO R_FULL_NAME",
+                "ON" => ["$tableName.R_USER_ID = R_FULL_NAME.HRIS_ID"],
+                "TYPE" => "LEFT",
+            ),
+            array(
+                "table" => "DOTS_DOC_ACTION",
+                "ON" => ["$tableName.ACTION_ID = DOTS_DOC_ACTION.ID"],
+                "TYPE" => "LEFT",
+            ),
+            array(
+                "table" => "DOTS_DOCUMENT",
+                "ON" => [
+                    "DOTS_DOCUMENT.DOC_NUM = $tableName.DOC_NUM",
+                    "DOTS_DOCUMENT.ROUTE_NUM = $tableName.ROUTE_NUM"
+                ],
+                "TYPE" => "LEFT",
+            ),
         ),
         'ORDER_BY' => "$tableName.DOC_NUM DESC",
     );
@@ -1549,10 +1603,11 @@ function getTableUser($inputs, $tableName)
         'className' => 'btnT',
         'label' => 'T'
     ];
-
+    
     // Render the HTML table with the retrieved data and action buttons
     setupTable($result, $buttons, $tableName);
 }
+
 /**
  * Setup the HTML table with formatted result data and action buttons.
  * This function formats the result data and action buttons into JSON format for rendering.
@@ -1767,7 +1822,7 @@ function sendDocFormUser($inputs)
     $results = [];
 
     $r_user_id = 0;
-    if (isset($inputs['DATA']['R_USER_ID'])) {
+    if (isset ($inputs['DATA']['R_USER_ID'])) {
         $r_user_id = $inputs['DATA']['R_USER_ID'];
     }
 
@@ -1794,7 +1849,7 @@ function sendDocFormUser($inputs)
         );
         exit;
     }
-    
+
     // Check user privilege
     if ($_SESSION['DOTS_PRIV'] < 2) {
         echo json_encode(
@@ -1825,7 +1880,7 @@ function sendDocFormUser($inputs)
             'ID' => $inputs["DATA"]["ID"],
         ]
     ];
-    if (isset($inputs['DATA']['R_USER_ID'])) {
+    if (isset ($inputs['DATA']['R_USER_ID'])) {
         $updateOutboundData['DATA']['R_USER_ID'] = $inputs['DATA']['R_USER_ID'];
     }
 
@@ -1843,7 +1898,7 @@ function sendDocFormUser($inputs)
             'ACTION_ID' => "1",
         ],
     ];
-    if (isset($inputs['DATA']['R_USER_ID'])) {
+    if (isset ($inputs['DATA']['R_USER_ID'])) {
         $insertInboundData['DATA']['R_USER_ID'] = $inputs['DATA']['R_USER_ID'];
     }
 
@@ -1878,7 +1933,7 @@ function sendDocFormUser($inputs)
             ]
         ],
     ];
-    if (isset($inputs['DATA']['R_USER_ID'])) {
+    if (isset ($inputs['DATA']['R_USER_ID'])) {
         $selectReceiverData['WHERE']['AND'][]['HRIS_ID'] = $inputs['DATA']['R_USER_ID'];
     }
 
@@ -1962,7 +2017,7 @@ function sendDocFormUser($inputs)
         ],
     ];
     $selectReceiverRow = $queries->selectQuery($selectReceiverData)[0];
-    
+
     // Select department data
     $selectDeptData = [
         'TABLE' => 'DOTS_DOC_DEPT',
@@ -2092,7 +2147,7 @@ function getTableTracking($inputs)
     $selectTableResult = $queries->selectQuery($selectTableData);
 
     // Echo the tracking information or an error message
-    setupTable($selectTableResult, null, 'DOTS_TRACKING');
+    setupTable($selectTableResult, [], 'DOTS_TRACKING');
 }
 
 /**
@@ -2151,7 +2206,7 @@ function getTableAttachment($inputs)
     $result = $queries->selectQuery($data);
 
     // Echo the attachment information or an error message
-    setupTable($result, null, $tableName);
+    setupTable($result, [], $tableName);
 }
 
 /**
@@ -2294,7 +2349,6 @@ function validateInputsEdit($requiredFields, $inputs)
  * Returns the file location of an attachment with the given ID.
  *
  * @param int $id The ID of the attachment.
- * @return string JSON-encoded string containing the file location if successful, or an error message.
  */
 function returnFileLocation($id)
 {
@@ -2326,7 +2380,7 @@ function returnFileLocation($id)
     // Check if file opened successfully
     if ($fileHandle === false) {
         // If failed to open, return error message
-        return json_encode([
+        echo json_encode([
             'VALID' => false,
             'MESSAGE' => "Failed to open the PDF file."
         ]);
@@ -2346,8 +2400,9 @@ function returnFileLocation($id)
         // Write the PDF content to the temporary file
         file_put_contents($tmpFilePath, $pdfContent);
 
+
         // Return the file location
-        return json_encode([
+        echo json_encode([
             'VALID' => true,
             'RESULT' => $tempDirectory . '/' . $tmpFileName
         ]);
@@ -2355,13 +2410,13 @@ function returnFileLocation($id)
 
     // Close the file handle
     fclose($fileHandle);
+
 }
 
 /**
  * Retrieves information about a document with the given ID.
  *
  * @param int $id The ID of the document.
- * @return string JSON-encoded string containing document information and associated purposes.
  */
 function getTableRow($id)
 {
@@ -2459,8 +2514,8 @@ function getTableRow($id)
     $selectDocumentRow['Date Received'] = formatDateTime($selectDocumentRow['Date Received']);
     $selectDocumentRow['Letter Date'] = formatDate($selectDocumentRow['Letter Date']);
 
-    // Encode the result in JSON format and return
-    return json_encode([
+    // Encode the result in JSON format
+    echo json_encode([
         'DOC' => $selectDocumentRow,
         'PRPS' => $selectPrpsResults
     ]);
