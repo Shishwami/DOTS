@@ -1,17 +1,19 @@
 <?php
-
+// Start or resume session
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Include necessary files
 include './Queries.php';
 include './DB_Connect.php';
 
+// Initialize Queries object
 $queries = new Queries($pdo);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
-
-
+// Handle file upload if it's a POST request and ATTACH_FILE is set
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['ATTACH_FILE'])) {
+    // Check user privilege
     if ($_SESSION['DOTS_PRIV'] < 2) {
         echo json_encode(
             array(
@@ -21,6 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
         );
         exit;
     }
+
+    // Check if the uploaded file is empty
     if ($_FILES['ATTACH_FILE']['size'] == 0) {
         echo json_encode(
             array(
@@ -31,28 +35,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
         exit;
     }
 
+    // Check if DESCRIPTION is provided
     if ($_POST['DESCRIPTION'] == "") {
         echo json_encode(
             array(
                 'VALID' => false,
-                'MESSAGE' => "Please Fill up required Inputs",
+                'MESSAGE' => "Please fill up required inputs",
+            )
+        );
+        exit;
+    }
+     // Check if the uploaded file is a PDF
+    if ($_FILES['ATTACH_FILE']['type'] != 'application/pdf') {
+        echo json_encode(
+            array(
+                'VALID' => false,
+                'MESSAGE' => "Only PDF files are allowed",
             )
         );
         exit;
     }
 
-    $message = "";
-    $valid = false;
-
+    // Get document details
     $documentRow = selectDocument($_POST['ID']);
 
+    // Read FTP credentials from config.ini
     $config = parse_ini_file('config.ini', true);
-
     $uploadDirectory = $config['ftp_credentials']['ftp_server'];
     $username = $config['ftp_credentials']['username'];
     $password = $config['ftp_credentials']['password'];
 
-    connectTo($uploadDirectory,$username,$password);
+    // Connect to FTP server
+    connectTo($uploadDirectory, $username, $password);
 
     $targetDir = "$uploadDirectory/$documentRow[DOC_NUM]/$documentRow[ROUTE_NUM]";
     $targetFile = "$targetDir/$_POST[DESCRIPTION].pdf";
@@ -62,7 +76,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
         mkdir($targetDir, 0, true);
     }
 
+    // Start database transaction
     $pdo->beginTransaction();
+
+    // Move the uploaded file to the target directory
     if (move_uploaded_file($_FILES['ATTACH_FILE']['tmp_name'], $targetFile)) {
         // File uploaded successfully
         $insertAttachmentData = [
@@ -81,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
             echo json_encode(
                 array(
                     'VALID' => true,
-                    'MESSAGE' => "File Uploaded.",
+                    'MESSAGE' => "File uploaded.",
                 )
             );
         } else {
@@ -90,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
             echo json_encode(
                 array(
                     'VALID' => false,
-                    'MESSAGE' => "File Not Uploaded." . error_get_last()['message'],
+                    'MESSAGE' => "File not uploaded." . error_get_last()['message'],
                 )
             );
         }
@@ -103,9 +120,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
             )
         );
     }
+
+    // Delete old temporary files
     deleteOldTemp("../attachment_temp");
+
+    // Disconnect from FTP server
     disconnectTo($uploadDirectory);
 } else {
+    // Invalid request
     echo json_encode(
         array(
             'VALID' => false,
@@ -115,6 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
     exit;
 }
 
+// Function to select document details by ID
 function selectDocument($id)
 {
     global $conn, $queries;
@@ -131,10 +154,11 @@ function selectDocument($id)
     return $selectDocumentRow;
 }
 
+// Function to delete old temporary files
 function deleteOldTemp($directory)
 {
     // Get the current time and calculate the time one hour ago
-    $oneHourAgo = time() - (60 * 60); // 60 seconds * 60 minutes = 1 hour
+    $time = time() - (60 * 60); // 60 seconds * 60 minutes = 1 hour
 
     // Open the directory
     if ($handle = opendir($directory)) {
@@ -142,7 +166,7 @@ function deleteOldTemp($directory)
         while (false !== ($file = readdir($handle))) {
             $filePath = $directory . '/' . $file;
             // Check if the file is a regular file and if it's older than an hour
-            if (is_file($filePath) && filemtime($filePath) != $oneHourAgo) {
+            if (is_file($filePath) && filemtime($filePath) != $time) {
                 // Delete the file
                 unlink($filePath);
             }
@@ -152,12 +176,14 @@ function deleteOldTemp($directory)
     }
 }
 
+// Function to connect to FTP server
 function connectTo($directory, $username, $password)
 {
     $command = "net use $directory /user:$username $password";
     return exec($command);
 }
 
+// Function to disconnect from FTP server
 function disconnectTo($directory){
     $command = "net use $directory /delete";
     return exec($command);

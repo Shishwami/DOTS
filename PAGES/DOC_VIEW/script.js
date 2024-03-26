@@ -36,8 +36,6 @@ const EDIT_R_USER_ID = FORM_DOC_EDIT.querySelector("#EDIT_R_USER_ID");
 const EDIT_R_DEPT_ID = FORM_DOC_EDIT.querySelector("#EDIT_R_DEPT_ID");
 const EDIT_ACTION_ID_2 = FORM_DOC_EDIT.querySelector("#EDIT_ACTION_ID_2");
 const EDIT_ACTION_ID_3 = FORM_DOC_EDIT.querySelector("#EDIT_ACTION_ID_3");
-
-console.log(EDIT_ACTION_ID_2);
 //SEND FORM
 const FORM_DOC_SEND = document.getElementById("FORM_DOC_SEND");
 const SEND_DOC_NUM = FORM_DOC_SEND.querySelector("#SEND_DOC_NUM");
@@ -50,13 +48,13 @@ const SEND_DATE_TIME_SENT = FORM_DOC_SEND.querySelector("#SEND_DATE_TIME_SENT");
 const SEND_ACTION_ID = FORM_DOC_SEND.querySelector("#SEND_ACTION_ID");
 const SEND_S_USER_ID = FORM_DOC_SEND.querySelector("#SEND_S_USER_ID");
 const SEND_S_DEPT_ID = FORM_DOC_SEND.querySelector("#SEND_S_DEPT_ID");
-
+//ATTACHMENT FORM
 const FORM_ATTACH_ADD = document.getElementById("FORM_ATTACH_ADD");
 const ATTACH_ID = FORM_ATTACH_ADD.querySelector('#ATTACH_ID');
 const ATTACH_FILE = document.getElementById("ATTACH_FILE");
 const ATTACH_RESULTS = document.getElementById("ATTACH_RESULTS");
 const ATTACH_DESC = FORM_ATTACH_ADD.querySelector("#ATTACH_DESCRIPTION");
-
+//MODALS
 const snd_modal = document.getElementById("snd_modal");
 const atc_modal = document.getElementById("atc_modal");
 const edt_modal = document.getElementById("edt_modal");
@@ -212,8 +210,6 @@ function sendBtnEvent(id, doc_num, route_num) {
     getData(_REQUEST.GET_SESSION_HRIS_ID, null, (result) => {
         SEND_S_USER_ID.value = result;
     }, null);
-
-
 
     if (snd_modal) {
         snd_modal.style.display = "block";
@@ -490,7 +486,7 @@ function setForms() {
     FORM_DOC_RECEIVE.addEventListener('submit', function (e) {
         e.preventDefault();
         this.querySelector('input[type=submit]').disabled = true;
-        notify("info","Receiving....");
+        notify("info","Submitting....");
 
         var data = {
             REQUEST: _REQUEST.RECEIVE_DOC,

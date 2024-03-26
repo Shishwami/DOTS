@@ -41,13 +41,28 @@ class Queries
     //     "ORDER BY": "t1.column1",
     //     "LIMIT": 10
     // }';
+
+    /**
+     * Executes a SELECT query based on the provided inputs.
+     *
+     * @param array $inputs An associative array containing parameters for the SELECT query.
+     *                      - 'COLUMNS': (optional) An array of column names to select. Default is all columns (*).
+     *                      - 'TABLE': The name of the table from which to select data.
+     *                      - 'JOIN': (optional) An array of join operations with tables and ON conditions.
+     *                               Each join operation should have the keys 'table', 'TYPE', and 'ON'.
+     *                      - 'WHERE': (optional) An array defining the WHERE clause conditions.
+     *                                 It should be an associative array with logical conditions ('AND' or 'OR'),
+     *                                 where each condition is an array of column-value pairs.
+     *                      - 'ORDER_BY': (optional) A string defining the ORDER BY clause for sorting results.
+     * @return array|bool Returns an array of fetched rows if successful, or false on failure.
+     */
     function selectQuery($inputs)
     {
-
         global $pdo;
         $params = [];
         $sql = "SELECT ";
 
+        // Check if specific columns are requested, otherwise select all (*)
         if (isset ($inputs['COLUMNS'])) {
             $columns = array_map(function ($column) {
                 return "$column";
@@ -57,18 +72,22 @@ class Queries
             $sql .= '*';
         }
 
+        // Check if a specific table is provided
         if (isset ($inputs['TABLE'])) {
             $sql .= ' FROM ' . $inputs['TABLE'];
         } else {
-            // handle error
+            // Handle error if table is not provided
             return false;
         }
 
+        // Check if there are JOIN operations
         if (isset ($inputs['JOIN'])) {
             foreach ($inputs['JOIN'] as $join) {
                 $sql .= " {$join['TYPE']} JOIN {$join['table']} ON " . implode(' AND ', $join['ON']);
             }
         }
+
+        // Check if WHERE conditions are provided
         if (isset ($inputs['WHERE'])) {
             $whereData = $inputs['WHERE'];
             $whereConditions = [];
@@ -85,20 +104,24 @@ class Queries
             $sql .= ' WHERE ' . implode(' AND ', $whereConditions);
         }
 
+        // Check if ORDER BY clause is provided
         if (isset ($inputs['ORDER_BY'])) {
             $sql .= ' ORDER BY ' . $inputs['ORDER_BY'];
         }
 
+        // Prepare the SQL statement
         $stmt = $pdo->prepare($sql);
         checkStatement(!$stmt);
 
-        // Bind parameters
+        // Bind parameters to the prepared statement
         foreach ($params as $key => $value) {
             $stmt->bindValue($key + 1, $value);
         }
 
+        // Execute the query
         checkSuccess(!$stmt->execute());
 
+        // Fetch and return the results
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -111,35 +134,47 @@ class Queries
     //         "column3": "value3"
     //     }
     // }';
+
+    /** 
+     * Executes an INSERT query based on the provided inputs.
+     *
+     * @param array $inputs An associative array containing parameters for the INSERT query.
+     *                      - 'TABLE': The name of the table into which data will be inserted.
+     *                      - 'DATA': An associative array where keys represent column names and values represent data to be inserted.
+     * @return int|string Returns the last inserted ID if successful, or false on failure.
+     */
     function insertQuery($inputs)
     {
         global $pdo;
 
+        // Extract table name and data from inputs
         $tableName = $inputs['TABLE'];
         $data = $inputs['DATA'];
 
-        // Construct the SQL query with placeholders
+        // Construct the SQL query with placeholders for values
         $sql = "INSERT INTO $tableName (";
-        $sql .= implode(', ', array_keys($data));
+        $sql .= implode(', ', array_keys($data)); // Columns
         $sql .= ') VALUES (';
-        $sql .= rtrim(str_repeat('?, ', count($data)), ', ');
+        $sql .= rtrim(str_repeat('?, ', count($data)), ', '); // Placeholders for values
         $sql .= ')';
 
-        // Prepare the statement
+        // Prepare the SQL statement
         $stmt = $pdo->prepare($sql);
-        checkStatement(!$stmt);
+        checkStatement(!$stmt); // Check if statement preparation fails
 
-        // Bind parameters
+        // Bind values to the placeholders
         $i = 1;
         foreach ($data as $value) {
             $stmt->bindValue($i++, $value);
         }
-        // Execute the statement
-        checkSuccess(!$stmt->execute());
 
-        // Return the last inserted ID if needed
+        // Execute the statement
+        checkSuccess(!$stmt->execute()); // Check if execution fails
+
+        // Return the last inserted ID
         return $pdo->lastInsertId();
     }
+
 
     // jsonFormat = '{
     //     "TABLE": "table_name",
@@ -152,16 +187,28 @@ class Queries
     //         "condition_column": "condition_value"
     //     }
     // }';
+    /**
+     * Executes an UPDATE query based on the provided inputs.
+     *
+     * @param array $inputs An associative array containing parameters for the UPDATE query.
+     *                      - 'TABLE': The name of the table to update.
+     *                      - 'DATA': An associative array where keys represent column names and values represent new data to be set.
+     *                      - 'WHERE': An associative array where keys represent column names and values represent conditions for the WHERE clause.
+     * @return int Returns the number of rows affected by the UPDATE query.
+     */
     function updateQuery($inputs)
     {
         global $pdo;
 
+        // Extract table name, data to update, and WHERE conditions from inputs
         $tableName = $inputs['TABLE'];
         $data = $inputs['DATA'];
         $condition = $inputs['WHERE'];
 
+        // Construct the SQL query
         $sql = "UPDATE $tableName SET ";
 
+        // Construct SET clause
         $setPairs = [];
         $setValues = [];
         foreach ($data as $column => $value) {
@@ -170,6 +217,7 @@ class Queries
         }
         $sql .= implode(', ', $setPairs);
 
+        // Construct WHERE clause
         $sql .= ' WHERE ';
         $wherePairs = [];
         $whereValues = [];
@@ -179,20 +227,25 @@ class Queries
         }
         $sql .= implode(' AND ', $wherePairs);
 
+        // Prepare the SQL statement
         $stmt = $pdo->prepare($sql);
-        checkStatement(!$stmt);
+        checkStatement(!$stmt); // Check if statement preparation fails
 
+        // Bind values to the placeholders in SET clause
         for ($i = 0; $i < count($setValues); $i++) {
             $stmt->bindValue(($i + 1), $setValues[$i]);
         }
 
+        // Bind values to the placeholders in WHERE clause
         $startIndex = count($setValues) + 1;
         for ($i = 0; $i < count($whereValues); $i++) {
             $stmt->bindValue(($startIndex + $i), $whereValues[$i]);
         }
 
-        checkSuccess(!$stmt->execute());
+        // Execute the statement
+        checkSuccess(!$stmt->execute()); // Check if execution fails
 
+        // Return the number of rows affected by the UPDATE query
         return $stmt->rowCount();
     }
 
@@ -203,44 +256,48 @@ class Queries
     //         "condition_column": "condition_value"
     //     }
     // }';
-    function deleteQuery($inputs)
-    {
-        $tableName = $inputs['TABLE'];
-        $condition = $inputs['WHERE'];
+    // function deleteQuery($inputs)
+    // {
+    //     $tableName = $inputs['TABLE'];
+    //     $condition = $inputs['WHERE'];
 
-        $sql = "DELETE FROM $tableName";
+    //     $sql = "DELETE FROM $tableName";
 
-        $sql .= ' WHERE ';
+    //     $sql .= ' WHERE ';
 
-        $wherePairs = [];
-        foreach ($condition as $column => $value) {
-            $wherePairs[] = "$column = '$value'";
-        }
+    //     $wherePairs = [];
+    //     foreach ($condition as $column => $value) {
+    //         $wherePairs[] = "$column = '$value'";
+    //     }
 
-        $sql .= implode(' AND ', $wherePairs);
+    //     $sql .= implode(' AND ', $wherePairs);
 
-        $sql .= ";";
-        return $sql;
-    }
+    //     $sql .= ";";
+    //     return $sql;
+    // }
 }
 
 function checkStatement($stmt)
 {
-    // echo json_encode(
-    //     [
-    //         'VALID' => false,
-    //         'MESSAGE' => 'SQL Error 1'
-    //     ]
-    // );
+    // if ($stmt != false) {
+    //     echo json_encode(
+    //         [
+    //             'VALID' => false,
+    //             'MESSAGE' => 'SQL Error 1'
+    //         ]
+    //     );
+    // }
 }
 
 function checkSuccess($stmt)
 {
-    // echo json_encode(
-    //     [
-    //         'VALID' => false,
-    //         'MESSAGE' => 'SQL Error 2'
-    //     ]
-    // );
+    // if ($stmt != false) {
+    //     echo json_encode(
+    //         [
+    //             'VALID' => false,
+    //             'MESSAGE' => 'SQL Error 2'
+    //         ]
+    //     );
+    // }
 }
 ?>

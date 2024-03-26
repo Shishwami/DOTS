@@ -11,139 +11,139 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 try {
-// Retrieve JSON input data and sanitize it
-$inputs = json_decode(file_get_contents("php://input"), true);
-$inputs = sanitizeInputs($inputs);
+    // Retrieve JSON input data and sanitize it
+    $inputs = json_decode(file_get_contents("php://input"), true);
+    $inputs = sanitizeInputs($inputs);
 
-// Set the default timezone
-date_default_timezone_set("Asia/Manila");
+    // Set the default timezone
+    date_default_timezone_set("Asia/Manila");
 
-// Determine the action based on the value of REQUEST
-switch ($inputs['REQUEST']) {
-    // Handle user login
-    case 'USER_LOGIN':
-        userLogin($inputs);
-        break;
+    // Determine the action based on the value of REQUEST
+    switch ($inputs['REQUEST']) {
+        // Handle user login
+        case 'USER_LOGIN':
+            userLogin($inputs);
+            break;
 
-    // Get current date
-    case 'GET_DATE':
-        get_Date($inputs);
-        break;
+        // Get current date
+        case 'GET_DATE':
+            get_Date($inputs);
+            break;
 
-    // Get session value for full name
-    case 'GET_SESSION_NAME':
-        getSessionValue("FULL_NAME");
-        break;
-    // Get session value for initials
-    case 'GET_SESSION_INITIAL':
-        getSessionValue("INIITAL");
-        break;
-    // Get session value for HRIS ID
-    case 'GET_SESSION_HRIS_ID':
-        getSessionValue("HRIS_ID");
-        break;
-    // Get session value for department ID
-    case 'GET_SESSION_DEPT_ID':
-        getSessionValue("DEPT_ID");
-        break;
+        // Get session value for full name
+        case 'GET_SESSION_NAME':
+            getSessionValue("FULL_NAME");
+            break;
+        // Get session value for initials
+        case 'GET_SESSION_INITIAL':
+            getSessionValue("INIITAL");
+            break;
+        // Get session value for HRIS ID
+        case 'GET_SESSION_HRIS_ID':
+            getSessionValue("HRIS_ID");
+            break;
+        // Get session value for department ID
+        case 'GET_SESSION_DEPT_ID':
+            getSessionValue("DEPT_ID");
+            break;
 
-    // Get document number
-    case 'GET_DOC_NUM':
-        getDocNum();
-        break;
-    // Get addressee information
-    case 'GET_ADDRESSEE':
-        getAddressee($inputs);
-        break;
+        // Get document number
+        case 'GET_DOC_NUM':
+            getDocNum();
+            break;
+        // Get addressee information
+        case 'GET_ADDRESSEE':
+            getAddressee($inputs);
+            break;
 
-    // Get document details
-    case "GET_DOCUMENT":
-        getDocument($inputs);
-        break;
-    // Edit document
-    case 'EDIT_DOCUMENT':
-        editDocument($inputs);
-        break;
-    // Cancel document received
-    case 'CANCEL_RECEIVE':
-        cancelReceive($inputs);
-        break;
-    // Cancel document sending
-    case 'CANCEL_SEND':
-        cancelSend($inputs);
-        break;
-    // Get document type options
-    case "GET_DOC_TYPE":
-        getOptions('DOTS_DOC_TYPE', 'DOC_TYPE');
-        break;
-    // Get department options
-    case 'GET_DEPT':
-        getOptions('DOTS_DOC_DEPT', 'DOC_DEPT');
-        break;
-    // Get document office options
-    case 'GET_DOC_OFFICE':
-        getOptions('DOTS_DOC_OFFICE', 'DOC_OFFICE');
-        break;
-    // Get document purpose options
-    case 'GET_DOC_PRPS':
-        getOptions('DOTS_DOC_PRPS', 'DOC_PRPS');
-        break;
+        // Get document details
+        case "GET_DOCUMENT":
+            getDocument($inputs);
+            break;
+        // Edit document
+        case 'EDIT_DOCUMENT':
+            editDocument($inputs);
+            break;
+        // Cancel document received
+        case 'CANCEL_RECEIVE':
+            cancelReceive($inputs);
+            break;
+        // Cancel document sending
+        case 'CANCEL_SEND':
+            cancelSend($inputs);
+            break;
+        // Get document type options
+        case "GET_DOC_TYPE":
+            getOptions('DOTS_DOC_TYPE', 'DOC_TYPE');
+            break;
+        // Get department options
+        case 'GET_DEPT':
+            getOptions('DOTS_DOC_DEPT', 'DOC_DEPT');
+            break;
+        // Get document office options
+        case 'GET_DOC_OFFICE':
+            getOptions('DOTS_DOC_OFFICE', 'DOC_OFFICE');
+            break;
+        // Get document purpose options
+        case 'GET_DOC_PRPS':
+            getOptions('DOTS_DOC_PRPS', 'DOC_PRPS');
+            break;
 
-    // Get year filter
-    case 'GET_FILTER_YEAR':
-        getOptions('DOTS_FILTER_YEAR', 'YEAR');
-        break;
+        // Get year filter
+        case 'GET_FILTER_YEAR':
+            getOptions('DOTS_FILTER_YEAR', 'YEAR');
+            break;
 
-    // Receive document
-    case 'RECEIVE_DOC':
-        receiveDoc($inputs);
-        break;
-    // Send document form
-    case 'SEND_DOC_FORM':
-        sendDocForm($inputs);
-        break;
+        // Receive document
+        case 'RECEIVE_DOC':
+            receiveDoc($inputs);
+            break;
+        // Send document form
+        case 'SEND_DOC_FORM':
+            sendDocForm($inputs);
+            break;
 
-    // Get main table data
-    case 'GET_TABLE_MAIN':
-        getTableMain($inputs);
-        break;
-    // Get inbound table data
-    case 'GET_TABLE_INBOUND':
-        getTableUser($inputs, 'DOTS_DOCUMENT_INBOUND');
-        break;
-    // Get outbound table data
-    case 'GET_TABLE_OUTBOUND':
-        getTableUser($inputs, 'DOTS_DOCUMENT_OUTBOUND');
-        break;
-    // Get attachment table data
-    case 'GET_TABLE_ATTACHMENT':
-        getTableAttachment($inputs);
-        break;
-    // Get tracking table data
-    case 'GET_TABLE_TRACKING':
-        getTableTracking($inputs);
-        break;
+        // Get main table data
+        case 'GET_TABLE_MAIN':
+            getTableMain($inputs);
+            break;
+        // Get inbound table data
+        case 'GET_TABLE_INBOUND':
+            getTableUser($inputs, 'DOTS_DOCUMENT_INBOUND');
+            break;
+        // Get outbound table data
+        case 'GET_TABLE_OUTBOUND':
+            getTableUser($inputs, 'DOTS_DOCUMENT_OUTBOUND');
+            break;
+        // Get attachment table data
+        case 'GET_TABLE_ATTACHMENT':
+            getTableAttachment($inputs);
+            break;
+        // Get tracking table data
+        case 'GET_TABLE_TRACKING':
+            getTableTracking($inputs);
+            break;
 
-    // Receive document for user
-    case 'RECEIVE_DOC_USER':
-        receiveDocUser($inputs);
-        break;
-    // Send document form for user
-    case 'SEND_DOC_USER':
-        sendDocFormUser($inputs);
-        break;
+        // Receive document for user
+        case 'RECEIVE_DOC_USER':
+            receiveDocUser($inputs);
+            break;
+        // Send document form for user
+        case 'SEND_DOC_USER':
+            sendDocFormUser($inputs);
+            break;
 
-    // Get attachment file location
-    case 'GET_ATTACHMENT':
-        returnFileLocation($inputs['ID']);
-        break;
-    // Get routing slip table row
-    case 'GET_ROUTING_SLIP':
-        getTableRow($inputs['ID']);
-        break;
-}
-// Close the database connection
-$pdo = null;
+        // Get attachment file location
+        case 'GET_ATTACHMENT':
+            returnFileLocation($inputs['ID']);
+            break;
+        // Get routing slip table row
+        case 'GET_ROUTING_SLIP':
+            getTableRow($inputs['ID']);
+            break;
+    }
+    // Close the database connection
+    $pdo = null;
 
 } catch (mysqli_sql_exception $th) {
     // Handle MySQLi exceptions
@@ -698,7 +698,7 @@ function cancelReceive($inputs)
         ]
     ];
 
-    if (isset($inputs['DATA']['CANCEL_R_DEPT'])) {
+    if (isset ($inputs['DATA']['CANCEL_R_DEPT'])) {
         $updateReceiveData['DATA']['R_USER_ID'] = 0;
     }
 
@@ -745,16 +745,21 @@ function cancelReceive($inputs)
     );
 }
 
+/**
+ * Cancels the sending of a document.
+ *
+ * @param array $inputs Input data containing the necessary details for canceling the document sending.
+ * @return void This function echoes JSON-encoded response indicating the success of the operation and any messages.
+ */
 function cancelSend($inputs)
 {
-    global $queries, $pdo;
+    global $queries, $pdo; // Access global variables $queries and $pdo
 
-    $valid = false;
-    $results = [];
-    $requiredFields = [
-        'CANCEL_S_NOTES'
-    ];
+    $valid = false; // Initialize variable to indicate if the operation was successful
+    $results = []; // Initialize array to store results
+    $requiredFields = ['CANCEL_S_NOTES']; // Define required input fields
 
+    // Validate input fields
     if (!validateInputs($requiredFields, $inputs)) {
         echo json_encode(
             [
@@ -764,41 +769,40 @@ function cancelSend($inputs)
         );
         exit;
     }
+
+    // Check user privileges
     if ($_SESSION['DOTS_PRIV'] < 1) {
         echo json_encode(
-            array(
+            [
                 'VALID' => $valid,
                 'MESSAGE' => "Not enough privilege to perform this action",
-            )
+            ]
         );
         exit;
     }
 
-    $pdo->beginTransaction();
+    $pdo->beginTransaction(); // Begin transaction
 
-    //get outboundid for deletion
+    // Get outbound document for deletion
     $selectReceiveData = [
         'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
         'WHERE' => [
-            'AND' => array(
-                array('ID' => $inputs['DATA']['CANCEL_S_ID'])
-            ),
+            'AND' => [['ID' => $inputs['DATA']['CANCEL_S_ID']]]
         ]
     ];
     $selectReceiveRow = $queries->selectQuery($selectReceiveData)[0];
 
+    // Get related inbound document
     $selectOutboundData = [
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
         'WHERE' => [
-            "AND" => [
-                ['ID' => $selectReceiveRow['INBOUND_ID']],
-            ]
-        ],
+            'AND' => [['ID' => $selectReceiveRow['INBOUND_ID']]]
+        ]
     ];
     $selectOutboundRow = $queries->selectQuery($selectOutboundData)[0];
 
+    // Check if the document has been routed and received
     if ($selectOutboundRow['ACTION_ID'] == 2) {
-        //routed and sent; and cannot be canceled 
         echo json_encode(
             [
                 'VALID' => $valid,
@@ -808,22 +812,16 @@ function cancelSend($inputs)
         exit;
     }
 
-    //update the doc in inbound to be canceled
-    //update to cancelled the doc in outbound
-
+    // Update the inbound document to mark sending as canceled
     $deleteDocData = [
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
-        'DATA' => [
-            'ACTION_ID' => 5//canclled
-        ],
-        'WHERE' => [
-            'ID' => $selectReceiveRow['INBOUND_ID']
-        ],
+        'DATA' => ['ACTION_ID' => 5],
+        'WHERE' => ['ID' => $selectReceiveRow['INBOUND_ID']]
     ];
     $deleteDocResult = $queries->updateQuery($deleteDocData);
     $results[] = !is_null($deleteDocResult);
 
-    //update the doc in outbound to have no send data
+    // Update the outbound document to remove sending data
     $updateReceiveData = [
         'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
         'DATA' => [
@@ -832,25 +830,21 @@ function cancelSend($inputs)
             'R_USER_ID' => 0,
             'PRPS_ID' => 0,
             'ROUTED' => 0,
-            'ACTION_ID' => 2//ACTION_ID RECEIVED
+            'ACTION_ID' => 2
         ],
-        "WHERE" => [
-            'ID' => $inputs['DATA']['CANCEL_S_ID']
-        ]
+        'WHERE' => ['ID' => $inputs['DATA']['CANCEL_S_ID']]
     ];
     $updateReceiveResult = $queries->updateQuery($updateReceiveData);
     $results[] = !is_null($updateReceiveResult);
 
-    // add to logs
-
+    // Add cancellation action to logs
     $insertSCancelToLogsData = [
         'TABLE' => 'DOTS_TRACKING',
         'DATA' => [
             'DOC_NUM' => $selectReceiveRow["DOC_NUM"],
             'ROUTE_NUM' => $selectReceiveRow["ROUTE_NUM"],
-            'ACTION_ID' => 5,//ACTION_ID RECEIVE
+            'ACTION_ID' => 5,
             'HRIS_ID' => $_SESSION['HRIS_ID'],
-            // 'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_RECEIVED'],
             'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
             'NOTE_USER' => $inputs['DATA']['CANCEL_S_NOTES'],
             'NOTE_SERVER' => "Sending Document canceled by sender",
@@ -859,110 +853,130 @@ function cancelSend($inputs)
     $insertSCancelToLogsResult = $queries->insertQuery($insertSCancelToLogsData);
     $results[] = !is_null($insertSCancelToLogsResult);
 
+    // Check if all operations were successful
     $valid = checkArray($results);
     if ($valid) {
-        $pdo->commit();
+        $pdo->commit(); // Commit the transaction
         echo json_encode(
-            array(
+            [
                 'VALID' => $valid,
                 'MESSAGE' => "Sending has been canceled."
-            )
+            ]
         );
     } else {
-        $pdo->rollBack();
+        $pdo->rollBack(); // Rollback the transaction
         echo json_encode(
-            array(
+            [
                 'VALID' => $valid,
                 'MESSAGE' => "SERVER ERROR"
-            )
+            ]
         );
     }
 }
 
+
+/**
+ * Retrieves options from a database table and formats them as key-value pairs.
+ *
+ * @param string $tableName The name of the table to retrieve options from.
+ * @param string $columnName The name of the column containing the option values.
+ * @return void This function echoes JSON-encoded response containing the retrieved options.
+ */
 function getOptions($tableName, $columnName)
 {
-    global $queries, $pdo;
+    global $queries, $pdo; // Access global variables $queries and $pdo
 
-    $valid = false;
-    $data = array(
+    $valid = false; // Initialize variable to indicate if the operation was successful
+    $data = [
         'TABLE' => $tableName,
-        'COLUMNS' => array(
-            'ID',
-            $columnName,
-        ),
-    );
+        'COLUMNS' => ['ID', $columnName],
+    ];
 
+    // Retrieve options from the database
     $result = $queries->selectQuery($data);
 
-    $formattedOptions = [];
-    if ($result) {
-        $valid = true;
-        foreach ($result as $key => $value) {
+    $formattedOptions = []; // Initialize array to store formatted options
+    if ($result) { // If options are retrieved successfully
+        $valid = true; // Set valid flag to true
+        foreach ($result as $key => $value) { // Loop through retrieved options
             foreach ($value as $key2 => $value2) {
-                $value3 = array_values($value);
-                $formattedOptions[$value3[0]] = $value3[1];
+                $value3 = array_values($value); // Get array values
+                $formattedOptions[$value3[0]] = $value3[1]; // Store option ID as key and option value as value
             }
         }
     }
 
+    // Echo JSON-encoded response containing the retrieved options
     echo json_encode(
-        array(
+        [
             'VALID' => $valid,
             'RESULT' => $formattedOptions
-        )
-    );
-}
-function getAddressee($inputs)
-{
-    global $queries, $pdo;
-
-    $valid = false;
-    $data = array(
-        'TABLE' => 'DOTS_ACCOUNT_INFO',
-        'COLUMNS' => array(
-            'HRIS_ID',
-            'FULL_NAME',
-        ),
-        'WHERE' => [
-            'AND' => array(
-                array('DEPT_ID' => $inputs['DEPT_ID'])
-            ),
         ]
     );
+}
 
+/**
+ * Retrieves addressees from the database based on department ID.
+ *
+ * @param array $inputs The input data containing department ID.
+ * @return void This function echoes JSON-encoded response containing the retrieved addressees.
+ */
+function getAddressee($inputs)
+{
+    global $queries, $pdo; // Access global variables $queries and $pdo
+
+    $valid = false; // Initialize variable to indicate if the operation was successful
+    $data = [
+        'TABLE' => 'DOTS_ACCOUNT_INFO',
+        'COLUMNS' => ['HRIS_ID', 'FULL_NAME'],
+        'WHERE' => [
+            'AND' => [
+                ['DEPT_ID' => $inputs['DEPT_ID']] // Filter by department ID
+            ],
+        ]
+    ];
+
+    // Retrieve addressees from the database based on the provided department ID
     $result = $queries->selectQuery($data);
 
-    $formattedOptions = [];
-    if ($result) {
-        $valid = true;
-        foreach ($result as $key => $value) {
+    $formattedOptions = []; // Initialize array to store formatted addressees
+    if ($result) { // If addressees are retrieved successfully
+        $valid = true; // Set valid flag to true
+        foreach ($result as $key => $value) { // Loop through retrieved addressees
             foreach ($value as $key2 => $value2) {
-                // $formattedOptions[$key] = $value;
-                $value3 = array_values($value);
-                $formattedOptions[$value3[0]] = $value3[1];
+                // $formattedOptions[$key] = $value; // Store addressee ID as key and addressee name as value
+                $value3 = array_values($value); // Get array values
+                $formattedOptions[$value3[0]] = $value3[1]; // Store HRIS ID as key and full name as value
             }
         }
     }
 
+    // Echo JSON-encoded response containing the retrieved addressees
     echo json_encode(
-        array(
+        [
             'VALID' => $valid,
             'RESULT' => $formattedOptions
-        )
+        ]
     );
 }
 
+/**
+ * Handles sending of documents.
+ *
+ * @param array $inputs The input data containing document details.
+ * @return void This function echoes JSON-encoded response indicating the success or failure of the operation.
+ */
 function sendDocForm($inputs)
 {
-    global $queries, $pdo;
+    global $queries, $pdo; // Access global variables $queries and $pdo
 
-    $valid = false;
-    $newRoutingNumber = 0;
-    $lastInboundId = 0;
-    $results = [];
-    $r_user_id = 0;
+    $valid = false; // Initialize variable to indicate if the operation was successful
+    $newRoutingNumber = 0; // Initialize variable to store the new routing number
+    $lastInboundId = 0; // Initialize variable to store the last inbound ID
+    $results = []; // Initialize array to store operation results
+    $r_user_id = 0; // Initialize variable to store receiver user ID
 
-    $requiredFields = [
+    $requiredFields = [ // Define required fields for sending documents
         'DOC_NUM',
         'ROUTE_NUM',
         'DATE_TIME_SEND',
@@ -974,49 +988,47 @@ function sendDocForm($inputs)
         'S_USER_ID',
     ];
 
+    // Validate if all required fields are provided in the input data
     if (!validateInputs($requiredFields, $inputs)) {
-        echo json_encode(
-            [
-                'VALID' => $valid,
-                'MESSAGE' => "Please Fill up Required Fields"
-            ]
-        );
+        echo json_encode([
+            'VALID' => $valid,
+            'MESSAGE' => "Please Fill up Required Fields"
+        ]);
         exit;
     }
+
+    // Check user privilege level
     if ($_SESSION['DOTS_PRIV'] < 3) {
-        echo json_encode(
-            array(
-                'VALID' => $valid,
-                'MESSAGE' => "Not enough privilege to perform this action",
-            )
-        );
+        echo json_encode([
+            'VALID' => $valid,
+            'MESSAGE' => "Not enough privilege to perform this action",
+        ]);
         exit;
     }
 
+    $pdo->beginTransaction(); // Begin transaction
 
-    $pdo->beginTransaction();
-
+    // Set receiver user ID if provided in the input data
     if (isset ($inputs['DATA']['R_USER_ID'])) {
         $r_user_id = $inputs['DATA']['R_USER_ID'];
     }
 
+    // Define data for inserting into DOTS_DOCUMENT_INBOUND table
     $insertInboundData = [
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
         'DATA' => $inputs['DATA'],
     ];
+
+    // Define data for inserting into DOTS_DOCUMENT_OUTBOUND table
     $insertOutboundData = [
         'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
         'DATA' => $inputs['DATA'],
     ];
 
+    // Check if the document is already routed
     $checkRoutedData = [
         'TABLE' => 'DOTS_DOCUMENT',
-        'COLUMNS' => [
-            'ID',
-            'DOC_NUM',
-            'ROUTE_NUM',
-            'ROUTED',
-        ],
+        'COLUMNS' => ['ID', 'DOC_NUM', 'ROUTE_NUM', 'ROUTED'],
         'WHERE' => [
             'AND' => [
                 ['DOC_NUM' => $inputs['DATA']['DOC_NUM']],
@@ -1026,17 +1038,19 @@ function sendDocForm($inputs)
     ];
     $checkRoutedRow = $queries->selectQuery($checkRoutedData)[0];
 
+    // Define data for updating the document status to routed
     $updateDocumentData = [
         'TABLE' => 'DOTS_DOCUMENT',
         'DATA' => [
-            'ROUTED' => 1,//set to routed
-            'DOC_STATUS' => 1,//set on hand to pending
+            'ROUTED' => 1, // Set to routed
+            'DOC_STATUS' => 1, // Set on hand to pending
         ],
         'WHERE' => [
             'ID' => $checkRoutedRow['ID']
         ],
     ];
 
+    // Retrieve receiver information based on the provided receiver user ID
     $selectReceiverData = [
         'TABLE' => 'DOTS_ACCOUNT_INFO',
         'WHERE' => [
@@ -1047,6 +1061,7 @@ function sendDocForm($inputs)
     ];
     $selectReceiverRow = $queries->selectQuery($selectReceiverData)[0];
 
+    // Retrieve department information based on the provided department ID
     $selectDeptData = [
         'TABLE' => 'DOTS_DOC_DEPT',
         'WHERE' => [
@@ -1057,7 +1072,9 @@ function sendDocForm($inputs)
     ];
     $selectDeptRow = $queries->selectQuery($selectDeptData)[0];
 
+    // If the document is already routed
     if ($checkRoutedRow['ROUTED'] == 1) {
+        // Retrieve the last document with the same document number and calculate the new routing number
         $selectDocumentData = [
             'TABLE' => 'DOTS_DOCUMENT',
             'WHERE' => [
@@ -1068,88 +1085,114 @@ function sendDocForm($inputs)
             'ORDER_BY' => 'ROUTE_NUM DESC'
         ];
         $selectDocumentRow = $queries->selectQuery($selectDocumentData)[0];
-        unset($selectDocumentRow['ID']);
+        unset($selectDocumentRow['ID']); // Remove the ID field
 
         $newRoutingNumber = intval($selectDocumentRow['ROUTE_NUM']) + 1;
+        $selectDocumentRow['ROUTE_NUM'] = $newRoutingNumber;
         $selectDocumentRow['ROUTE_NUM'] = $newRoutingNumber;
         $insertInboundData['DATA']["ROUTE_NUM"] = $newRoutingNumber;
         $insertOutboundData['DATA']["ROUTE_NUM"] = $newRoutingNumber;
 
+        // Insert the duplicated document record into the database
         $insertDocumentData = [
             'TABLE' => 'DOTS_DOCUMENT',
             'DATA' => $selectDocumentRow,
         ];
         $results[] = $queries->insertQuery($insertDocumentData);
 
+        // Log the duplication action
         $insertDocumentLogData = [
             'TABLE' => 'DOTS_TRACKING',
             'DATA' => [
                 'HRIS_ID' => $_SESSION['HRIS_ID'],
                 'DOC_NUM' => $checkRoutedRow['DOC_NUM'],
                 'ROUTE_NUM' => $newRoutingNumber,
-                'ACTION_ID' => 4,//Duplicate action_id
+                'ACTION_ID' => 4, // Duplicate action_id
                 'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
                 'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_SEND'],
                 'NOTE_SERVER' => 'Document already routed, Document has been duplicated',
             ]
         ];
+
+        // Include user notes if provided
         if (isset ($inputs['DATA']['DOC_NOTES'])) {
             $insertDocumentLogData['DATA']['NOTE_USER'] = $inputs['DATA']['DOC_NOTES'];
         }
         $results[] = $queries->insertQuery($insertDocumentLogData);
 
-    } else if ($checkRoutedRow['ROUTED'] == 0) {
+    } elseif ($checkRoutedRow['ROUTED'] == 0) { // If the document is not yet routed
+        // Update the document status to routed
         $results[] = $queries->updateQuery($updateDocumentData);
     }
 
+    // Insert the document details into DOTS_DOCUMENT_INBOUND table
     $lastInboundId = $queries->insertQuery($insertInboundData);
     $results[] = $lastInboundId;
 
+    // Format the document number
     $formattedDocumentNumber = formatDocumentNumber($checkRoutedRow['DOC_NUM'], $newRoutingNumber);
     $note_server = "Document $formattedDocumentNumber sent to ";
+
+    // Include receiver department and user information in the server note
     if (!is_null($selectReceiverRow)) {
         $note_server .= "$selectDeptRow[DOC_DEPT]-$selectReceiverRow[FULL_NAME]";
     } else {
         $note_server .= "$selectDeptRow[DOC_DEPT]";
     }
 
+    // Insert the document sending action log into DOTS_TRACKING table
     $insertInboundLogData = [
         'TABLE' => 'DOTS_TRACKING',
         'DATA' => [
             'HRIS_ID' => $_SESSION['HRIS_ID'],
             'DOC_NUM' => $checkRoutedRow['DOC_NUM'],
             'ROUTE_NUM' => $newRoutingNumber,
-            'ACTION_ID' => 1,//sent action_id
+            'ACTION_ID' => 1, // Sent action_id
             'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
             'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_SEND'],
             'NOTE_SERVER' => $note_server,
         ]
     ];
 
+    // Include user notes if provided
     if (isset ($inputs['DATA']['DOC_NOTES'])) {
         $insertInboundLogData['DATA']['NOTE_USER'] = $inputs['DATA']['DOC_NOTES'];
     }
 
+    // Insert the outbound document details into DOTS_DOCUMENT_OUTBOUND table
     $insertOutboundData['DATA']['INBOUND_ID'] = $lastInboundId;
     $results[] = $queries->insertQuery($insertOutboundData);
+
+    // Insert the inbound log data
     $results[] = $queries->insertQuery($insertInboundLogData);
 
+    // Check if all operations were successful
     $valid = checkArray($results);
-    if ($valid) {
-        $pdo->commit();
+    if ($valid) { // If all operations were successful
+        $pdo->commit(); // Commit the transaction
         echo json_encode([
             'VALID' => $valid,
-            "MESSAGE" => $note_server,
+            'MESSAGE' => $note_server,
         ]);
-    } else {
-        $pdo->rollBack();
+    } else { // If any operation failed
+        $pdo->rollBack(); // Rollback the transaction
         echo json_encode([
             'VALID' => $valid,
-            "MESSAGE" => "SERVER ERROR",
+            'MESSAGE' => "SERVER ERROR",
         ]);
     }
 }
 
+
+
+/**
+ * Receive document function
+ *
+ * @param array $inputs An array containing the input data for receiving the document
+ *                      Required fields: ACTION_ID, DATE_TIME_RECEIVED, LETTER_DATE, DOC_TYPE_ID, S_OFFICE_ID,
+ *                      DOC_SUBJECT, DOC_STATUS, R_USER_ID, R_DEPT_ID, DOC_SUBJECT
+ * @return void Outputs a JSON response indicating the success or failure of the operation
+ */
 function receiveDoc($inputs)
 {
     global $queries, $pdo;
@@ -1157,6 +1200,7 @@ function receiveDoc($inputs)
     $valid = false;
     $results = [];
 
+    // Required fields for receiving document
     $requiredFields = [
         'ACTION_ID',
         'DATE_TIME_RECEIVED',
@@ -1170,36 +1214,35 @@ function receiveDoc($inputs)
         'DOC_SUBJECT'
     ];
 
+    // Validate required fields
     if (!validateInputs($requiredFields, $inputs)) {
-        //notify user that a inputs is blank or not set
-        echo json_encode(
-            [
-                'VALID' => $valid,
-                'MESSAGE' => "Please ensure all required fields are filled out."
-            ]
-        );
+        echo json_encode([
+            'VALID' => $valid,
+            'MESSAGE' => "Please ensure all required fields are filled out."
+        ]);
         exit;
     }
 
+    // Check privilege level
     if ($_SESSION['DOTS_PRIV'] < 2) {
-        echo json_encode(
-            array(
-                'VALID' => $valid,
-                'MESSAGE' => "Not enough privilege to perform this action",
-            )
-        );
+        echo json_encode([
+            'VALID' => $valid,
+            'MESSAGE' => "Not enough privilege to perform this action",
+        ]);
         exit;
     }
-    $pdo->beginTransaction();
 
-    $insertDocumentData = array(
+    $pdo->beginTransaction(); // Start transaction
+
+    // Insert document data
+    $insertDocumentData = [
         'TABLE' => 'DOTS_DOCUMENT',
         'DATA' => $inputs['DATA'],
-    );
+    ];
     $lastId = $queries->insertQuery($insertDocumentData)[0];
-    $results[] = $lastId; //id of the last inserted row
+    $results[] = $lastId; // Id of the last inserted row
 
-    //get doc_num, route_num and actionid
+    // Get doc_num, route_num, and actionid
     $selectDocumentData = [
         'TABLE' => 'DOTS_DOCUMENT',
         'WHERE' => [
@@ -1210,7 +1253,7 @@ function receiveDoc($inputs)
     ];
     $selectDocumentRow = $queries->selectQuery($selectDocumentData)[0];
 
-    //add log create/ receive doc
+    // Add log for creating/receiving doc
     $insertLogData = [
         'TABLE' => 'DOTS_TRACKING',
         'DATA' => [
@@ -1225,8 +1268,11 @@ function receiveDoc($inputs)
     ];
     $results[] = $queries->insertQuery($insertLogData);
 
+    // Format document number
     $formattedDocumentNumber = formatDocumentNumber($selectDocumentRow['DOC_NUM'], $selectDocumentRow['ROUTE_NUM']);
     $formattedMessage = "";
+
+    // Set formatted message based on action_id
     if ($inputs['DATA']['ACTION_ID'] == 2) {
         $formattedMessage = "Document $formattedDocumentNumber Received";
     }
@@ -1234,38 +1280,48 @@ function receiveDoc($inputs)
         $formattedMessage = "Document $formattedDocumentNumber Created";
     }
 
+    // Check if all operations were successful
     $valid = checkArray($results);
     if ($valid) {
-        $pdo->commit();
-        echo json_encode(
-            array(
-                'VALID' => $valid,
-                'MESSAGE' => $formattedMessage,
-            )
-        );
+        $pdo->commit(); // Commit the transaction
+        echo json_encode([
+            'VALID' => $valid,
+            'MESSAGE' => $formattedMessage,
+        ]);
     } else {
-        $pdo->rollBack();
-        echo json_encode(
-            array(
-                'VALID' => $valid,
-                'MESSAGE' => "SERVER ERROR",
-            )
-        );
+        $pdo->rollBack(); // Rollback the transaction
+        echo json_encode([
+            'VALID' => $valid,
+            'MESSAGE' => "SERVER ERROR",
+        ]);
     }
 }
+
+/**
+ * Get main table data for display
+ *
+ * @param array $inputs An array containing input data, particularly the year for filtering
+ * @return void Outputs HTML table data after fetching and formatting from the database
+ */
 function getTableMain($inputs)
 {
     global $queries, $pdo;
+
+    // Get document year from inputs
     $year = getDocYear($inputs['YEAR']);
 
+    // Define table name
     $tableName = 'DOTS_DOCUMENT';
-    $data = array(
+
+    // Define data query
+    $data = [
         'TABLE' => 'DOTS_DOCUMENT',
         'COLUMNS' => [
             'DOTS_DOCUMENT.ID',
 
+            // Format document number with or without route number
             "CASE WHEN ROUTE_NUM = 0 THEN DOTS_DOCUMENT.DOC_NUM 
-             ELSE CONCAT(DOTS_DOCUMENT.DOC_NUM,\"-\",ROUTE_NUM) 
+             ELSE CONCAT(DOTS_DOCUMENT.DOC_NUM,'-',ROUTE_NUM) 
              END AS `No.`",
 
             'DOC_NUM',
@@ -1274,11 +1330,13 @@ function getTableMain($inputs)
             'DOC_TYPE `Type`',
             'LETTER_DATE `Letter Date`',
 
+            // Concatenate sender information
             "CONCAT(
              IF(S_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(S_OFFICE.DOC_OFFICE,'-'), ' '),' ', 
              IF(S_DEPT.DOC_DEPT IS NOT NULL,CONCAT(S_DEPT.DOC_DEPT,'-'), ' '), 
              IFNULL(S_FULL_NAME.FULL_NAME, ' ')) as 'Sent By'",
 
+            // Concatenate receiver information
             "CONCAT(
             IF(R_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(R_OFFICE.DOC_OFFICE,'-'), ' '),' ',
             IF(R_DEPT.DOC_DEPT IS NOT NULL,CONCAT(R_DEPT.DOC_DEPT,'-'), ' '), 
@@ -1289,62 +1347,74 @@ function getTableMain($inputs)
             'DOTS_DOC_ACTION.DOC_ACTION `Action`'
         ],
         'JOIN' => [
-            array(
+            // Left join with document type table
+            [
                 'table' => 'DOTS_DOC_TYPE',
                 'ON' => ['DOTS_DOCUMENT.DOC_TYPE_ID = DOTS_DOC_TYPE.ID'],
                 'TYPE' => 'LEFT'
-            ),
-            array(
+            ],
+            // Left join with sender office table
+            [
                 'table' => 'DOTS_DOC_OFFICE S_OFFICE',
                 'ON' => ['DOTS_DOCUMENT.S_OFFICE_ID = S_OFFICE.ID'],
                 'TYPE' => 'LEFT'
-            ),
-            array(
+            ],
+            // Left join with sender department table
+            [
                 'table' => 'DOTS_DOC_DEPT S_DEPT',
                 'ON' => ['DOTS_DOCUMENT.S_DEPT_ID = S_DEPT.ID'],
                 'TYPE' => 'LEFT'
-            ),
-            array(
+            ],
+            // Left join with sender account info table
+            [
                 'table' => 'DOTS_ACCOUNT_INFO S_FULL_NAME',
                 'ON' => ['DOTS_DOCUMENT.S_USER_ID = S_FULL_NAME.HRIS_ID'],
                 'TYPE' => 'LEFT'
-            ),
-            array(
+            ],
+            // Left join with receiver office table
+            [
                 'table' => 'DOTS_DOC_OFFICE R_OFFICE',
                 'ON' => ['DOTS_DOCUMENT.R_OFFICE_ID = R_OFFICE.ID'],
                 'TYPE' => 'LEFT'
-            ),
-            array(
+            ],
+            // Left join with receiver department table
+            [
                 'table' => 'DOTS_DOC_DEPT R_DEPT',
                 'ON' => ['DOTS_DOCUMENT.R_DEPT_ID = R_DEPT.ID'],
                 'TYPE' => 'LEFT'
-            ),
-            array(
+            ],
+            // Left join with receiver account info table
+            [
                 'table' => 'DOTS_ACCOUNT_INFO R_FULL_NAME',
                 'ON' => ['DOTS_DOCUMENT.R_USER_ID = R_FULL_NAME.HRIS_ID'],
                 'TYPE' => 'LEFT'
-            ),
-            array(
+            ],
+            // Left join with document status table
+            [
                 'table' => 'DOTS_DOC_STATUS',
                 'ON' => ['DOTS_DOCUMENT.DOC_STATUS = DOTS_DOC_STATUS.ID'],
                 'TYPE' => 'LEFT'
-            ),
-            array(
+            ],
+            // Left join with document action table
+            [
                 'table' => 'DOTS_DOC_ACTION',
                 'ON' => ['DOTS_DOCUMENT.ACTION_ID = DOTS_DOC_ACTION.ID'],
                 'TYPE' => 'LEFT'
-            ),
+            ],
         ],
         'WHERE' => [
             'AND' => [
-                ['YEAR(DOTS_DOCUMENT.LETTER_DATE)' => $year]
+                ['YEAR(DOTS_DOCUMENT.LETTER_DATE)' => $year] // Filter by year
             ]
         ],
         'ORDER_BY' => 'DOTS_DOCUMENT.DOC_NUM DESC'
-    );
+    ];
+
+    // Execute query
     $result = $queries->selectQuery($data);
 
-    $buttons = array(
+    // Define action buttons
+    $buttons = [
         [
             "className" => "btnS",
             "label" => "S"
@@ -1365,19 +1435,33 @@ function getTableMain($inputs)
             "className" => "btnP",
             "label" => "P"
         ]
-    );
+    ];
+
+    // Set up table with result data and action buttons
     setupTable($result, $buttons, $tableName);
 }
 
+
+/**
+ * Retrieve table data for display based on the user's role and the specified table name.
+ * This function constructs a query to fetch data from the specified table and formats it into an HTML table.
+ *
+ * @param array $inputs An array of inputs containing filtering criteria, particularly the year.
+ * @param string $tableName The name of the table for which data is to be retrieved.
+ * @return void The function echoes the formatted HTML table.
+ */
 function getTableUser($inputs, $tableName)
 {
     global $queries, $pdo;
 
+    // Initialize variables
     $buttons = [];
     $WHERE = [];
     $year = getDocYear($inputs['YEAR']);
 
+    // Determine the appropriate WHERE clause and action buttons based on the table name
     if ($tableName == "DOTS_DOCUMENT_INBOUND") {
+        // Construct WHERE clause for inbound documents
         $WHERE[] = [
             "AND" => array(
                 array("$tableName.R_DEPT_ID" => $_SESSION["DEPT_ID"]),
@@ -1388,6 +1472,7 @@ function getTableUser($inputs, $tableName)
                 array("$tableName.R_USER_ID" => '0'),
             ),
         ];
+        // Define action buttons for inbound documents
         $buttons = array(
             [
                 "className" => "btnR",
@@ -1400,6 +1485,7 @@ function getTableUser($inputs, $tableName)
         );
     }
     if ($tableName == "DOTS_DOCUMENT_OUTBOUND") {
+        // Construct WHERE clause for outbound documents
         $WHERE[] = [
             "AND" => array(
                 array("$tableName.S_DEPT_ID" => $_SESSION["DEPT_ID"]),
@@ -1410,6 +1496,7 @@ function getTableUser($inputs, $tableName)
                 array("$tableName.S_USER_ID" => '0'),
             ),
         ];
+        // Define action buttons for outbound documents
         $buttons = array(
             [
                 "className" => "btnS",
@@ -1421,7 +1508,7 @@ function getTableUser($inputs, $tableName)
             ],
         );
     }
-
+    // Define the query data
     $data = array(
         'TABLE' => "$tableName",
         'COLUMNS' => array(
@@ -1451,6 +1538,8 @@ function getTableUser($inputs, $tableName)
             "$tableName.DATE_TIME_SEND as `Date Sent`",
             "DOTS_DOC_ACTION.DOC_ACTION as `Action`",
         ),
+
+        // Define table joins
         "JOIN" => array(
             array(
                 "table" => "DOTS_DOC_PRPS",
@@ -1503,57 +1592,71 @@ function getTableUser($inputs, $tableName)
         ),
         'ORDER_BY' => "$tableName.DOC_NUM DESC",
     );
+    // Apply WHERE clause
     $data['WHERE'] = $WHERE[0];
 
+    // Execute the query
     $result = $queries->selectQuery($data);
 
+    // Add additional action button for each row
     $buttons[] = [
         'className' => 'btnT',
         'label' => 'T'
     ];
+    
+    // Render the HTML table with the retrieved data and action buttons
     setupTable($result, $buttons, $tableName);
 }
+
+/**
+ * Setup the HTML table with formatted result data and action buttons.
+ * This function formats the result data and action buttons into JSON format for rendering.
+ *
+ * @param array $result The result data retrieved from the database.
+ * @param array $buttons The action buttons to be displayed in each row of the table.
+ * @param string $tableName The name of the table for context.
+ * @return void The function echoes the formatted JSON response.
+ */
 function setupTable($result, $buttons, $tableName)
 {
     $valid = false;
     $formattedResult = [];
-    if ($result != "")
+
+    // Format the result data
+    if ($result != "") {
         foreach ($result as $row) {
             $formattedRow = [];
             foreach ($row as $key => $value) {
-
                 $fValue = $value;
 
-                if ($key == "Date Received" && $value != null) {
-                    if ($fValue == '0000-00-00 00:00:00') {
-                        $fValue = '';
-                    } else {
+                // Perform formatting based on column keys
+                switch ($key) {
+                    case "Date Received":
+                    case "Date Sent":
+                    case "Date of Server":
+                        if ($fValue != null && $fValue != '0000-00-00 00:00:00') {
+                            $fValue = formatDateTime($value);
+                        } else {
+                            $fValue = '';
+                        }
+                        break;
+                    case "Letter Date":
+                        $fValue = formatDate($value);
+                        break;
+                    case "Date of Action":
                         $fValue = formatDateTime($value);
-                    }
-                } else if ($key == "Date Sent" && $value != null) {
-                    if ($fValue == '0000-00-00 00:00:00') {
-                        $fValue = '';
-                    } else {
-                        $fValue = formatDateTime($value);
-                    }
-                } else if ($key == "Date of Server" && $value != null) {
-                    if ($fValue == '0000-00-00 00:00:00') {
-                        $fValue = '';
-                    } else {
-                        $fValue = formatDateTime($value);
-                    }
-                } else if ($key == "Letter Date") {
-                    $fValue = formatDate($value);
-                } else if ($key == "Date of Action") {
-                    $fValue = formatDateTime($value);
+                        break;
+                    // Add additional cases for specific columns if needed
                 }
 
-                $valid = true;
                 $formattedRow[$key] = $fValue;
             }
             $formattedResult[] = $formattedRow;
         }
+        $valid = true;
+    }
 
+    // Echo the formatted JSON response
     echo json_encode(
         array(
             'VALID' => $valid,
@@ -1562,6 +1665,14 @@ function setupTable($result, $buttons, $tableName)
         )
     );
 }
+
+/**
+ * Process the action of receiving a document by a user.
+ * This function updates the document status to received, logs the action, and inserts an outbound document entry.
+ *
+ * @param array $inputs The input data containing information about the received document.
+ * @return void The function echoes a JSON response indicating the success or failure of the operation.
+ */
 function receiveDocUser($inputs)
 {
     global $queries, $pdo;
@@ -1569,6 +1680,7 @@ function receiveDocUser($inputs)
     $valid = false;
     $results = [];
 
+    // Prepare data for updating inbound document
     $updateData = array(
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
         'DATA' => array(
@@ -1582,6 +1694,7 @@ function receiveDocUser($inputs)
         ),
     );
 
+    // Prepare data for inserting outbound document
     $insertData = array(
         'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
         'DATA' => array(
@@ -1595,9 +1708,8 @@ function receiveDocUser($inputs)
         ),
     );
 
-    //select the doc on inbound and check if it is already recieived
-    //setup the data for select on inbound
-    $selectinboundData = [
+    // Select the inbound document and check if it has already been received
+    $selectInboundData = [
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
         'WHERE' => [
             'AND' => [
@@ -1605,8 +1717,10 @@ function receiveDocUser($inputs)
             ]
         ]
     ];
-    $selectinboundRow = $queries->selectQuery($selectinboundData)[0];
-    if ($selectinboundRow['ACTION_ID'] == 2) {
+    $selectInboundRow = $queries->selectQuery($selectInboundData)[0];
+
+    // Check if the document has already been received
+    if ($selectInboundRow['ACTION_ID'] == 2) {
         echo json_encode(
             [
                 'VALID' => $valid,
@@ -1615,6 +1729,8 @@ function receiveDocUser($inputs)
         );
         exit;
     }
+
+    // Check user privileges
     if ($_SESSION['DOTS_PRIV'] < 2) {
         echo json_encode(
             array(
@@ -1624,15 +1740,17 @@ function receiveDocUser($inputs)
         );
         exit;
     }
+
+    // Begin database transaction
     $pdo->beginTransaction();
 
-    //add log recieve by user
+    // Add log for document received by the user
     $insertLogData = [
         'TABLE' => 'DOTS_TRACKING',
         'DATA' => [
             'DOC_NUM' => $inputs['DATA']["DOC_NUM"],
             'ROUTE_NUM' => $inputs['DATA']["ROUTE_NUM"],
-            'ACTION_ID' => 2,//ACTION_ID RECEIVE
+            'ACTION_ID' => 2, // ACTION_ID RECEIVE
             'HRIS_ID' => $_SESSION['HRIS_ID'],
             'DATE_TIME_ACTION' => $inputs['DATA']['DATE_TIME_RECEIVED'],
             'DATE_TIME_SERVER' => date("Y-m-d\TH:i"),
@@ -1644,10 +1762,14 @@ function receiveDocUser($inputs)
     $lastId = $queries->insertQuery($insertData);
     $results[] = $lastId;
 
+    // Update inbound document with outbound_id
     $updateData['DATA']['OUTBOUND_ID'] = $lastId;
     $results[] = $queries->updateQuery($updateData);
 
+    // Check if the operation was successful
     $valid = checkArray($results);
+
+    // Commit or rollback the transaction based on validity
     if ($valid) {
         $pdo->commit();
         $formattedDocumentNumber = formatDocumentNumber($inputs['DATA']["DOC_NUM"], $inputs['DATA']["ROUTE_NUM"]);
@@ -1666,8 +1788,30 @@ function receiveDocUser($inputs)
             )
         );
     }
-
 }
+
+/**
+ * Process and send document form from user
+ *
+ * @param array $inputs An associative array containing the input data
+ *                      Structure: [
+ *                          'DATA' => [
+ *                              'DOC_NUM' => string, // Document number
+ *                              'ROUTE_NUM' => int, // Route number
+ *                              'DATE_TIME_SEND' => string, // Date and time of sending
+ *                              'PRPS_ID' => int, // Purpose ID
+ *                              'R_DEPT_ID' => int, // Receiving department ID
+ *                              'DOC_NOTES' => string, // Document notes
+ *                              'ID' => int, // ID
+ *                              'ACTION_ID' => string, // Action ID
+ *                              'S_DEPT_ID' => int, // Sending department ID
+ *                              'S_USER_ID' => int, // Sending user ID
+ *                              'R_USER_ID' => int|null, // Receiving user ID (optional)
+ *                          ]
+ *                      ]
+ *
+ * @return void Outputs JSON response containing validation result and message
+ */
 function sendDocFormUser($inputs)
 {
     global $queries, $pdo;
@@ -1695,6 +1839,7 @@ function sendDocFormUser($inputs)
         'S_USER_ID',
     ];
 
+    // Validate required fields
     if (!validateInputs($requiredFields, $inputs)) {
         echo json_encode(
             [
@@ -1704,6 +1849,8 @@ function sendDocFormUser($inputs)
         );
         exit;
     }
+
+    // Check user privilege
     if ($_SESSION['DOTS_PRIV'] < 2) {
         echo json_encode(
             array(
@@ -1716,7 +1863,7 @@ function sendDocFormUser($inputs)
 
     $pdo->beginTransaction();
 
-    //update outbound 
+    // Update outbound data
     $updateOutboundData = [
         'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
         'DATA' => [
@@ -1737,7 +1884,7 @@ function sendDocFormUser($inputs)
         $updateOutboundData['DATA']['R_USER_ID'] = $inputs['DATA']['R_USER_ID'];
     }
 
-    //insert to inbound /send
+    // Insert inbound data
     $insertInboundData = [
         'TABLE' => 'DOTS_DOCUMENT_INBOUND',
         'DATA' => [
@@ -1755,7 +1902,7 @@ function sendDocFormUser($inputs)
         $insertInboundData['DATA']['R_USER_ID'] = $inputs['DATA']['R_USER_ID'];
     }
 
-    //check if routed
+    // Select outbound data
     $selectOutboundData = [
         'TABLE' => 'DOTS_DOCUMENT_OUTBOUND',
         'WHERE' => array(
@@ -1766,6 +1913,7 @@ function sendDocFormUser($inputs)
     ];
     $selectOutboundRow = $queries->selectQuery($selectOutboundData)[0];
 
+    // Select receiver data
     $selectReceiverData = [
         'TABLE' => 'DOTS_ACCOUNT_INFO',
         'COLUMNS' => [
@@ -1792,7 +1940,7 @@ function sendDocFormUser($inputs)
     $selectReceiverRow = $queries->selectQuery($selectReceiverData)[0];
 
     if ($selectOutboundRow['ROUTED'] == 1) {
-        //if routed duplicate in docmain & outbound
+        // Select main data
         $selectMainData = [
             'TABLE' => 'DOTS_DOCUMENT',
             'WHERE' => array(
@@ -1804,15 +1952,16 @@ function sendDocFormUser($inputs)
         ];
         $selectMainRow = $queries->selectQuery($selectMainData)[0];
 
-        //reassign route number
+        // Calculate new route number
         $newRouteNumber = intval($selectMainRow['ROUTE_NUM']) + 1;
         $insertInboundData['DATA']['ROUTE_NUM'] = $newRouteNumber;
         $selectMainRow['ROUTE_NUM'] = $newRouteNumber;
 
+        // Insert inbound data and retrieve last ID
         $last_id = $queries->insertQuery($insertInboundData);
         $results = $last_id;
 
-        //add to doc main
+        // Insert main data
         unset($selectMainRow['ID']);
         $insertMainData = [
             'TABLE' => 'DOTS_DOCUMENT',
@@ -1820,13 +1969,13 @@ function sendDocFormUser($inputs)
         ];
         $results[] = $queries->insertQuery($insertMainData);
 
-        //add log doc main duplicate
+        // Insert log for duplicating document
         $insertMainLogData = [
             'TABLE' => 'DOTS_TRACKING',
             'DATA' => [
                 'DOC_NUM' => $insertMainData['DATA']["DOC_NUM"],
                 'ROUTE_NUM' => $insertMainData['DATA']["ROUTE_NUM"],
-                'ACTION_ID' => 4,//ACTION_ID DUPLICATE
+                'ACTION_ID' => 4, // ACTION_ID DUPLICATE
                 'HRIS_ID' => $_SESSION['HRIS_ID'],
                 'NOTE_USER' => $inputs['DATA']['DOC_NOTES'],
                 'NOTE_SERVER' => "Document already routed, Document has been duplicated",
@@ -1836,7 +1985,7 @@ function sendDocFormUser($inputs)
         ];
         $results[] = $queries->insertQuery($insertMainLogData);
 
-        //add to outbound
+        // Update outbound row
         $selectOutboundRow['ROUTE_NUM'] = $newRouteNumber;
         unset($selectOutboundRow['ID']);
         $insertOutboundData = [
@@ -1849,13 +1998,16 @@ function sendDocFormUser($inputs)
         $results[] = $queries->insertQuery($insertOutboundData);
 
     } else if ($selectOutboundRow['ROUTED'] == 0) {
+        // Insert inbound data if outbound is not routed
         $last_id = $queries->insertQuery($insertInboundData);
         $results[] = $last_id;
 
+        // Update outbound data with inbound ID
         $updateOutboundData['DATA']['INBOUND_ID'] = $last_id;
         $results[] = $queries->updateQuery($updateOutboundData);
     }
 
+    // Select receiver data
     $selectReceiverData = [
         'TABLE' => 'DOTS_ACCOUNT_INFO',
         'WHERE' => [
@@ -1865,6 +2017,8 @@ function sendDocFormUser($inputs)
         ],
     ];
     $selectReceiverRow = $queries->selectQuery($selectReceiverData)[0];
+
+    // Select department data
     $selectDeptData = [
         'TABLE' => 'DOTS_DOC_DEPT',
         'WHERE' => [
@@ -1875,6 +2029,7 @@ function sendDocFormUser($inputs)
     ];
     $selectDeptRow = $queries->selectQuery($selectDeptData)[0];
 
+    // Format document number
     $formattedDocumentNumber = formatDocumentNumber($selectOutboundRow['DOC_NUM'], $newRouteNumber);
     $note_server = "Document $formattedDocumentNumber sent to ";
     if (!is_null($selectReceiverRow)) {
@@ -1883,13 +2038,13 @@ function sendDocFormUser($inputs)
         $note_server .= "$selectDeptRow[DOC_DEPT]";
     }
 
-    //add log outbound send
+    // Insert main log data
     $insertMainLogData = [
         'TABLE' => 'DOTS_TRACKING',
         'DATA' => [
             'DOC_NUM' => $selectOutboundRow["DOC_NUM"],
             'ROUTE_NUM' => $selectOutboundRow["ROUTE_NUM"],
-            'ACTION_ID' => 1,//ACTION_ID SEND
+            'ACTION_ID' => 1, // ACTION_ID SEND
             'HRIS_ID' => $_SESSION['HRIS_ID'],
             'NOTE_USER' => $inputs['DATA']['DOC_NOTES'],
             'NOTE_SERVER' => $note_server,
@@ -1899,6 +2054,7 @@ function sendDocFormUser($inputs)
     ];
     $results[] = $queries->insertQuery($insertMainLogData);
 
+    // Check if all operations were successful
     $valid = checkArray($results);
     if ($valid) {
         $pdo->commit();
@@ -1918,10 +2074,19 @@ function sendDocFormUser($inputs)
         );
     }
 }
+
+/**
+ * Retrieves tracking information from the database table.
+ *
+ * @param array $inputs An array containing input data.
+ *                      Required keys: 'DOC_NUM', 'ROUTE_NUM'.
+ * @return void This function echoes JSON-encoded tracking information or an error message.
+ */
 function getTableTracking($inputs)
 {
     global $queries, $pdo;
 
+    // Check user privileges
     if ($_SESSION['DOTS_PRIV'] < 1) {
         echo json_encode(
             array(
@@ -1932,6 +2097,7 @@ function getTableTracking($inputs)
         exit;
     }
 
+    // Define the select query to retrieve tracking information
     $selectTableData = [
         'TABLE' => 'DOTS_TRACKING',
         'COLUMNS' => [
@@ -1977,13 +2143,25 @@ function getTableTracking($inputs)
         'SORT_BY' => 'DOC_NUM DESC'
     ];
 
+    // Execute the select query
     $selectTableResult = $queries->selectQuery($selectTableData);
-    setupTable($selectTableResult, null, 'DOTS_TRACKING');
+
+    // Echo the tracking information or an error message
+    setupTable($selectTableResult, [], 'DOTS_TRACKING');
 }
+
+/**
+ * Retrieves attachment information from the database table.
+ *
+ * @param array $inputs An array containing input data.
+ *                      Required key: 'ID'.
+ * @return void This function echoes JSON-encoded attachment information or an error message.
+ */
 function getTableAttachment($inputs)
 {
     global $queries, $pdo;
 
+    // Check user privileges
     if ($_SESSION['DOTS_PRIV'] < 2) {
         echo json_encode(
             array(
@@ -1994,6 +2172,7 @@ function getTableAttachment($inputs)
         exit;
     }
 
+    // Retrieve document information
     $selectDocumentData = [
         'TABLE' => 'DOTS_DOCUMENT',
         'WHERE' => [
@@ -2003,19 +2182,13 @@ function getTableAttachment($inputs)
         ]
     ];
     $selectDocumentRow = $queries->selectQuery($selectDocumentData)[0];
-    // var_dump($selectDocumentRow);
 
+    // Define the table name for attachments
     $tableName = 'DOTS_ATTACHMENTS';
+
+    // Define the query to retrieve attachment information
     $data = [
         'TABLE' => $tableName,
-        // 'COLUMNS' => [
-        //     "CASE WHEN ROUTE_NUM = 0 THEN DOC_NUM 
-        //     ELSE CONCAT(DOC_NUM,\"-\",ROUTE_NUM) 
-        //     END AS `No.`",
-        //     'DESCRIPTION',
-        //     'FILE_PATH',
-        //     'FILE_NAME',
-        // ],
         'WHERE' => [
             'AND' => [
                 ['DOC_NUM' => $selectDocumentRow['DOC_NUM']],
@@ -2023,29 +2196,63 @@ function getTableAttachment($inputs)
             ]
         ]
     ];
+
+    // Restrict access based on user privileges
     if ($_SESSION['DOTS_PRIV'] < 3) {
         $data['WHERE']['AND'][] = ['HRIS_ID' => $_SESSION['HRIS_ID']];
     }
 
+    // Execute the query to retrieve attachment information
     $result = $queries->selectQuery($data);
-    setupTable($result, null, $tableName);
+
+    // Echo the attachment information or an error message
+    setupTable($result, [], $tableName);
 }
+
+/**
+ * Formats a date and time string into a custom format.
+ *
+ * @param string $dateString The input date and time string.
+ * @return string The formatted date and time string.
+ */
 function formatDateTime($dateString)
 {
+    // Create a DateTime object from the input string
     $date = new DateTime($dateString);
+
+    // Extract hours, minutes, and AM/PM from the DateTime object
     $hours = $date->format('H');
     $ampm = $hours >= 12 ? 'pm' : 'am';
     $hours = $hours % 12;
     $minutes = $date->format('i');
+
+    // Construct the time string in HH:MM AM/PM format
     $strTime = $hours . ':' . $minutes . ' ' . $ampm;
+
+    // Format the date string to 'D, m/j/Y' format
+    // and concatenate it with the time string
     return $date->format('D, m/j/Y') . "  " . $strTime;
 }
 
+
+/**
+ * Formats a date string into 'n/j/Y' format.
+ *
+ * @param string $dateString The input date string.
+ * @return string The formatted date string.
+ */
 function formatDate($dateString)
 {
     $date = new DateTime($dateString);
     return ($date->format('n')) . "/" . $date->format('j') . "/" . $date->format('Y');
 }
+
+/**
+ * Converts results into an array.
+ *
+ * @param mixed $results The results to convert into an array.
+ * @return array The converted array of results.
+ */
 function resultsToArray($results)
 {
     $rows = [];
@@ -2054,6 +2261,15 @@ function resultsToArray($results)
     }
     return $rows;
 }
+
+/**
+ * Gets a value from an array of items based on the provided ID and column name.
+ *
+ * @param int $id The ID to search for.
+ * @param array $array The array of items to search within.
+ * @param string $columnName The column name from which to retrieve the value.
+ * @return mixed The value corresponding to the provided ID and column name.
+ */
 function getValueFromId($id, $array, $columnName)
 {
     $value = "";
@@ -2065,6 +2281,14 @@ function getValueFromId($id, $array, $columnName)
     }
     return $value;
 }
+
+/**
+ * Formats a document number based on the document number and route number.
+ *
+ * @param string $doc_num The document number.
+ * @param int $route_num The route number.
+ * @return string The formatted document number.
+ */
 function formatDocumentNumber($doc_num, $route_num)
 {
     $formattedDocumentNumber = "$doc_num-$route_num";
@@ -2073,14 +2297,25 @@ function formatDocumentNumber($doc_num, $route_num)
     }
     return $formattedDocumentNumber;
 }
+
+/**
+ * Checks if all elements in an array are true.
+ *
+ * @param array $array The array to check.
+ * @return bool True if all elements are true, false otherwise.
+ */
 function checkArray($array)
 {
-    if (in_array(false, $array, true)) {
-        return false;
-    } else {
-        return true;
-    }
+    return !in_array(false, $array, true);
 }
+
+/**
+ * Validates inputs against a set of required fields.
+ *
+ * @param array $requiredFields The list of required fields.
+ * @param array $inputs The inputs to validate.
+ * @return bool True if all required fields are present and not empty, false otherwise.
+ */
 function validateInputs($requiredFields, $inputs)
 {
     foreach ($requiredFields as $field) {
@@ -2090,6 +2325,14 @@ function validateInputs($requiredFields, $inputs)
     }
     return true;
 }
+
+/**
+ * Validates inputs against a set of required fields for editing.
+ *
+ * @param array $requiredFields The list of required fields.
+ * @param array $inputs The inputs to validate.
+ * @return bool True if all required fields for editing are present and not empty, false otherwise.
+ */
 function validateInputsEdit($requiredFields, $inputs)
 {
     foreach ($requiredFields as $field => $val) {
@@ -2101,10 +2344,17 @@ function validateInputsEdit($requiredFields, $inputs)
 }
 
 
+
+/**
+ * Returns the file location of an attachment with the given ID.
+ *
+ * @param int $id The ID of the attachment.
+ */
 function returnFileLocation($id)
 {
     global $queries, $pdo;
 
+    // Select attachment data from the database
     $selectAttachmentData = [
         'TABLE' => 'DOTS_ATTACHMENTS',
         'WHERE' => [
@@ -2115,22 +2365,30 @@ function returnFileLocation($id)
     ];
     $selectAttachmentRow = $queries->selectQuery($selectAttachmentData)[0];
 
+    // Retrieve FTP server information from configuration
     $config = parse_ini_file('config.ini', true);
     $uploadDirectory = $config['ftp_credentials']['ftp_server'];
 
+    // Construct target file path
     $targetDir = "$uploadDirectory/$selectAttachmentRow[DOC_NUM]/$selectAttachmentRow[ROUTE_NUM]";
     $targetFile = "$targetDir/$selectAttachmentRow[DESCRIPTION].pdf";
 
     // Open the PDF file
     $fileHandle = fopen($targetFile, 'rb'); // 'rb' for reading binary mode
     $pdfContent = file_get_contents($targetFile);
+
     // Check if file opened successfully
     if ($fileHandle === false) {
-        echo "Failed to open the PDF file.";
+        // If failed to open, return error message
+        echo json_encode([
+            'VALID' => false,
+            'MESSAGE' => "Failed to open the PDF file."
+        ]);
     } else {
         // Specify the directory where you want to store the temporary file on the server
         $tempDirectory = '../attachment_temp';
 
+        // Create the temporary directory if it doesn't exist
         if (!file_exists($tempDirectory)) {
             mkdir($tempDirectory, 0777, true);
         }
@@ -2142,130 +2400,152 @@ function returnFileLocation($id)
         // Write the PDF content to the temporary file
         file_put_contents($tmpFilePath, $pdfContent);
 
+
+        // Return the file location
         echo json_encode([
             'VALID' => true,
-            'RESULS' => $tempDirectory . '/' . $tmpFileName
+            'RESULT' => $tempDirectory . '/' . $tmpFileName
         ]);
     }
 
+    // Close the file handle
     fclose($fileHandle);
 
 }
 
+/**
+ * Retrieves information about a document with the given ID.
+ *
+ * @param int $id The ID of the document.
+ */
 function getTableRow($id)
 {
     global $queries, $pdo;
 
-    $data = array(
+    // Define the data array for the document query
+    $data = [
         'TABLE' => 'DOTS_DOCUMENT',
         'COLUMNS' => [
             'DOTS_DOCUMENT.ID',
-
             "CASE WHEN ROUTE_NUM = 0 THEN DOTS_DOCUMENT.DOC_NUM 
              ELSE CONCAT(DOTS_DOCUMENT.DOC_NUM,\"-\",ROUTE_NUM) 
              END AS `No.`",
-
             'DOC_NUM',
             'ROUTE_NUM',
             'DOC_SUBJECT as `Subject`',
             'DOC_TYPE `Type`',
             'LETTER_DATE `Letter Date`',
-
             "CONCAT(
              IF(S_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(S_OFFICE.DOC_OFFICE,'-'), ' '),' ', 
              IF(S_DEPT.DOC_DEPT IS NOT NULL,CONCAT(S_DEPT.DOC_DEPT,'-'), ' '), 
              IFNULL(S_FULL_NAME.FULL_NAME, ' ')) as 'Sent By'",
-
             "CONCAT(
             IF(R_OFFICE.DOC_OFFICE IS NOT NULL,CONCAT(R_OFFICE.DOC_OFFICE,'-'), ' '),' ',
             IF(R_DEPT.DOC_DEPT IS NOT NULL,CONCAT(R_DEPT.DOC_DEPT,'-'), ' '), 
             IFNULL(R_FULL_NAME.FULL_NAME, ' ')) as 'Received By'",
-
             'DATE_TIME_RECEIVED `Date Received`',
             'DOTS_DOC_STATUS.DOC_STATUS `Status`',
             'DOTS_DOC_ACTION.DOC_ACTION `Action`'
         ],
         'JOIN' => [
-            array(
+            [
                 'table' => 'DOTS_DOC_TYPE',
                 'ON' => ['DOTS_DOCUMENT.DOC_TYPE_ID = DOTS_DOC_TYPE.ID'],
                 'TYPE' => 'LEFT'
-            ),
-            array(
+            ],
+            [
                 'table' => 'DOTS_DOC_OFFICE S_OFFICE',
                 'ON' => ['DOTS_DOCUMENT.S_OFFICE_ID = S_OFFICE.ID'],
                 'TYPE' => 'LEFT'
-            ),
-            array(
+            ],
+            [
                 'table' => 'DOTS_DOC_DEPT S_DEPT',
                 'ON' => ['DOTS_DOCUMENT.S_DEPT_ID = S_DEPT.ID'],
                 'TYPE' => 'LEFT'
-            ),
-            array(
+            ],
+            [
                 'table' => 'DOTS_ACCOUNT_INFO S_FULL_NAME',
                 'ON' => ['DOTS_DOCUMENT.S_USER_ID = S_FULL_NAME.HRIS_ID'],
                 'TYPE' => 'LEFT'
-            ),
-            array(
+            ],
+            [
                 'table' => 'DOTS_DOC_OFFICE R_OFFICE',
                 'ON' => ['DOTS_DOCUMENT.R_OFFICE_ID = R_OFFICE.ID'],
                 'TYPE' => 'LEFT'
-            ),
-            array(
+            ],
+            [
                 'table' => 'DOTS_DOC_DEPT R_DEPT',
                 'ON' => ['DOTS_DOCUMENT.R_DEPT_ID = R_DEPT.ID'],
                 'TYPE' => 'LEFT'
-            ),
-            array(
+            ],
+            [
                 'table' => 'DOTS_ACCOUNT_INFO R_FULL_NAME',
                 'ON' => ['DOTS_DOCUMENT.R_USER_ID = R_FULL_NAME.HRIS_ID'],
                 'TYPE' => 'LEFT'
-            ),
-            array(
+            ],
+            [
                 'table' => 'DOTS_DOC_STATUS',
                 'ON' => ['DOTS_DOCUMENT.DOC_STATUS = DOTS_DOC_STATUS.ID'],
                 'TYPE' => 'LEFT'
-            ),
-            array(
+            ],
+            [
                 'table' => 'DOTS_DOC_ACTION',
                 'ON' => ['DOTS_DOCUMENT.ACTION_ID = DOTS_DOC_ACTION.ID'],
                 'TYPE' => 'LEFT'
-            ),
+            ],
         ],
         'WHERE' => [
             'AND' => [
                 ['DOTS_DOCUMENT.ID' => $id]
             ]
         ]
-    );
+    ];
 
-
+    // Select purpose data
     $selectPrpsData = [
         'TABLE' => 'DOTS_DOC_PRPS'
     ];
-
     $selectPrpsResults = $queries->selectQuery($selectPrpsData);
+
+    // Select document row
     $selectDocumentRow = $queries->selectQuery($data)[0];
 
+    // Format date and time
     $selectDocumentRow['Date Received'] = formatDateTime($selectDocumentRow['Date Received']);
     $selectDocumentRow['Letter Date'] = formatDate($selectDocumentRow['Letter Date']);
+
+    // Encode the result in JSON format
     echo json_encode([
         'DOC' => $selectDocumentRow,
         'PRPS' => $selectPrpsResults
     ]);
 }
 
+
+/**
+ * Retrieves the year associated with the given year ID.
+ *
+ * @param int $yearID The ID of the year.
+ * @return int|string The year associated with the given ID.
+ */
 function getDocYear($yearID)
 {
     global $queries, $pdo;
+
+    // Define the query to fetch year data
     $yearData = [
         'TABLE' => "DOTS_FILTER_YEAR",
         'WHERE' => [
-            'AND' =>
-                [['ID' => $yearID]],
-        ]
+            'AND' => [
+                ['ID' => $yearID],
+            ],
+        ],
     ];
+
+    // Execute the query to retrieve year data
     $yearResult = $queries->selectQuery($yearData)[0];
+
+    // Return the year associated with the given ID
     return $yearResult['YEAR'];
 }
 

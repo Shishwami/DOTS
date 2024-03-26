@@ -587,6 +587,5 @@ include "../../SCRIPTS/checkPrivilage.php";
 <script src="../../Modal/GenModal.js"></script>
 <script src="../../SCRIPTS/Constants.js"></script>
 <script src="./script.js" type="module"></script>
-<script src="inspect.js"></script>
 
 </html>
