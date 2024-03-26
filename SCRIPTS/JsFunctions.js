@@ -184,17 +184,34 @@ class JsFunctions {
         }
     }
 
+    /**
+    * Checks if any of the values in the array are empty or null.
+    * @param {Array} values - An array of values to check.
+    * @returns {boolean} - Returns true if any value is empty or null, otherwise returns false.
+    */
     static checkIfEmpty(values) {
+        // Initialize a flag to track if any value is empty
         var empty = false;
+
+        // Iterate through each value in the array
         for (let i = 0; i < values.length; i++) {
+            // Check if the value is empty or null
             if (values[i] == "" || values[i] == null) {
+                // If empty or null value found, set the empty flag to true
                 empty = true;
-                console.log(values[i]);
+                console.log(values[i]); // Log the empty or null value (optional)
             }
         }
+
+        // Return the empty flag indicating if any value is empty or null
         return empty;
     }
 
+    /**
+    * Formats a given date and time into a string representation.
+    * @param {Date} date - The date object to format.
+    * @returns {string} - The formatted date and time string.
+    */
     static formatDateTime(date) {
         var hours = date.getHours();
         var minutes = date.getMinutes();
@@ -206,10 +223,19 @@ class JsFunctions {
         return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
     }
 
+    /**
+     * Formats a given date into a string representation.
+     * @param {Date} date - The date object to format.
+     * @returns {string} - The formatted date string.
+     */
     static formatDate(date) {
         return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
     }
 
+    /**
+     * Attaches an event listener to a <tbody> element to handle clicks on its rows.
+     * @param {HTMLTableSectionElement} tbody - The <tbody> element to attach the event listener to.
+     */
     static tbodyEventListener(tbody) {
         tbody.addEventListener('click', function (e) {
             var target = e.target.closest('tr');
@@ -218,7 +244,6 @@ class JsFunctions {
                 var firstTdValue = target.querySelector('td:first-child').dataset.value;
                 sessionStorage.setItem("TEMP_DATA", firstTdValue);
             }
-
         });
     }
 }
