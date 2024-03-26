@@ -52,15 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
     $username = $config['ftp_credentials']['username'];
     $password = $config['ftp_credentials']['password'];
 
-    if(!connectTo($uploadDirectory,$username,$password)){
-        echo json_encode(
-            array(
-                'VALID' => false,
-                'MESSAGE' => "Cant Connect To file Server",
-            )
-        );
-        exit;
-    }
+    connectTo($uploadDirectory,$username,$password);
 
     $targetDir = "$uploadDirectory/$documentRow[DOC_NUM]/$documentRow[ROUTE_NUM]";
     $targetFile = "$targetDir/$_POST[DESCRIPTION].pdf";
@@ -112,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_FILES['ATTACH_FILE'])) {
         );
     }
     deleteOldTemp("../attachment_temp");
-
+    disconnectTo($uploadDirectory);
 } else {
     echo json_encode(
         array(
@@ -163,10 +155,11 @@ function deleteOldTemp($directory)
 function connectTo($directory, $username, $password)
 {
     $command = "net use $directory /user:$username $password";
-    return shell_exec($command);
+    return exec($command);
 }
 
-function disconnectTo(){
-    
+function disconnectTo($directory){
+    $command = "net use $directory /delete";
+    return exec($command);
 }
 ?>
