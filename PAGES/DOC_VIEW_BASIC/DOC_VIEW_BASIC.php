@@ -125,9 +125,6 @@ include "../../SCRIPTS/checkPrivilage.php";
                                     <input type="text" name="DOC_NUM" id="SEND_DOC_NUM" readonly>
                                 </div>
                                 <div class="head2">
-                                    <!-- <label for="SEND_DATE_TIME_RECEIVED">Date Received:</label>
-                                <input type="datetime-local" name="DATE_TIME_RECEIVED" id="SEND_DATE_TIME_RECEIVED"> -->
-
                                     <label for="SEND_ROUTE_NUM">Document Number:</label>
                                     <input type="text" name="ROUTE_NUM" id="SEND_ROUTE_NUM" readonly>
                                 </div>
@@ -236,102 +233,6 @@ include "../../SCRIPTS/checkPrivilage.php";
                         </form>
                     </div>
                 </div>
-
-                <div class="modal" id="atc_modal">
-                    <div class="modal_content">
-                        <div class="modal_banner">
-                            <span class="atc_close">&times;</span>
-                            <h1>View Attachment</h1>
-                        </div>
-
-                        <div class="spacer">
-                            <button class="atc_btn" id="BTN_ATTACH_ADD">Add Attachment</button>
-                            <button class="ins_btn" id="BTN_ATTACH_INS">Inspect Image</button>
-                            <!-- <table id="ATTACH_VIEW_MAIN">
-                                <th>
-                                </th>
-                                <tbody>
-                                </tbody>
-                            </table> -->
-
-                            <div class="attachments">
-                                <div class="descript">
-                                    <div class="preview">
-                                        <div id="ATTACH_RESULTS">
-
-                                        </div>
-                                    </div>
-
-                                    <div class="descbox">
-                                        <div>Samting samting</div>
-                                    </div>
-                                </div>
-
-                                <div class="zoom">
-                                    <div id="ATTACH_ZOOM">
-                                        <!-- preview -->
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="modal" id="ins_submodal">
-                                <div class="modal_content">
-                                    <div class="modal_banner">
-                                        <span class="ins_sub_close">&times;</span>
-                                        <h1>Inspect Image</h1>
-                                    </div>
-
-                                    <div class="form">
-                                        <div class="img-zoom-container">
-                                            <img id="myimage" class="img-preview" src="" width="300" height="240">
-                                            <div id="myresult" class="img-zoom-result"></div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div class="modal" id="atc_submodal">
-                                <div class="modal_content">
-                                    <div class="modal_banner">
-                                        <span class="atc_sub_close">&times;</span>
-                                        <h1>Attach</h1>
-                                    </div>
-
-                                    <div class="spacer">
-                                        <form class="atc_submodal" action="submit" method="POST" id="FORM_ATTACH_ADD"
-                                            enctype="multipart/form-data">
-                                            <div class="row">
-                                                <div class="desc">
-                                                    <label for="ATTACH_DESCRIPTION">Description:</label>
-                                                    <textarea name="DESCRIPTION" id="ATTACH_DESCRIPTION" cols="20"
-                                                        rows="3"></textarea>
-                                                </div>
-                                                <!-- <input type="text" name="DESCRIPTION" id="ATTACH_DESCRIPTION"> -->
-                                                <!-- <input type="file" name="ATTACH_FILE" id="ATTACH_FILE"> -->
-
-                                                <div class="imgbox">
-                                                    <input type="file" name="ATTACH_FILE[]" id="ATTACH_FILE" multiple
-                                                        accept="image/*" hidden>
-                                                    <div class="img-area" data-img="">
-                                                        <i class='fa-solid fa-upload icon'></i>
-                                                        <h3>Upload Image</h3>
-                                                        <p>Image size must be less than <span>10MB</span></p>
-                                                    </div>
-                                                    <button type="button" class="select-image">Select Image</button>
-                                                </div>
-                                            </div>
-
-                                            <div class="submit">
-                                                <input type="submit" value="Submit">
-                                            </div>
-                                            <input type="text" name="DOC_NUM" id="ATTACH_DOC_NUM" hidden readonly>
-                                            <input type="text" name="ROUTE_NUM" id="ATTACH_ROUTE_NUM" hidden readonly>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-
 
                             <!-- <h1>ADD ATTACHMENT MODAL</h1>
                                 <form action="submit" method="POST" id="FORM_ATTACH_ADD" enctype="multipart/form-data">
