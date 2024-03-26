@@ -483,6 +483,39 @@ body:before
     font-weight: 600;
 }
 
+#edt_modal .header
+{
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+#edt_modal .subhead
+{
+    margin: 0 auto;
+    display: flex;
+}
+
+#edt_modal .subhead1
+{
+    display: flex;
+}
+
+#edt_modal .subhead1 label
+{
+    margin-left: 0.5rem;
+}
+
+#edt_modal .subhead2
+{
+    display: flex;
+    margin-left: 2rem;
+}
+
+#edt_modal .subhead2 label
+{
+    margin-left: 0.5rem;
+}
+
 #edt_modal .form label
 {
     font-size: 15px;
@@ -782,6 +815,12 @@ body:before
     background-image: var(--submit_btn-hover);
     color: var(--font_black);
     font-weight: 600;
+}
+
+#atc_submodal input[type="submit"]:disabled
+{
+    color: var(--font_black);
+    background: var(--dbl_btn);
 }
 
 #track_modal .track

@@ -161,12 +161,16 @@ include "../../SCRIPTS/checkPrivilage.php";
 
                     <form class="form" action="" id="FORM_DOC_EDIT">
 
-                        <div>
-                            <div>
-                                <label for="EDIT_ACTION_ID_3">CREATE</label>
-                                <input type="radio" name=ACTION_ID value='3' id="EDIT_ACTION_ID_3">
-                                <label for="EDIT_ACTION_ID_2">RECEIVE</label>
-                                <input type="radio" name=ACTION_ID value='2' id="EDIT_ACTION_ID_2" checked>
+                        <div class="header">
+                            <div class="subhead">
+                                <div class="subhead1">
+                                    <input type="radio" name=ACTION_ID value='3' id="EDIT_ACTION_ID_3">
+                                    <label for="EDIT_ACTION_ID_3">CREATE</label>
+                                </div>
+                                <div class="subhead2">
+                                    <input type="radio" name=ACTION_ID value='2' id="EDIT_ACTION_ID_2" checked>
+                                    <label for="EDIT_ACTION_ID_2">RECEIVE</label>
+                                </div>
                             </div>
                         </div>
 
@@ -327,7 +331,7 @@ include "../../SCRIPTS/checkPrivilage.php";
                                             
 
                                             <div class="submit">
-                                                <input type="submit" value="Submit">
+                                                <input type="submit" value="Submit" disabled>
                                             </div>
 
                                             <input type="text" name="ID" id="ATTACH_ID" readonly hidden>
