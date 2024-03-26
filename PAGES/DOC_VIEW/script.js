@@ -211,8 +211,6 @@ function sendBtnEvent(id, doc_num, route_num) {
         SEND_S_USER_ID.value = result;
     }, null);
 
-
-
     if (snd_modal) {
         snd_modal.style.display = "block";
     }
