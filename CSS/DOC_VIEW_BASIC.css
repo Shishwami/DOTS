@@ -590,7 +590,7 @@ body:before
     padding: 1.5rem 2rem;
 }
 
-#atc_modal .atc_btn
+/* #atc_modal .atc_btn
 {
     margin-right: 1rem;
 }
@@ -638,7 +638,7 @@ body:before
     display: flex;
     flex-direction: column;
     max-height: 200px;
-    /* max-width: 300px; */
+    max-width: 300px;
     overflow-y: auto;
     margin-right: 1rem;
     border: 1px solid #000000;
@@ -686,7 +686,7 @@ body:before
 {
     position: absolute;
     border: 1px solid #aaaaaa;
-    /*set the size of the lens:*/
+    set the size of the lens:
     width: 100px;
     height: 100px;
 }
@@ -699,7 +699,7 @@ body:before
 #ins_submodal .img-zoom-result
 {
     border: 1px solid #d4d4d4;
-    /*set the size of the result div:*/
+    set the size of the result div:
     width: 500px;
     height: 400px;
 }
@@ -731,7 +731,7 @@ body:before
 
 .imgbox
 {
-    /* margin: 0 auto; */
+    margin: 0 auto;
 	max-width: 500px;
 	width: 100%;
 	background: linear-gradient(to bottom right, rgba(25, 0, 58, 0.5), rgba(102, 0, 80, 0.5));
@@ -835,15 +835,6 @@ body:before
 	background: #0c8f00;
 }
 
-
-
-
-
-
-
-
-
-
 #atc_submodal input[type="file"]
 {
     border-radius: 0.5rem;
@@ -874,15 +865,20 @@ body:before
     background-image: var(--submit_btn-hover);
     color: var(--font_black);
     font-weight: 600;
-}
+} */
 
 #track_modal .track
 {
-    margin-top: -2rem;
     max-height: 450px;
     overflow: auto;
     border-top: 1px solid #000000;
     border-bottom: 1px solid #000000;
+}
+
+#track_modal h1
+{
+    color: var(--font_white);
+    text-align: center;
 }
 
 #track_modal .modal_content

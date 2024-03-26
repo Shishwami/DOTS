@@ -51,23 +51,23 @@ if (s_cnl_span) {
   }
 }
 
-if (atc_span) {
-  atc_span.onclick = function () {
-    atc_modal.style.display = "none";
-  }
-}
+// if (atc_span) {
+//   atc_span.onclick = function () {
+//     atc_modal.style.display = "none";
+//   }
+// }
 
-if (ins_sub_span) {
-  ins_sub_span.onclick = function () {
-    ins_submodal.style.display = "none";
-  }
-}
+// if (ins_sub_span) {
+//   ins_sub_span.onclick = function () {
+//     ins_submodal.style.display = "none";
+//   }
+// }
 
-if (atc_sub_span) {
-  atc_sub_span.onclick = function () {
-    atc_submodal.style.display = "none";
-  }
-}
+// if (atc_sub_span) {
+//   atc_sub_span.onclick = function () {
+//     atc_submodal.style.display = "none";
+//   }
+// }
 
 if (track_span) {
   track_span.onclick = function () {
@@ -92,17 +92,17 @@ window.onclick = function (event) {
     s_cnl_modal.style.display = "none";
   }
 
-  if (event.target == atc_modal) {
-    atc_modal.style.display = "none";
-  }
+  // if (event.target == atc_modal) {
+  //   atc_modal.style.display = "none";
+  // }
 
-  if (event.target == ins_submodal) {
-    ins_submodal.style.display = "none";
-  }
+  // if (event.target == ins_submodal) {
+  //   ins_submodal.style.display = "none";
+  // }
 
-  if (event.target == atc_submodal) {
-    atc_submodal.style.display = "none";
-  }
+  // if (event.target == atc_submodal) {
+  //   atc_submodal.style.display = "none";
+  // }
 
   if (event.target == track_modal) {
     track_modal.style.display = "none";
