@@ -1436,7 +1436,7 @@ function getTableMain($inputs)
             "label" => "P"
         ]
     ];
-
+    //remove other buttons for other privelage
     if ($_SESSION['DOTS_PRIV'] <= 2) {
         $buttons = [
             [
