@@ -1603,7 +1603,7 @@ function getTableUser($inputs, $tableName)
         'className' => 'btnT',
         'label' => 'T'
     ];
-    
+
     // Render the HTML table with the retrieved data and action buttons
     setupTable($result, $buttons, $tableName);
 }
@@ -2373,40 +2373,59 @@ function returnFileLocation($id)
     $targetDir = "$uploadDirectory/$selectAttachmentRow[DOC_NUM]/$selectAttachmentRow[ROUTE_NUM]";
     $targetFile = "$targetDir/$selectAttachmentRow[DESCRIPTION].pdf";
 
+    // if (!file_exists($targetFile)) {
+    //     echo json_encode([
+    //         'VALID' => false,
+    //         'MESSAGE' => "Failed to open the PDF file."
+    //     ]);
+    // } 
+
     // Open the PDF file
-    $fileHandle = fopen($targetFile, 'rb'); // 'rb' for reading binary mode
-    $pdfContent = file_get_contents($targetFile);
+    $fileHandle = @fopen($targetFile, 'rb'); // 'rb' for reading binary mode
+    $pdfContent = @file_get_contents($targetFile);
 
     // Check if file opened successfully
-    if ($fileHandle === false) {
+    if ($fileHandle == false) {
         // If failed to open, return error message
+        // echo "error :)";
         echo json_encode([
             'VALID' => false,
             'MESSAGE' => "Failed to open the PDF file."
         ]);
-    } else {
-        // Specify the directory where you want to store the temporary file on the server
-        $tempDirectory = '../attachment_temp';
-
-        // Create the temporary directory if it doesn't exist
-        if (!file_exists($tempDirectory)) {
-            mkdir($tempDirectory, 0777, true);
-        }
-
-        // Create a temporary file in the specified directory
-        $tmpFilePath = tempnam($tempDirectory, 'pdf_');
-        $tmpFileName = basename($tmpFilePath);
-
-        // Write the PDF content to the temporary file
-        file_put_contents($tmpFilePath, $pdfContent);
-
-
-        // Return the file location
-        echo json_encode([
-            'VALID' => true,
-            'RESULT' => $tempDirectory . '/' . $tmpFileName
-        ]);
+        exit;
     }
+
+    if ($pdfContent == false) {
+        // If failed to open, return error message
+        // echo "error :)";
+        echo json_encode([
+            'VALID' => false,
+            'MESSAGE' => "Failed to open the PDF file."
+        ]);
+        exit;
+    }
+    
+    // Specify the directory where you want to store the temporary file on the server
+    $tempDirectory = '../attachment_temp';
+
+    // Create the temporary directory if it doesn't exist
+    if (!file_exists($tempDirectory)) {
+        mkdir($tempDirectory, 0777, true);
+    }
+
+    // Create a temporary file in the specified directory
+    $tmpFilePath = tempnam($tempDirectory, 'pdf_');
+    $tmpFileName = basename($tmpFilePath);
+
+    // Write the PDF content to the temporary file
+    file_put_contents($tmpFilePath, $pdfContent);
+
+
+    // Return the file location
+    echo json_encode([
+        'VALID' => true,
+        'RESULT' => $tempDirectory . '/' . $tmpFileName
+    ]);
 
     // Close the file handle
     fclose($fileHandle);
