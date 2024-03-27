@@ -73,14 +73,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['ATTACH_FILE'])) {
 
     // Create the target directory if it doesn't exist
     if (!file_exists($targetDir)) {
-        mkdir($targetDir, 0, true);
+        @mkdir($targetDir, 0, true);
     }
 
     // Start database transaction
     $pdo->beginTransaction();
 
     // Move the uploaded file to the target directory
-    if (move_uploaded_file($_FILES['ATTACH_FILE']['tmp_name'], $targetFile)) {
+    if (@move_uploaded_file($_FILES['ATTACH_FILE']['tmp_name'], $targetFile)) {
         // File uploaded successfully
         $insertAttachmentData = [
             'TABLE' => 'DOTS_ATTACHMENTS',
