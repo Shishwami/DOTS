@@ -1437,6 +1437,19 @@ function getTableMain($inputs)
         ]
     ];
 
+    if ($_SESSION['DOTS_PRIV'] <= 2) {
+        $buttons = [
+            [
+                "className" => "btnA",
+                "label" => "A"
+            ],
+            [
+                "className" => "btnT",
+                "label" => "T"
+            ],
+        ];
+    }
+
     // Set up table with result data and action buttons
     setupTable($result, $buttons, $tableName);
 }
@@ -2404,7 +2417,7 @@ function returnFileLocation($id)
         ]);
         exit;
     }
-    
+
     // Specify the directory where you want to store the temporary file on the server
     $tempDirectory = '../attachment_temp';
 
