@@ -454,7 +454,7 @@ function setForms() {
     FORM_DOC_SEND.addEventListener('submit', function (e) {
         e.preventDefault();
         this.querySelector('input[type=submit]').disabled = true;
-        notify("info","Sending....");
+        notify("info", "Sending....");
 
         var data = JsFunctions.FormToJson(FORM_DOC_SEND);
         var routedCheck = {
@@ -486,7 +486,7 @@ function setForms() {
     FORM_DOC_RECEIVE.addEventListener('submit', function (e) {
         e.preventDefault();
         this.querySelector('input[type=submit]').disabled = true;
-        notify("info","Submitting....");
+        notify("info", "Submitting....");
 
         var data = {
             REQUEST: _REQUEST.RECEIVE_DOC,
@@ -515,7 +515,7 @@ function setForms() {
     FORM_DOC_EDIT.addEventListener('submit', function (e) {
         e.preventDefault();
         this.querySelector('input[type=submit]').disabled = true;
-        notify("info","Editing....");
+        notify("info", "Editing....");
 
         var data = {
             REQUEST: _REQUEST.EDIT_DOCUMENT,
@@ -546,7 +546,7 @@ function setForms() {
     FORM_ATTACH_ADD.addEventListener('submit', function (e) {
         e.preventDefault();
         this.querySelector('input[type=submit]').disabled = true;
-        notify("info","Uploading....");
+        notify("info", "Uploading....");
 
         var formData = new FormData(this);
         var xhr = new XMLHttpRequest();
@@ -579,19 +579,23 @@ function updateAttachments(mini, results, buttons) {
         doc.innerText = item['DESCRIPTION'];
         doc.className = "atc_items";
         doc.addEventListener('click', function () {
-            notify("info","REDIRECTING....");
-            console.log(item.ID);
-            getData(_REQUEST.GET_ATTACHMENT, { ID: item.ID }, (result) => {
-                const url = "../../" + result;
-                // window.location.href = 'file://'+result;
-                window.open("../../RESOURCES/pdfJS/web/viewer.html?file=" + url, '_blank').focus();
-            }, null);
-            // const fileLoc = "";
-        });
 
-        // doc.addEventListener('mouseout', function () {
-        //     preview.style.backgroundImage = "";
-        // });
+            notify("info", "REDIRECTING....");
+
+            const data = {
+                REQUEST: _REQUEST.GET_ATTACHMENT,
+                ID: item.ID
+            };
+
+            MyAjax.createJSON(function (error, response) {
+                if (response.VALID) {
+                    const url = "../../" + response.RESULT;
+                    window.open("../../RESOURCES/pdfJS/web/viewer.html?file=" + url, '_blank').focus();
+                } else {
+                    notify("error", response.MESSAGE);
+                }
+            }, data);
+        });
         mini.appendChild(doc);
     });
 }
